@@ -55,6 +55,7 @@ create table usos (
 INSERT INTO bandas (nombre) VALUES ('2m');
 INSERT INTO bandas (nombre) VALUES ('70cm');
 INSERT INTO bandas (nombre) VALUES ('Aérea');
+INSERT INTO bandas (nombre) VALUES ('FM Comercial');
 INSERT INTO bandas (nombre) VALUES ('HF');
 INSERT INTO bandas (nombre) VALUES ('27 Mhz');
 INSERT INTO bandas (nombre) VALUES ('900 Mhz');
