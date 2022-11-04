@@ -2,11 +2,6 @@ drop database frecuencias;
 create database frecuencias;
 use frecuencias;
 
-DROP TABLE IF EXISTS frecuencia;
-DROP TABLE if EXISTS servicio;
-DROP TABLE if EXISTS bandas;
-DROP table if EXISTS usos;
-
 create table bandas (
     id INT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(100),
