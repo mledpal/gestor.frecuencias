@@ -69,4 +69,5 @@ INSERT INTO servicio (nombre, localidad, provincia) VALUES ('Policía Local', 'B
 INSERT INTO servicio (nombre, localidad, provincia) VALUES ('Bomberos', 'Linares', 'Jaén');
 INSERT INTO servicio (nombre, localidad, provincia) VALUES ('Bomberos', 'Jaén', 'Jaén');
 INSERT INTO servicio (nombre, localidad, provincia) VALUES ('Protección Civil', 'Linares', 'Jaén');
-
+INSERT INTO servicio (nombre, localidad, provincia) VALUES ('Policía Local', 'Córdoba', 'Córdoba');
+INSERT INTO servicio (nombre, localidad, provincia) VALUES ('Bomberos', 'Córdoba', 'Córdoba');
