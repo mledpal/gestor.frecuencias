@@ -32,7 +32,7 @@ create table servicio (
     PRIMARY KEY (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
-create table usos (
+create table emision (
     idservicio INT NOT NULL,
     idfrecuencia INT NOT NULL,
     fecha DATE,
@@ -45,9 +45,9 @@ create table usos (
     secrafonia BOOLEAN,
     observaciones VARCHAR(255),
     comprobada BOOLEAN,
-    CONSTRAINT fk_uso_ser FOREIGN KEY (idservicio) REFERENCES servicio(id),
-    CONSTRAINT fk_uso_fre FOREIGN KEY (idfrecuencia) REFERENCES frecuencia(id),
-    CONSTRAINT pk_usos PRIMARY KEY (idservicio, idfrecuencia) 
+    CONSTRAINT fk_emi_ser FOREIGN KEY (idservicio) REFERENCES servicio(id),
+    CONSTRAINT fk_emi_fre FOREIGN KEY (idfrecuencia) REFERENCES frecuencia(id),
+    CONSTRAINT pk_emision PRIMARY KEY (idservicio, idfrecuencia) 
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 -- INSERCIÓN DE DATOS
