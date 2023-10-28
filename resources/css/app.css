@@ -1,0 +1,24 @@
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --altura: 150px;
+    --mid-altura: calc(var(--altura)/2);
+    --color-bg: #4f89f5;
+    --color-primary : #F54F89;
+    --color-accent: #89F54F;
+    --color-text: #FFFFFF;
+    --color-bg-200: #4280eb;
+    --color-bg-300: #005dc2;
+    --color-primary-300: #ffedff;
+    --color-accent-200: #009000;
+    --color-text-200: #e0e0e0;
+
+    box-sizing: border-box;
+    color: var(--color-text);
+    background: var(--color-bg);
+    font-family: "system-ui";
+}
