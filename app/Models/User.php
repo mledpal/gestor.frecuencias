@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,6 +29,7 @@ class User extends Authenticatable
         'indicativo',
         'email',
         'password',
+        'image',
     ];
 
     /**
@@ -54,9 +57,16 @@ class User extends Authenticatable
         return $this->nombre . " " . $this->apellidos;
     }
 
-
     public function roles(): BelongsToMany
     {
         return $this->BelongsToMany(Rol::class, 'users_roles', 'id', 'id_user');
+    }
+
+    protected function image(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => "storage/img/users" . $value,
+            set: fn ($value) => $value
+        );
     }
 }

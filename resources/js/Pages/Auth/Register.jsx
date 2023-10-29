@@ -33,7 +33,7 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
+            <form onSubmit={submit} encType="multipart/form-data">
                 <div>
                     <InputLabel htmlFor="username" value="Usuario" />
 

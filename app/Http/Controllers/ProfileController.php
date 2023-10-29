@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
+use Dotenv\Validator;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -29,10 +32,27 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
+        }
+
+        if (isset($request->image)) {
+            dd($request->image);
+            $request->validate([
+                'image' => 'image|max:512',
+            ]);
+
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName();
+            $file->storeAs('storage/img/users', $filename);
+            $request->user()->image = $filename;
+        }
+
+        if (isset($request->indicativo)) {
+            $request->validate([
+                'indicativo' => 'string|max:20|unique:' . User::class,
+            ]);
+            $request->user()->indicativo = $request->indicativo;
         }
 
         $request->user()->save();

@@ -17,8 +17,9 @@ export default function UpdateProfileInformation({
             nombre: user.nombre,
             apellidos: user.apellidos,
             username: user.username,
-            indicativo: user.indicativo,
+            indicativo: user.indicativo ?? "",
             email: user.email,
+            image: user.image ?? "",
         });
 
     const submit = (e) => {
@@ -39,7 +40,12 @@ export default function UpdateProfileInformation({
                 </p>
             </header>
 
-            <form onSubmit={submit} className="mt-6 space-y-6">
+            <form
+                onSubmit={submit}
+                encType="multipart/form-data"
+                method="POST"
+                className="mt-6 space-y-6"
+            >
                 <div>
                     <InputLabel htmlFor="name" value="Nombre" />
 
@@ -82,7 +88,7 @@ export default function UpdateProfileInformation({
                         value={data.email}
                         onChange={(e) => setData("email", e.target.value)}
                         required
-                        autoComplete="username"
+                        autoComplete="email"
                     />
 
                     <InputError className="mt-2" message={errors.email} />
@@ -93,15 +99,29 @@ export default function UpdateProfileInformation({
 
                     <TextInput
                         id="indicativo"
+                        type="text"
                         className="mt-1 block w-full"
                         value={data.indicativo}
-                        onChange={(e) => setData("name", e.target.indicativo)}
-                        required
-                        isFocused
+                        onChange={(e) => setData("indicativo", e.target.value)}
                         autoComplete="indicativo"
                     />
 
                     <InputError className="mt-2" message={errors.indicativo} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="image" value="Imagen Perfil" />
+
+                    <TextInput
+                        id="image"
+                        type="file"
+                        className="mt-1 block w-full"
+                        value={data.image}
+                        onChange={(e) => setData("image", e.target.value)}
+                        autoComplete="image"
+                    />
+
+                    <InputError className="mt-2" message={errors.image} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export default function Inicio({ title, roles }) {
     const [user, setUser] = useState({});
     const [userRoles, setRoles] = useState([]);
+    const [isAdmin, setAdmin] = useState(0);
 
     useEffect(() => {
         fetch("/api/user")
@@ -17,10 +18,11 @@ export default function Inicio({ title, roles }) {
         const userRolesArray = [];
         roles.forEach((r) => {
             userRolesArray.push(r.nombre);
+            r.nombre === "admin" ? setAdmin(1) : "";
         });
         setRoles(userRolesArray);
     }, []);
-    
+
     return (
         <div
             id="root"
@@ -35,17 +37,17 @@ export default function Inicio({ title, roles }) {
                 <h1 className="font-extralight text-5xl p-2 font-ethno drop-shadow-lg">
                     Gestor de Frecuencias
                 </h1>
-                <BurgerMenu />
+                <BurgerMenu isAdmin={isAdmin} />
             </header>
 
             <nav className="relative flex flex-row w-full h-[75px] justify-end items-center bg-colorbg300">
                 <h2 className="mr-10">
-                    {user.username} | {userRoles}
+                    {user.username} | {isAdmin ? "Administrador" : ""}
                 </h2>
             </nav>
 
             <div className=" top-[175px] w-full h-max grow flex flex-row ">
-                <MenuLateral />
+                <MenuLateral isAdmin={isAdmin} />
                 <main className="flex flex-col w-full p-[20px] bg-black">
                     <h2>Cuerpo Principal</h2>
                 </main>

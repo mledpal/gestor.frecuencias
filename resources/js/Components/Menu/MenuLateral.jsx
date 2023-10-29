@@ -1,6 +1,6 @@
 import { CommonMenu, UserMenu } from "./";
 
-export const MenuLateral = () => {
+export const MenuLateral = ({ isAdmin }) => {
     return (
         <>
             <aside className="w-[275px] p-[20px] text-xl font-light">
@@ -10,7 +10,7 @@ export const MenuLateral = () => {
                     </div>
 
                     <div id="user" className="w-full">
-                        <UserMenu />
+                        <UserMenu isAdmin={isAdmin} />
                     </div>
                 </ul>
             </aside>

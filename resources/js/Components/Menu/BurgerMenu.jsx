@@ -1,6 +1,6 @@
 import { CommonMenu, UserMenu } from ".";
 
-export const BurgerMenu = () => {
+export const BurgerMenu = ({ isAdmin }) => {
     return (
         <>
             <i className="fa-solid fa-bars fa-2xl mr-10 cursor-pointer peer"></i>
@@ -10,7 +10,7 @@ export const BurgerMenu = () => {
             >
                 <CommonMenu />
                 <hr className="my-2" />
-                <UserMenu />
+                <UserMenu isAdmin={isAdmin} />
             </ul>
         </>
     );
