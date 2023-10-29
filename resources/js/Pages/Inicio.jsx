@@ -11,10 +11,7 @@ export default function Inicio({ title, roles }) {
     useEffect(() => {
         fetch("/api/user")
             .then((response) => response.json())
-            .then((data) => setUser(data))
-            .catch(function (error) {
-                console.log(error);
-            });
+            .then((data) => setUser(data));
     }, []);
 
     useEffect(() => {

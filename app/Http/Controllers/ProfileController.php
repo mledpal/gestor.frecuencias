@@ -45,9 +45,7 @@ class ProfileController extends Controller
         }
 
         if (isset($request->photo)) {
-
             $path = $request->file('photo')->store('/storage/img/users');
-
             $request->user()->photo = $path;
         }
 
