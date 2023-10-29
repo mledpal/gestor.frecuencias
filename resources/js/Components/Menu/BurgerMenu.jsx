@@ -1,4 +1,4 @@
-import { CommonMenu, UserMenu } from "./";
+import { CommonMenu, UserMenu } from ".";
 
 export const BurgerMenu = () => {
     return (

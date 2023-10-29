@@ -1,4 +1,4 @@
-import { BurgerMenu } from "@/Components/Menu/BurguerMenu";
+import { BurgerMenu } from "@/Components/Menu/BurgerMenu";
 import { MenuLateral } from "@/Components/Menu/MenuLateral";
 
 export default function Inicio() {

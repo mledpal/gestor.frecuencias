@@ -14,7 +14,7 @@ export const UserMenu = () => {
                 Contactos
             </li>
             <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm ">
-                <i class="fa-sharp fa-solid fa-envelope"></i>
+                <i className="fa-sharp fa-solid fa-envelope"></i>
                 Mensajes
             </li>
             <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm ">
