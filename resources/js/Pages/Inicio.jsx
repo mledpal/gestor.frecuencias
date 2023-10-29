@@ -3,8 +3,9 @@ import { MenuLateral } from "@/Components/Menu/MenuLateral";
 import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-export default function Inicio({ title }) {
+export default function Inicio({ title, roles }) {
     const [user, setUser] = useState({});
+    const [userRoles, setRoles] = useState([]);
 
     useEffect(() => {
         fetch("/api/user")
@@ -12,6 +13,14 @@ export default function Inicio({ title }) {
             .then((data) => setUser(data));
     }, []);
 
+    useEffect(() => {
+        const userRolesArray = [];
+        roles.forEach((r) => {
+            userRolesArray.push(r.nombre);
+        });
+        setRoles(userRolesArray);
+    }, []);
+    
     return (
         <div
             id="root"
@@ -29,8 +38,10 @@ export default function Inicio({ title }) {
                 <BurgerMenu />
             </header>
 
-            <nav className="relative flex flex-row w-full h-[75px] justify-center items-center bg-colorbg300">
-                <h2>{user.username}</h2>
+            <nav className="relative flex flex-row w-full h-[75px] justify-end items-center bg-colorbg300">
+                <h2 className="mr-10">
+                    {user.username} | {userRoles}
+                </h2>
             </nav>
 
             <div className=" top-[175px] w-full h-max grow flex flex-row ">

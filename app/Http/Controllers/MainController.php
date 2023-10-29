@@ -13,11 +13,14 @@ class MainController extends Controller
     public function index()
     {
         if (Auth::check()) {
+            $roles = Auth::user()->roles->toArray();
+
             return Inertia::render('Inicio', [
                 'canLogin' => Route::has('login'),
                 'canRegister' => Route::has('register'),
                 'username' => Auth::user()->username,
                 'title' => 'Inicio',
+                'roles' => $roles,
             ]);
         } else {
             return redirect('/login');
