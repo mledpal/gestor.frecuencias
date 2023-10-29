@@ -3,7 +3,7 @@ import { MenuLateral } from "@/Components/Menu/MenuLateral";
 import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-export default function Inicio({ title, username }) {
+export default function Inicio({ title }) {
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export default function Inicio({ title, username }) {
             </header>
 
             <nav className="relative flex flex-row w-full h-[75px] justify-center items-center bg-colorbg300">
-                <h2>{username}</h2>
+                <h2>{user.username}</h2>
             </nav>
 
             <div className=" top-[175px] w-full h-max grow flex flex-row ">
