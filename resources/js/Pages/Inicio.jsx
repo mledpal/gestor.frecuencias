@@ -12,7 +12,7 @@ export default function Inicio() {
                     src="/img/logo.webp"
                     className="w-[100px] h-[100px] cursor-pointer"
                 />
-                <h1 className="font-bold text-2xl p-2">
+                <h1 className="font-extralight text-5xl p-2 font-ethno drop-shadow-lg">
                     Gestor de Frecuencias
                 </h1>
                 <BurgerMenu />

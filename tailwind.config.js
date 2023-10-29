@@ -14,6 +14,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                ethno: ["Ethnocentric"],
             },
             colors: {
                 colorbg: "var(--color-bg)",
