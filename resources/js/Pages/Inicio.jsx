@@ -1,12 +1,23 @@
 import { BurgerMenu } from "@/Components/Menu/BurgerMenu";
 import { MenuLateral } from "@/Components/Menu/MenuLateral";
+import { Head } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
-export default function Inicio() {
+export default function Inicio({ title, username }) {
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        fetch("/api/user")
+            .then((response) => response.json())
+            .then((data) => setUser(data));
+    }, []);
+
     return (
         <div
             id="root"
             className="left-0 max-w-screen w-full min-h-screen flex flex-col justify-between"
         >
+            <Head title={title} />
             <header className="relative flex flex-row items-center justify-between w-full h-[100px] bg-colorbg">
                 <img
                     src="/img/logo.webp"
@@ -19,7 +30,7 @@ export default function Inicio() {
             </header>
 
             <nav className="relative flex flex-row w-full h-[75px] justify-center items-center bg-colorbg300">
-                <h2>Menu Navegación</h2>
+                <h2>{username}</h2>
             </nav>
 
             <div className=" top-[175px] w-full h-max grow flex flex-row ">

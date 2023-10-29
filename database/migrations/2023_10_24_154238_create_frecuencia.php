@@ -18,9 +18,11 @@ return new class extends Migration
             $table->boolean('codificada');
             $table->unsignedBigInteger('codificacion')->nullable(true);
             $table->unsignedBigInteger('banda')->nullable(true);
+            $table->unsignedBigInteger('modo')->nullable(false);
             $table->timestamps();
 
             $table->foreign('codificacion')->references('id')->on('codificacion');
+            $table->foreign('modo')->references('id')->on('modostransmision');
             $table->foreign('banda')->references('id')->on('banda');
         });
     }

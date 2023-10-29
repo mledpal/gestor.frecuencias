@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,12 +17,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Inicio', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'nombre' => 'Inicio',
-    ]);
+Route::controller(MainController::class)->group(function() {
+    Route::get('/', 'index')->name('index');
 });
 
 Route::get('/dashboard', function () {
