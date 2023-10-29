@@ -1,3 +1,6 @@
+import { BurgerMenu } from "@/Components/Menu/BurguerMenu";
+import { MenuLateral } from "@/Components/Menu/MenuLateral";
+
 export default function Inicio() {
     return (
         <div
@@ -12,7 +15,7 @@ export default function Inicio() {
                 <h1 className="font-bold text-2xl p-2">
                     Gestor de Frecuencias
                 </h1>
-                <i className="fa-solid fa-bars fa-2xl mr-10 cursor-pointer"></i>
+                <BurgerMenu />
             </header>
 
             <nav className="relative flex flex-row w-full h-[75px] justify-center items-center bg-colorbg300">
@@ -20,48 +23,7 @@ export default function Inicio() {
             </nav>
 
             <div className=" top-[175px] w-full h-max grow flex flex-row ">
-                <aside className="w-[250px] p-[20px] text-xl font-light">
-                    <ul className="h-full flex flex-col justify-between items-start">
-                        <div id="options" className="w-full">
-                            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 duration-300 ">
-                                <i className="fa-solid fa-house" />
-                                Inicio
-                            </li>
-                            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 duration-300 ">
-                                <i className="fa-solid fa-magnifying-glass"></i>
-                                Buscar
-                            </li>
-
-                            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 duration-300 ">
-                                <i className="fa-solid fa-walkie-talkie"></i>
-                                Frecuencias
-                            </li>
-                        </div>
-
-                        <div id="user" className="w-full">
-                            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 duration-300 ">
-                                <i class="fa-sharp fa-solid fa-right-to-bracket"></i>
-                                Conectar
-                            </li>
-                            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 duration-300 ">
-                                <i className="fa-sharp fa-solid fa-user"></i>
-                                Mi cuenta
-                            </li>
-                            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 duration-300 ">
-                                <i className="fa-solid fa-address-book"></i>
-                                Contactos
-                            </li>
-                            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 duration-300 ">
-                                <i className="fa-solid fa-gear"></i>
-                                Configuración
-                            </li>
-                            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 duration-300 ">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                Desconectar
-                            </li>
-                        </div>
-                    </ul>
-                </aside>
+                <MenuLateral />
                 <main className="flex flex-col w-full p-[20px] bg-black">
                     <h2>Cuerpo Principal</h2>
                 </main>
