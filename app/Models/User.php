@@ -29,7 +29,7 @@ class User extends Authenticatable
         'indicativo',
         'email',
         'password',
-        'image',
+        'photo',
     ];
 
     /**
@@ -62,7 +62,7 @@ class User extends Authenticatable
         return $this->BelongsToMany(Rol::class, 'users_roles', 'id', 'id_user');
     }
 
-    protected function image(): Attribute
+    protected function photo(): Attribute
     {
         return new Attribute(
             get: fn ($value) => "storage/img/users" . $value,

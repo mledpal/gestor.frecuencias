@@ -32,27 +32,23 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
-        if (isset($request->image)) {
-            dd($request->image);
-            $request->validate([
-                'image' => 'image|max:512',
-            ]);
-
-            $file = $request->file('image');
-            $filename = $file->getClientOriginalName();
-            $file->storeAs('storage/img/users', $filename);
-            $request->user()->image = $filename;
-        }
-
         if (isset($request->indicativo)) {
             $request->validate([
-                'indicativo' => 'string|max:20|unique:' . User::class,
+                'indicativo' => 'sometimes|string|max:30',
             ]);
             $request->user()->indicativo = $request->indicativo;
+        }
+
+        if (isset($request->photo)) {
+
+            $path = $request->file('photo')->store('/storage/img/users');
+
+            $request->user()->photo = $path;
         }
 
         $request->user()->save();

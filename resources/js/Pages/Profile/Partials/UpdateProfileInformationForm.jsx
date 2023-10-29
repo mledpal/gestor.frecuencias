@@ -19,14 +19,22 @@ export default function UpdateProfileInformation({
             username: user.username,
             indicativo: user.indicativo ?? "",
             email: user.email,
-            image: user.image ?? "",
+            photo: user.photo,
         });
 
     const submit = (e) => {
         e.preventDefault();
-
         patch(route("profile.update"));
     };
+
+    function handleImageUpload(e) {
+        const image = e.target.files[0];
+        const formData = new FormData();
+
+        formData.append("photo", e.target.value);
+
+        setData("photo", image);
+    }
 
     return (
         <section className={className}>
@@ -42,9 +50,9 @@ export default function UpdateProfileInformation({
 
             <form
                 onSubmit={submit}
-                encType="multipart/form-data"
-                method="POST"
                 className="mt-6 space-y-6"
+                encType="multipart/form-data"
+                method="PATCH"
             >
                 <div>
                     <InputLabel htmlFor="name" value="Nombre" />
@@ -110,18 +118,27 @@ export default function UpdateProfileInformation({
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="image" value="Imagen Perfil" />
-
+                    <InputLabel htmlFor="photo" value="Imagen Perfil" />
+                    {/*
                     <TextInput
-                        id="image"
+                        id="photo"
+                        name="photo"
                         type="file"
                         className="mt-1 block w-full"
-                        value={data.image}
-                        onChange={(e) => setData("image", e.target.value)}
-                        autoComplete="image"
+                        value={data.photo}
+                        // onChange={(e) => setData("photo", e.target.value)}
+                        onChange={handleImageUpload}
+                        autoComplete="photo"
+                    /> */}
+                    <input
+                        id="photo"
+                        name="photo"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
                     />
 
-                    <InputError className="mt-2" message={errors.image} />
+                    <InputError className="mt-2" message={errors.photo} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (

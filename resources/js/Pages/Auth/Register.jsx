@@ -11,7 +11,6 @@ export default function Register() {
         username: "",
         nombre: "",
         apellidos: "",
-        indicativo: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -141,22 +140,6 @@ export default function Register() {
                         message={errors.password_confirmation}
                         className="mt-2"
                     />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="indicativo" value="Indicativo" />
-
-                    <TextInput
-                        id="indicativo"
-                        name="indicativo"
-                        value={data.indicativo}
-                        className="mt-1 block w-full"
-                        autoComplete="indicativo"
-                        isFocused={true}
-                        onChange={(e) => setData("indicativo", e.target.value)}
-                    />
-
-                    <InputError message={errors.indicativo} className="mt-2" />
                 </div>
 
                 <div className="flex items-center justify-end mt-4">

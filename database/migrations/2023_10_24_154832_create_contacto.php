@@ -20,7 +20,13 @@ return new class extends Migration
             $table->enum('tipo', ['servicio', 'persona', 'evento']);
             $table->unsignedBigInteger('servicio')->nullable(true);
             $table->unsignedBigInteger('persona')->nullable(true);
+            $table->unsignedBigInteger('frecuencia')->nullable(false);
+            $table->unsignedBigInteger('user')->nullable(false);
+
             $table->timestamps();
+
+            $table->foreign('user')->references('id')->on('users');
+            $table->foreign('frecuencia')->references('id')->on('frecuencia');
             $table->foreign('servicio')->references('id')->on('servicio');
             $table->foreign('persona')->references('id')->on('persona');
         });
