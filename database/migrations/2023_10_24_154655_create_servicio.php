@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('servicio', function (Blueprint $table) {
             $table->id();
             $table->string('nombre')->nullable(false);
-            $table->unsignedBigInteger('id_localizacion')->nullable(false);
+            $table->unsignedBigInteger('contacto_id')->nullable(false);
             $table->timestamps();
 
-            $table->foreign('id_localizacion', 'fk_serv_loca')->references('id')->on('localizacion')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('contacto_id','fk_serv_conta')->references('id')->on('contacto')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
