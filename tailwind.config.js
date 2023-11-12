@@ -30,6 +30,9 @@ export default {
                 colorpri300: "var(--color-primary-200)",
                 coloracc200: "var(--color-accent-200)",
             },
+            backgroundImage: {
+                login: "url('/img/fondo_login.webp')",
+            },
         },
     },
 

@@ -17,18 +17,14 @@ return new class extends Migration
             $table->boolean('comprobado');
             $table->date('fecha');
             $table->time('hora');
-            $table->enum('tipo', ['servicio', 'persona', 'evento']);
-            $table->unsignedBigInteger('servicio')->nullable(true);
-            $table->unsignedBigInteger('persona')->nullable(true);
+            $table->enum('tipo', ['servicio', 'persona', 'evento'])->nullable();
             $table->unsignedBigInteger('frecuencia')->nullable(false);
             $table->unsignedBigInteger('user')->nullable(false);
 
             $table->timestamps();
 
-            $table->foreign('user')->references('id')->on('users');
-            $table->foreign('frecuencia')->references('id')->on('frecuencia');
-            $table->foreign('servicio')->references('id')->on('servicio');
-            $table->foreign('persona')->references('id')->on('persona');
+            $table->foreign('user', 'fk_cont_user')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('frecuencia', 'fk_cont_frecu')->references('id')->on('frecuencia')->onDelete('restrict')->onUpdate('restrict');
         });
     }
 

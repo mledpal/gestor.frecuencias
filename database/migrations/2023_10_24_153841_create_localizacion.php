@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('localidad')->nullable();
             $table->string('provincia')->nullable();
             $table->string('pais')->default('España');
+            $table->text('gps')->nullable();
             $table->timestamps();
         });
     }

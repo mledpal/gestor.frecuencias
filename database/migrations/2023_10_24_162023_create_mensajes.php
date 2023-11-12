@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('mensajes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('remitente')->nullable(false);
-            $table->unsignedBigInteger('destinatario')->nullable(false);
+            $table->unsignedBigInteger('id_remitente')->nullable(false);
+            $table->unsignedBigInteger('id_destinatario')->nullable(false);
             $table->text('mensaje');
             $table->timestamps();
-            $table->foreign('remitente')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('destinatario')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->foreign('id_remitente')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_destinatario')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
         });
     }
     /**

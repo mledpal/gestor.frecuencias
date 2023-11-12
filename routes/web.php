@@ -20,6 +20,7 @@ use Inertia\Inertia;
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/logout', 'logout')->name('index.logout');
+    Route::get('/radio', 'radio')->name('index.radio');
 });
 
 Route::get('/dashboard', function () {

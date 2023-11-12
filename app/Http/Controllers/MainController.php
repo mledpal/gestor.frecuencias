@@ -33,4 +33,9 @@ class MainController extends Controller
         Auth::logout();
         return Redirect::to('/');
     }
+
+    public function radio()
+    {
+        return view('radio');
+    }
 }

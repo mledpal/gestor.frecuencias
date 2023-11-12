@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servicio', function (Blueprint $table) {
+        Schema::create('repetidor', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->nullable(false);
-            $table->unsignedBigInteger('id_localizacion')->nullable(false);
+            $table->float('offset')->default(0.0);
+            $table->string('direccion', 1)->nullable();
             $table->timestamps();
-
-            $table->foreign('id_localizacion', 'fk_serv_loca')->references('id')->on('localizacion')->onDelete('restrict')->onUpdate('restrict');
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('servicio');
+        Schema::dropIfExists('repetidor');
     }
 };

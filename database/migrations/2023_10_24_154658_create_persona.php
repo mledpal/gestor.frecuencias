@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('nombre')->nullable(false);
             $table->string('indicativo')->nullable(false);
-            $table->unsignedBigInteger('localizacion')->nullable(false);
+            $table->unsignedBigInteger('id_localizacion')->nullable(false);
             $table->timestamps();
-            $table->foreign('localizacion')->references('id')->on('localizacion');
+
+            $table->foreign('id_localizacion', 'fk_pers_loca')->references('id')->on('localizacion')->onDelete('restrict')->onUpdate('restrict');;
         });
     }
 

@@ -16,14 +16,16 @@ return new class extends Migration
             $table->string('frecuencia')->nullable(false);
             $table->tinyInteger('calidad')->default(0);
             $table->boolean('codificada');
-            $table->unsignedBigInteger('codificacion')->nullable(true);
-            $table->unsignedBigInteger('banda')->nullable(true);
-            $table->unsignedBigInteger('modo')->nullable(false);
+            $table->unsignedBigInteger('id_repetidor')->nullable();
+            $table->unsignedBigInteger('id_codificacion')->nullable();
+            $table->unsignedBigInteger('id_banda')->nullable();
+            $table->unsignedBigInteger('id_modo')->nullable(false);
             $table->timestamps();
 
-            $table->foreign('codificacion')->references('id')->on('codificacion');
-            $table->foreign('modo')->references('id')->on('modostransmision');
-            $table->foreign('banda')->references('id')->on('banda');
+            $table->foreign('id_codificacion', 'fk_frec_codi')->references('id')->on('codificacion')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_modo', 'fk_frec_modo')->references('id')->on('modostransmision')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_banda', 'fk_frec_band')->references('id')->on('banda')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_repetidor', 'fk_frec_repe')->references('id')->on('repetidor')->onDelete('restrict')->onUpdate('restrict');
         });
     }
 
