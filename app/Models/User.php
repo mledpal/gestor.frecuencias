@@ -7,6 +7,7 @@ namespace App\Models;
 use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -52,14 +53,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getFullName()
+    public function getFullNameAttribute()
     {
         return $this->nombre . " " . $this->apellidos;
     }
 
     public function roles(): BelongsToMany
     {
-        return $this->BelongsToMany(Rol::class, 'users_roles', 'id', 'id_user');
+        return $this->BelongsToMany(User::class, 'users_roles', 'id_user', 'id_rol');
     }
 
     protected function photo(): Attribute

@@ -14,6 +14,8 @@ class MainController extends Controller
     public function index()
     {
         if (Auth::check()) {
+
+
             $roles = Auth::user()->roles->toArray();
 
             return Inertia::render('Inicio', [
