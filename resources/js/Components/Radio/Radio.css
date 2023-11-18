@@ -1,0 +1,463 @@
+@font-face {
+    font-family: 'ds-digit';
+    src: url('assets/fonts/DS-DIGI.TTF');
+  }
+
+*{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+:root {
+
+
+  --radius: 25px;
+  --key-color: #7f8db5;
+}
+
+div#app {
+    width: 100vw;
+    min-height: 100vh;
+    display: grid;
+    place-content: center;
+    text-align: center;
+}
+
+div.container {
+  margin: auto;
+  height: 600px;
+  width: 1200px;
+  background: linear-gradient(180deg, #0008 1%, #000D 3%, #000D 95%, #000E 99%);
+  box-shadow: -3px 3px 10px #eee inset;
+  filter: drop-shadow(0 0 15px var(--key-color));
+  border-radius: var(--radius);
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div.zonas {
+  height: 100%;
+}
+
+.redondo {
+  border-radius: 50%;
+}
+
+/* ZONA IZQUIERDA ESCANER */
+
+div.izquierda {
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+  width: 10%;
+  display : flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+div.volume,
+div.squelch {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+  margin-top: 20px;
+  margin-left: 20px;
+  position: relative;
+  background: radial-gradient(#333 0%, #333 55%, #111 60%, #222 100%);
+  box-shadow: -1px 1px 5px #eee6 inset;
+}
+
+div.volume div,
+div.squelch div {
+    width: 70px;
+    height: 70px;
+}
+
+div.volume span,
+div.squelch span {
+  position: absolute;
+  top: -15px;
+  color: var(--key-color);
+  font-size: .5em;
+}
+
+div.headphone {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(black 0%, white 2%, black 5%,  black 50%, white 95%);
+}
+
+div.headphone span {
+  position: absolute;
+  top: -15px;
+  left: -28px;
+  width: 20ch;
+  color: var(--key-color);
+  font-size: .5em;
+
+}
+
+
+/* ZONA CENTRAL ESCANER */
+
+div.centro {
+  width: 85%;
+  display: grid;
+  grid-template-rows: 85% 15%;
+}
+
+/* ZONA PANTALLA */
+div.pantalla {
+  display: grid;
+  place-items: center;
+}
+div.screen {
+  display: grid;
+  place-items:center;
+  width: 95%;
+  height: 90%;
+  background: lightblue;
+  border-radius: var(--radius);
+  box-shadow: 0px 0px 15px black inset;
+  filter: drop-shadow(0 0 10px black);
+}
+
+/* BOTONERA INFERIOR PANTALLA */
+div.botones_inferior {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 50%;
+
+}
+div.boton_inferior {
+  transform: translateY(-10px);
+  display: grid;
+  place-items: center;
+  width: calc(100%/7);
+  height: 100%;
+}
+
+.key_function {
+  margin-top: 20px;
+  font-size: .6em;
+  font-weight: 700;
+  text-shadow: 0 0 2px rgb(133, 133, 40);
+  color: rgb(173, 173, 60);
+}
+
+div.btn_inf {
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #eee2 5%, #000C 90%, black 100%);
+  box-shadow: -2px 2px 3px #eee6 inset;
+  cursor: pointer;
+}
+
+span.tecla {
+  color: var(--key-color);
+  font-weight: 800;
+  font-size: .6em;
+}
+
+
+/* ZONA DERECHA ESCANER */
+div.derecha {
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+  width: 40%;
+  display: grid;
+
+  grid-template-columns: 30% 70%;
+}
+
+div.teclado_derecho {
+  box-shadow: -1px 1px 2px #eee4 inset;
+  margin-left: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  width: 80%;
+  height: 25%;
+  display: grid;
+  grid-template: 1fr 1fr 1fr 1fr /  1fr 1fr 1fr 1fr ;
+  place-items: center;
+}
+
+/* TECLAS (INTERNAS) del teclado derecho */
+div.teclado_derecho_keys div.tecla_funcion span.tecla {
+  font-weight: 600;
+  filter: drop-shadow(0 0 5px var(--key-color));
+}
+
+/* TECLAS (SUPERIOR) del teclado derecho */
+div.teclado_derecho_keys div.tecla_subfuncion span.key_function {
+  font-size: .5em;
+}
+
+div.tecla_funcion {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 15px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #0008 1%, #000D 3%, #000D 95%, #000E 99%);
+  box-shadow: -2px 2px 6px #eee6 inset;
+  cursor: pointer;
+}
+
+div.derecha div.funciones {
+  height: 94%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.boton_ps {
+  margin-top: 20px;
+  border: 5px solid var(--key-color);
+  box-shadow: 0 0 5px var(--key-color);
+  height: 80px;
+  width: 80px;
+  transition: filter .5s;
+  cursor: pointer;
+}
+
+.boton_ps:hover {
+  transition: filter .5s;
+  filter: drop-shadow(0 0 5px var(--key-color));
+}
+
+.boton_ps .tecla {
+  font-size: 1em;
+  width: 100%;
+  height: 100%;
+}
+
+div.funciones .tecla {
+  display:  grid;
+  place-items: center;
+  width: 100%;
+}
+
+div.funciones .tecla .tecla_funcion{
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.especial {
+  background: #333 !important;
+}
+
+div.btn_direccion {
+  transform: translateY(2px);
+  width: 100px;
+}
+
+
+div.btn_direccion div.tecla .tecla_funcion {
+  width: 45px;
+  height: 30px;
+}
+
+
+div.btn_direccion {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ZONA INFERIOR DERECHA / DIAL Y TECLA FUNCION */
+
+.derecha .teclado .otros {
+  position: relative;
+  height: 60%;
+  width: 87%;
+}
+.otros {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.otros .btn_dsp {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 45px;
+  height: 20px;
+}
+
+.otros .btn_funcion {
+  cursor:pointer;
+  position: absolute;
+  display: grid;
+  place-items: center;
+  top: 10px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(180deg, #eee2 5%, #000C 90%, black 100%);
+  box-shadow: 0 0 5px #111 inset;
+}
+
+.btn_f {
+  display:grid;
+  place-items: center;
+  color: transparent;
+  width: 25px;
+  height: 17px;
+  border-radius: 5px;
+  border: 1px solid #1112;
+  background: linear-gradient(180deg, #0509 5%, #000C 90%, transparent 100%);
+}
+
+.btn_f .tecla {
+  z-index: 1;
+  color: #666;
+}
+
+div.otros div.btn_radial
+{
+  display: grid;
+  place-items: center;
+  margin-top: 120px;
+  position: relative;
+  z-index: 10;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(#333 0%, #333 55%, #111 60%, #222 100%);
+  box-shadow: -1px 1px 5px #eee6 inset;
+}
+
+div.btn_radial .btn_radial_in {
+    width: 125px;
+    height: 125px;
+}
+
+div.btn_radial_in{
+  position: relative;
+  background: radial-gradient(#333 0%, #333 55%, #111 60%, #222 100%);
+  box-shadow: -1px 1px 5px #eee6 inset;
+}
+
+
+/* FORMULARIO */
+
+form {
+  padding: 20px;
+  font-family: 'ds-digit';
+  font-size: 1.5em;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius);
+}
+
+form label {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    color:black;
+    width: 100%;
+    background: transparent;
+    font-family: 'system-ui';
+    border: 0;
+    outline: 0;
+    padding:10px;
+    border-radius: 15px;
+    border: 3px solid gray;
+    box-shadow: 0 0px 5px #1115 inset;
+
+}
+
+form input[type="submit"] {
+  font-family: 'ds-digit';
+  border: none;
+  outline: none;
+  padding: 10px 30px;
+  border-radius: 10px;
+  background-color: #999;
+  box-shadow: 0 0 5px black inset;
+  color: white;
+  cursor:pointer;
+  transition: box-shadow .5s, filter .5s, background-color .5s;
+}
+
+form input[type="submit"]:hover {
+  transition: box-shadow .5s, filter .5s, background-color .5s;
+  background-color: #111;
+  box-shadow: 0 0 5px black inset;
+  color: var(--key-color);
+  filter: drop-shadow(0 0 5px var(--key-color));
+}
+
+input[type="checkbox"] {
+    background: transparent;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    text-align: center;
+    color: rgba(127,127,127, .5);
+    font-weight: 100;
+    font-family: 'ds-digit';
+    font-size: 1.2em;
+}
+
+
+input[type="text"]:focus::placeholder,
+input[type="email"]:focus::placeholder,
+input[type="password"]:focus::placeholder{
+  transition: transform .5s;
+  transform: translateY(-35px);
+}
+
+
+
+/* Estilos globales para hover */
+.btn_inf:hover,
+.tecla_funcion:hover {
+  transition: filter .5s;
+  filter: drop-shadow(0 0 5px var(--key-color));
+}
+.btn_funcion:hover {
+  transition: filter .5s;
+  filter: drop-shadow(0 0 5px rgb(0, 255, 0));
+}
+
+.clicked {
+  transition: .2s;
+  transform: scale(.9);
+}

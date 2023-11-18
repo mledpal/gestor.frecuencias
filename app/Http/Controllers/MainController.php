@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rol;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -15,13 +16,14 @@ class MainController extends Controller
     {
         if (Auth::check()) {
 
-
-            $roles = Auth::user()->roles->toArray();
+            $user = Auth::user();
+            $roles = $user->roles;
 
             return Inertia::render('Inicio', [
                 'canLogin' => Route::has('login'),
                 'canRegister' => Route::has('register'),
-                'username' => Auth::user()->username,
+                'userDB' => $user,
+                'username' => $user->username,
                 'title' => 'Inicio',
                 'roles' => $roles,
             ]);

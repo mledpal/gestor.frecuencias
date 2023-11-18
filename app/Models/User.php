@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function roles(): BelongsToMany
     {
-        return $this->BelongsToMany(User::class, 'users_roles', 'id_user', 'id_rol');
+        return $this->belongsToMany(Rol::class, 'users_roles', 'id_user', 'id_rol');
     }
 
     protected function photo(): Attribute

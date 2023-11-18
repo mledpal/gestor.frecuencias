@@ -3,7 +3,7 @@ import { MenuLateral } from "@/Components/Menu/MenuLateral";
 import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-export default function Inicio({ title, roles }) {
+export default function Inicio({ userDB, title, roles }) {
     const [user, setUser] = useState({});
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
@@ -22,6 +22,7 @@ export default function Inicio({ title, roles }) {
         });
         setRoles(userRolesArray);
     }, []);
+
 
     return (
         <div
