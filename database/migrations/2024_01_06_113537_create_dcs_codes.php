@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('banda', function (Blueprint $table) {
+        Schema::create('dcs_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('banda', 30);
+            $table->string('codigo', 10);
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('banda');
+        Schema::dropIfExists('dcs_codes');
     }
 };

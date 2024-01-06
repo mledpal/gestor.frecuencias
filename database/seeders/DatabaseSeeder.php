@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(TablaRoles::class);
+        $this->call(TablaBandas::class);
+        $this->call(TablaCTCSS::class);
+        $this->call(TablaDCS::class);
+        $this->call(TablaTipoCodificacion::class);
 
         // \App\Models\User::factory(10)->create();
 

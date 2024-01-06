@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('banda', function (Blueprint $table) {
+        Schema::create('tipo_codificacion', function (Blueprint $table) {
             $table->id();
-            $table->string('banda', 30);
+            $table->string('nombre', 30);
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('banda');
+        Schema::dropIfExists('tipo_codificacion');
     }
 };
