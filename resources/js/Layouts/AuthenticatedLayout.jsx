@@ -17,11 +17,11 @@ export default function Authenticated({ user, header, children }) {
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">
+                                    {/* Logo de la aplicación */}
                                     <img
                                         src="/img/logo.webp"
                                         className="w-[70px] h-[70px] text-gray-500"
                                     />
-                                    {/* <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" /> */}
                                 </Link>
                             </div>
 
@@ -68,6 +68,7 @@ export default function Authenticated({ user, header, children }) {
                                         >
                                             Perfil de usuario
                                         </Dropdown.Link>
+
                                         <Dropdown.Link
                                             href={route("logout")}
                                             method="post"

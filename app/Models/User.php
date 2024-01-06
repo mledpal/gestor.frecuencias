@@ -5,11 +5,13 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Attribute;
+use Faker\Core\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -64,11 +66,27 @@ class User extends Authenticatable
         return $this->belongsToMany(Rol::class, 'users_roles', 'id_user', 'id_rol');
     }
 
-    protected function photo(): Attribute
+    /**
+     * Upload de las imágenes del usuario
+     *
+     * @param upfile $archivo
+     * @param string $ruta
+     * @return \Illuminate\Http\Response
+     */
+    public static function setArchivo($archivo, $ruta, $actual = false)
     {
-        return new Attribute(
-            get: fn ($value) => "storage/img/users" . $value,
-            set: fn ($value) => $value
-        );
+        if ($archivo) {
+
+            //Elimino el fichero antiguo
+            if ($actual) {
+                Storage::disk('images')->delete($actual);
+            }
+
+            $disk = Storage::disk('images')->put($ruta, $archivo);
+
+            return $disk;
+        } else {
+            return false;
+        }
     }
 }

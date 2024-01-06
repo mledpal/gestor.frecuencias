@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileImageRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
 use Dotenv\Validator;
+use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Throwable;
 
 class ProfileController extends Controller
 {
@@ -30,28 +33,56 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
+
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
         if (isset($request->indicativo)) {
-            $request->validate([
-                'indicativo' => 'sometimes|string|max:30',
-            ]);
             $request->user()->indicativo = $request->indicativo;
-        }
-
-        if (isset($request->photo)) {
-            $path = $request->file('photo')->store('/storage/img/users');
-            $request->user()->photo = $path;
         }
 
         $request->user()->save();
 
         return Redirect::route('profile.edit');
+    }
+
+    /**
+     * Función para guardar imágenes de usuario
+     */
+    public function upload(ProfileImageRequest $request) {
+
+        try {
+            $data = $request->except('photo', 'qsl');
+            $usuario = $request->user();
+
+            // Imagen de usuario y QSL
+            if ($request->hasFile('photo')) {
+                $data['photo'] = $request->file('photo');
+            }
+            if ($request->hasFile('qsl')) {
+                $data['qsl'] = $request->file('qsl');
+            }
+
+            //añado los archivos a las carpetas
+            if (!is_null($request->file('photo'))) {
+
+                $actual = $request->user()->photo;
+                $file = User::setArchivo($request->file('photo'), 'user/' . $request->user()->username , $actual);
+                $usuario['photo'] = $file;
+            }
+
+            $usuario->save();
+
+            return json_encode(['datos' => 'OK']);
+        } catch (Throwable $e) {
+            dd($e);
+            return json_encode(['error' => 'KO']);
+        }
+
+
     }
 
     /**

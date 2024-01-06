@@ -14,27 +14,18 @@ export default function UpdateProfileInformation({
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
+            id: user.id,
             nombre: user.nombre,
             apellidos: user.apellidos,
             username: user.username,
             indicativo: user.indicativo ?? "",
             email: user.email,
-            photo: user.photo,
         });
 
     const submit = (e) => {
         e.preventDefault();
         patch(route("profile.update"));
     };
-
-    function handleImageUpload(e) {
-        const image = e.target.files[0];
-        const formData = new FormData();
-
-        formData.append("photo", e.target.value);
-
-        setData("photo", image);
-    }
 
     return (
         <section className={className}>
@@ -115,30 +106,6 @@ export default function UpdateProfileInformation({
                     />
 
                     <InputError className="mt-2" message={errors.indicativo} />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="photo" value="Imagen Perfil" />
-                    {/*
-                    <TextInput
-                        id="photo"
-                        name="photo"
-                        type="file"
-                        className="mt-1 block w-full"
-                        value={data.photo}
-                        // onChange={(e) => setData("photo", e.target.value)}
-                        onChange={handleImageUpload}
-                        autoComplete="photo"
-                    /> */}
-                    <input
-                        id="photo"
-                        name="photo"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                    />
-
-                    <InputError className="mt-2" message={errors.photo} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
