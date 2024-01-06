@@ -5,7 +5,7 @@ import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
-export const FormRegister = () => {
+export const FormRegister = ({ status }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         username: "",
         nombre: "",

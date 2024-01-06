@@ -8,7 +8,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 const appName = import.meta.env.VITE_APP_NAME || "Gestor de Frecuencias";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${appName}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,

@@ -28,7 +28,7 @@ div#app {
 
 div.container {
   margin: auto;
-  height: 600px;
+  height: 500px;
   width: 1200px;
   background: linear-gradient(180deg, #0008 1%, #000D 3%, #000D 95%, #000E 99%);
   box-shadow: -3px 3px 10px #eee inset;

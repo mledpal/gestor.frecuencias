@@ -5,7 +5,7 @@ import { Head } from "@inertiajs/react";
 export default function Register({ status, canResetPassword }) {
     return (
         <GuestLayout>
-            <Head title="Register" />
+            <Head title="Registro" />
 
             <Radio
                 form="register"

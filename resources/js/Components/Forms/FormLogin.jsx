@@ -6,7 +6,7 @@ import PrimaryButton from "../PrimaryButton";
 import { Link, useForm } from "@inertiajs/react";
 import InputError from "../InputError";
 
-export const FormLogin = ({ status, canResetPassword }) => {
+export const FormLogin = ({ canResetPassword }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",

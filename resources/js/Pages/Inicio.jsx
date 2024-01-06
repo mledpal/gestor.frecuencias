@@ -4,15 +4,8 @@ import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 export default function Inicio({ userDB, title, roles }) {
-    const [user, setUser] = useState({});
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
-
-    useEffect(() => {
-        fetch("/api/user")
-            .then((response) => response.json())
-            .then((data) => setUser(data));
-    }, []);
 
     useEffect(() => {
         const userRolesArray = [];
@@ -23,11 +16,11 @@ export default function Inicio({ userDB, title, roles }) {
         setRoles(userRolesArray);
     }, []);
 
-
+    
     return (
         <div
             id="root"
-            className="left-0 max-w-screen w-full min-h-screen flex flex-col justify-between"
+            className="left-0 max-w-screen w-[100vw] min-h-screen flex flex-col justify-between"
         >
             <Head title={title} />
             <header className="relative flex flex-row items-center justify-between w-full h-[100px] bg-colorbg">
@@ -43,7 +36,7 @@ export default function Inicio({ userDB, title, roles }) {
 
             <nav className="relative flex flex-row w-full h-[75px] justify-end items-center bg-colorbg300">
                 <h2 className="mr-10">
-                    {user.username} | {isAdmin ? "Administrador" : ""}
+                    {userDB.username} | {isAdmin ? "Administrador" : ""}
                 </h2>
             </nav>
 
