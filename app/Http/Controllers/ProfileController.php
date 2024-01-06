@@ -74,12 +74,18 @@ class ProfileController extends Controller
                 $usuario['photo'] = $file;
             }
 
+            // if (!is_null($request->file('qsl'))) {
+
+            //     $actual = $request->user()->photo;
+            //     $file = User::setArchivo($request->file('qsl'), 'user/' . $request->user()->username , $actual);
+            //     $usuario['qsl'] = $file;
+            // }
+
             $usuario->save();
 
-            return json_encode(['datos' => 'OK']);
+            return json_encode(['mensaje' => 'OK']);
         } catch (Throwable $e) {
-            dd($e);
-            return json_encode(['error' => 'KO']);
+            return json_encode(['mensaje' => 'KO']);
         }
 
 

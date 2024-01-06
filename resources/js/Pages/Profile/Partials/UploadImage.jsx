@@ -46,17 +46,19 @@ export default function UploadImage({ className = "" }) {
             })
                 .then((respuesta) => respuesta.json())
                 .then((datos) => {
-                    console.log("Archivo subido exitosamente", datos);
+                    if(datos.mensaje == "OK") {
+                        document.getElementById('photoMessage').textContent = "Archivo subido exitosamente";
+                    } else {
+                        document.getElementById('photoMessage').textContent = `${datos.message}`;
+                    }
                 })
                 .catch((error) => {
-                    console.error("Error al subir el archivo", error);
+                    document.getElementById('photoMessage').textContent = "Error al subir la imagen";
                 });
         }
     };
 
 
-    console.log(user, user.photo);
-    
     return (
         <section className={className}>
             <header>
@@ -72,37 +74,43 @@ export default function UploadImage({ className = "" }) {
                 method="PATCH"
             >
                 <div>
-                    <InputLabel htmlFor="photo" value="Imagen Perfil" />
+                    <InputLabel htmlFor="photo" value="Imagen de Perfil" />
 
                     <TextInput
                         id="photo"
                         name="photo"
                         type="file"
                         className="mt-1 block w-full"
-                        filename={data.photo ? data.photo : ""}
+                        filename={user.photo ? user.photo : ""}
                         onChange={(e) => handleSendFile(e)}
                         autoComplete="photo"
                         // onChange={handleImageUpload}
                     />
+                    <label className="text-red-600 text-sm" id="photoMessage"></label>
 
                     <InputError className="mt-2" message={errors.photo} />
                 </div>
 
-                {/* <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Guardar</PrimaryButton>
+                {/* <div>
+                    <InputLabel htmlFor="photo" value="QSL" />
 
-                    <Transition
-                        show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
-                    >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Guardado.
-                        </p>
-                    </Transition>
+                    <TextInput
+                        id="qsl"
+                        name="qsl"
+                        type="file"
+                        className="mt-1 block w-full"
+                        filename={user.qsl ? user.qsl : ""}
+                        onChange={(e) => handleSendFile(e)}
+                        autoComplete="photo"
+                        // onChange={handleImageUpload}
+                    />
+                    <label className="text-red-600 text-sm" id="qslMessage"></label>
+
+                    <InputError className="mt-2" message={errors.photo} />
                 </div> */}
+
+
+
             </form>
         </section>
     );

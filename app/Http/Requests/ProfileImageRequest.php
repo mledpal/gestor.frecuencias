@@ -14,8 +14,20 @@ class ProfileImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp',
-            'qsl' => 'nullable|image|mimes:jpeg,png,jpg,webp'
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024|dimensions:ratio=1/1',
+            'qsl' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024|dimensions:ratio=16/9'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'image' => 'Debe subir una imagen. Se admite jpeg, png, jpg y webp',
+            'max' => 'El tamaño máximo del fichero no debe ser más de 1024Kb',
+            'mimes' => 'Debe subir una imagen. Se admite jpeg, png, jpg y webp',
+            'photo.dimensions' => 'El ratio de aspecto debe ser 1:1',
+            'qsl.dimensions' => 'El ratio de aspecto debe ser 16:9',
+        ];
+    }
+
 }
