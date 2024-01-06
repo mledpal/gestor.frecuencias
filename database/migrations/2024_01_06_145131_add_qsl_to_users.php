@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('localizacion_id')->nullable()->after('indicativo');
-            $table->foreign('localizacion_id', 'fk_user_loca')->references('id')->on('localizacion')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('qsl')->nullable()->after('photo');
         });
     }
 
@@ -23,8 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('fk_user_loca');
-            $table->dropColumn('localizacion_id');
+            $table->dropColumn('qsl');
         });
     }
 };
