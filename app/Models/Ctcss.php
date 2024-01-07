@@ -12,4 +12,13 @@ class Ctcss extends Model
 
     protected $table="ctcss_codes";
     protected $fillable=['codigo'];
+
+    /**
+     * Relación de CTCSS y su Codificación
+     */
+
+    public function codificacion()
+    {
+        return $this->belongsTo(Codificacion::class, 'id', 'ctcss');
+    }
 }

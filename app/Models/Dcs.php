@@ -11,4 +11,13 @@ class Dcs extends Model
 
     protected $table="dcs_codes";
     protected $fillable=['codigo'];
+
+    /**
+     * Relación de DCS y su Codificación
+     */
+
+    public function codificacion()
+    {
+        return $this->belongsTo(Codificacion::class, 'id', 'dcs');
+    }
 }
