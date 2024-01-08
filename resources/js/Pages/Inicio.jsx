@@ -1,3 +1,4 @@
+import { UserImage } from "@/Components/Images/UserImage";
 import { BurgerMenu } from "@/Components/Menu/BurgerMenu";
 import { MenuLateral } from "@/Components/Menu/MenuLateral";
 import { Head } from "@inertiajs/react";
@@ -6,6 +7,10 @@ import { useEffect, useState } from "react";
 export default function Inicio({ userDB, title, roles }) {
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
+
+    const styleUserImg = isAdmin
+        ? "w-10 h-10 rounded-full mr-10 border-white border-2"
+        : "w-10 h-10 rounded-full mr-10";
 
     useEffect(() => {
         const userRolesArray = [];
@@ -16,7 +21,6 @@ export default function Inicio({ userDB, title, roles }) {
         setRoles(userRolesArray);
     }, []);
 
-    
     return (
         <div
             id="root"
@@ -35,9 +39,7 @@ export default function Inicio({ userDB, title, roles }) {
             </header>
 
             <nav className="relative flex flex-row w-full h-[75px] justify-end items-center bg-colorbg300">
-                <h2 className="mr-10">
-                    {userDB.username} | {isAdmin ? "Administrador" : ""}
-                </h2>
+                <UserImage isAdmin={isAdmin} userDB={userDB} />
             </nav>
 
             <div className=" top-[175px] w-full h-max grow flex flex-row ">
