@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaCTCSS::class);
         $this->call(TablaDCS::class);
         $this->call(TablaTipoCodificacion::class);
-
+        $this->call(TablaUsuarioSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

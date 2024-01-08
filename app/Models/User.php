@@ -4,11 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Attribute;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Faker\Core\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -56,15 +57,44 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Relación de un usuario con sus roles
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Rol::class, 'users_roles', 'id_user', 'id_rol');
+    }
+
+    /**
+     * Relación de un usuario con su localización
+     */
+    public function localizacion(): HasOne
+    {
+        return $this->hasOne(Localizacion::class);
+    }
+
+
+    /**
+     *  Función que devuelve el nombre completo
+     */
     public function getFullNameAttribute()
     {
         return $this->nombre . " " . $this->apellidos;
     }
 
-    public function roles(): BelongsToMany
+    /**
+     * Función que devuelve la ruta completa de las imágenes de usuario
+     */
+    protected function photo(): Attribute
     {
-        return $this->belongsToMany(Rol::class, 'users_roles', 'id_user', 'id_rol');
+        return Attribute::make(
+            get: fn (string $value) => '/storage/images/' . $value,
+        );
     }
+
+
+
+
 
     /**
      * Upload de las imágenes del usuario
