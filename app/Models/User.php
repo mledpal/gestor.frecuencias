@@ -8,6 +8,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Faker\Core\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -68,9 +69,9 @@ class User extends Authenticatable
     /**
      * Relación de un usuario con su localización
      */
-    public function localizacion(): HasOne
+    public function localizacion(): BelongsTo
     {
-        return $this->hasOne(Localizacion::class);
+        return $this->belongsTo(Localizacion::class);
     }
 
 
@@ -83,6 +84,26 @@ class User extends Authenticatable
     }
 
     /**
+     * Función que devuelve la dirección completa
+     */
+    public function getDireccionCompletaAttribute()
+    {
+        if($this->localizacion) {
+            return $this->localizacion->calle . ' ' . $this->localizacion->localidad . ' ' . $this->localizacion->provincia;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Función que devuelve las coordenadas GPS
+     */
+    public function getGPSAttribute()
+    {
+        return $this->localizacion->gps;
+    }
+
+    /**
      * Función que devuelve la ruta completa de las imágenes de usuario
      */
     protected function photo(): Attribute
@@ -91,9 +112,6 @@ class User extends Authenticatable
             get: fn (string $value) => '/storage/images/' . $value,
         );
     }
-
-
-
 
 
     /**
