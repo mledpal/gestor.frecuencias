@@ -9,7 +9,7 @@ class ModoTransmision extends Model
 {
     use HasFactory;
 
-    protected $table = 'modostransmision';
+    protected $table = 'modotransmision';
 
     protected $fillable = ['nombre', 'descripcion'];
 }
