@@ -1,11 +1,11 @@
-import { FormLogin } from "../Forms/FormLogin";
-import { FormRegister } from "../Forms/FormRegister";
+import { SelectForm } from "../Forms/SelectForm";
 import "./Radio.css";
 import "./js/boton.js";
 
 // import "./handleBotones";
 
 export const Radio = ({ status, canResetPassword, form }) => {
+
     return (
         <>
             <div className="container">
@@ -25,17 +25,11 @@ export const Radio = ({ status, canResetPassword, form }) => {
                 <div className="zonas centro">
                     <div className="pantalla">
                         <div className="screen">
-                            {form == "login" ? (
-                                <FormLogin
-                                    status={status}
-                                    canResetPassword={canResetPassword}
-                                />
-                            ) : (
-                                <FormRegister
-                                    status={status}
-                                    canResetPassword={canResetPassword}
-                                />
-                            )}
+                            <SelectForm
+                                status={status}
+                                form={form}
+                                canResetPassword={canResetPassword}
+                            />
                         </div>
                     </div>
 

@@ -1,6 +1,7 @@
 export const UserImage = ({ userDB, isAdmin }) => {
-    const estilosBase = "w-[50px] h-[50px] rounded-full mr-10";
-    const estilosAdmin = "shadow-[0px_0px_10px_rgb(255,255,0)]";
+    const estilosBase = "w-[40px] h-[40px] rounded-full mr-10";
+    const estilosAdmin =
+        "border-2 border-yellow-500 shadow-[0px_0px_10px_rgb(255,255,0)]";
 
     const styleUserImg = isAdmin
         ? estilosBase + " " + estilosAdmin
@@ -10,15 +11,27 @@ export const UserImage = ({ userDB, isAdmin }) => {
 
     return (
         <a href="/profile">
-            {isPhoto ? (
-                <img
-                    className={styleUserImg}
-                    src={userDB.photo}
-                    alt="Imagen del usuario"
-                />
-            ) : (
-                    <span className={estilosBase}>{userDB.username} {isAdmin ? '*' :'' }</span>
-            )}
+            <div className="mr-[20px] h-[60px] w-[200px] p-3 flex flex-row items-center justify-around rounded-[50px] hover:scale-105 hover:shadow-xl ease-in-out duration-300">
+                {isPhoto ? (
+                    <img
+                        className={styleUserImg}
+                        src={userDB.photo}
+                        alt="Imagen del usuario"
+                    />
+                ) : (
+                    <span
+                        className={`flex items-center justify-center ${styleUserImg}`}
+                    >
+                        <i class="fa-regular fa-circle-user"></i>
+                    </span>
+                )}
+                <div className="flex flex-col text-colortxt200">
+                    <span className="text-center font-bold text-lg">
+                        {userDB.username}
+                    </span>
+                    <span className="text-center text-xs ">{userDB.indicativo ?? userDB.email}</span>
+                </div>
+            </div>
         </a>
     );
 };
