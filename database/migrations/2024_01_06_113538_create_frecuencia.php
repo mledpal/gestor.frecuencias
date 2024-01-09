@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('frecuencia', function (Blueprint $table) {
             $table->id();
-            $table->string('frecuencia')->nullable(false);
+            $table->float('frecuencia')->nullable(false);
             $table->tinyInteger('calidad')->default(0);
             $table->boolean('codificada');
             $table->unsignedBigInteger('repetidor_id')->nullable();

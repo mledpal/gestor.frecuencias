@@ -16,21 +16,32 @@ class Codificacion extends Model
     /**
      * Relación de una Codificación y su tipo
      */
-    public function tipo() {
+    public function tipo()
+    {
         return $this->hasOne(TipoCodificacion::class, 'tipo', 'id');
     }
 
     /**
      * Relación de una Codificación y el Codigo CTCSS
      */
-    public function ctcss() {
+    public function ctcss()
+    {
         return $this->hasOne(Ctcss::class, 'ctcss', 'id');
     }
 
-        /**
+    /**
      * Relación de una Codificación y el Codigo DCS
      */
-    public function dcs() {
+    public function dcs()
+    {
         return $this->hasOne(Dcs::class, 'dcs', 'id');
+    }
+
+    /**
+     * Relación del repetidor con su frecuencia
+     */
+    public function frecuencia()
+    {
+        return $this->belongsTo(Frecuencia::class);
     }
 }

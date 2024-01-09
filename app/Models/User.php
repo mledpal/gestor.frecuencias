@@ -10,6 +10,7 @@ use Faker\Core\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -57,6 +58,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Relación de un usuario con sus múltiples contactos
+     */
+    public function contactos() : HasMany
+    {
+        return $this->hasMany(Contacto::class);
+    }
 
     /**
      * Relación de un usuario con sus roles
