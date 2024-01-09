@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('id_codificacion', 'fk_frec_codi')->references('id')->on('codificacion')->onDelete('restrict')->onUpdate('restrict');
-            $table->foreign('id_modo', 'fk_frec_modo')->references('id')->on('modostransmision')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_modo', 'fk_frec_modo')->references('id')->on('modotransmision')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('id_banda', 'fk_frec_band')->references('id')->on('banda')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('id_repetidor', 'fk_frec_repe')->references('id')->on('repetidor')->onDelete('restrict')->onUpdate('restrict');
         });

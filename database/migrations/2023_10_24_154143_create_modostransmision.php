@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('modostransmision', function (Blueprint $table) {
+        Schema::create('modotransmision', function (Blueprint $table) {
             $table->id();
-            $table->enum('nombre', ["AM", "FM", "LSB", "USB", "CW", "FSK", "PSK", "RTTY", "Packet Radio", "D-STAR", "DMR", "P25", "C4FM", "PSK31", "APRS", "SSTV", "JT65", "FT8"]);
-            $table->string('descripcion');
+            $table->string('nombre', 20);
+            $table->string('descripcion')->nullable();
             $table->timestamps();
         });
     }
