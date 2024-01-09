@@ -11,5 +11,5 @@ class Frecuencia extends Model
 
     protected $table = 'frecuencia';
 
-    protected $fillable =['frecuencia', 'calidad', 'codificada', 'repetidor_id', 'codificacion_id', 'banda_id', 'modo_id']
+    protected $fillable =['frecuencia', 'calidad', 'codificada', 'repetidor_id', 'codificacion_id', 'banda_id', 'modo_id'];
 }
