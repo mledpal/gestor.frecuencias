@@ -14,16 +14,15 @@ return new class extends Migration
         Schema::create('codificacion', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('tipo_id')->nullable()->change();
-            $table->foreignId('tipo_id', 'fk_codificacion_tipo')->references('id')->on('tipo_codificacion')->onDelete('restrict')->onUpdate('restrict');
+            $table->unsignedBigInteger('tipo_id')->nullable();
+            $table->foreign('tipo_id', 'fk_codificacion_tipo')->references('id')->on('tipo_codificacion')->onDelete('restrict')->onUpdate('restrict');
 
-            $table->unsignedBigInteger('DCS_id')->nullable()->change();
-            $table->foreignId('DCS_id', 'fk_codificacion_dcs')->references('id')->on('dcs_codes')->onDelete('restrict')->onUpdate('restrict');
+            $table->unsignedBigInteger('dcs_id')->nullable();
+            $table->foreign('dcs_id', 'fk_codificacion_dcs')->references('id')->on('dcs_codes')->onDelete('restrict')->onUpdate('restrict');
 
-            $table->unsignedBigInteger('CTCSS_id')->nullable()->change();
-            $table->foreignId('CTCSS_id', 'fk_codificacion_ctcss')->references('id')->on('ctcss_codes')->onDelete('restrict')->onUpdate('restrict');
+            $table->unsignedBigInteger('ctcss_id')->nullable();
+            $table->foreign('ctcss_id', 'fk_codificacion_ctcss')->references('id')->on('ctcss_codes')->onDelete('restrict')->onUpdate('restrict');
 
-            $table->text('observaciones')->nullable(false);
             $table->timestamps();
         });
     }

@@ -20,6 +20,6 @@ class TablaModoTransmisionSeeder extends Seeder
 
     private function datos()
     {
-        return ["AM", "FM", "LSB", "USB", "CW", "FSK", "PSK", "RTTY", "Packet Radio", "D-STAR", "DMR", "P25", "C4FM", "PSK31", "APRS", "SSTV", "JT65", "FT8"];
+        return ["AM", "FM", "WFM", "LSB", "USB", "CW", "FSK", "PSK", "RTTY", "Packet Radio", "D-STAR", "DMR", "P25", "C4FM", "PSK31", "APRS", "SSTV", "JT65", "FT8"];
     }
 }

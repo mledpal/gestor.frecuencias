@@ -12,14 +12,24 @@ class Localizacion extends Model
 
     protected $table = 'localizacion';
 
-    protected $fillable = ['calle', 'localidad', 'provincia', 'pais', 'gps'];
+    protected $fillable = ['localidad', 'provincia', 'pais', 'gps'];
 
 
     /**
      * Relación de una localización con su usuario
      */
-    public function localizacion(): BelongsTo
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Relación de una localización con su frecuencia
+     */
+    public function frecuencia(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }

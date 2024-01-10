@@ -10,7 +10,7 @@ class Contacto extends Model
     use HasFactory;
 
     protected $table ="contacto";
-    protected $fillable =['nombre', 'comprobado', 'fecha', 'hora', 'tipo', 'localizacion_id', 'frecuencia_id', 'user_id'];
+    protected $fillable =['nombre', 'comprobado', 'fecha', 'hora', 'tipo', 'localizacion_id', 'frecuencia_id', 'user_id', 'observaciones'];
 
     /**
      * Relación de un contacto con una frecuencia

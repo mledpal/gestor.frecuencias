@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('localizacion', function (Blueprint $table) {
             $table->id();
-            $table->string('calle')->nullable(false);
             $table->string('localidad')->nullable();
             $table->string('provincia')->nullable();
             $table->string('pais')->default('España');

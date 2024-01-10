@@ -16,13 +16,16 @@ return new class extends Migration
             $table->string('nombre')->nullable(false);
             $table->boolean('comprobado');
             $table->date('fecha');
-            $table->time('hora');
+            $table->time('hora')->nullable();
             $table->enum('tipo', ['servicio', 'persona', 'evento'])->nullable();
+
+            $table->text('observaciones')->nullable();
+
             $table->unsignedBigInteger('localizacion_id')->nullable();
             $table->foreign('localizacion_id', 'fk_cont_loca')->references('id')->on('localizacion')->onDelete('restrict')->onUpdate('restrict');
 
             $table->unsignedBigInteger('frecuencia_id')->nullable(false);
-            $table->foreign('frecuencia_id', 'fk_cont_frecu')->references('id')->on('frecuencia')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('frecuencia_id', 'fk_cont_frecu')->references('id')->on('frecuencia')->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('user_id')->nullable(false);
             $table->foreign('user_id', 'fk_cont_user')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');

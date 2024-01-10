@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('repetidor', function (Blueprint $table) {
             $table->id();
-            $table->float('offset')->default(0.0);
+            $table->string('offset',15)->default("0.0");
             $table->string('direccion', 1)->nullable();
             $table->timestamps();
         });

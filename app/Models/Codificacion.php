@@ -11,14 +11,14 @@ class Codificacion extends Model
 
     protected $table = 'codificacion';
 
-    protected $fillable = ['tipo', 'DCS', 'CTCSS', 'observaciones'];
+    protected $fillable = ['tipo_id', 'dcs_id', 'ctcss_id'];
 
     /**
      * Relación de una Codificación y su tipo
      */
     public function tipo()
     {
-        return $this->hasOne(TipoCodificacion::class, 'tipo', 'id');
+        return $this->hasOne(TipoCodificacion::class);
     }
 
     /**
@@ -26,7 +26,7 @@ class Codificacion extends Model
      */
     public function ctcss()
     {
-        return $this->hasOne(Ctcss::class, 'ctcss', 'id');
+        return $this->hasOne(Ctcss::class);
     }
 
     /**
@@ -34,7 +34,7 @@ class Codificacion extends Model
      */
     public function dcs()
     {
-        return $this->hasOne(Dcs::class, 'dcs', 'id');
+        return $this->hasOne(Dcs::class);
     }
 
     /**

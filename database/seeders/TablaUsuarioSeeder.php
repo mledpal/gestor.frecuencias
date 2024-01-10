@@ -15,7 +15,6 @@ class TablaUsuarioSeeder extends Seeder
     public function run(): void
     {
         $localizacion = [
-            'calle' => 'Palos de la Frontera, 24',
             'localidad' => 'Linares',
             'provincia' => 'Jaén',
             'pais' => 'ES',
