@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contacto;
 use App\Models\Rol;
 use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +19,11 @@ class MainController extends Controller
         if (Auth::check()) {
 
             $user = Auth::user();
+
+            $contactos = Contacto::with('localizacion', 'frecuencia')->where('user_id', $user->id)->get();
+
+            // dd($contactos);
+
             $roles = $user->roles;
 
             return Inertia::render('Inicio', [
@@ -26,6 +33,7 @@ class MainController extends Controller
                 'username' => $user->username,
                 'title' => 'Inicio',
                 'roles' => $roles,
+                'contactos' => $contactos,
             ]);
         } else {
             return redirect('/login');

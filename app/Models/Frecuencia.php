@@ -15,12 +15,12 @@ class Frecuencia extends Model
 
     protected $fillable = ['frecuencia', 'calidad', 'codificada', 'repetidor_id', 'codificacion_id', 'banda_id', 'modo_id'];
 
-/**
-     * Relación de la frecuencia con su contacto
+    /**
+     * Relación de una localización con su contacto
      */
-    public function contacto(): BelongsTo
+    public function contacto()
     {
-        return $this->belongsTo(Contacto::class);
+        return $this->hasOne(Contacto::class);
     }
 
     /**

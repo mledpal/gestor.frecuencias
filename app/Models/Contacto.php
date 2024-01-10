@@ -16,7 +16,7 @@ class Contacto extends Model
      * Relación de un contacto con una frecuencia
      */
     public function frecuencia() {
-        return $this->hasOne(Frecuencia::class);
+        return $this->belongsTo(Frecuencia::class, 'frecuencia_id', 'id');
     }
 
     /**
@@ -25,4 +25,14 @@ class Contacto extends Model
     public function usuario() {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Relación de un contacto con la localizacion
+     */
+    public function localizacion()
+    {
+        return $this->belongsTo(Localizacion::class, 'localizacion_id', 'id');
+    }
+
+
 }

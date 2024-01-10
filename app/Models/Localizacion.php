@@ -16,6 +16,14 @@ class Localizacion extends Model
 
 
     /**
+     * Relación de una localización con su contacto
+     */
+    public function contacto()
+    {
+        return $this->hasOne(Contacto::class);
+    }
+
+    /**
      * Relación de una localización con su usuario
      */
     public function usuario(): BelongsTo
