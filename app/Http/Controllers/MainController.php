@@ -20,6 +20,8 @@ class MainController extends Controller
 
             $user = Auth::user();
 
+            $tipos_contacto = ['Servicio' => 'Servicio', 'Persona' => 'Persona', 'Evento' => 'Evento'];
+
             $contactos = Contacto::with('localizacion', 'frecuencia', 'frecuencia.codificacion', 'frecuencia.codificacion.tipo', 'frecuencia.codificacion.ctcss', 'frecuencia.codificacion.dcs', 'frecuencia.modo')->where('user_id', $user->id)->get();
 
             $roles = $user->roles;
@@ -32,6 +34,7 @@ class MainController extends Controller
                 'title' => 'Inicio',
                 'roles' => $roles,
                 'contactos' => $contactos,
+                'tipos_contacto' => $tipos_contacto,
             ]);
         } else {
             return redirect('/login');
@@ -48,4 +51,5 @@ class MainController extends Controller
     {
         return view('radio');
     }
+
 }

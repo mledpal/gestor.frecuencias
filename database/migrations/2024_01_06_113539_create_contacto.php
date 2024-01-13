@@ -17,9 +17,9 @@ return new class extends Migration
             $table->boolean('comprobado');
             $table->date('fecha');
             $table->time('hora')->nullable();
-            $table->enum('tipo', ['servicio', 'persona', 'evento'])->nullable();
 
-            $table->text('observaciones')->nullable();
+            $table->unsignedBigInteger('tipo_id')->nullable();
+            $table->foreign('tipo_id', 'fk_cont_tipo')->references('id')->on('tipo_contacto')->onDelete('restrict')->onUpdate('restrict');
 
             $table->unsignedBigInteger('localizacion_id')->nullable();
             $table->foreign('localizacion_id', 'fk_cont_loca')->references('id')->on('localizacion')->onDelete('restrict')->onUpdate('restrict');
@@ -29,6 +29,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('user_id')->nullable(false);
             $table->foreign('user_id', 'fk_cont_user')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->text('observaciones')->nullable();
 
             $table->timestamps();
 

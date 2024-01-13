@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaTipoCodificacion::class);
         $this->call(TablaUsuarioSeeder::class);
         $this->call(TablaModoTransmisionSeeder::class);
+        $this->call(TablaTipoContactoSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -32,6 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/ajax/contacto/{id}', [ContactoController::class, 'actualizar'])->name('contacto_actualizar');
 });
 
 require __DIR__ . '/auth.php';
