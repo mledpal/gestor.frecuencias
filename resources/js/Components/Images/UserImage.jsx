@@ -22,7 +22,7 @@ export const UserImage = ({ userDB, isAdmin }) => {
                     <span
                         className={`flex items-center justify-center ${styleUserImg}`}
                     >
-                        <i class="fa-regular fa-circle-user"></i>
+                        <i className="fa-regular fa-circle-user"></i>
                     </span>
                 )}
                 <div className="flex flex-col text-colortxt200">
