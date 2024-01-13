@@ -11,7 +11,7 @@ export const UserImage = ({ userDB, isAdmin }) => {
 
     return (
         <a href="/profile">
-            <div className="mr-[20px] h-[60px] w-[200px] p-3 flex flex-row items-center justify-around rounded-[50px] hover:scale-105 hover:shadow-xl ease-in-out duration-300">
+            <div className="shadow-[0px_0px_5px_rgba(20,10,200,.3)]  mr-[20px] h-[60px] w-[200px] p-3 flex flex-row items-center justify-around rounded-[50px] hover:scale-105 hover:shadow-xl ease-in-out duration-300">
                 {isPhoto ? (
                     <img
                         className={styleUserImg}
@@ -29,7 +29,9 @@ export const UserImage = ({ userDB, isAdmin }) => {
                     <span className="text-center font-bold text-lg">
                         {userDB.username}
                     </span>
-                    <span className="text-center text-xs ">{userDB.indicativo ?? userDB.email}</span>
+                    <span className="text-center text-xs ">
+                        {userDB.indicativo ?? userDB.email}
+                    </span>
                 </div>
             </div>
         </a>

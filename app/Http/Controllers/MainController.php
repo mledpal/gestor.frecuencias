@@ -20,7 +20,7 @@ class MainController extends Controller
 
             $user = Auth::user();
 
-            $contactos = Contacto::with('localizacion', 'frecuencia', 'frecuencia.codificacion', 'frecuencia.codificacion.tipo', 'frecuencia.codificacion.ctcss', 'frecuencia.codificacion.dcs', 'frecuencia.modo')->where('user_id', $user->id)->limit(5)->get();
+            $contactos = Contacto::with('localizacion', 'frecuencia', 'frecuencia.codificacion', 'frecuencia.codificacion.tipo', 'frecuencia.codificacion.ctcss', 'frecuencia.codificacion.dcs', 'frecuencia.modo')->where('user_id', $user->id)->get();
 
             $roles = $user->roles;
 

@@ -1,8 +1,9 @@
 import { Contacto } from "./Contacto";
 
 export const ListaContactos = ({ contactos }) => {
+
     return (
-        <div className="overflow-y-auto">
+        <div className="h-full flex flex-col ">
             {contactos.length > 0 ? (
                 contactos.map((c) => <Contacto key={c.id} datos={c} />)
             ) : (

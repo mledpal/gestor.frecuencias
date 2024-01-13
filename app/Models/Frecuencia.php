@@ -54,4 +54,13 @@ class Frecuencia extends Model
     {
         return $this->belongsTo(ModoTransmision::class);
     }
+
+    /**
+     * Función que devuelve el valor de la frecuencia con 3 decimales fijos
+     */
+    public function getFrecuenciaAttribute()
+    {
+
+        return number_format($this->attributes['frecuencia'], 3);
+    }
 }

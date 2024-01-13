@@ -25,10 +25,10 @@ export default function Inicio({ userDB, title, roles, contactos }) {
     return (
         <div
             id="root"
-            className="max-[100vw] w-[100%] min-h-screen max-h-screen flex flex-col justify-between box-border"
+            className="h-screen max-h-screen w-screen flex flex-col justify-between box-border overflow-hidden"
         >
             <Head title={title} />
-            <header className="relative flex flex-row items-center justify-between w-full h-[100px] bg-colorbg">
+            <header className="relative flex flex-row items-center justify-between w-full h-[10%] bg-colorbg">
                 <img
                     src="/img/logo.webp"
                     className="w-[100px] h-[100px] cursor-pointer"
@@ -39,12 +39,12 @@ export default function Inicio({ userDB, title, roles, contactos }) {
 
 
             {/* <MenuLateral isAdmin={isAdmin} /> */}
-            <main className="flex flex-col w-[100%] min-h-max p-[20px] bg-black top-[175px] grow">
+            <main className="flex flex-col w-[100%] p-[20px] bg-black top-[175px]  h-4/5">
                 <MainPage contactos={contactos} />
             </main>
 
 
-            <footer className="flex flex-row w-full h-[75px] justify-between items-center p-10  bg-colorbg300">
+            <footer className="flex flex-row w-full h-[5%] justify-between items-center p-10  bg-transparent">
                 <h3>Miguel Ledesma Palacios</h3>
                 <h4>Proyecto DAW-D</h4>
             </footer>
