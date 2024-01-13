@@ -19,6 +19,6 @@ class Ctcss extends Model
 
     public function codificacion()
     {
-        return $this->belongsTo(Codificacion::class, 'id', 'ctcss');
+        return $this->hasMany(Codificacion::class);
     }
 }

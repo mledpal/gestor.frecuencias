@@ -18,6 +18,6 @@ class ModoTransmision extends Model
      */
     public function frecuencia()
     {
-        return $this->belongsTo(Frecuencia::class);
+        return $this->hasMany(Frecuencia::class);
     }
 }

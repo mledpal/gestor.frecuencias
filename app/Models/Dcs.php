@@ -18,6 +18,6 @@ class Dcs extends Model
 
     public function codificacion()
     {
-        return $this->belongsTo(Codificacion::class, 'id', 'dcs');
+        return $this->belongsToMany(Codificacion::class);
     }
 }

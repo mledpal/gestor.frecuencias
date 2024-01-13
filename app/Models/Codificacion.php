@@ -18,7 +18,7 @@ class Codificacion extends Model
      */
     public function tipo()
     {
-        return $this->hasOne(TipoCodificacion::class);
+        return $this->belongsTo(TipoCodificacion::class);
     }
 
     /**
@@ -26,7 +26,7 @@ class Codificacion extends Model
      */
     public function ctcss()
     {
-        return $this->hasOne(Ctcss::class);
+        return $this->belongsTo(Ctcss::class);
     }
 
     /**
@@ -34,7 +34,7 @@ class Codificacion extends Model
      */
     public function dcs()
     {
-        return $this->hasOne(Dcs::class);
+        return $this->belongsTo(Dcs::class);
     }
 
     /**
@@ -42,6 +42,6 @@ class Codificacion extends Model
      */
     public function frecuencia()
     {
-        return $this->belongsTo(Frecuencia::class);
+        return $this->hasMany(Frecuencia::class);
     }
 }

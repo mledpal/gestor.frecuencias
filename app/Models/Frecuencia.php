@@ -34,9 +34,9 @@ class Frecuencia extends Model
     /**
      * Relación de la frecuencia con su codificación
      */
-    public function codificacion(): HasOne
+    public function codificacion()
     {
-        return $this->hasOne(Codificacion::class);
+        return $this->belongsTo(Codificacion::class);
     }
 
     /**
@@ -50,8 +50,8 @@ class Frecuencia extends Model
     /**
      * Relación de la frecuencia con su modo de transmision
      */
-    public function modo(): HasOne
+    public function modo()
     {
-        return $this->hasOne(ModoTransmision::class);
+        return $this->belongsTo(ModoTransmision::class);
     }
 }
