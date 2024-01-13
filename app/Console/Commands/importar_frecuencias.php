@@ -49,7 +49,7 @@ class importar_frecuencias extends Command
     public function importar_frecuencias($linea)
     {
         // Registro;Frecuencia;Memoria;Observaciones;Localidad;Banda;Fecha;Exportar;Comprobado;Mhz;Khz;S;R;CTCSS;DCS;Repetidor;Offset;SECRA;Modo
-        if($linea[0] == "Registro") return;
+        if($linea[0] == "Registro" || $linea[8] == "FALSO") return;
 
 
         $nuevoRepetidor  = array();
