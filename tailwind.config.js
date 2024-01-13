@@ -33,6 +33,9 @@ export default {
             backgroundImage: {
                 login: "url('/img/fondo_login.webp')",
             },
+            dropShadow: {
+                'circle': '0px 0px 5px rgba(255, 255, 0, 0.95)'
+            },
         },
     },
 
