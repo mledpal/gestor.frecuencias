@@ -173,7 +173,7 @@ class importar_frecuencias extends Command
         $nuevoContacto['hora'] = date("H:i:s", time());
         $nuevoContacto['localizacion_id'] = $localizacion->id ?? null;
         $nuevoContacto['user_id'] = 1;
-        $nuevoContacto['tipo'] = "Servicio";
+        $nuevoContacto['tipo_id'] = 1;
         $nuevoContacto['hora'] = null;
 
         $contacto = Contacto::create($nuevoContacto);
