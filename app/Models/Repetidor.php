@@ -17,6 +17,6 @@ class Repetidor extends Model
      * Relación del repetidor con su frecuencia
      */
     public function frecuencia() {
-        return $this->belongsTo(Frecuencia::class);
+        return $this->hasOne(Frecuencia::class);
     }
 }

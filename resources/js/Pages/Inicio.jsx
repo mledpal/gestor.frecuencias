@@ -5,7 +5,18 @@ import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { MainPage } from "./Zonas/MainPage";
 
-export default function Inicio({ userDB, title, roles, contactos }) {
+export default function Inicio({
+    userDB,
+    title,
+    roles,
+    contactos,
+    tipos_contacto,
+    bandas,
+    modos,
+    codificaciones,
+    dcs,
+    ctcss,
+}) {
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
 
@@ -37,12 +48,18 @@ export default function Inicio({ userDB, title, roles, contactos }) {
                 <BurgerMenu isAdmin={isAdmin} />
             </header>
 
-
             {/* <MenuLateral isAdmin={isAdmin} /> */}
             <main className="flex flex-col w-[100%] p-[20px] bg-black top-[175px]  h-4/5">
-                <MainPage contactos={contactos} />
+                <MainPage
+                    contactos={contactos}
+                    tipos_contacto={tipos_contacto}
+                    bandas={bandas}
+                    modos={modos}
+                    codificaciones={codificaciones}
+                    dcs={dcs}
+                    ctcss={ctcss}
+                />
             </main>
-
 
             <footer className="flex flex-row w-full h-[5%] justify-between items-center p-10  bg-transparent">
                 <h3>Miguel Ledesma Palacios</h3>

@@ -15,5 +15,7 @@ class TipoContacto extends Model
     /**
      * Relación de un Tipo de Contacto con sus Contactos
      */
-
+    public function contactos() {
+        return $this->hasMany(Contacto::class);
+    }
 }

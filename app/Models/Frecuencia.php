@@ -26,9 +26,9 @@ class Frecuencia extends Model
     /**
      * Relación de la frecuencia con un repetidor
      */
-    public function repetidor(): HasOne
+    public function repetidor(): BelongsTo
     {
-        return $this->hasOne(Repetidor::class);
+        return $this->belongsTo(Repetidor::class);
     }
 
     /**
@@ -42,9 +42,9 @@ class Frecuencia extends Model
     /**
      * Relación de la frecuencia con su banda
      */
-    public function banda(): HasOne
+    public function banda(): BelongsTo
     {
-        return $this->hasOne(Banda::class);
+        return $this->belongsTo(Banda::class);
     }
 
     /**

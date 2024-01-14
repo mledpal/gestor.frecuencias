@@ -16,13 +16,12 @@ class ContactoController extends Controller
 
             $user = Auth::user();
             $requestAll = $request->all();
-            
+
             if(!isset($requestAll['comprobado'])) {
                 $requestAll['comprobado'] = false;
             }
 
             $contacto = Contacto::findorFail($request->id);
-
             $contacto->update($requestAll);
 
 

@@ -1,7 +1,7 @@
 import { FrecuenciaComprobada } from "./Icons/FrecuenciaComprobada";
 import { ModoTransmision } from "./Icons/ModoTransmision";
 import { Repetidor } from "./Icons/Repetidor";
-import { updateContact } from "@/Helpers/updateContact";
+import { EditarContacto } from "./Form/EditarContacto";
 import React from "react";
 
 import {
@@ -15,14 +15,20 @@ import {
     Input,
     Checkbox,
 } from "@material-tailwind/react";
-import { EditarContacto } from "./Form/EditarContacto";
 
-export const Contacto = ({ datos }) => {
+export const Contacto = ({
+    datos,
+    tipos_contacto,
+    bandas,
+    modos,
+    codificaciones,
+    ctcss,
+    dcs,
+}) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = (e) => {
-        e.preventDefault();
         setOpen((cur) => !cur);
-    }
+    };
 
     try {
         return (
@@ -50,7 +56,13 @@ export const Contacto = ({ datos }) => {
                     >
                         <FrecuenciaComprobada comprobada={datos.comprobado} />
                         <Repetidor repetidor={datos.frecuencia.repetidor_id} />
-                        <ModoTransmision modo={(datos.frecuencia.modo) ? datos.frecuencia.modo.nombre : ''} />
+                        <ModoTransmision
+                            modo={
+                                datos.frecuencia.modo
+                                    ? datos.frecuencia.modo.nombre
+                                    : ""
+                            }
+                        />
                     </div>
                 </div>
 
@@ -58,9 +70,18 @@ export const Contacto = ({ datos }) => {
                     size="xl"
                     open={open}
                     handler={handleOpen}
-                    className="bg-transparent shadow-none"
+                    className="bg-transparent shadow-none overflow-y-auto"
                 >
-                    <EditarContacto datos={datos} handleOpen={handleOpen} />
+                    <EditarContacto
+                        datos={datos}
+                        handleOpen={handleOpen}
+                        tipos_contacto={tipos_contacto}
+                        bandas={bandas}
+                        modos={modos}
+                        codificaciones={codificaciones}
+                        dcs={dcs}
+                        ctcss={ctcss}
+                    />
                 </Dialog>
             </>
         );

@@ -15,7 +15,7 @@ class TablaBandas extends Seeder
     public function run(): void
     {
         foreach ($this->datos() as $key => $value) {
-            Banda::create($value);
+            Banda::firstOrCreate($value);
         }
     }
 
@@ -37,6 +37,8 @@ class TablaBandas extends Seeder
             ['banda' => '9cm'],
             ['banda' => '6cm'],
             ['banda' => '3cm'],
+            ['banda' => 'FM Comercial'],
+            
         ];
     }
 }

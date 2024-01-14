@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banda;
+use App\Models\Codificacion;
 use App\Models\Contacto;
+use App\Models\Ctcss;
+use App\Models\Dcs;
+use App\Models\ModoTransmision;
 use App\Models\Rol;
+use App\Models\TipoCodificacion;
+use App\Models\TipoContacto;
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Inertia\Inertia;
@@ -20,9 +27,17 @@ class MainController extends Controller
 
             $user = Auth::user();
 
-            $tipos_contacto = ['Servicio' => 'Servicio', 'Persona' => 'Persona', 'Evento' => 'Evento'];
+            $tipos_contacto = TipoContacto::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
+            $bandas = Banda::orderBy('id', 'ASC')->get()->pluck('banda', 'id')->toArray();
+            $modos = ModoTransmision::orderBy('id', 'ASC')->get()->pluck('nombre', 'id')->toArray();
 
-            $contactos = Contacto::with('localizacion', 'frecuencia', 'frecuencia.codificacion', 'frecuencia.codificacion.tipo', 'frecuencia.codificacion.ctcss', 'frecuencia.codificacion.dcs', 'frecuencia.modo')->where('user_id', $user->id)->get();
+            $tiposCodificacion = TipoCodificacion::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
+            $dcsCodes = Dcs::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
+            $ctcssCodes = Ctcss::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
+            $dcsCodes[-1] = 'No tiene';
+            $ctcssCodes[-1] = 'No tiene';
+            
+            $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'frecuencia.codificacion', 'frecuencia.codificacion.tipo', 'frecuencia.codificacion.ctcss', 'frecuencia.codificacion.dcs', 'frecuencia.banda', 'frecuencia.modo', 'frecuencia.repetidor')->where('user_id', $user->id)->get();
 
             $roles = $user->roles;
 
@@ -35,6 +50,11 @@ class MainController extends Controller
                 'roles' => $roles,
                 'contactos' => $contactos,
                 'tipos_contacto' => $tipos_contacto,
+                'bandas' => $bandas,
+                'modos' => $modos,
+                'codificaciones' => $tiposCodificacion,
+                'dcs' => $dcsCodes,
+                'ctcss'=> $ctcssCodes,
             ]);
         } else {
             return redirect('/login');

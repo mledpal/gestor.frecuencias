@@ -11,7 +11,7 @@ class Contacto extends Model
     use HasFactory;
 
     protected $table = "contacto";
-    protected $fillable = ['nombre', 'comprobado', 'fecha', 'hora', 'tipo', 'localizacion_id', 'frecuencia_id', 'user_id', 'observaciones', 'tipo_id'];
+    protected $fillable = ['nombre', 'comprobado', 'fecha', 'hora', 'localizacion_id', 'frecuencia_id', 'user_id', 'observaciones', 'tipo_id'];
 
     /**
      * Relación de un contacto con una frecuencia
@@ -37,4 +37,22 @@ class Contacto extends Model
         return $this->belongsTo(Localizacion::class, 'localizacion_id', 'id');
     }
 
+    /**
+     * Relación de un contacto con el tipo de contacto que tiene
+     */
+    public function tipo()
+    {
+        return $this->belongsTo(TipoContacto::class);
+    }
+
+    /**
+     * Devuelve la hora formateada como H:m
+     */
+    public function getHoraAttribute() {
+        if ($this->attributes['hora'] != null) {
+            return date('H:m', strtotime($this->attributes['hora']));
+        } else {
+            return null;
+        }
+    }
 }

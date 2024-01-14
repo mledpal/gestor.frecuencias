@@ -24,9 +24,19 @@ class ValidarContacto extends FormRequest
         return [
             'nombre' => 'required|string',
             'frecuencia' => 'required|string',
-            'observaciones' => 'nullable|string',
+            'observaciones' => 'nullable|string|max:65535',
             'comprobado' => 'nullable|integer',
-            'fecha' => 'required|string',
+            'fecha' => 'required|date_format:d/m/Y',
+            'hora' => 'nullable|date_format:H:i',
+            'tipo_id' => 'required|integer',
+            'banda_id' => 'required|integer',
+            'modo_id' => 'required|integer',
+            'calidad' => 'nullable|integer',
+            'offset' => 'nullable|string',
+            'direccion' => 'nullable|string|max:1',
+            'codificacion_id' => 'nullable|integer',
+            'dcs_id' => 'nullable|integer',
+            'ctcss_id' => 'nullable|integer',
         ];
     }
 }

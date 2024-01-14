@@ -12,4 +12,12 @@ class Banda extends Model
     protected $table="banda";
 
     protected $fillable=['banda'];
+
+    /**
+     * Relación de una banda con una frecuencia
+     */
+    public function frecuencias()
+    {
+        return $this->hasMany(Frecuencia::class);
+    }
 }
