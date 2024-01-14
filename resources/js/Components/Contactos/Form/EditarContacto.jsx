@@ -118,6 +118,11 @@ export const EditarContacto = ({
         setData("banda_id", value);
     };
 
+    const handleModo = (e) => {
+        let value = e.target.value;
+        setData("modo_id", value);
+    };
+
     const handleCodificacion = (e) => {
         let value = e.target.value;
         setData("codificacion_id", value);
@@ -360,7 +365,7 @@ export const EditarContacto = ({
                             name="modo_id"
                             value={data.modo_id}
                             className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                            onChange={(e) => handleBanda(e)}
+                            onChange={(e) => handleModo(e)}
                             placeholder="Modo Transmision"
                             required
                         >
