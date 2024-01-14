@@ -6,7 +6,8 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import AlertButton from "@/Components/AlertButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-import { useEditarContacto } from "./useEditarContacto";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export const EditarContacto = ({
     datos,
@@ -46,7 +47,8 @@ export const EditarContacto = ({
     // Variables para setear los estilos de algunas zonas
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
-    const clasesLegend = "text-xl font-bold mt-5 p-2 select-none";
+    const clasesLegend =
+        "text-xl font-bold mt-5 p-2 select-none cursor-pointer";
     const clasesFieldSet =
         "p-4 w-full flex flex-col items-center justify-start mb-2 shadow-[inset_0_0_10px_black]"; //
     const clasesDivContainer =
@@ -58,6 +60,8 @@ export const EditarContacto = ({
 
     // Métodos / Hooks
 
+    const MySwal = withReactContent(Swal);
+
     const submit = (e) => {
         e.preventDefault();
         post(route("contacto_actualizar", [(id) => datos.id]));
@@ -66,9 +70,6 @@ export const EditarContacto = ({
     const deleteContact = (e) => {
         e.preventDefault();
 
-        if (!confirm("¿Estás seguro de que deseas eliminar este contacto?")) {
-            return;
-        }
         handleOpen();
 
         // Realiza la solicitud DELETE usando fetch
@@ -689,7 +690,7 @@ export const EditarContacto = ({
                 <p>No tiene</p>
             )}
 
-            <div className="w-4/5 flex items-center justify-end mt-4 p-2 gap-10">
+            <div className="border-t-2 border-white w-full flex items-center justify-center mt-4 p-5 gap-10">
                 <PrimaryButton
                     className="ml-4  bg-blue-600"
                     disabled={processing}
@@ -698,17 +699,11 @@ export const EditarContacto = ({
                     Actualizar Contacto
                 </PrimaryButton>
 
-                <AlertButton
-                    disabled={processing}
-                    onClick={deleteContact}
-                >
+                <AlertButton disabled={processing} onClick={deleteContact}>
                     Eliminar Contacto
                 </AlertButton>
 
-                <SecondaryButton
-                    disabled={processing}
-                    onClick={handleOpen}
-                >
+                <SecondaryButton disabled={processing} onClick={handleOpen}>
                     Salir
                 </SecondaryButton>
             </div>

@@ -1,6 +1,5 @@
 import { UserImage } from "@/Components/Images/UserImage";
 import { BurgerMenu } from "@/Components/Menu/BurgerMenu";
-import { MenuLateral } from "@/Components/Menu/MenuLateral";
 import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { MainPage } from "./Zonas/MainPage";
@@ -48,7 +47,6 @@ export default function Inicio({
                 <BurgerMenu isAdmin={isAdmin} />
             </header>
 
-            {/* <MenuLateral isAdmin={isAdmin} /> */}
             <main className="flex flex-col w-[100%] p-[20px] bg-black top-[175px]  h-4/5">
                 <MainPage
                     contactos={contactos}
