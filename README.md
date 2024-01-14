@@ -18,3 +18,10 @@
 - En una segunda consola, ejecutar **yarn dev**
 - Acceder a [localhost](http://localhost:8000) en un navegador
 
+### Estado actual
+
+- Finalizando la edición y creación de nuevos contactos
+
+### Próximos pasos
+
+- Crear vistas y controladores para los Mensajes entre usuarios
