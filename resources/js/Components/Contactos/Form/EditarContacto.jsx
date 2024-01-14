@@ -3,8 +3,10 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import AlertButton from "@/Components/AlertButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
+import { useEditarContacto } from "./useEditarContacto";
 
 export const EditarContacto = ({
     datos,
@@ -68,7 +70,7 @@ export const EditarContacto = ({
             return;
         }
         handleOpen();
-        
+
         // Realiza la solicitud DELETE usando fetch
         fetch(`/contacto/${datos.id}/eliminar`, {
             method: "DELETE",
@@ -696,16 +698,14 @@ export const EditarContacto = ({
                     Actualizar Contacto
                 </PrimaryButton>
 
-                <button
-                    className="ml-4  bg-blue-600"
+                <AlertButton
                     disabled={processing}
                     onClick={deleteContact}
                 >
                     Eliminar Contacto
-                </button>
+                </AlertButton>
 
                 <SecondaryButton
-                    className="ml-4 bg-red-500"
                     disabled={processing}
                     onClick={handleOpen}
                 >
