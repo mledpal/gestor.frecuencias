@@ -21,6 +21,7 @@ export const MainPage = ({
                 >
                     <i className="fa-solid fa-circle-plus cursor-pointer hover:scale-150 transition-transform ease-in-out"></i>
                     <i className="fa-solid fa-magnifying-glass cursor-pointer transition-transform ease-in-out hover:scale-150"></i>
+                    <i className="fa-solid fa-filter cursor-pointer transition-transform ease-in-out hover:scale-150"></i>
                 </div>
                 <ListaContactos
                     contactos={contactos}
