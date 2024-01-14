@@ -15,6 +15,7 @@ import {
     Input,
     Checkbox,
 } from "@material-tailwind/react";
+import { Gps } from "./Icons/Gps";
 
 export const Contacto = ({
     datos,
@@ -31,7 +32,8 @@ export const Contacto = ({
     };
 
     const claseContacto =
-        "w-[250px] h-[80px] shadow-gray-400 flex flex-row items-center justify-around rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2  cursor-pointer shadow-inner select-none hover:ease-in-out hover:bg-gradient-to-b hover:bg-gray-800 hover:from-gray-600 " + datos.tipo.color;
+        "w-[250px] h-[80px] shadow-gray-400 flex flex-row items-center justify-around rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2  cursor-pointer shadow-inner select-none hover:ease-in-out hover:bg-gradient-to-b hover:bg-gray-800 hover:from-gray-600 " +
+        datos.tipo.color;
 
     try {
         return (
@@ -49,13 +51,29 @@ export const Contacto = ({
                                 : ""}
                         </p>
                     </div>
-                    <div name="otros" className="w-[40%]"></div>
+                    <div
+                        name="iconos"
+                        className="w-[40%] h-full flex flex-col items-center justify-between py-2"
+                    >
+                        <div>
+                            <Repetidor
+                                repetidor={datos.frecuencia.repetidor_id}
+                            />
+                        </div>
+                        <div>
+                            {datos.localizacion?.gps ? (
+                                <Gps gps={datos.localizacion?.gps} />
+                            ) : (
+                                ""
+                            )}
+                        </div>
+                    </div>
                     <div
                         name="tecnico"
                         className="w-[100px] h-full p-2 flex flex-col justify-between items-center"
                     >
                         <FrecuenciaComprobada comprobada={datos.comprobado} />
-                        <Repetidor repetidor={datos.frecuencia.repetidor_id} />
+
                         <ModoTransmision
                             modo={
                                 datos.frecuencia.modo

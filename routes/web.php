@@ -24,6 +24,12 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/radio', 'radio')->name('index.radio');
 });
 
+Route::controller(ContactoController::class)->group(function () {
+    Route::delete('/contacto/{id}/eliminar', 'eliminar')->name('contacto_eliminar');
+    Route::post('/ajax/contacto/{id}', 'actualizar')->name('contacto_actualizar');
+});
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -34,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::post('/ajax/contacto/{id}', [ContactoController::class, 'actualizar'])->name('contacto_actualizar');
+
 });
 
 require __DIR__ . '/auth.php';

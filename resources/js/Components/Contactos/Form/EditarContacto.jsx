@@ -6,7 +6,6 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 
-
 export const EditarContacto = ({
     datos,
     tipos_contacto,
@@ -42,7 +41,6 @@ export const EditarContacto = ({
         gps: datos.localizacion?.gps,
     });
 
-    
     // Variables para setear los estilos de algunas zonas
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
@@ -61,6 +59,35 @@ export const EditarContacto = ({
     const submit = (e) => {
         e.preventDefault();
         post(route("contacto_actualizar", [(id) => datos.id]));
+    };
+
+    const deleteContact = (e) => {
+        e.preventDefault();
+
+        if (!confirm("¿Estás seguro de que deseas eliminar este contacto?")) {
+            return;
+        }
+        handleOpen();
+        
+        // Realiza la solicitud DELETE usando fetch
+        fetch(`/contacto/${datos.id}/eliminar`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[id="meta_token"]')
+                    .getAttribute("content"),
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                console.log(response);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const handleCheck = (e) => {
@@ -668,6 +695,14 @@ export const EditarContacto = ({
                 >
                     Actualizar Contacto
                 </PrimaryButton>
+
+                <button
+                    className="ml-4  bg-blue-600"
+                    disabled={processing}
+                    onClick={deleteContact}
+                >
+                    Eliminar Contacto
+                </button>
 
                 <SecondaryButton
                     className="ml-4 bg-red-500"

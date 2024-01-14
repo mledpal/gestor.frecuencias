@@ -63,7 +63,7 @@ class ContactoController extends Controller
                 } else {
                     $contacto->frecuencia->update(['repetidor_id' => $repetidor_bus->id]); // Existe pero es diferente por lo que se cambia
                 }
-            } else { // No existe el repetidor, por lo que se crea nuevo
+            } elseif (isset($request->offset) && isset($request->direccion)) { // No existe el repetidor, por lo que se crea nuevo
                 $repetidor = Repetidor::create([
                     'offset' => $request->offset,
                     'direccion' => $request->direccion,
@@ -92,7 +92,7 @@ class ContactoController extends Controller
                     ]);
                 }
             } else {
-                dd("La crea");
+
                 // No existe
                 $localizacion = Localizacion::create([ // Creo la nueva localización y actualizo el localizacion_id en frecuencia
                     'localidad' => $request->localidad,
@@ -112,6 +112,23 @@ class ContactoController extends Controller
             return redirect('/')->with('mensaje', 'Contacto actualizado con éxito');
         } else {
             return redirect('/login');
+        }
+    }
+
+    /**
+     * Función que sirve para eliminar un contacto
+     */
+    public function eliminar($id)
+    {
+        if (Auth::check()) {
+            $contacto = Contacto::findorFail($id);
+
+            if ($contacto) {
+                $contacto->delete();
+                return redirect('/')->with('mensaje', 'Contacto eliminado con éxito');
+            } else {
+                return redirect('/')->with('mensaje-error', 'No se ha eliminado el contacto');
+            }
         }
     }
 }
