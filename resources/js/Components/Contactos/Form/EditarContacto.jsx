@@ -5,7 +5,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-import { useEffect } from "react";
+
 
 export const EditarContacto = ({
     datos,
@@ -23,6 +23,7 @@ export const EditarContacto = ({
         nombre: datos.nombre,
         observaciones: datos?.observaciones,
         comprobado: datos.comprobado,
+        frecuencia_id: datos.frecuencia_id,
         hora: datos?.hora,
         fecha: datos.fecha,
         tipo_id: datos.tipo.id,
@@ -34,20 +35,26 @@ export const EditarContacto = ({
         codificacion_id: datos.frecuencia?.codificacion_id,
         dcs_id: datos.frecuencia?.codificacion?.dcs_id,
         ctcss_id: datos.frecuencia?.codificacion?.ctcss_id,
+        localizacion_id: datos.localizacion_id,
+        localidad: datos.localizacion?.localidad,
+        provincia: datos.localizacion?.provincia,
+        pais: datos.localizacion?.pais,
+        gps: datos.localizacion?.gps,
     });
 
+    
     // Variables para setear los estilos de algunas zonas
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend = "text-xl font-bold mt-5 p-2 select-none";
     const clasesFieldSet =
-        "p-4 w-full flex flex-col items-center justify-start  shadow-[inset_0_0_15px_black]";
+        "p-4 w-full flex flex-col items-center justify-start mb-2 shadow-[inset_0_0_10px_black]"; //
     const clasesDivContainer =
         "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center";
     const clasesLabel = "text-center mb-2 text-black select-none";
-    const claseContacto = "flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] " + datos.tipo.color;
-
-
+    const claseContacto =
+        "flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] " +
+        datos.tipo.color;
 
     // Métodos / Hooks
 
@@ -91,6 +98,11 @@ export const EditarContacto = ({
         setData("ctcss_id", value);
     };
 
+    const handleDcs = (e) => {
+        let value = e.target.value;
+        setData("dcs_id", value);
+    };
+
     return (
         <form
             method="POST"
@@ -98,7 +110,7 @@ export const EditarContacto = ({
             encType="multipart/form-data"
             className={claseContacto}
         >
-            <header className="mt-10 mb-2 w-4/5 h-[80px]  text-gray-100 bg-gradient-to-b from-blue-900 bg-blue-500 flex items-center justify-center shadow-[inset_0_0_15px_black]  rounded-md">
+            <header className="mt-10 mb-2 w-4/5 h-[80px]  text-gray-100 bg-gradient-to-b from-blue-900 bg-blue-500 flex items-center justify-center shadow-[inset_0_0_15px_black]  rounded-md select-none">
                 <h2 className="font-bold text-2xl">
                     Editar contacto {datos.nombre} |{" "}
                     {datos.frecuencia.frecuencia}
@@ -360,35 +372,131 @@ export const EditarContacto = ({
                 </div>
             </fieldset>
 
-            {datos.frecuencia.repetidor_id ? (
+            <legend className={clasesLegend}>Localización</legend>
+            {datos.localizacion_id ? (
                 <>
-                    <legend className={clasesLegend}>Repetidor</legend>
-                    <fieldset name="repetidor" className={clasesFieldSet}>
+                    <fieldset name="localizacion" className={clasesFieldSet}>
                         <div className={clasesDivContainer}>
-                            <div className="w-full">
+                            <div className="w-1/3 flex flex-col items-center">
                                 <InputLabel
-                                    htmlFor="offset"
-                                    value="Offset"
+                                    htmlFor="localizacion_id"
+                                    value="Localidad"
                                     className={clasesLabel}
                                 />
                                 <TextInput
-                                    id="offset"
-                                    name="offset"
-                                    value={data.offset ?? null}
-                                    className="mt-1 block w-full"
+                                    id="localidad"
+                                    name="localidad"
+                                    value={data.localidad ?? null}
+                                    className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
-                                        setData("offset", e.target.value)
+                                        setData("localidad", e.target.value)
                                     }
-                                    placeholder="Offset"
+                                    placeholder="Localidad"
                                     required
                                 />
+
                                 <InputError
-                                    message={errors.offset}
+                                    message={errors.localidad}
                                     className="mt-2"
                                 />
                             </div>
-                            <div className="w-full">
+                            <div className="w-1/3 flex flex-col items-center">
+                                <InputLabel
+                                    htmlFor="provincia"
+                                    value="Provincia"
+                                    className={clasesLabel}
+                                />
+                                <TextInput
+                                    id="provincia"
+                                    name="provincia"
+                                    value={data.provincia ?? null}
+                                    className="mt-1 block w-full text-center"
+                                    isFocused={true}
+                                    onChange={(e) =>
+                                        setData("provincia", e.target.value)
+                                    }
+                                    placeholder="Provincia"
+                                    required
+                                />
+
+                                <InputError
+                                    message={errors.localidad}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div className="w-1/3 flex flex-col items-center">
+                                <InputLabel
+                                    htmlFor="pais"
+                                    value="Pais"
+                                    className={clasesLabel}
+                                />
+                                <TextInput
+                                    id="pais"
+                                    name="pais"
+                                    value={data.pais ?? null}
+                                    className="mt-1 block w-full text-center"
+                                    isFocused={true}
+                                    onChange={(e) =>
+                                        setData("pais", e.target.value)
+                                    }
+                                    placeholder="pais"
+                                    required
+                                />
+
+                                <InputError
+                                    message={errors.pais}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+                        <div className={clasesDivContainer}>
+                            <div className="w-full flex flex-col items-center">
+                                <InputLabel
+                                    htmlFor="gps"
+                                    value="GPS"
+                                    className={clasesLabel}
+                                />
+                                <TextInput
+                                    id="gps"
+                                    name="gps"
+                                    value={data.gps ?? null}
+                                    className="mt-1 block w-full text-center"
+                                    isFocused={true}
+                                    onChange={(e) =>
+                                        setData("gps", e.target.value)
+                                    }
+                                    placeholder="gps"
+                                    required
+                                />
+
+                                <InputError
+                                    message={errors.gps}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+                </>
+            ) : (
+                <p>No tiene</p>
+            )}
+
+            <legend className={clasesLegend}>
+                Repetidor{" "}
+                {datos.frecuencia.repetidor_id
+                    ? eval(
+                          datos.frecuencia.frecuencia +
+                              datos.frecuencia?.repetidor?.direccion +
+                              datos.frecuencia?.repetidor?.offset
+                      ).toFixed(3)
+                    : ""}
+            </legend>
+            {datos.frecuencia.repetidor_id ? (
+                <>
+                    <fieldset name="repetidor" className={clasesFieldSet}>
+                        <div className={clasesDivContainer}>
+                            <div className="w-1/3">
                                 <InputLabel
                                     htmlFor="direccion"
                                     value="Dirección"
@@ -398,7 +506,7 @@ export const EditarContacto = ({
                                     id="direccion"
                                     name="direccion"
                                     value={data.direccion ?? null}
-                                    className="mt-1 block w-full"
+                                    className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
                                         setData("direccion", e.target.value)
@@ -411,16 +519,39 @@ export const EditarContacto = ({
                                     className="mt-2"
                                 />
                             </div>
+                            <div className="w-1/3">
+                                <InputLabel
+                                    htmlFor="offset"
+                                    value="Offset"
+                                    className={clasesLabel}
+                                />
+                                <TextInput
+                                    id="offset"
+                                    name="offset"
+                                    value={data.offset ?? null}
+                                    className="mt-1 block w-full text-center"
+                                    isFocused={true}
+                                    onChange={(e) =>
+                                        setData("offset", e.target.value)
+                                    }
+                                    placeholder="Offset"
+                                    required
+                                />
+                                <InputError
+                                    message={errors.offset}
+                                    className="mt-2"
+                                />
+                            </div>
                         </div>
                     </fieldset>
                 </>
             ) : (
-                ""
+                <p>No tiene</p>
             )}
 
+            <legend className={clasesLegend}>Codificación</legend>
             {datos.frecuencia.codificacion_id ? (
                 <>
-                    <legend className={clasesLegend}>Codificación</legend>
                     <fieldset name="codificacion" className={clasesFieldSet}>
                         <div className={clasesDivContainer}>
                             <div className="w-1/3 flex flex-col items-center">
@@ -526,7 +657,7 @@ export const EditarContacto = ({
                     </fieldset>
                 </>
             ) : (
-                ""
+                <p>No tiene</p>
             )}
 
             <div className="w-4/5 flex items-center justify-end mt-4 p-2 gap-10">

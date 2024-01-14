@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('gps')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**
