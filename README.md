@@ -24,4 +24,6 @@
 
 ### Próximos pasos
 
+- Crear vistas y controladores para visualizar los mensajes de usuarios acerca de una frecuencia/contacto
 - Crear vistas y controladores para los Mensajes entre usuarios
+- Crear vistas y controladores para visualizar los contactos en una lista
