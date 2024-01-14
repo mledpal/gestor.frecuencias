@@ -29,26 +29,26 @@ export const EditarContacto = ({
         banda_id: datos.frecuencia.banda_id,
         modo_id: datos.frecuencia.modo_id,
         calidad: datos.frecuencia.calidad,
-        repetidor: datos.frecuencia.repetidor_id,
         offset: datos.frecuencia?.repetidor?.offset,
         direccion: datos.frecuencia?.repetidor?.direccion,
         codificacion_id: datos.frecuencia?.codificacion_id,
-        codificacion: datos.frecuencia?.codificacion?.tipo?.nombre,
         dcs_id: datos.frecuencia?.codificacion?.dcs_id,
         ctcss_id: datos.frecuencia?.codificacion?.ctcss_id,
     });
 
     // Variables para setear los estilos de algunas zonas
-
-    const clasesDOM = "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200";
-    const clasesLegend = "text-xl font-bold mt-5 p-2";
+    const clasesDOM =
+        "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
+    const clasesLegend = "text-xl font-bold mt-5 p-2 select-none";
     const clasesFieldSet =
-        "p-4 w-full flex flex-col items-center justify-start border-2 border-blue-300 shadow-[inset_0_0_10px_black] rounded-lg";
+        "p-4 w-full flex flex-col items-center justify-start  shadow-[inset_0_0_15px_black]";
     const clasesDivContainer =
         "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center";
-    const clasesLabel = "text-center mb-2";
+    const clasesLabel = "text-center mb-2 text-black select-none";
+    const claseContacto = "flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] " + datos.tipo.color;
 
-    
+
+
     // Métodos / Hooks
 
     const submit = (e) => {
@@ -96,9 +96,9 @@ export const EditarContacto = ({
             method="POST"
             onSubmit={submit}
             encType="multipart/form-data"
-            className="flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen bg-gradient-to-t bg-blue-700 from-blue-950 shadow-[inset_0_0_30px_rgba(00,0,10,0.9)]"
+            className={claseContacto}
         >
-            <header className="my-[50px] w-4/5 h-[80px]  text-gray-200 bg-gradient-to-b from-blue-900 bg-blue-300 flex items-center justify-center shadow-inner  rounded-md">
+            <header className="mt-10 mb-2 w-4/5 h-[80px]  text-gray-100 bg-gradient-to-b from-blue-900 bg-blue-500 flex items-center justify-center shadow-[inset_0_0_15px_black]  rounded-md">
                 <h2 className="font-bold text-2xl">
                     Editar contacto {datos.nombre} |{" "}
                     {datos.frecuencia.frecuencia}
@@ -110,7 +110,11 @@ export const EditarContacto = ({
             <fieldset name="datos" className={clasesFieldSet}>
                 <div className={clasesDivContainer}>
                     <div className="w-full flex flex-row gap-5">
-                        <InputLabel htmlFor="comprobado" value="Comprobado" />
+                        <InputLabel
+                            htmlFor="comprobado"
+                            value="Comprobado"
+                            className={clasesLabel}
+                        />
                         <Checkbox
                             id="comprobado"
                             name="comprobado"
@@ -195,7 +199,11 @@ export const EditarContacto = ({
 
                 <div className={clasesDivContainer}>
                     <div className="w-full">
-                        <InputLabel htmlFor="nombre" value="Nombre" />
+                        <InputLabel
+                            htmlFor="nombre"
+                            value="Nombre"
+                            className={clasesLabel}
+                        />
                         <TextInput
                             id="nombre"
                             name="nombre"
@@ -218,6 +226,7 @@ export const EditarContacto = ({
                         <InputLabel
                             htmlFor="observaciones"
                             value="Observaciones"
+                            className={clasesLabel}
                         />
                         <textarea
                             id="observaciones"
@@ -242,7 +251,11 @@ export const EditarContacto = ({
             <fieldset name="frecuencia" className={clasesFieldSet}>
                 <div className={clasesDivContainer}>
                     <div className="w-full">
-                        <InputLabel htmlFor="frecuencia" value="Frecuencia" />
+                        <InputLabel
+                            htmlFor="frecuencia"
+                            value="Frecuencia"
+                            className={clasesLabel}
+                        />
                         <TextInput
                             id="frecuencia"
                             name="frecuencia"
@@ -266,7 +279,7 @@ export const EditarContacto = ({
                         <InputLabel
                             htmlFor="banda_id"
                             value="Banda"
-                            className="text-center"
+                            className={clasesLabel}
                         />
                         <select
                             id="banda_id"
@@ -298,7 +311,7 @@ export const EditarContacto = ({
                         <InputLabel
                             htmlFor="modo_id"
                             value="Modo TX"
-                            className="text-center"
+                            className={clasesLabel}
                         />
                         <select
                             id="modo_id"
@@ -327,14 +340,17 @@ export const EditarContacto = ({
                         <InputLabel
                             htmlFor="calidad"
                             value="Calidad"
-                            className="text-center"
+                            className={clasesLabel}
                         />
-                        <TextInput
+                        <input
+                            type="number"
                             id="calidad"
                             name="calidad"
                             value={data.calidad}
-                            className="mt-1 block w-full text-center"
-                            isFocused={true}
+                            className={clasesDOM}
+                            min={0}
+                            max={5}
+                            step={1}
                             onChange={(e) => setData("calidad", e.target.value)}
                             placeholder="Calidad"
                             required
@@ -350,7 +366,11 @@ export const EditarContacto = ({
                     <fieldset name="repetidor" className={clasesFieldSet}>
                         <div className={clasesDivContainer}>
                             <div className="w-full">
-                                <InputLabel htmlFor="offset" value="Offset" />
+                                <InputLabel
+                                    htmlFor="offset"
+                                    value="Offset"
+                                    className={clasesLabel}
+                                />
                                 <TextInput
                                     id="offset"
                                     name="offset"
@@ -372,6 +392,7 @@ export const EditarContacto = ({
                                 <InputLabel
                                     htmlFor="direccion"
                                     value="Dirección"
+                                    className={clasesLabel}
                                 />
                                 <TextInput
                                     id="direccion"
@@ -485,17 +506,15 @@ export const EditarContacto = ({
                                     placeholder="DCS"
                                     required
                                 >
-                                    {Object.entries(dcs).map(
-                                        ([id, codigo]) => (
-                                            <option
-                                                key={id} // Asegúrate de agregar una clave única para cada opción
-                                                className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                                value={id}
-                                            >
-                                                {codigo}
-                                            </option>
-                                        )
-                                    )}
+                                    {Object.entries(dcs).map(([id, codigo]) => (
+                                        <option
+                                            key={id} // Asegúrate de agregar una clave única para cada opción
+                                            className="mt-1 block w-full bg-[#121827] cursor-pointer"
+                                            value={id}
+                                        >
+                                            {codigo}
+                                        </option>
+                                    ))}
                                 </select>
 
                                 <InputError

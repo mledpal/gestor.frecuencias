@@ -30,14 +30,14 @@ export const Contacto = ({
         setOpen((cur) => !cur);
     };
 
+    const claseContacto =
+        "w-[250px] h-[80px] shadow-gray-400 flex flex-row items-center justify-around rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2  cursor-pointer shadow-inner select-none hover:ease-in-out hover:bg-gradient-to-b hover:bg-gray-800 hover:from-gray-600 " + datos.tipo.color;
+
     try {
         return (
             <>
-                <div
-                    className="w-full h-[80px] shadow-gray-400 flex flex-row items-center justify-between rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2  cursor-pointer bg-indigo-700 bg-gradient-to-r from-indigo-500 shadow-inner hover:bg-gradient-to-tr hover:from-indigo-300 hover:ease-in-out"
-                    onClick={handleOpen}
-                >
-                    <div name="datos" className="p-2 w-1/2 text-center">
+                <div className={claseContacto} onClick={handleOpen}>
+                    <div name="datos" className="p-2 w-full text-center">
                         <p className="text-lg font-bold">
                             {datos.frecuencia.frecuencia}
                         </p>
@@ -52,7 +52,7 @@ export const Contacto = ({
                     <div name="otros" className="w-[40%]"></div>
                     <div
                         name="tecnico"
-                        className="w-[10%] h-full p-2 flex flex-col justify-between items-center"
+                        className="w-[100px] h-full p-2 flex flex-col justify-between items-center"
                     >
                         <FrecuenciaComprobada comprobada={datos.comprobado} />
                         <Repetidor repetidor={datos.frecuencia.repetidor_id} />

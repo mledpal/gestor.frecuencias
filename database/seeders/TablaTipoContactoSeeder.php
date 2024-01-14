@@ -13,9 +13,11 @@ class TablaTipoContactoSeeder extends Seeder
      */
     public function run(): void
     {
-        TipoContacto::create(['nombre' => 'Servicio']);
-        TipoContacto::create(['nombre' => 'Particular']);
-        TipoContacto::create(['nombre' => 'Evento']);
-        TipoContacto::create(['nombre' => 'Desconocido']);
+        TipoContacto::firstOrCreate(['nombre' => 'Servicio', 'color' => 'bg-indigo-700 bg-gradient-to-r from-indigo-500']);
+        TipoContacto::firstOrCreate(['nombre' => 'Particular', 'color' => 'bg-blue-800 bg-gradient-to-r from-blue-500']);
+        TipoContacto::firstOrCreate(['nombre' => 'Empresa', 'color' => 'bg-yellow-800 bg-gradient-to-r from-yellow-500 ']);
+        TipoContacto::firstOrCreate(['nombre' => 'URE', 'color' => 'bg-red-800 bg-gradient-to-r from-red-500']);
+        TipoContacto::firstOrCreate(['nombre' => 'Evento']);
+        TipoContacto::firstOrCreate(['nombre' => 'Desconocido']);
     }
 }

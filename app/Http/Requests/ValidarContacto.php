@@ -26,7 +26,7 @@ class ValidarContacto extends FormRequest
             'frecuencia' => 'required|string',
             'observaciones' => 'nullable|string|max:65535',
             'comprobado' => 'nullable|integer',
-            'fecha' => 'required|date_format:d/m/Y',
+            'fecha' => 'required|date',
             'hora' => 'nullable|date_format:H:i',
             'tipo_id' => 'required|integer',
             'banda_id' => 'required|integer',
