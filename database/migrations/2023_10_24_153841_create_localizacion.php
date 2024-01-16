@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('localidad')->nullable();
             $table->string('provincia')->nullable();
-            $table->string('pais')->default('España');
+            $table->string('pais')->nullable()->default('España');
             $table->text('gps')->nullable();
             $table->timestamps();
         });

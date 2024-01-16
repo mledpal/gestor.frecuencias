@@ -10,7 +10,7 @@ class TipoContacto extends Model
     use HasFactory;
 
     protected $table = "tipo_contacto";
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'color'];
 
     /**
      * Relación de un Tipo de Contacto con sus Contactos

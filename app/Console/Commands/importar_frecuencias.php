@@ -49,7 +49,7 @@ class importar_frecuencias extends Command
     public function importar_frecuencias($linea)
     {
         // Registro;Frecuencia;Memoria;Observaciones;Localidad;Banda;Fecha;Exportar;Comprobado;Mhz;Khz;S;R;CTCSS;DCS;Repetidor;Offset;SECRA;Modo
-        if($linea[0] == "Registro" || $linea[8] == "FALSO") return;
+        if ($linea[0] == "Registro" || $linea[8] == "FALSO") return;
 
 
         $nuevoRepetidor  = array();
@@ -78,32 +78,31 @@ class importar_frecuencias extends Command
         }
 
 
-        $comprobado = $linea[8]=="VERDADERO" ? 1 : 0;
+        $comprobado = $linea[8] == "VERDADERO" ? 1 : 0;
 
         // REPETIDOR $linea[16] -> Desplazamiento
-        if($linea[15] === "VERDADERO") {
-            $direccion = substr($linea[16], 0,1);
-            $offset = substr($linea[16],1);
+        if ($linea[15] === "VERDADERO") {
+            $direccion = substr($linea[16], 0, 1);
+            $offset = substr($linea[16], 1);
             $nuevoRepetidor = Repetidor::create(['offset' => $offset, 'direccion' => $direccion]);
         }
 
 
         // SECRAFONIA / CODIFICACION
-        if(strtolower($linea[17]) != "no" && !empty($linea[17]))
-        {
+        if (strtolower($linea[17]) != "no" && !empty($linea[17])) {
 
-            $tipoCodificacion = TipoCodificacion::where('nombre', 'like', '%'.$linea[17].'%')->first();
+            $tipoCodificacion = TipoCodificacion::where('nombre', 'like', '%' . $linea[17] . '%')->first();
             $nuevaFrecuencia['codificada'] = true;
             $nuevaCodificacion['tipo_id'] = $tipoCodificacion->id ?? null;
 
-            if(!empty($linea[13])){ //CTCSS
+            if (!empty($linea[13])) { //CTCSS
                 $ctcss = Ctcss::where('codigo', $linea[13])->first();
                 $nuevaCodificacion['ctcss_id'] = ($ctcss) ? $ctcss->id : null;
             } else {
                 $nuevaCodificacion['ctcss_id'] = null;
             }
 
-            if(!empty($linea[14])) { // DCS
+            if (!empty($linea[14])) { // DCS
                 $dcs = Dcs::where('codigo', $linea[14])->first();
                 $nuevaCodificacion['dcs_id'] = ($dcs) ? $dcs->id : null;
             } else {
@@ -115,8 +114,6 @@ class importar_frecuencias extends Command
             } catch (Throwable $e) {
                 dd($nuevaCodificacion);
             }
-
-
         } else {
             $nuevaFrecuencia['codificada'] = false;
             $tipoCodificacion = null;
@@ -125,13 +122,13 @@ class importar_frecuencias extends Command
 
 
         // BANDA
-        if(!empty($linea[5])) {
+        if (!empty($linea[5])) {
             $banda = Banda::where('banda', str_replace(" ", "", strtolower($linea[5])))->first();
         }
 
         // MODO
-        if(!empty($linea[18])) {
-            $modo = ModoTransmision::where('nombre', 'like', '%'.substr($linea[18], 0,2).'%')->first();
+        if (!empty($linea[18])) {
+            $modo = ModoTransmision::where('nombre', 'like', '%' . substr($linea[18], 0, 2) . '%')->first();
         }
 
 
@@ -139,8 +136,8 @@ class importar_frecuencias extends Command
         $localizacion = null;
         $location = Localizacion::where('localidad', $linea[4])->first();
 
-        if($linea[4] != "N/A"){
-            if(empty($location)) {
+        if ($linea[4] != "N/A") {
+            if (empty($location)) {
                 $nuevaLocalizacion['localidad'] = $linea[4];
                 $nuevaLocalizacion['provincia'] = null;
                 $nuevaLocalizacion['gps'] = null;
@@ -156,13 +153,49 @@ class importar_frecuencias extends Command
 
         // FRECUENCIA
         $nuevaFrecuencia['frecuencia'] = str_replace(" Mhz", "", $linea[1]);
-        if($nuevoRepetidor) $nuevaFrecuencia['repetidor_id'] = $nuevoRepetidor->id;
-        if($tipoCodificacion) $nuevaFrecuencia['codificacion_id'] = $codificacion->id;
-        if($banda) $nuevaFrecuencia['banda_id'] = $banda->id;
-        if($modo) $nuevaFrecuencia['modo_id'] = $modo->id;
+        if ($nuevoRepetidor) $nuevaFrecuencia['repetidor_id'] = $nuevoRepetidor->id;
+        if ($tipoCodificacion) $nuevaFrecuencia['codificacion_id'] = $codificacion->id;
+        if ($banda) $nuevaFrecuencia['banda_id'] = $banda->id;
+        if ($modo) $nuevaFrecuencia['modo_id'] = $modo->id;
 
         $frecuencia = Frecuencia::create($nuevaFrecuencia);
 
+
+        // TIPO DE CONTACTO
+
+        $nombre = strtolower($linea[3]);
+
+        if (
+            strpos(
+                $nombre,
+                'polici'
+            ) !== false ||
+            strpos($nombre, 'bomber') !== false ||
+            strpos($nombre, 'guardia') !== false ||
+            strpos($nombre, 'protec') !== false ||
+            strpos($nombre, 'ambu') !== false
+        ) {
+            echo "Servicio \n";
+            $tipo_contacto = 7; // Servicios
+        } elseif (
+            strpos($nombre, 'aerop') !== false ||
+            strpos($nombre, 'avi') !== false
+        ) {
+            echo "Aviación \n";
+            $tipo_contacto = 2; // Aviacion
+        } elseif (
+            strpos($nombre, 'repe') !== false ||
+            strpos($nombre, 'eco-') !== false ||
+            strpos($nombre, 'remer') !== false
+        ) {
+            echo "URE \n";
+            $tipo_contacto = 8;
+        } else {
+            $tipo_contacto = 1; // Desconocidos
+        }
+
+
+        unset($nombre);
 
         // CONTACTO
         $nuevoContacto['frecuencia_id'] = $frecuencia->id;
@@ -173,10 +206,9 @@ class importar_frecuencias extends Command
         $nuevoContacto['hora'] = date("H:i:s", time());
         $nuevoContacto['localizacion_id'] = $localizacion->id ?? null;
         $nuevoContacto['user_id'] = 1;
-        $nuevoContacto['tipo_id'] = 1;
+        $nuevoContacto['tipo_id'] = $tipo_contacto;
         $nuevoContacto['hora'] = null;
 
         $contacto = Contacto::create($nuevoContacto);
-
     }
 }

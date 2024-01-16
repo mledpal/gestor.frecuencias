@@ -31,9 +31,7 @@ export const Contacto = ({
         setOpen((cur) => !cur);
     };
 
-    const claseContacto =
-        "w-[250px] h-[80px] shadow-gray-400 flex flex-row items-center justify-around rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2  cursor-pointer shadow-inner select-none hover:ease-in-out hover:bg-gradient-to-b hover:bg-gray-800 hover:from-gray-600 " +
-        datos.tipo.color;
+    const claseContacto = `w-[250px] h-[80px] shadow-gray-400 flex flex-row items-center justify-around rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2 cursor-pointer shadow-inner select-none ease-in-out hover:bg-gradient-to-b hover:bg-gray-800 hover:from-gray-600 ${datos.tipo.color}`;
 
     try {
         return (

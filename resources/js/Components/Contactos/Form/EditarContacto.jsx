@@ -54,9 +54,7 @@ export const EditarContacto = ({
     const clasesDivContainer =
         "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center";
     const clasesLabel = "text-center mb-2 text-black select-none";
-    const claseContacto =
-        "flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] " +
-        datos.tipo.color;
+    const claseContacto = `flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] ${datos.tipo.color}`;
 
     // Métodos / Hooks
 

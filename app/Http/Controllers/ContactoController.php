@@ -39,8 +39,9 @@ class ContactoController extends Controller
             ]);
 
             if (isset($request->codificacion_id)) {
+
                 $contacto->frecuencia->codificacion->update([
-                    'tipo_id' => $request->codificacion_id,
+                    // 'tipo_id' => $request->codificacion_id,
                     'dcs_id' => ($request->dcs_id != -1) ? $request->dcs_id : null,
                     'ctcss_id' => ($request->ctcss_id != -1) ? $request->ctcss_id : null,
                 ]);
@@ -74,6 +75,7 @@ class ContactoController extends Controller
 
 
             // LOCALIZACION
+
             $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->where('gps', $request->gps)->first();
 
             if (isset($request->localizacion_id) && !empty($localizacion_bus)) {
@@ -93,17 +95,19 @@ class ContactoController extends Controller
                 }
             } else {
 
-                // No existe
-                $localizacion = Localizacion::create([ // Creo la nueva localización y actualizo el localizacion_id en frecuencia
-                    'localidad' => $request->localidad,
-                    'provincia' => $request->provincia ?? null,
-                    'pais' => $request->pais ?? null,
-                    'gps' => $request->gps ?? null,
-                ]);
+                if (isset($request->localidad) && isset($request->pais)) {
+                    // No existe
+                    $localizacion = Localizacion::create([ // Creo la nueva localización y actualizo el localizacion_id en frecuencia
+                        'localidad' => $request->localidad,
+                        'provincia' => $request->provincia ?? null,
+                        'pais' => $request->pais ?? null,
+                        'gps' => $request->gps ?? null,
+                    ]);
 
-                $contacto->update([
-                    'localizacion_id' => $localizacion->id,
-                ]);
+                    $contacto->update([
+                        'localizacion_id' => $localizacion->id,
+                    ]);
+                }
             } // FIN  LOCALIZACION
 
 
