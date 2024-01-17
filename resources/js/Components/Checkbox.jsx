@@ -1,3 +1,5 @@
+import "../../css/Switch.css";
+
 export default function Checkbox({ className = '', ...props }) {
     return (
         <input

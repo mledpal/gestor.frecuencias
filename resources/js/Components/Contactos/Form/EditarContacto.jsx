@@ -8,6 +8,7 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useEffect, useState } from "react";
 
 export const EditarContacto = ({
     datos,
@@ -18,6 +19,7 @@ export const EditarContacto = ({
     codificaciones,
     dcs,
     ctcss,
+    direcciones,
 }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         id: datos.id,
@@ -44,13 +46,35 @@ export const EditarContacto = ({
         gps: datos.localizacion?.gps,
     });
 
+    useEffect(() => {
+        setVisibilidad((prevVisibilidad) => ({
+            ...prevVisibilidad,
+            repVisib: datos.frecuencia.repetidor_id ? true : false,
+            codVisib: datos.frecuencia.codificacion_id ? true : false,
+            locVisib: datos.localizacion_id ? true : false,
+        }));
+    }, []);
+
+    const [visibilidad, setVisibilidad] = useState({
+        repVisib: false,
+        codVisib: false,
+        locVisib: false,
+    });
+
+    const handleToggleVisibilidad = (seccion) => {
+        setVisibilidad((prevVisibilidad) => ({
+            ...prevVisibilidad,
+            [seccion]: !prevVisibilidad[seccion],
+        }));
+    };
+
     // Variables para setear los estilos de algunas zonas
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
-        "text-xl font-bold mt-5 p-2 select-none cursor-pointer";
+        "w-2/5 text-xl font-bold mt-5 p-2 select-none cursor-pointer flex flex-row items-center justify-around gap-10 p-5 shadow-[inset_0_0_4px_rgba(0,0,10,.9)] rounded-xl";
     const clasesFieldSet =
-        "p-4 w-full flex flex-col items-center justify-start mb-2 shadow-[inset_0_0_10px_black]"; //
+        "p-4 w-full flex flex-col items-center justify-start mb-2 border-b border-white";
     const clasesDivContainer =
         "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center";
     const clasesLabel = "text-center mb-2 text-black select-none";
@@ -136,6 +160,11 @@ export const EditarContacto = ({
         setData("dcs_id", value);
     };
 
+    const handleDireccion = (e) => {
+        let value = e.target.value;
+        setData("direccion", value);
+    };
+
     return (
         <form
             method="POST"
@@ -154,7 +183,7 @@ export const EditarContacto = ({
             <legend className={clasesLegend}>Datos</legend>
             <fieldset name="datos" className={clasesFieldSet}>
                 <div className={clasesDivContainer}>
-                    <div className="w-full flex flex-row gap-5">
+                    <div className="w-full flex flex-row items-center justify-center">
                         <InputLabel
                             htmlFor="comprobado"
                             value="Comprobado"
@@ -163,7 +192,6 @@ export const EditarContacto = ({
                         <Checkbox
                             id="comprobado"
                             name="comprobado"
-                            className="mt-1 block"
                             onChange={(e) => handleCheck(e)}
                             value={data.comprobado}
                             checked={data.comprobado ? "on" : ""}
@@ -281,7 +309,7 @@ export const EditarContacto = ({
                                 setData("observaciones", e.target.value)
                             }
                             placeholder="observaciones"
-                            value={data.observaciones}
+                            value={data.observaciones ?? ""}
                             required
                         ></textarea>
                         <InputError
@@ -405,8 +433,14 @@ export const EditarContacto = ({
                 </div>
             </fieldset>
 
-            <legend className={clasesLegend}>Localización</legend>
-            {datos.localizacion_id ? (
+            <legend
+                className={clasesLegend}
+                onClick={() => handleToggleVisibilidad("locVisib")}
+            >
+                <span>Localización</span>
+                <i className="fa-solid fa-location-dot"></i>
+            </legend>
+            {visibilidad.locVisib ? (
                 <>
                     <fieldset name="localizacion" className={clasesFieldSet}>
                         <div className={clasesDivContainer}>
@@ -419,7 +453,7 @@ export const EditarContacto = ({
                                 <TextInput
                                     id="localidad"
                                     name="localidad"
-                                    value={data.localidad ?? null}
+                                    value={data.localidad ?? ""}
                                     className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -443,7 +477,7 @@ export const EditarContacto = ({
                                 <TextInput
                                     id="provincia"
                                     name="provincia"
-                                    value={data.provincia ?? null}
+                                    value={data.provincia ?? ""}
                                     className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -467,7 +501,7 @@ export const EditarContacto = ({
                                 <TextInput
                                     id="pais"
                                     name="pais"
-                                    value={data.pais ?? null}
+                                    value={data.pais ?? ""}
                                     className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -493,7 +527,7 @@ export const EditarContacto = ({
                                 <TextInput
                                     id="gps"
                                     name="gps"
-                                    value={data.gps ?? null}
+                                    value={data.gps ?? ""}
                                     className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -515,17 +549,21 @@ export const EditarContacto = ({
                 <p>No tiene</p>
             )}
 
-            <legend className={clasesLegend}>
-                Repetidor{" "}
-                {datos.frecuencia.repetidor_id
+            <legend
+                className={clasesLegend}
+                onClick={() => handleToggleVisibilidad("repVisib")}
+            >
+                <span>Repetidor</span><span>{datos.frecuencia.repetidor_id
                     ? eval(
                           datos.frecuencia.frecuencia +
                               datos.frecuencia?.repetidor?.direccion +
                               datos.frecuencia?.repetidor?.offset
                       ).toFixed(3)
-                    : ""}
+                    : ""}</span>
+
+                <i className="fa-solid fa-tower-cell"></i>
             </legend>
-            {datos.frecuencia.repetidor_id ? (
+            {visibilidad.repVisib ? (
                 <>
                     <fieldset name="repetidor" className={clasesFieldSet}>
                         <div className={clasesDivContainer}>
@@ -535,22 +573,27 @@ export const EditarContacto = ({
                                     value="Dirección"
                                     className={clasesLabel}
                                 />
-                                <TextInput
+                                <select
                                     id="direccion"
                                     name="direccion"
-                                    value={data.direccion ?? null}
-                                    className="mt-1 block w-full text-center"
-                                    isFocused={true}
-                                    onChange={(e) =>
-                                        setData("direccion", e.target.value)
-                                    }
-                                    placeholder="direccion"
+                                    value={data.direccion}
+                                    className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                    onChange={(e) => handleDireccion(e)}
+                                    placeholder="Dirección"
                                     required
-                                />
-                                <InputError
-                                    message={errors.direccion}
-                                    className="mt-2"
-                                />
+                                >
+                                    {Object.entries(direcciones).map(
+                                        ([id, nombre]) => (
+                                            <option
+                                                key={id} // Asegúrate de agregar una clave única para cada opción
+                                                className="mt-1 block w-full bg-[#121827] cursor-pointer"
+                                                value={id}
+                                            >
+                                                {nombre}
+                                            </option>
+                                        )
+                                    )}
+                                </select>
                             </div>
                             <div className="w-1/3">
                                 <InputLabel
@@ -565,7 +608,7 @@ export const EditarContacto = ({
                                     className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
-                                        setData("offset", e.target.value)
+                                        setData("offset", e.target.value ?? "")
                                     }
                                     placeholder="Offset"
                                     required
@@ -582,8 +625,15 @@ export const EditarContacto = ({
                 <p>No tiene</p>
             )}
 
-            <legend className={clasesLegend}>Codificación</legend>
-            {datos.frecuencia.codificacion_id ? (
+            <legend
+                className={clasesLegend}
+                onClick={() => handleToggleVisibilidad("codVisib")}
+            >
+                <span>Codificación</span>
+                <i class="fa-solid fa-barcode"></i>
+            </legend>
+
+            {visibilidad.codVisib ? (
                 <>
                     <fieldset name="codificacion" className={clasesFieldSet}>
                         <div className={clasesDivContainer}>

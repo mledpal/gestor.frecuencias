@@ -15,6 +15,7 @@ export default function Inicio({
     codificaciones,
     dcs,
     ctcss,
+    direcciones,
 }) {
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
@@ -56,6 +57,7 @@ export default function Inicio({
                     codificaciones={codificaciones}
                     dcs={dcs}
                     ctcss={ctcss}
+                    direcciones={direcciones}
                 />
             </main>
 

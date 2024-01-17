@@ -8,6 +8,7 @@ export const MainPage = ({
     codificaciones,
     dcs,
     ctcss,
+    direcciones,
 }) => {
     return (
         <div className="grid grid-cols-3 gap-2 h-full items-center">
@@ -31,6 +32,7 @@ export const MainPage = ({
                     codificaciones={codificaciones}
                     dcs={dcs}
                     ctcss={ctcss}
+                    direcciones={direcciones}
                 />
             </div>
             <div id="mensajes" className=""></div>

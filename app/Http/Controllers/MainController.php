@@ -29,15 +29,22 @@ class MainController extends Controller
 
             $tipos_contacto = TipoContacto::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
             $bandas = Banda::orderBy('id', 'ASC')->get()->pluck('banda', 'id')->toArray();
+
             $modos = ModoTransmision::orderBy('id', 'ASC')->get()->pluck('nombre', 'id')->toArray();
+            $modos[-1] = 'Desconocido';
 
             $tiposCodificacion = TipoCodificacion::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
+            $tiposCodificacion[-1] = 'No tiene';
+
             $dcsCodes = Dcs::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
-            $ctcssCodes = Ctcss::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
             $dcsCodes[-1] = 'No tiene';
+
+            $ctcssCodes = Ctcss::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
             $ctcssCodes[-1] = 'No tiene';
-            
+
             $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'frecuencia.codificacion', 'frecuencia.codificacion.tipo', 'frecuencia.codificacion.ctcss', 'frecuencia.codificacion.dcs', 'frecuencia.banda', 'frecuencia.modo', 'frecuencia.repetidor')->where('user_id', $user->id)->get();
+
+            $direcciones = ['=' => '=', '+' => '+', '-' => '-'];
 
             $roles = $user->roles;
 
@@ -55,6 +62,7 @@ class MainController extends Controller
                 'codificaciones' => $tiposCodificacion,
                 'dcs' => $dcsCodes,
                 'ctcss'=> $ctcssCodes,
+                'direcciones' => $direcciones,
             ]);
         } else {
             return redirect('/login');

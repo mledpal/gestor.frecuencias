@@ -25,6 +25,7 @@ export const Contacto = ({
     codificaciones,
     ctcss,
     dcs,
+    direcciones,
 }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = (e) => {
@@ -97,6 +98,7 @@ export const Contacto = ({
                         codificaciones={codificaciones}
                         dcs={dcs}
                         ctcss={ctcss}
+                        direcciones={direcciones}
                     />
                 </Dialog>
             </>

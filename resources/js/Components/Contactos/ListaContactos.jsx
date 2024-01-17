@@ -8,6 +8,7 @@ export const ListaContactos = ({
     codificaciones,
     dcs,
     ctcss,
+    direcciones,
 }) => {
     return (
         <div className="h-full flex flex-col ">
@@ -22,6 +23,7 @@ export const ListaContactos = ({
                         codificaciones={codificaciones}
                         dcs={dcs}
                         ctcss={ctcss}
+                        direcciones={direcciones}
                     />
                 ))
             ) : (
