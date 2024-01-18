@@ -11,7 +11,7 @@ class Contacto extends Model
     use HasFactory;
 
     protected $table = "contacto";
-    protected $fillable = ['nombre', 'comprobado', 'fecha', 'hora', 'localizacion_id', 'frecuencia_id', 'user_id', 'observaciones', 'tipo_id'];
+    protected $fillable = ['nombre', 'comprobado', 'fecha', 'hora', 'localizacion_id', 'frecuencia_id', 'user_id', 'observaciones', 'tipo_id', 'privado'];
 
     /**
      * Relación de un contacto con una frecuencia

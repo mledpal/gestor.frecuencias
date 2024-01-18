@@ -48,7 +48,7 @@ export default function Inicio({
                 <BurgerMenu isAdmin={isAdmin} />
             </header>
 
-            <main className="flex flex-col w-full p-[10px] bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px]  h-4/5">
+            <main className="flex flex-col w-full  bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px]  h-4/5">
                 <MainPage
                     contactos={contactos}
                     tipos_contacto={tipos_contacto}

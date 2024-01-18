@@ -29,6 +29,7 @@ class ContactoController extends Controller
 
             $contacto->update([
                 'nombre' => $request->nombre,
+                'privado' => $request->privado ?? false,
                 'comprobado' => $request->comprobado ?? false,
                 'fecha' => $request->fecha,
                 'hora' => $request->hora,

@@ -9,7 +9,7 @@ export const handlerForm = ({datos, setData}) => {
             codVisib: datos.frecuencia.codificacion_id ? true : false,
             locVisib: datos.localizacion_id ? true : false,
         }));
-    }, []);
+    }, [datos]);
 
     const [visibilidad, setVisibilidad] = useState({
         repVisib: false,
@@ -36,6 +36,21 @@ export const handlerForm = ({datos, setData}) => {
             default:
                 setData("comprobado", 1);
                 comprobado.checked = 1;
+        }
+    };
+
+    const handlePrivado = (e) => {
+        let value = e.target.value;
+        const privado = document.getElementById("privado");
+
+        switch (value) {
+            case "1":
+                setData("privado", "");
+                privado.checked = "";
+                break;
+            default:
+                setData("privado", 1);
+                privado.checked = 1;
         }
     };
 
@@ -83,6 +98,8 @@ export const handlerForm = ({datos, setData}) => {
         handleModo,
         handleTipo,
         handleToggleVisibilidad,
+        handleCodificacion,
+        handlePrivado,
         visibilidad,
         setVisibilidad,
     };

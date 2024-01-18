@@ -24,6 +24,7 @@ export const EditarContacto = ({
         nombre: datos.nombre,
         observaciones: datos?.observaciones,
         comprobado: datos.comprobado,
+        privado: datos.privado,
         frecuencia_id: datos.frecuencia_id,
         hora: datos?.hora,
         fecha: datos.fecha,
@@ -50,6 +51,7 @@ export const EditarContacto = ({
             nombre: datos.nombre,
             observaciones: datos?.observaciones,
             comprobado: datos.comprobado,
+            privado: datos.privado,
             frecuencia_id: datos.frecuencia_id,
             hora: datos?.hora,
             fecha: datos.fecha,
@@ -77,12 +79,14 @@ export const EditarContacto = ({
     const {
         handleBanda,
         handleCheck,
+        handlePrivado,
         handleCtcss,
         handleDcs,
         handleDireccion,
         handleModo,
         handleTipo,
         handleToggleVisibilidad,
+        handleCodificacion,
         visibilidad,
         setVisibilidad,
     } = handlerForm({ datos,setData });
@@ -161,7 +165,25 @@ export const EditarContacto = ({
                             checked={data.comprobado ? "on" : ""}
                         />
                         <InputError
-                            message={errors.observaciones}
+                            message={errors.comprobado}
+                            className="mt-2"
+                        />
+                    </div>
+                    <div className="w-full flex flex-row items-center justify-center">
+                        <InputLabel
+                            htmlFor="privado"
+                            value="Privado"
+                            className={clasesLabel}
+                        />
+                        <Checkbox
+                            id="privado"
+                            name="privado"
+                            onChange={(e) => handlePrivado(e)}
+                            value={data.privado}
+                            checked={data.privado ? "on" : ""}
+                        />
+                        <InputError
+                            message={errors.privado}
                             className="mt-2"
                         />
                     </div>
@@ -613,7 +635,7 @@ export const EditarContacto = ({
                                 <select
                                     id="codificacion_id"
                                     name="codificacion_id"
-                                    value={data.codificacion_id}
+                                    value={data.codificacion_id ?? -1}
                                     className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                     onChange={(e) => handleCodificacion(e)}
                                     placeholder="Codificaación"

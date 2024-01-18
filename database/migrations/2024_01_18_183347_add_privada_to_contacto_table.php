@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('contactos', function (Blueprint $table) {
-            //
+        Schema::table('contacto', function (Blueprint $table) {
+            $table->boolean('privado')->default(0)->after('id');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('contactos', function (Blueprint $table) {
-            //
+        Schema::table('contacto', function (Blueprint $table) {
+            $table->dropColumn('privado');
         });
     }
 };
