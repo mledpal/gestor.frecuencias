@@ -5,10 +5,10 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import AlertButton from "@/Components/AlertButton";
 import TextInput from "@/Components/TextInput";
-import { useForm } from "@inertiajs/react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useEffect, useState } from "react";
+import { handlerForm } from "./handlerForm";
+import { useForm } from "@inertiajs/react";
 
 export const EditarContacto = ({
     datos,
@@ -20,7 +20,9 @@ export const EditarContacto = ({
     dcs,
     ctcss,
     direcciones,
+
 }) => {
+
     const { data, setData, post, processing, errors, reset } = useForm({
         id: datos.id,
         frecuencia: datos.frecuencia.frecuencia,
@@ -45,49 +47,6 @@ export const EditarContacto = ({
         pais: datos.localizacion?.pais,
         gps: datos.localizacion?.gps,
     });
-
-    useEffect(() => {
-        setVisibilidad((prevVisibilidad) => ({
-            ...prevVisibilidad,
-            repVisib: datos.frecuencia.repetidor_id ? true : false,
-            codVisib: datos.frecuencia.codificacion_id ? true : false,
-            locVisib: datos.localizacion_id ? true : false,
-        }));
-    }, []);
-
-    const [visibilidad, setVisibilidad] = useState({
-        repVisib: false,
-        codVisib: false,
-        locVisib: false,
-    });
-
-    const handleToggleVisibilidad = (seccion) => {
-        setVisibilidad((prevVisibilidad) => ({
-            ...prevVisibilidad,
-            [seccion]: !prevVisibilidad[seccion],
-        }));
-    };
-
-    // Variables para setear los estilos de algunas zonas
-    const clasesDOM =
-        "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
-    const clasesLegend =
-        "w-2/5 text-xl font-bold mt-5 p-2 select-none cursor-pointer flex flex-row items-center justify-around gap-10 p-5 shadow-[inset_0_0_4px_rgba(0,0,10,.9)] rounded-xl";
-    const clasesFieldSet =
-        "p-4 w-full flex flex-col items-center justify-start mb-2 border-b border-white";
-    const clasesDivContainer =
-        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center";
-    const clasesLabel = "text-center mb-2 text-black select-none";
-    const claseContacto = `flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] ${datos.tipo.color}`;
-
-    // Métodos / Hooks
-
-    const MySwal = withReactContent(Swal);
-
-    const submit = (e) => {
-        e.preventDefault();
-        post(route("contacto_actualizar", [(id) => datos.id]));
-    };
 
     const deleteContact = (e) => {
         e.preventDefault();
@@ -115,54 +74,39 @@ export const EditarContacto = ({
             });
     };
 
-    const handleCheck = (e) => {
-        let value = e.target.value;
-        const comprobado = document.getElementById("comprobado");
 
-        switch (value) {
-            case "1":
-                setData("comprobado", "");
-                comprobado.checked = "";
-                break;
-            default:
-                setData("comprobado", 1);
-                comprobado.checked = 1;
-        }
-    };
+    const {
+        handleBanda,
+        handleCheck,
+        handleCtcss,
+        handleDcs,
+        handleDireccion,
+        handleModo,
+        handleTipo,
+        handleToggleVisibilidad,
+        visibilidad,
+        setVisibilidad,
+    } = handlerForm({datos});
 
-    const handleTipo = (e) => {
-        let value = e.target.value;
-        setData("tipo_id", value);
-    };
+    // Variables para setear los estilos de algunas zonas
+    const clasesDOM =
+        "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
+    const clasesLegend =
+        "w-2/5 text-xl font-bold mt-5 p-2 select-none cursor-pointer flex flex-row items-center justify-around gap-10 p-5 shadow-[inset_0_0_4px_rgba(0,0,10,.9)] rounded-xl";
+    const clasesFieldSet =
+        "p-4 w-full flex flex-col items-center justify-start mb-2 border-b border-white";
+    const clasesDivContainer =
+        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center";
+    const clasesLabel = "text-center mb-2 text-black select-none";
+    const claseContacto = `flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] ${datos.tipo.color}`;
 
-    const handleBanda = (e) => {
-        let value = e.target.value;
-        setData("banda_id", value);
-    };
+    // Métodos / Hooks
 
-    const handleModo = (e) => {
-        let value = e.target.value;
-        setData("modo_id", value);
-    };
+    const MySwal = withReactContent(Swal);
 
-    const handleCodificacion = (e) => {
-        let value = e.target.value;
-        setData("codificacion_id", value);
-    };
-
-    const handleCtcss = (e) => {
-        let value = e.target.value;
-        setData("ctcss_id", value);
-    };
-
-    const handleDcs = (e) => {
-        let value = e.target.value;
-        setData("dcs_id", value);
-    };
-
-    const handleDireccion = (e) => {
-        let value = e.target.value;
-        setData("direccion", value);
+    const submit = (e) => {
+        e.preventDefault();
+        post(route("contacto_actualizar", [(id) => datos.id]));
     };
 
     return (
@@ -553,13 +497,16 @@ export const EditarContacto = ({
                 className={clasesLegend}
                 onClick={() => handleToggleVisibilidad("repVisib")}
             >
-                <span>Repetidor</span><span>{datos.frecuencia.repetidor_id
-                    ? eval(
-                          datos.frecuencia.frecuencia +
-                              datos.frecuencia?.repetidor?.direccion +
-                              datos.frecuencia?.repetidor?.offset
-                      ).toFixed(3)
-                    : ""}</span>
+                <span>Repetidor</span>
+                <span>
+                    {datos.frecuencia.repetidor_id
+                        ? eval(
+                              datos.frecuencia.frecuencia +
+                                  datos.frecuencia?.repetidor?.direccion +
+                                  datos.frecuencia?.repetidor?.offset
+                          ).toFixed(3)
+                        : ""}
+                </span>
 
                 <i className="fa-solid fa-tower-cell"></i>
             </legend>
@@ -604,7 +551,7 @@ export const EditarContacto = ({
                                 <TextInput
                                     id="offset"
                                     name="offset"
-                                    value={data.offset ?? null}
+                                    value={data.offset ?? ''}
                                     className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -630,7 +577,7 @@ export const EditarContacto = ({
                 onClick={() => handleToggleVisibilidad("codVisib")}
             >
                 <span>Codificación</span>
-                <i class="fa-solid fa-barcode"></i>
+                <i className="fa-solid fa-barcode"></i>
             </legend>
 
             {visibilidad.codVisib ? (
