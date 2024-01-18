@@ -23,7 +23,7 @@ export const MainPage = ({
             >
                 <div
                     name="botones_contactos"
-                    className="sticky top-0 mt-0 mb-8 px-1 py-2 h-[100px] w-max flex flex-row justify-around items-center gap-5 select-none bg-slate-900 z-10 "
+                    className="sticky top-0 mt-0 mb-8 px-1 py-2 h-[100px] w-full flex flex-row justify-around items-center gap-0 select-none bg-slate-900 z-10 "
                 >
                     <i className="fa-solid fa-circle-plus cursor-pointer hover:scale-150 transition-transform ease-in-out"></i>
                     <i className="fa-solid fa-magnifying-glass cursor-pointer transition-transform ease-in-out hover:scale-150"></i>
