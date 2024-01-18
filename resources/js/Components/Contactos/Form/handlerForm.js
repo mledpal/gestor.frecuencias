@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const handlerForm = ({datos}) => {
+export const handlerForm = ({datos, setData}) => {
 
     useEffect(() => {
         setVisibilidad((prevVisibilidad) => ({

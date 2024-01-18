@@ -1,28 +1,23 @@
 import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import SecondaryButton from "@/Components/SecondaryButton";
-import AlertButton from "@/Components/AlertButton";
 import TextInput from "@/Components/TextInput";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+
 import { handlerForm } from "./handlerForm";
 import { useForm } from "@inertiajs/react";
+import { useEffect } from "react";
+import { handleContacts } from "./handleContacts";
 
 export const EditarContacto = ({
     datos,
     tipos_contacto,
-    handleOpen,
     bandas,
     modos,
     codificaciones,
     dcs,
     ctcss,
     direcciones,
-
 }) => {
-
     const { data, setData, post, processing, errors, reset } = useForm({
         id: datos.id,
         frecuencia: datos.frecuencia.frecuencia,
@@ -48,31 +43,35 @@ export const EditarContacto = ({
         gps: datos.localizacion?.gps,
     });
 
-    const deleteContact = (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        setData({
+            id: datos.id,
+            frecuencia: datos.frecuencia.frecuencia,
+            nombre: datos.nombre,
+            observaciones: datos?.observaciones,
+            comprobado: datos.comprobado,
+            frecuencia_id: datos.frecuencia_id,
+            hora: datos?.hora,
+            fecha: datos.fecha,
+            tipo_id: datos.tipo.id,
+            banda_id: datos.frecuencia.banda_id,
+            modo_id: datos.frecuencia.modo_id,
+            calidad: datos.frecuencia.calidad,
+            offset: datos.frecuencia?.repetidor?.offset,
+            direccion: datos.frecuencia?.repetidor?.direccion,
+            codificacion_id: datos.frecuencia?.codificacion_id,
+            dcs_id: datos.frecuencia?.codificacion?.dcs_id,
+            ctcss_id: datos.frecuencia?.codificacion?.ctcss_id,
+            localizacion_id: datos.localizacion_id,
+            localidad: datos.localizacion?.localidad,
+            provincia: datos.localizacion?.provincia,
+            pais: datos.localizacion?.pais,
+            gps: datos.localizacion?.gps,
+        });
+    }, [datos]);
 
-        handleOpen();
+    const { submit, eliminar } = handleContacts(post);
 
-        // Realiza la solicitud DELETE usando fetch
-        fetch(`/contacto/${datos.id}/eliminar`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[id="meta_token"]')
-                    .getAttribute("content"),
-            },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                console.log(response);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
 
 
     const {
@@ -86,28 +85,19 @@ export const EditarContacto = ({
         handleToggleVisibilidad,
         visibilidad,
         setVisibilidad,
-    } = handlerForm({datos});
+    } = handlerForm({ datos,setData });
 
     // Variables para setear los estilos de algunas zonas
+    const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] ${datos.tipo.color}`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
-        "w-2/5 text-xl font-bold mt-5 p-2 select-none cursor-pointer flex flex-row items-center justify-around gap-10 p-5 shadow-[inset_0_0_4px_rgba(0,0,10,.9)] rounded-xl";
+        "w-3/5 text-xl font-bold mt-5 p-2 select-none cursor-pointer flex flex-row items-center justify-around gap-10 p-5 shadow-[inset_0_0_4px_rgba(0,0,10,.9)] rounded-xl";
     const clasesFieldSet =
-        "p-4 w-full flex flex-col items-center justify-start mb-2 border-b border-white";
+        "p-4 w-full flex flex-col items-center justify-start mb-2";
     const clasesDivContainer =
         "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center";
     const clasesLabel = "text-center mb-2 text-black select-none";
-    const claseContacto = `flex flex-col justify-start items-center w-3/4 mx-auto min-h-screen shadow-[inset_0_0_30px_rgba(0,0,10,0.9)] ${datos.tipo.color}`;
-
-    // Métodos / Hooks
-
-    const MySwal = withReactContent(Swal);
-
-    const submit = (e) => {
-        e.preventDefault();
-        post(route("contacto_actualizar", [(id) => datos.id]));
-    };
 
     return (
         <form
@@ -116,10 +106,40 @@ export const EditarContacto = ({
             encType="multipart/form-data"
             className={claseContacto}
         >
+            <div className="sticky top-0  bg-slate-900 z-10 w-full flex items-center justify-center mt-0 p-5 gap-10">
+                <div
+                    name="guardar_datos"
+                    className="w-2/4 flex items-center gap-8"
+                >
+                    <i
+                        className="fa-solid fa-floppy-disk text-white cursor-pointer hover:scale-150 ease-linear select-none"
+                        onClick={submit}
+                    ></i>
+
+                    <i
+                        className="fa-solid fa-trash text-red-500 cursor-pointer hover:scale-150 ease-in-out select-none"
+                        onClick={() => eliminar(datos.id)}
+                    ></i>
+                </div>
+
+                <div
+                    name="otrosIconos"
+                    className="w-2/4 flex items-end justify-end"
+                >
+                    {datos.localizacion?.gps ? (
+                        <i className="fa-solid fa-location-dot cursor-pointer hover:scale-150 select-none"></i>
+                    ) : (
+                        ""
+                    )}
+                </div>
+            </div>
+
             <header className="mt-10 mb-2 w-4/5 h-[80px]  text-gray-100 bg-gradient-to-b from-blue-900 bg-blue-500 flex items-center justify-center shadow-[inset_0_0_15px_black]  rounded-md select-none">
-                <h2 className="font-bold text-2xl">
-                    Editar contacto {datos.nombre} |{" "}
-                    {datos.frecuencia.frecuencia}
+                <h2 className="font-bold text-xl">
+                    Editar contacto {datos.nombre}{" "}
+                    <span className="text-sm">
+                        {datos.frecuencia.frecuencia} Mhz
+                    </span>
                 </h2>
             </header>
             <input type="hidden" id="id" value={data.id} />
@@ -551,7 +571,7 @@ export const EditarContacto = ({
                                 <TextInput
                                     id="offset"
                                     name="offset"
-                                    value={data.offset ?? ''}
+                                    value={data.offset ?? ""}
                                     className="mt-1 block w-full text-center"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -689,24 +709,6 @@ export const EditarContacto = ({
             ) : (
                 <p>No tiene</p>
             )}
-
-            <div className="border-t-2 border-white w-full flex items-center justify-center mt-4 p-5 gap-10">
-                <PrimaryButton
-                    className="ml-4  bg-blue-600"
-                    disabled={processing}
-                    onClick={submit}
-                >
-                    Actualizar Contacto
-                </PrimaryButton>
-
-                <AlertButton disabled={processing} onClick={deleteContact}>
-                    Eliminar Contacto
-                </AlertButton>
-
-                <SecondaryButton disabled={processing} onClick={handleOpen}>
-                    Salir
-                </SecondaryButton>
-            </div>
         </form>
     );
 };
