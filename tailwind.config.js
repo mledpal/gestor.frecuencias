@@ -10,6 +10,18 @@ export default {
         "./resources/js/**/*.jsx",
     ],
 
+    safelist: [
+        "bg-gray-500",
+        {
+            pattern:
+                /bg-(red|green|blue|yellow|cyan|pink|orange|teal|purple|indigo)-(500|600|700|800|900)/,
+        },
+        {
+            pattern:
+                /to--(red|green|blue|yellow|cyan|pink|orange|teal|purple|indigo)-(500|600|700|800|900)/,
+        },
+    ],
+
     theme: {
         extend: {
             fontFamily: {
