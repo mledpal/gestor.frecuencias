@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const FiltrosContactos = (contactos) => {
+export const useFilters = (contactos) => {
     const [contactosFiltrados, setFiltrados] = useState([]);
 
     const [filtros, setFiltros] = useState({

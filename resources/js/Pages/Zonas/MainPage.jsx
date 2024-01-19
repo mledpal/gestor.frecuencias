@@ -2,8 +2,8 @@ import { CuadroFiltros } from "@/Components/Contactos/CuadroFiltros";
 import { EditarContacto } from "@/Components/Contactos/Form/EditarContacto";
 import { ListaContactos } from "@/Components/Contactos/ListaContactos";
 import { NoContactos } from "@/Components/Contactos/NoContactos";
-import { FiltrosContactos } from "@/Helpers/FiltrosContactos";
-import { useEffect, useState } from "react";
+import { useFilters } from "@/hooks/useFilters";
+import { useState } from "react";
 
 export const MainPage = ({
     contactos,
@@ -18,7 +18,7 @@ export const MainPage = ({
     const [datos, setDatos] = useState(null);
     const [visible, setVisible] = useState(false);
 
-    const { handleCheck, contactosFiltrados, filtros } = FiltrosContactos(contactos);
+    const { handleCheck, contactosFiltrados, filtros } = useFilters(contactos);
 
     const handleFilterVisible = () => {
         setVisible(!visible);
