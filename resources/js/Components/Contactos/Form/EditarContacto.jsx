@@ -114,7 +114,7 @@ export const EditarContacto = ({
             <div className="sticky top-0  bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10">
                 <div
                     name="guardar_datos"
-                    className="w-2/4 flex items-center gap-8"
+                    className="w-1/5 flex items-center gap-8"
                 >
                     <i
                         className="fa-solid fa-floppy-disk text-white cursor-pointer hover:scale-150 ease-linear select-none"
@@ -126,10 +126,16 @@ export const EditarContacto = ({
                         onClick={() => eliminar(datos.id)}
                     ></i>
                 </div>
+                <div className="w-3/5 flex flex-col items-center justify-center">
+                    <h2 className="font-bold text-xl">{datos.nombre}</h2>
+                    <span className="text-sm">
+                        {datos.frecuencia.frecuencia} Mhz
+                    </span>
+                </div>
 
                 <div
                     name="otrosIconos"
-                    className="w-2/4 flex items-end justify-end"
+                    className="w-1/5 flex items-end justify-end"
                 >
                     {datos.localizacion?.gps ? (
                         <i className="fa-solid fa-location-dot cursor-pointer hover:scale-150 select-none"></i>
@@ -139,18 +145,10 @@ export const EditarContacto = ({
                 </div>
             </div>
 
-            <header className="mt-10 mb-2 w-4/5 h-[80px]  text-gray-100 bg-gradient-to-b from-blue-900 bg-blue-500 flex items-center justify-center shadow-[inset_0_0_15px_black]  rounded-md select-none">
-                <h2 className="font-bold text-xl">
-                    {datos.nombre}{" "}
-                    <span className="text-sm">
-                        {datos.frecuencia.frecuencia} Mhz
-                    </span>
-                </h2>
-            </header>
             <input type="hidden" id="id" value={data.id} />
 
             <div className={classZona}>
-                <legend className={clasesLegend}>Datos</legend>º
+                <legend className={clasesLegend}>Datos</legend>
                 <fieldset name="datos" className={clasesFieldSet}>
                     <div className={clasesDivContainer}>
                         <div className="w-full flex flex-row items-center justify-center">
@@ -212,7 +210,7 @@ export const EditarContacto = ({
                                         <option
                                             key={id} // Asegúrate de agregar una clave única para cada opción
                                             className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                            value={id ?? -1 }
+                                            value={id ?? -1}
                                         >
                                             {tipo}
                                         </option>
