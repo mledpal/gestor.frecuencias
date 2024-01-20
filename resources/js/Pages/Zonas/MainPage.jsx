@@ -38,7 +38,9 @@ export const MainPage = ({
                     <i className="fa-solid fa-magnifying-glass cursor-pointer transition-transform ease-in-out hover:scale-150"></i>
                     <span>
                         <i
-                            className="fa-solid fa-filter cursor-pointer transition-transform ease-in-out hover:scale-150 relative"
+                            className={`fa-solid fa-filter cursor-pointer transition-transform ease-in-out hover:scale-150 $hover:text-red-500 ${
+                                visible ? "text-red-500 scale-150" : ""
+                            } relative`}
                             onClick={handleFilterVisible}
                         ></i>
                         {visible ? (

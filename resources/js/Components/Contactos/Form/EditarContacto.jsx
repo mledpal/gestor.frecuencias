@@ -106,6 +106,9 @@ export const EditarContacto = ({
     const clasesAgregar =
         "rounded-full transition shadow-[inset_0_0_5px_rgba(0,0,0,.5)] hover:bg-lime-500 hover:shadow-[0_0_5px_rgba(255,255,255,.5)] ease-in transition:ease-out duration-100 m-2 fa-solid fa-plus cursor-pointer select-none p-3";
 
+    const clasesBotonesFormulario =
+        "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
+
     return (
         <form
             method="POST"
@@ -119,12 +122,12 @@ export const EditarContacto = ({
                     className="w-1/5 flex items-center gap-8"
                 >
                     <i
-                        className="fa-solid fa-floppy-disk text-white cursor-pointer hover:scale-150 ease-linear select-none"
+                        className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
                         onClick={submit}
                     ></i>
 
                     <i
-                        className="fa-solid fa-trash text-red-500 cursor-pointer hover:scale-150 ease-in-out select-none"
+                        className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
                         onClick={() => eliminar(datos.id)}
                     ></i>
                 </div>
@@ -133,6 +136,7 @@ export const EditarContacto = ({
                     <span className="text-sm">
                         {datos.frecuencia.frecuencia} Mhz
                     </span>
+                    <span className="italic text-sm">{datos.tipo.nombre}</span>
                 </div>
 
                 <div

@@ -8,5 +8,5 @@ export const Switch = ({
     handleCheck,
     ...props
 }) => {
-    return <input className="" type="checkbox" name="" checked={checked} onChange={handleCheck}></input>;
+    return <input className={className} type="checkbox" name="" checked={checked} onChange={handleCheck}></input>;
 };
