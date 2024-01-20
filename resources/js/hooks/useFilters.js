@@ -5,6 +5,8 @@ export const useFilters = (contactos) => {
 
     const [filtros, setFiltros] = useState({
         comprobado: true,
+        nocomprobado: true,
+        publico: true,
         privado: true,
         empresa: true,
         servicio: true,
@@ -30,6 +32,8 @@ export const useFilters = (contactos) => {
         return contacts.filter((dato) => {
             return (
                 (dato.comprobado === 1 && filtros.comprobado) ||
+                (dato.comprobado === 0 && filtros.nocomprobado) ||
+                (dato.privado === 0 && filtros.publico) ||
                 (dato.privado === 1 && filtros.privado) ||
                 (dato.tipo_id === 4 && filtros.empresa) ||
                 (dato.tipo_id === 7 && filtros.servicio) ||
