@@ -103,6 +103,8 @@ export const EditarContacto = ({
     const clasesDivContainer =
         "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center ";
     const clasesLabel = "text-center mb-2 text-black select-none";
+    const clasesAgregar =
+        "rounded-full transition shadow-[inset_0_0_5px_rgba(0,0,0,.5)] hover:bg-lime-500 hover:shadow-[0_0_5px_rgba(255,255,255,.5)] ease-in transition:ease-out duration-100 m-2 fa-solid fa-plus cursor-pointer select-none p-3";
 
     return (
         <form
@@ -562,7 +564,10 @@ export const EditarContacto = ({
                         </fieldset>
                     </>
                 ) : (
-                    <p>No tiene</p>
+                    <i
+                        className={clasesAgregar}
+                        onClick={() => handleToggleVisibilidad("locVisib")}
+                    ></i>
                 )}
             </div>
 
@@ -646,7 +651,10 @@ export const EditarContacto = ({
                         </fieldset>
                     </>
                 ) : (
-                    <p>No tiene</p>
+                    <i
+                        className={clasesAgregar}
+                        onClick={() => handleToggleVisibilidad("repVisib")}
+                    ></i>
                 )}
             </div>
 
@@ -771,7 +779,10 @@ export const EditarContacto = ({
                         </fieldset>
                     </>
                 ) : (
-                    <p>No tiene</p>
+                    <i
+                        className={clasesAgregar}
+                        onClick={() => handleToggleVisibilidad("codVisib")}
+                    ></i>
                 )}
             </div>
         </form>
