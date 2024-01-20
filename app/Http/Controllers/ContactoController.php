@@ -13,6 +13,11 @@ use Inertia\Inertia;
 
 class ContactoController extends Controller
 {
+
+    /**
+     * Función que sirve para actualizar los datos de un contacto
+     * @param $request ValidarContacto // Datos recibidos del formulario
+     */
     public function actualizar(ValidarContacto $request)
     {
         if (Auth::check()) {
@@ -122,6 +127,7 @@ class ContactoController extends Controller
 
     /**
      * Función que sirve para eliminar un contacto
+     * @param $id -> Id del contacto
      */
     public function eliminar($id)
     {
