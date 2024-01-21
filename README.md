@@ -25,6 +25,9 @@
 - Imagen de perfil
 - Edición de contactos
 - Sistema de filtros de contactos
+- IMPORTANTE: Modificación en las relaciones del Contacto / Frecuencia. Remodelación total de las mismas
+  para poder solucionar un problema grave al buscar/editar/crear nuevos contactos con frecuencias y localizaciones
+  coincidentes.
 
 ### Estado actual
 
