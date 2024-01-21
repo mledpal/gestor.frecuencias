@@ -27,8 +27,26 @@ return new class extends Migration
             $table->unsignedBigInteger('frecuencia_id')->nullable(false);
             $table->foreign('frecuencia_id', 'fk_cont_frecu')->references('id')->on('frecuencia')->onDelete('cascade')->onUpdate('cascade');
 
+            $table->tinyInteger('calidad')->default(0);
+
+            $table->unsignedBigInteger('repetidor_id')->nullable();
+            $table->foreign('repetidor_id', 'fk_frec_repe')->references('id')->on('repetidor')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->unsignedBigInteger('codificacion_id')->nullable();
+            $table->foreign('codificacion_id', 'fk_frec_codi')->references('id')->on('codificacion')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->unsignedBigInteger('banda_id')->nullable();
+            $table->foreign('banda_id', 'fk_frec_band')->references('id')->on('banda')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->unsignedBigInteger('modo_id')->nullable();
+            $table->foreign('modo_id', 'fk_frec_modo')->references('id')->on('modotransmision')->onDelete('restrict')->onUpdate('restrict');
+
+
             $table->unsignedBigInteger('user_id')->nullable(false);
             $table->foreign('user_id', 'fk_cont_user')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
+
+
+
 
             $table->text('observaciones')->nullable();
 

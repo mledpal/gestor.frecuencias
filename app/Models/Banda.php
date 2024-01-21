@@ -16,8 +16,8 @@ class Banda extends Model
     /**
      * Relación de una banda con una frecuencia
      */
-    public function frecuencias()
+    public function contactos()
     {
-        return $this->hasMany(Frecuencia::class);
+        return $this->hasMany(Contacto::class);
     }
 }

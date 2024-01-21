@@ -153,10 +153,6 @@ class importar_frecuencias extends Command
 
         // FRECUENCIA
         $nuevaFrecuencia['frecuencia'] = str_replace(" Mhz", "", $linea[1]);
-        if ($nuevoRepetidor) $nuevaFrecuencia['repetidor_id'] = $nuevoRepetidor->id;
-        if ($tipoCodificacion) $nuevaFrecuencia['codificacion_id'] = $codificacion->id;
-        if ($banda) $nuevaFrecuencia['banda_id'] = $banda->id;
-        if ($modo) $nuevaFrecuencia['modo_id'] = $modo->id;
 
         $frecuencia = Frecuencia::create($nuevaFrecuencia);
 
@@ -198,6 +194,10 @@ class importar_frecuencias extends Command
         unset($nombre);
 
         // CONTACTO
+        if ($nuevoRepetidor) $nuevoContacto['repetidor_id'] = $nuevoRepetidor->id;
+        if ($tipoCodificacion) $nuevoContacto['codificacion_id'] = $codificacion->id;
+        if ($banda) $nuevoContacto['banda_id'] = $banda->id;
+        if ($modo) $nuevoContacto['modo_id'] = $modo->id;
         $nuevoContacto['frecuencia_id'] = $frecuencia->id;
         $nuevoContacto['nombre'] = $linea[3];
         $nuevoContacto['observaciones'] = $linea[3];

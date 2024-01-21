@@ -40,8 +40,8 @@ class Codificacion extends Model
     /**
      * Relación del repetidor con su frecuencia
      */
-    public function frecuencia()
+    public function contacto()
     {
-        return $this->hasMany(Frecuencia::class);
+        return $this->hasMany(Contacto::class);
     }
 }

@@ -42,11 +42,21 @@ class MainController extends Controller
             $ctcssCodes = Ctcss::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
             $ctcssCodes[-1] = 'No tiene';
 
-            $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'frecuencia.codificacion', 'frecuencia.codificacion.tipo', 'frecuencia.codificacion.ctcss', 'frecuencia.codificacion.dcs', 'frecuencia.banda', 'frecuencia.modo', 'frecuencia.repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
+            $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'codificacion.tipo', 'codificacion.ctcss', 'codificacion.dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
 
             $direcciones = ['=' => '=', '+' => '+', '-' => '-'];
 
             $roles = $user->roles;
+
+            $campos_select = [
+                'tipos_contacto' => $tipos_contacto,
+                'modos' => $modos,
+                'codificaciones' => $tiposCodificacion,
+                'dcs' => $dcsCodes,
+                'ctcss' => $ctcssCodes,
+                'direcciones' => $direcciones,
+                'bandas' => $bandas,
+            ];
 
             return Inertia::render('Inicio', [
                 'canLogin' => Route::has('login'),
@@ -56,13 +66,7 @@ class MainController extends Controller
                 'title' => 'Inicio',
                 'roles' => $roles,
                 'contactos' => $contactos,
-                'tipos_contacto' => $tipos_contacto,
-                'bandas' => $bandas,
-                'modos' => $modos,
-                'codificaciones' => $tiposCodificacion,
-                'dcs' => $dcsCodes,
-                'ctcss'=> $ctcssCodes,
-                'direcciones' => $direcciones,
+                'selects' => $campos_select,
             ]);
         } else {
             return redirect('/login');
@@ -79,5 +83,4 @@ class MainController extends Controller
     {
         return view('radio');
     }
-
 }

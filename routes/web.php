@@ -25,6 +25,7 @@ Route::controller(MainController::class)->group(function () {
 });
 
 Route::controller(ContactoController::class)->group(function () {
+    Route::post('/contacto/crear', 'crear')->name('contacto_crear');
     Route::delete('/contacto/{id}/eliminar', 'eliminar')->name('contacto_eliminar');
     Route::post('/ajax/contacto/{id}', 'actualizar')->name('contacto_actualizar');
 });

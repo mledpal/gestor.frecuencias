@@ -37,6 +37,20 @@ class ValidarContacto extends FormRequest
             'codificacion_id' => 'nullable|integer',
             'dcs_id' => 'nullable|integer',
             'ctcss_id' => 'nullable|integer',
+            'gps' => 'nullable|string|max:100',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'unique' => [
+                'username' => 'El nombre de usuario ya está siendo usado',
+                'email' => 'El correo ya está siendo usado',
+            ],
+            'required' => 'El dato es requerido',
+            'email' => 'Debe introducir un correo válido',
+            'string' => 'El valor debe ser una cadena de texto',
         ];
     }
 }

@@ -4,7 +4,7 @@ import { Repetidor } from "./Icons/Repetidor";
 import { Gps } from "./Icons/Gps";
 import { Privado } from "./Icons/Privado";
 
-export const Contacto = ({ datos, setDatos, handleOpen }) => {
+export const Contacto = ({ datos, setDatos, handleOpen}) => {
     const claseContacto = `w-[250px] h-[80px] shadow-gray-400 flex flex-row items-center justify-around rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2 cursor-pointer shadow-inner select-none ease-in-out hover:bg-gradient-to-b hover:bg-gray-800 hover:from-gray-600 ${datos.tipo.color}`;
 
     try {
@@ -33,7 +33,7 @@ export const Contacto = ({ datos, setDatos, handleOpen }) => {
                     >
                         <div>
                             <Repetidor
-                                repetidor={datos.frecuencia.repetidor_id}
+                                repetidor={datos.repetidor_id}
                             />
                         </div>
                         <div>
@@ -52,8 +52,8 @@ export const Contacto = ({ datos, setDatos, handleOpen }) => {
                         <Privado privado={datos.privado} />
                         <ModoTransmision
                             modo={
-                                datos.frecuencia.modo
-                                    ? datos.frecuencia.modo.nombre
+                                datos.modo
+                                    ? datos.modo.nombre
                                     : ""
                             }
                         />

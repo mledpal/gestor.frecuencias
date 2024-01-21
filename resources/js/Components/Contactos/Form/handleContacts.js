@@ -6,6 +6,12 @@ export const handleContacts = (post) => {
 
     const MySwal = withReactContent(Swal);
 
+    const crear = (e) => {
+        console.log('Creando contacto');
+        e.preventDefault();
+        post(route("contacto_crear"));
+    };
+
     const submit = (e, id) => {
         e.preventDefault();
         post(route("contacto_actualizar", [(id) => id]));
@@ -55,6 +61,7 @@ export const handleContacts = (post) => {
     };
 
     return {
+        crear,
         eliminar,
         submit,
     };

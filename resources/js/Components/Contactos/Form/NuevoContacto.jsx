@@ -5,78 +5,50 @@ import TextInput from "@/Components/TextInput";
 
 import { handlerForm } from "./handlerForm";
 import { useForm } from "@inertiajs/react";
-import { useEffect } from "react";
 import { handleContacts } from "./handleContacts";
 
-export const EditarContacto = ({ datos, selects }) => {
-    const {
-        tipos_contacto,
-        bandas,
-        modos,
-        codificaciones,
-        dcs,
-        ctcss,
-        direcciones,
-    } = selects;
-
-
-    console.log(datos);
-
-    const { data, setData, post, processing, errors, reset } = useForm({
-        id: datos.id,
-        frecuencia: datos.frecuencia.frecuencia,
-        nombre: datos.nombre,
-        observaciones: datos?.observaciones,
-        comprobado: datos.comprobado,
-        privado: datos.privado,
-        frecuencia_id: datos.frecuencia_id,
-        hora: datos?.hora,
-        fecha: datos?.fecha,
-        tipo_id: datos.tipo.id,
-        banda_id: datos.banda_id,
-        modo_id: datos.modo_id,
-        calidad: datos.calidad,
-        offset: datos.repetidor?.offset,
-        direccion: datos.repetidor?.direccion,
-        codificacion_id: datos.codificacion_id,
-        dcs_id: datos.codificacion?.dcs_id,
-        ctcss_id: datos.codificacion?.ctcss_id,
-        localizacion_id: datos.localizacion_id,
-        localidad: datos.localizacion?.localidad,
-        provincia: datos.localizacion?.provincia,
-        pais: datos.localizacion?.pais,
-        gps: datos.localizacion?.gps,
+export const NuevoContacto = ({
+    datos,
+    tipos_contacto,
+    bandas,
+    modos,
+    codificaciones,
+    dcs,
+    ctcss,
+    direcciones,
+}) => {
+    let horaActual = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
     });
 
-    useEffect(() => {
-        setData({
-            id: datos.id,
-            frecuencia: datos.frecuencia.frecuencia,
-            nombre: datos.nombre,
-            observaciones: datos?.observaciones,
-            comprobado: datos.comprobado,
-            privado: datos.privado,
-            frecuencia_id: datos.frecuencia_id,
-            hora: datos?.hora,
-            fecha: datos.fecha,
-            tipo_id: datos.tipo.id,
-            banda_id: datos.banda_id,
-            modo_id: datos.modo_id,
-            calidad: datos.calidad,
-            offset: datos.repetidor?.offset,
-            direccion: datos.repetidor?.direccion,
-            codificacion_id: datos.codificacion_id,
-            dcs_id: datos.codificacion?.dcs_id,
-            ctcss_id: datos.codificacion?.ctcss_id,
-            localizacion_id: datos.localizacion_id,
-            localidad: datos.localizacion?.localidad,
-            provincia: datos.localizacion?.provincia,
-            pais: datos.localizacion?.pais,
-            gps: datos.localizacion?.gps,
-        });
-    }, [datos]);
+    let fechaActual = new Date().toISOString().split("T")[0];
+    const { data, setData, post, processing, errors, reset } = useForm({
+        frecuencia: "",
+        nombre: "",
+        observaciones: "",
+        comprobado: 0,
+        privado: 0,
+        frecuencia_id: -1,
+        hora: horaActual,
+        fecha: fechaActual,
+        tipo_id: 0,
+        banda_id: -1,
+        modo_id: -1,
+        calidad: 0,
+        offset: "",
+        direccion: "=",
+        codificacion_id: -1,
+        dcs_id: -1,
+        ctcss_id: -1,
+        localizacion_id: -1,
+        localidad: "",
+        provincia: "",
+        pais: "",
+        gps: "",
+    });
 
-    const { submit, eliminar } = handleContacts(post);
+    const { crear } = handleContacts(post);
 
     const {
         handleBanda,
@@ -97,7 +69,7 @@ export const EditarContacto = ({ datos, selects }) => {
 
     const classZona =
         " w-4/5 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
-    const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen ] ${datos.tipo.color}`;
+    const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen ] bg-blue-700`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
@@ -116,7 +88,7 @@ export const EditarContacto = ({ datos, selects }) => {
     return (
         <form
             method="POST"
-            onSubmit={submit}
+            onSubmit={crear}
             encType="multipart/form-data"
             className={claseContacto}
         >
@@ -127,35 +99,23 @@ export const EditarContacto = ({ datos, selects }) => {
                 >
                     <i
                         className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
-                        onClick={submit}
+                        onClick={crear}
                     ></i>
 
                     <i
                         className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                        onClick={() => eliminar(datos.id)}
+                        onClick={() => reset}
                     ></i>
                 </div>
                 <div className="w-3/5 flex flex-col items-center justify-center">
-                    <h2 className="font-bold text-xl">{datos.nombre}</h2>
-                    <span className="text-sm">
-                        {datos.frecuencia.frecuencia} Mhz
-                    </span>
-                    <span className="italic text-sm">{datos.tipo.nombre}</span>
+                    <h2 className="font-bold text-xl">Nuevo Contacto</h2>
                 </div>
 
                 <div
                     name="otrosIconos"
                     className="w-1/5 flex items-end justify-end"
-                >
-                    {datos.localizacion?.gps ? (
-                        <i className="fa-solid fa-location-dot cursor-pointer hover:scale-150 select-none"></i>
-                    ) : (
-                        ""
-                    )}
-                </div>
+                ></div>
             </div>
-
-            <input type="hidden" id="id" value={data.id} />
 
             <div className={classZona}>
                 <legend className={clasesLegend}>Datos</legend>
@@ -210,7 +170,7 @@ export const EditarContacto = ({ datos, selects }) => {
                                 id="tipo_id"
                                 name="tipo_id"
                                 value={data.tipo_id}
-                                className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer required:border-red-500 valid:border-green-500"
                                 onChange={(e) => handleTipo(e)}
                                 placeholder="tipo"
                                 required
@@ -244,7 +204,7 @@ export const EditarContacto = ({ datos, selects }) => {
                                 type="date"
                                 id="fecha"
                                 name="fecha"
-                                className={clasesDOM}
+                                className={`required:border-red-500 valid:border-green-500 ${clasesDOM}`}
                                 onChange={(e) =>
                                     setData("fecha", e.target.value)
                                 }
@@ -266,7 +226,7 @@ export const EditarContacto = ({ datos, selects }) => {
                                 type="time"
                                 id="hora"
                                 name="hora"
-                                className={clasesDOM}
+                                className={`required:border-red-500 valid:border-green-500 ${clasesDOM}`}
                                 onChange={(e) =>
                                     setData("hora", e.target.value)
                                 }
@@ -315,7 +275,7 @@ export const EditarContacto = ({ datos, selects }) => {
                             <textarea
                                 id="observaciones"
                                 name="observaciones"
-                                className={clasesDOM}
+                                className={`required:border-red-500 valid:border-green-500 ${clasesDOM}`}
                                 onChange={(e) =>
                                     setData("observaciones", e.target.value)
                                 }
@@ -436,7 +396,7 @@ export const EditarContacto = ({ datos, selects }) => {
                                 id="calidad"
                                 name="calidad"
                                 value={data.calidad}
-                                className={clasesDOM}
+                                className={`required:border-red-500 valid:border-green-500 ${clasesDOM}`}
                                 min={0}
                                 max={5}
                                 step={1}
@@ -560,7 +520,6 @@ export const EditarContacto = ({ datos, selects }) => {
                                             setData("gps", e.target.value)
                                         }
                                         placeholder="gps"
-                                        required
                                     />
 
                                     <InputError
@@ -585,15 +544,7 @@ export const EditarContacto = ({ datos, selects }) => {
                     onClick={() => handleToggleVisibilidad("repVisib")}
                 >
                     <span>Repetidor</span>
-                    <span>
-                        {datos.repetidor_id
-                            ? eval(
-                                  datos.frecuencia.frecuencia +
-                                      datos.repetidor?.direccion +
-                                      datos.repetidor?.offset
-                              ).toFixed(3)
-                            : ""}
-                    </span>
+                    <span></span>
 
                     <i className="fa-solid fa-tower-cell"></i>
                 </legend>
