@@ -19,9 +19,6 @@ export const EditarContacto = ({ datos, selects }) => {
         direcciones,
     } = selects;
 
-
-    console.log(datos);
-
     const { data, setData, post, processing, errors, reset } = useForm({
         id: datos.id,
         frecuencia: datos.frecuencia.frecuencia,
@@ -47,6 +44,10 @@ export const EditarContacto = ({ datos, selects }) => {
         pais: datos.localizacion?.pais,
         gps: datos.localizacion?.gps,
     });
+
+    useEffect(() => {
+        document.getElementById('detalle').scrollTo(0, 0);
+    }, [datos]);
 
     useEffect(() => {
         setData({
@@ -346,13 +347,13 @@ export const EditarContacto = ({ datos, selects }) => {
                                 id="frecuencia"
                                 name="frecuencia"
                                 value={data.frecuencia}
-                                className="mt-1 block w-full"
+                                className="mt-1 block w-full text-center"
                                 isFocused={true}
                                 onChange={(e) =>
                                     setData("frecuencia", e.target.value)
                                 }
                                 placeholder="Frecuencia"
-                                required
+                                disabled
                             />
                             <InputError
                                 message={errors.frecuencia}
@@ -463,7 +464,7 @@ export const EditarContacto = ({ datos, selects }) => {
                     <span>Localización</span>
                     <i className="fa-solid fa-location-dot"></i>
                 </legend>
-                {visibilidad.locVisib ? (
+                {datos.localizacion_id || visibilidad.locVisib ? (
                     <>
                         <fieldset
                             name="localizacion"
@@ -597,7 +598,7 @@ export const EditarContacto = ({ datos, selects }) => {
 
                     <i className="fa-solid fa-tower-cell"></i>
                 </legend>
-                {visibilidad.repVisib ? (
+                {datos.repetidor_id || visibilidad.repVisib ? (
                     <>
                         <fieldset name="repetidor" className={clasesFieldSet}>
                             <div className={clasesDivContainer}>
@@ -675,7 +676,7 @@ export const EditarContacto = ({ datos, selects }) => {
                     <i className="fa-solid fa-barcode"></i>
                 </legend>
 
-                {visibilidad.codVisib ? (
+                {visibilidad.codVisib || datos.codificacion_id ? (
                     <>
                         <fieldset
                             name="codificacion"
