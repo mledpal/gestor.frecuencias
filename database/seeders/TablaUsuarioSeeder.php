@@ -17,7 +17,7 @@ class TablaUsuarioSeeder extends Seeder
         $localizacion = [
             'localidad' => 'Linares',
             'provincia' => 'Jaén',
-            'pais' => 'ES',
+            'pais' => 'España',
             'gps' => '38.0902883, -3.6244309',
         ];
 
