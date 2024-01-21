@@ -18,9 +18,17 @@
 - En una segunda consola, ejecutar **yarn dev**
 - Acceder a [localhost](http://localhost:8000) en un navegador
 
+
+### Pasos realizados
+- Creación de usuarios
+- Recuperación de contraseña olvidada
+- Imagen de perfil
+- Edición de contactos
+- Sistema de filtros de contactos
+
 ### Estado actual
 
-- Finalizando la edición y creación de nuevos contactos
+- Finalizando la creación de nuevos contactos y el sistema de búsqueda
 
 ### Próximos pasos
 
