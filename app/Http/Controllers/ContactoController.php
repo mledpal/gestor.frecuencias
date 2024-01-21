@@ -24,7 +24,6 @@ class ContactoController extends Controller
 
     public function crear(ValidarContacto $request)
     {
-
         if (Auth::check()) {
 
             $user = Auth::user();
@@ -50,73 +49,28 @@ class ContactoController extends Controller
             }
 
             $frecuencia_bus = Frecuencia::where('frecuencia', $request->frecuencia)->first();
-
-            // Busca un contacto existente en el que coincidan la frecuencia y la localización
-            $existente_bus = Contacto::where('localizacion_id', $localizacion_id)->where('frecuencia_id', $frecuencia_bus->id)->first();
-
-            if ($existente_bus->user_id == $user->id) {
-                return back()->with(['mensaje-error' => 'Ya existe ese contacto']);
-            } elseif (!$existente_bus->privado) {
-                $frecuencia_id = $existente_bus->frecuencia_id;
-
+            if (!$frecuencia_bus) {
+                $frecuencia = Frecuencia::create(['frecuencia' => $request->frecuencia]);
+                $frecuencia_id = $frecuencia->id;
+            } else {
+                $frecuencia_id = $frecuencia_bus->id;
             }
 
-            dd($existente_bus);
 
             // Codificación
-            $codificacion_id = null;
-            if (isset($codificacion_id)) {
-                $codificacion_bus = Codificacion::where('tipo_id', $request->tipo_id)->where('dcs_id', $request->dcs_id)->where('ctcss_id', $request->ctcss_id)->first();
 
-                if (!$codificacion_bus) {
-                    $codificacion = Codificacion::create([
-                        'tipo_id' => $request->tipo_id,
-                        'ctcss_id' => $request->ctcss_id,
-                        'dcs_id' => $request->dcs_id,
-                    ]);
-                    $codificacion_id = $codificacion->id;
-                } else {
-                    $codificacion_id = $codificacion_bus->id;
-                }
+            if (isset($request->tipo_codificacion_id) || isset($request->dcs_id) || isset($request->ctcss_id)) {
+                $codificacion = Codificacion::firstOrCreate(['tipo_id' => $request->tipo_codificacion_id, 'dcs_id' => $request->dcs_id, 'ctcss_id' => $request->ctcss_id]);
             }
-
-
-            // Banda
-            $banda_id = $request->banda_id;
-
-            // Modo de transmisión
-            $modo_id = $request->modo_id;
-
 
             // Repetidor
-            $repetidor_id = null;
             if (isset($request->offset)) {
-                $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion)->first();
-
-                if (!$repetidor_bus) {
-                    $repetidor = Repetidor::create([
-                        'offset' => $request->offset,
-                        'direccion' => $request->direccion,
-                    ]);
-
-                    $repetidor_id = $repetidor->id;
-                } else {
-                    $repetidor_id = $repetidor_bus->id;
-                }
+                $repetidor = Repetidor::firstOrCreate(['offset' => $request->offset, 'direccion' => $request->direccion]);
             }
-
-            // Frecuencia
-            $frecuencia_id = null;
-            if (isset($request->frecuencia)) {
-                $frecuencia_bus = Frecuencia::where('frecuencia', $request->frecuencia)->first();
-            }
-
-            $frecuencia = Frecuencia::with('localizacion')->where('frecuencia', $request->frecuencia);
-
 
 
             // Crea el nuevo contacto
-            $contacto = new stdClass();
+            $contacto = array();
             $contacto['nombre'] = $request->nombre;
             $contacto['comprobado'] = $request->comprobado;
             $contacto['privado'] = $request->privado;
@@ -125,9 +79,16 @@ class ContactoController extends Controller
             $contacto['tipo_id'] = $request->tipo_id;
             $contacto['localizacion_id'] = $localizacion_id;
             $contacto['frecuencia_id'] = $frecuencia_id;
+            $contacto['repetidor_id'] = $repetidor->id ?? null;
+            $contacto['codificacion_id'] = $codificacion->id ?? null;
+            $contacto['banda_id'] = $request->banda_id;
+            $contacto['modo_id'] = $request->modo_id;
             $contacto['user_id'] = $user->id;
+            $contacto['observaciones'] = $request->observaciones;
 
             Contacto::create($contacto);
+
+            return redirect('/')->with(['mensaje' => 'Contacto creado correctamente']);
         } else {
             return redirect('/login');
         }

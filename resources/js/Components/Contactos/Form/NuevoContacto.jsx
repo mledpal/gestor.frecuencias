@@ -6,6 +6,7 @@ import TextInput from "@/Components/TextInput";
 import { handlerForm } from "./handlerForm";
 import { useForm } from "@inertiajs/react";
 import { handleContacts } from "./handleContacts";
+import { useEffect } from "react";
 
 export const NuevoContacto = ({
     datos,
@@ -23,30 +24,54 @@ export const NuevoContacto = ({
     });
 
     let fechaActual = new Date().toISOString().split("T")[0];
+
     const { data, setData, post, processing, errors, reset } = useForm({
         frecuencia: "",
         nombre: "",
         observaciones: "",
         comprobado: 0,
         privado: 0,
-        frecuencia_id: -1,
         hora: horaActual,
         fecha: fechaActual,
         tipo_id: 0,
-        banda_id: -1,
-        modo_id: -1,
+        banda_id: null,
+        modo_id: null,
         calidad: 0,
         offset: "",
         direccion: "=",
-        codificacion_id: -1,
-        dcs_id: -1,
-        ctcss_id: -1,
-        localizacion_id: -1,
+        tipo_codificacion_id: null,
+        dcs_id: null,
+        ctcss_id: null,
         localidad: "",
         provincia: "",
         pais: "",
         gps: "",
     });
+
+    useEffect(() => {
+        setData({
+            frecuencia: "",
+            nombre: "",
+            observaciones: "",
+            comprobado: 0,
+            privado: 0,
+            hora: horaActual,
+            fecha: fechaActual,
+            tipo_id: 0,
+            banda_id: null,
+            modo_id: null,
+            calidad: 0,
+            offset: "",
+            direccion: "=",
+            tipo_codificacion_id: null,
+            dcs_id: null,
+            ctcss_id: null,
+            localidad: "",
+            provincia: "",
+            pais: "",
+            gps: "",
+        });
+    }, []);
 
     const { crear } = handleContacts(post);
 
@@ -635,17 +660,17 @@ export const NuevoContacto = ({
                             <div className={clasesDivContainer}>
                                 <div className="w-1/3 flex flex-col items-center">
                                     <InputLabel
-                                        htmlFor="codificacion_id"
+                                        htmlFor="tipo_codificacion_id"
                                         value="Codificación"
                                         className={clasesLabel}
                                     />
                                     <select
-                                        id="codificacion_id"
-                                        name="codificacion_id"
-                                        value={data.codificacion_id ?? -1}
+                                        id="tipo_codificacion_id"
+                                        name="tipo_codificacion_id"
+                                        value={data.tipo_codificacion_id ?? -1}
                                         className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                         onChange={(e) => handleCodificacion(e)}
-                                        placeholder="Codificaación"
+                                        placeholder="Codificación"
                                         required
                                     >
                                         {Object.entries(codificaciones).map(
@@ -653,7 +678,7 @@ export const NuevoContacto = ({
                                                 <option
                                                     key={id} // Asegúrate de agregar una clave única para cada opción
                                                     className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                                    value={id ?? -1}
+                                                    value={id}
                                                 >
                                                     {nombre}
                                                 </option>

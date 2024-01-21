@@ -44,7 +44,7 @@ export const MainPage = ({ contactos, selects }) => {
                         className="sticky top-0 mt-0 mb-8 px-1 h-[25px] w-full flex flex-row justify-around items-center select-none bg-slate-900 z-10 "
                     >
                         <i
-                            onClick={handleOpen}
+                            onClick={() => handleOpen("lg")}
                             className="fa-solid fa-circle-plus cursor-pointer hover:scale-150 transition-transform ease-in-out"
                         ></i>
                         <i className="fa-solid fa-magnifying-glass cursor-pointer transition-transform ease-in-out hover:scale-150"></i>
@@ -87,10 +87,10 @@ export const MainPage = ({ contactos, selects }) => {
                 <div id="mensajes" className="h-full w-1/5"></div>
             </div>
             <Dialog
-                size="xl"
+                size="lg"
                 open={open}
                 handler={handleOpen}
-                className="bg-transparent shadow-none overflow-y-auto"
+                className="bg-transparent shadow-none overflow-y-scroll w-3/5 mx-auto"
             >
                 <NuevoContacto
                     datos={datosNuevos}

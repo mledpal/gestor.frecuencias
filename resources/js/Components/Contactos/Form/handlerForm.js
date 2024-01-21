@@ -71,7 +71,7 @@ export const handlerForm = ({datos, setData}) => {
 
     const handleCodificacion = (e) => {
         let value = e.target.value;
-        setData("codificacion_id", value);
+        setData("tipo_codificacion_id", value);
     };
 
     const handleCtcss = (e) => {

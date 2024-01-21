@@ -34,7 +34,7 @@ class ValidarContacto extends FormRequest
             'calidad' => 'nullable|integer',
             'offset' => 'nullable|string',
             'direccion' => 'nullable|string|max:1',
-            'codificacion_id' => 'nullable|integer',
+            'tipo_codificacion_id' => 'nullable|integer',
             'dcs_id' => 'nullable|integer',
             'ctcss_id' => 'nullable|integer',
             'gps' => 'nullable|string|max:100',
