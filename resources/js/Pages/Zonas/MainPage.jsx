@@ -13,24 +13,18 @@ import { useContactoCreate } from "@/hooks/useContactoCreate";
 
 export const MainPage = ({ contactos, selects }) => {
     const [datos, setDatos] = useState(null);
-    const [visible, setVisible] = useState(false);
-
-    const { handleCheck, contactosFiltrados, filtros } = useFilters(contactos);
-    const { datosNuevos, handleOpen, open } = useContactoCreate();
-
-    const handleFilterVisible = () => {
-        setVisible(!visible);
-    };
 
     const {
-        tipos_contacto,
-        bandas,
-        modos,
-        codificaciones,
-        dcs,
-        ctcss,
-        direcciones,
-    } = selects;
+        handleCheck,
+        contactosFiltrados,
+        filtros,
+        listaFiltros,
+        handleFilterVisible,
+        visible,
+        handlerCheckUncheck,
+    } = useFilters(contactos);
+
+    const { datosNuevos, handleOpen, open } = useContactoCreate();
 
     return (
         <>
@@ -59,6 +53,8 @@ export const MainPage = ({ contactos, selects }) => {
                                 <CuadroFiltros
                                     handleCheck={handleCheck}
                                     filtros={filtros}
+                                    listaFiltros={listaFiltros}
+                                    handlerCheckUncheck={handlerCheckUncheck}
                                 />
                             ) : (
                                 ""
@@ -86,22 +82,19 @@ export const MainPage = ({ contactos, selects }) => {
 
                 <div id="mensajes" className="h-full w-1/5"></div>
             </div>
+
             <Dialog
+                id="nuevocontacto"
+                name="nuevocontacto"
                 size="lg"
                 open={open}
                 handler={handleOpen}
-                className="bg-transparent shadow-none overflow-y-scroll w-3/5 mx-auto"
+                className="bg-transparent overflow-y-scroll "
             >
                 <NuevoContacto
                     datos={datosNuevos}
                     handleOpen={handleOpen}
-                    tipos_contacto={tipos_contacto}
-                    bandas={bandas}
-                    modos={modos}
-                    codificaciones={codificaciones}
-                    dcs={dcs}
-                    ctcss={ctcss}
-                    direcciones={direcciones}
+                    selects={selects}
                     isFocused={true}
                 />
             </Dialog>

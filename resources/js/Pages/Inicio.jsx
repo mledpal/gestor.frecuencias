@@ -4,13 +4,7 @@ import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { MainPage } from "./Zonas/MainPage";
 
-export default function Inicio({
-    userDB,
-    title,
-    roles,
-    contactos,
-    selects,
-}) {
+export default function Inicio({ userDB, title, roles, contactos, selects }) {
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
 
@@ -40,7 +34,7 @@ export default function Inicio({
     return (
         <div
             id="root"
-            className="h-screen max-h-screen w-screen flex flex-col justify-between box-border overflow-hidden"
+            className="h-screen max-h-screen w-screen flex flex-col justify-between box-border overflow-hidden font-sans"
         >
             <Head title={title} />
             <header className="relative flex flex-row items-center justify-between w-full h-[10%] bg-colorbg">
@@ -53,10 +47,7 @@ export default function Inicio({
             </header>
 
             <main className="flex flex-col w-full  bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px]  h-4/5">
-                <MainPage
-                    contactos={contactos}
-                    selects={selects}
-                />
+                <MainPage contactos={contactos} selects={selects} />
             </main>
 
             <footer className="flex flex-row w-full h-[5%] justify-between items-center p-10  bg-transparent">

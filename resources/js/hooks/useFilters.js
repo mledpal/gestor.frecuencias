@@ -1,8 +1,21 @@
 import { useEffect, useState } from "react";
 
 export const useFilters = (contactos) => {
-    const [contactosFiltrados, setFiltrados] = useState([]);
+    const listaFiltros = [
+        { label: "Comprobados", key: "comprobado" },
+        { label: "Desconocidos", key: "nocomprobado" },
+        { label: "Públicos", key: "publico" },
+        { label: "Privados", key: "privado" },
+        { label: "Aviación", key: "aviacion" },
+        { label: "Emisoras", key: "emisora" },
+        { label: "Empresas", key: "empresa" },
+        { label: "Eventos", key: "evento" },
+        { label: "Particulares", key: "particular" },
+        { label: "Servicios", key: "servicio" },
+    ];
 
+    const [contactosFiltrados, setFiltrados] = useState([]);
+    const [visible, setVisible] = useState(false);
     const [filtros, setFiltros] = useState({
         comprobado: true,
         nocomprobado: true,
@@ -16,17 +29,13 @@ export const useFilters = (contactos) => {
         emisora: true,
     });
 
+    const handleFilterVisible = () => {
+        setVisible(!visible);
+    };
+
     const handleCheck = (filtro) => {
         setFiltros({ ...filtros, [filtro]: !filtros[filtro] });
     };
-
-    useEffect(() => {
-        setFiltrados(filtrarContactos(contactos));
-    }, [contactos, filtros]);
-
-    useEffect(() => {
-        filtrarContactos(contactos);
-    }, [filtros]);
 
     const filtrarContactos = (contacts) => {
         return contacts.filter((dato) => {
@@ -45,9 +54,31 @@ export const useFilters = (contactos) => {
         });
     };
 
+    useEffect(() => {
+        setFiltrados(filtrarContactos(contactos));
+    }, [contactos, filtros]);
+
+    useEffect(() => {
+        filtrarContactos(contactos);
+    }, [filtros]);
+
+    const handlerCheckUncheck = () => {
+        setFiltros((prevFiltros) => {
+            const nuevoFiltros = { ...prevFiltros };
+            listaFiltros.forEach((f) => {
+                nuevoFiltros[f.key] = !prevFiltros[f.key];
+            });
+            return nuevoFiltros;
+        });
+    };
+
     return {
+        visible,
         filtros,
         handleCheck,
         contactosFiltrados,
+        listaFiltros,
+        handleFilterVisible,
+        handlerCheckUncheck,
     };
 };

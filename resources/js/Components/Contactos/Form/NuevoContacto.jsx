@@ -8,16 +8,23 @@ import { useForm } from "@inertiajs/react";
 import { handleContacts } from "./handleContacts";
 import { useEffect } from "react";
 
-export const NuevoContacto = ({
-    datos,
-    tipos_contacto,
-    bandas,
-    modos,
-    codificaciones,
-    dcs,
-    ctcss,
-    direcciones,
-}) => {
+export const NuevoContacto = ({ datos, selects }) => {
+    const {
+        tipos_contacto,
+        bandas,
+        modos,
+        codificaciones,
+        dcs,
+        ctcss,
+        direcciones,
+    } = selects;
+
+    useEffect(() => {
+        setTimeout(() => {
+            document.getElementById("nuevocontacto").scrollTo(0, 0);
+        }, 100);
+    }, []);
+
     let horaActual = new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -94,7 +101,7 @@ export const NuevoContacto = ({
 
     const classZona =
         " w-4/5 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
-    const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen ] bg-blue-700`;
+    const claseContacto = `flex flex-col justify-start items-center w-3/5 mx-auto min-h-screen bg-blue-700 shadow-[0_0_15px_rgba(255,255,255,.6)] `;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
@@ -112,6 +119,7 @@ export const NuevoContacto = ({
 
     return (
         <form
+            id="nuevocontacto"
             method="POST"
             onSubmit={crear}
             encType="multipart/form-data"

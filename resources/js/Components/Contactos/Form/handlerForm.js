@@ -61,6 +61,7 @@ export const handlerForm = ({datos, setData}) => {
 
     const handleBanda = (e) => {
         let value = e.target.value;
+        
         setData("banda_id", value);
     };
 
