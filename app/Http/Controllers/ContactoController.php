@@ -105,10 +105,14 @@ class ContactoController extends Controller
 
             $newContact = Contacto::create($contacto);
 
-            if($newContact) {
-                return json_encode(['mensaje' => 'Contacto creado correctamente']);
+            if ($newContact) {
+                return back()->with('flash', [
+                    'mensaje' => 'Contacto creado correctamente',
+                ]);
             } else {
-                return json_encode(['mensaje-error' => 'Hubo un error al crear el contacto']);
+                return back()->with('flash', [
+                    'mensaje-error' => 'Hubo un error',
+                ]);
             }
         } else {
             return redirect('/login');

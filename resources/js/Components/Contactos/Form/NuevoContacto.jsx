@@ -8,7 +8,12 @@ import { useForm } from "@inertiajs/react";
 import { handleContacts } from "../Helpers/handleContacts";
 import { useEffect } from "react";
 
-export const NuevoContacto = ({ datos, selects }) => {
+export const NuevoContacto = ({
+    datos,
+    selects,
+    handleOpen,
+    updateContact,
+}) => {
     const {
         tipos_contacto,
         bandas,
@@ -82,6 +87,13 @@ export const NuevoContacto = ({ datos, selects }) => {
 
     const { crear } = handleContacts({ post });
 
+    const handleCrear = (e) => {
+        e.preventDefault();
+        post(route("contacto_crear"));
+        updateContact();
+        handleOpen();
+    };
+
     const {
         handleBanda,
         handleCheck,
@@ -132,12 +144,16 @@ export const NuevoContacto = ({ datos, selects }) => {
                 >
                     <i
                         className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
-                        onClick={crear}
+                        onClick={handleCrear}
                     ></i>
 
                     <i
                         className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                        onClick={() => reset}
+                        onClick={reset}
+                    ></i>
+                    <i
+                        className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
+                        onClick={() => handleOpen()}
                     ></i>
                 </div>
                 <div className="w-3/5 flex flex-col items-center justify-center">

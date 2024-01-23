@@ -6,8 +6,7 @@ export const handleContacts = ({ post, updateContact }) => {
 
     const MySwal = withReactContent(Swal);
 
-    const crear = (e) => {
-        e.preventDefault();
+    const crear = () => {
         post(route("contacto_crear"));
     };
 

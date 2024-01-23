@@ -84,7 +84,7 @@ export const MainPage = ({ selects }) => {
                             contactos={contactos}
                             setDatos={setDatos}
                             borrarContacto={borrarContacto}
-                            updateContact = {updateContact}
+                            updateContact={updateContact}
                         />
                     ) : (
                         <NoContactos />
@@ -107,6 +107,7 @@ export const MainPage = ({ selects }) => {
                     handleOpen={handleOpen}
                     selects={selects}
                     isFocused={true}
+                    updateContact={updateContact}
                 />
             </Dialog>
         </>
