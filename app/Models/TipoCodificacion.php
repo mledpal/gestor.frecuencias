@@ -17,6 +17,6 @@ class TipoCodificacion extends Model
      */
     public function codificacion()
     {
-        return $this->belongsToMany(Codificacion::class);
+        return $this->hasOne(Contacto::class);
     }
 }

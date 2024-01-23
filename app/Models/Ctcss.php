@@ -19,6 +19,6 @@ class Ctcss extends Model
 
     public function codificacion()
     {
-        return $this->hasMany(Codificacion::class);
+        return $this->hasOne(Contacto::class);
     }
 }

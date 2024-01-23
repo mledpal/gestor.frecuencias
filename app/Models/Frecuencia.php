@@ -19,7 +19,7 @@ class Frecuencia extends Model
      */
     public function contacto()
     {
-        return $this->hasOne(Contacto::class);
+        return $this->hasMany(Contacto::class);
     }
 
 

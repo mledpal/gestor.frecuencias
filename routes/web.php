@@ -20,14 +20,15 @@ use Inertia\Inertia;
 
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::get('/logout', 'logout')->name('index.logout');
-    Route::get('/radio', 'radio')->name('index.radio');
+    Route::get('logout', 'logout')->name('index.logout');
+    Route::get('radio', 'radio')->name('index.radio');
 });
 
 Route::controller(ContactoController::class)->group(function () {
-    Route::post('/contacto/crear', 'crear')->name('contacto_crear');
-    Route::delete('/contacto/{id}/eliminar', 'eliminar')->name('contacto_eliminar');
-    Route::post('/ajax/contacto/{id}', 'actualizar')->name('contacto_actualizar');
+    Route::post('contacto/crear', 'crear')->name('contacto_crear');
+    Route::post('contacto/{id}/eliminar', 'eliminar')->name('contacto_eliminar');
+    Route::get('ajax/contacto/get', 'getContacts')->name('contacto_get');
+    Route::post('ajax/contacto/{id}', 'actualizar')->name('contacto_actualizar');
 });
 
 
@@ -36,12 +37,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
+    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';

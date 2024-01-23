@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidarContacto;
-use App\Models\Banda;
 use App\Models\Codificacion;
 use App\Models\Contacto;
 use App\Models\Frecuencia;
 use App\Models\Localizacion;
 use App\Models\Repetidor;
+use App\Models\TipoCodificacion;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +18,24 @@ use stdClass;
 class ContactoController extends Controller
 {
 
+
+    /**
+     * Función que , mediante AJAX, recoge los contactos solicitados
+     */
+
+    public function getContacts()
+    {
+        if (Auth::check()) {
+
+            $user = Auth::user();
+
+            $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
+
+            return json_encode($contactos);
+        } else {
+            return redirect('/login');
+        }
+    }
     /**
      * Funcion que sirve para crear un nuevo contacto
      */
@@ -28,6 +46,7 @@ class ContactoController extends Controller
 
             $user = Auth::user();
 
+            // dd($request);
             // Localización
 
             $localizacion_id = null;
@@ -56,13 +75,6 @@ class ContactoController extends Controller
                 $frecuencia_id = $frecuencia_bus->id;
             }
 
-
-            // Codificación
-
-            if (isset($request->tipo_codificacion_id) || isset($request->dcs_id) || isset($request->ctcss_id)) {
-                $codificacion = Codificacion::firstOrCreate(['tipo_id' => $request->tipo_codificacion_id, 'dcs_id' => $request->dcs_id, 'ctcss_id' => $request->ctcss_id]);
-            }
-
             // Repetidor
             if (isset($request->offset)) {
                 $repetidor = Repetidor::firstOrCreate(['offset' => $request->offset, 'direccion' => $request->direccion]);
@@ -80,7 +92,9 @@ class ContactoController extends Controller
             $contacto['localizacion_id'] = $localizacion_id;
             $contacto['frecuencia_id'] = $frecuencia_id;
             $contacto['repetidor_id'] = $repetidor->id ?? null;
-            $contacto['codificacion_id'] = $codificacion->id ?? null;
+            $contacto['codificacion_id'] = $request->codificacion_id;
+            $contacto['dcs_id'] = $request->dcs_id;
+            $contacto['ctcss_id'] = $request->ctcss_id;
             $contacto['banda_id'] = $request->banda_id;
             $contacto['modo_id'] = $request->modo_id;
             $contacto['user_id'] = $user->id;
@@ -88,7 +102,7 @@ class ContactoController extends Controller
 
             Contacto::create($contacto);
 
-            return redirect('/')->with(['mensaje' => 'Contacto creado correctamente']);
+            return back()->with('flash', ['mensaje' => 'Contacto creado correctamente']);
         } else {
             return redirect('/login');
         }
@@ -107,9 +121,6 @@ class ContactoController extends Controller
 
             $contacto = Contacto::with('frecuencia', 'codificacion', 'localizacion')->findorFail($request->id);
 
-            // $contacto->frecuencia->update([
-
-            // ]);
 
             $contacto->update([
                 'nombre' => $request->nombre,
@@ -123,20 +134,11 @@ class ContactoController extends Controller
                 'calidad' => $request->calidad ?? 0,
                 'banda_id' => $request->banda_id,
                 'modo_id' => $request->modo_id,
+                'ctcss_id' => $request->ctcss_id,
+                'dcs_id' => $request->dcs_id,
+                'codificacion_id' => $request->codificacion_id
             ]);
 
-            if (isset($request->codificacion_id)) {
-
-                $contacto->codificacion->update([
-                    // 'tipo_id' => $request->codificacion_id,
-                    'dcs_id' => ($request->dcs_id != -1) ? $request->dcs_id : null,
-                    'ctcss_id' => ($request->ctcss_id != -1) ? $request->ctcss_id : null,
-                ]);
-
-                $contacto->update([
-                    'codificacion_id' => $request->codificacion_id,
-                ]);
-            }
 
             // REPETIDOR
 
@@ -199,8 +201,6 @@ class ContactoController extends Controller
             } // FIN  LOCALIZACION
 
 
-
-
             return redirect('/')->with('mensaje', 'Contacto actualizado con éxito');
         } else {
             return redirect('/login');
@@ -218,9 +218,7 @@ class ContactoController extends Controller
 
             if ($contacto) {
                 $contacto->delete();
-                return redirect('/')->with('mensaje', 'Contacto eliminado con éxito');
-            } else {
-                return redirect('/')->with('mensaje-error', 'No se ha eliminado el contacto');
+                // return redirect('/')->with('mensaje', 'Contacto eliminado con éxito');
             }
         }
     }

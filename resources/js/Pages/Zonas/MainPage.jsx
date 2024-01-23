@@ -11,7 +11,7 @@ import { useFilters } from "@/hooks/useFilters";
 import { NuevoContacto } from "@/Components/Contactos/Form/NuevoContacto";
 import { useContactoCreate } from "@/hooks/useContactoCreate";
 
-export const MainPage = ({ contactos, selects }) => {
+export const MainPage = ({ selects }) => {
     const [datos, setDatos] = useState(null);
 
     const {
@@ -22,9 +22,16 @@ export const MainPage = ({ contactos, selects }) => {
         handleFilterVisible,
         visible,
         handlerCheckUncheck,
-    } = useFilters(contactos);
+        eraseContact,
+        updateContact,
+    } = useFilters();
 
     const { datosNuevos, handleOpen, open } = useContactoCreate();
+
+    const borrarContacto = (id) => {
+        setDatos(null);
+        eraseContact(id);
+    };
 
     return (
         <>
@@ -74,6 +81,10 @@ export const MainPage = ({ contactos, selects }) => {
                             datos={datos}
                             selects={selects}
                             isFocused={true}
+                            contactos={contactos}
+                            setDatos={setDatos}
+                            borrarContacto={borrarContacto}
+                            updateContact = {updateContact}
                         />
                     ) : (
                         <NoContactos />

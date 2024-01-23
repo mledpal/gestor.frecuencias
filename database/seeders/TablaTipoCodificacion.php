@@ -17,10 +17,11 @@ class TablaTipoCodificacion extends Seeder
             TipoCodificacion::create($value);
         }
     }
-    
+
     private function datos()
     {
         return [
+            ['nombre' => 'Ninguna'],
             ['nombre' => 'Secrafonia'],
             ['nombre' => 'DMR'],
             ['nombre' => 'Tetra'],

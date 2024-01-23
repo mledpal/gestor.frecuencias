@@ -28,21 +28,17 @@ class MainController extends Controller
             $user = Auth::user();
 
             $tipos_contacto = TipoContacto::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
-            $bandas = Banda::orderBy('id', 'ASC')->get()->pluck('banda', 'id')->toArray();
 
+            $bandas = Banda::orderBy('id', 'ASC')->get()->pluck('banda','id')->toArray();
             $modos = ModoTransmision::orderBy('id', 'ASC')->get()->pluck('nombre', 'id')->toArray();
-            $modos[-1] = 'Desconocido';
 
             $tiposCodificacion = TipoCodificacion::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
-            $tiposCodificacion[-1] = 'No tiene';
 
             $dcsCodes = Dcs::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
-            $dcsCodes[-1] = 'No tiene';
 
             $ctcssCodes = Ctcss::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
-            $ctcssCodes[-1] = 'No tiene';
 
-            $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'codificacion.tipo', 'codificacion.ctcss', 'codificacion.dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
+            $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
 
             $direcciones = ['=' => '=', '+' => '+', '-' => '-'];
 

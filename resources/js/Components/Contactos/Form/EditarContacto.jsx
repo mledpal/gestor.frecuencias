@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
@@ -5,10 +7,20 @@ import TextInput from "@/Components/TextInput";
 
 import { handlerForm } from "./handlerForm";
 import { useForm } from "@inertiajs/react";
-import { useEffect } from "react";
-import { handleContacts } from "./handleContacts";
+import { handleContacts } from "../Helpers/handleContacts";
 
-export const EditarContacto = ({ datos, selects }) => {
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+export const EditarContacto = ({
+    setDatos,
+    contactos,
+    datos,
+    selects,
+    borrarContacto,
+    updateContact,
+}) => {
+
     const {
         tipos_contacto,
         bandas,
@@ -35,9 +47,9 @@ export const EditarContacto = ({ datos, selects }) => {
         calidad: datos.calidad,
         offset: datos.repetidor?.offset,
         direccion: datos.repetidor?.direccion,
-        codificacion_id: datos.codificacion_id,
-        dcs_id: datos.codificacion?.dcs_id,
-        ctcss_id: datos.codificacion?.ctcss_id,
+        codificacion_id: datos?.codificacion_id,
+        dcs_id: datos?.dcs_id,
+        ctcss_id: datos?.ctcss_id,
         localizacion_id: datos.localizacion_id,
         localidad: datos.localizacion?.localidad,
         provincia: datos.localizacion?.provincia,
@@ -46,7 +58,7 @@ export const EditarContacto = ({ datos, selects }) => {
     });
 
     useEffect(() => {
-        document.getElementById('detalle').scrollTo(0, 0);
+        document.getElementById("detalle").scrollTo(0, 0);
     }, [datos]);
 
     useEffect(() => {
@@ -59,16 +71,16 @@ export const EditarContacto = ({ datos, selects }) => {
             privado: datos.privado,
             frecuencia_id: datos.frecuencia_id,
             hora: datos?.hora,
-            fecha: datos.fecha,
+            fecha: datos?.fecha,
             tipo_id: datos.tipo.id,
             banda_id: datos.banda_id,
             modo_id: datos.modo_id,
             calidad: datos.calidad,
             offset: datos.repetidor?.offset,
             direccion: datos.repetidor?.direccion,
-            codificacion_id: datos.codificacion_id,
-            dcs_id: datos.codificacion?.dcs_id,
-            ctcss_id: datos.codificacion?.ctcss_id,
+            codificacion_id: datos?.codificacion_id,
+            dcs_id: datos?.dcs_id,
+            ctcss_id: datos?.ctcss_id,
             localizacion_id: datos.localizacion_id,
             localidad: datos.localizacion?.localidad,
             provincia: datos.localizacion?.provincia,
@@ -76,8 +88,6 @@ export const EditarContacto = ({ datos, selects }) => {
             gps: datos.localizacion?.gps,
         });
     }, [datos]);
-
-    const { submit, eliminar } = handleContacts(post);
 
     const {
         handleBanda,
@@ -93,6 +103,50 @@ export const EditarContacto = ({ datos, selects }) => {
         visibilidad,
         setVisibilidad,
     } = handlerForm({ datos, setData });
+
+    const { submit, eliminar } = handleContacts({ post, setDatos, contactos, updateContact });
+
+    const handleDelete = (id) => {
+        withReactContent(Swal)
+            .fire({
+                title: "¿Desea eliminar el contacto?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Si",
+                denyButtonText: `No`,
+                icon: "question",
+            })
+            .then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    eliminar(id);
+                    borrarContacto(id);
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        },
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Contacto borrado",
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire("Cancelado", "", "info");
+                }
+            });
+    };
+
+    const close = (e) => {
+        e.preventDefault;
+        setDatos(null);
+    };
 
     // Variables para setear los estilos de algunas zonas
 
@@ -133,7 +187,13 @@ export const EditarContacto = ({ datos, selects }) => {
 
                     <i
                         className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                        onClick={() => eliminar(datos.id)}
+                        onClick={() => {
+                            handleDelete(datos.id);
+                        }}
+                    ></i>
+                    <i
+                        className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
+                        onClick={close}
                     ></i>
                 </div>
                 <div className="w-3/5 flex flex-col items-center justify-center">
@@ -371,7 +431,7 @@ export const EditarContacto = ({ datos, selects }) => {
                             <select
                                 id="banda_id"
                                 name="banda_id"
-                                value={data.banda_id}
+                                value={data.banda_id ?? -1}
                                 className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                 onChange={(e) => handleBanda(e)}
                                 placeholder="Banda"
@@ -403,7 +463,7 @@ export const EditarContacto = ({ datos, selects }) => {
                             <select
                                 id="modo_id"
                                 name="modo_id"
-                                value={data.modo_id}
+                                value={data.modo_id ?? -1}
                                 className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                 onChange={(e) => handleModo(e)}
                                 placeholder="Modo Transmision"

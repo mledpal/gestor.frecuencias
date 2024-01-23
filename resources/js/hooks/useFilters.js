@@ -1,19 +1,29 @@
 import { useEffect, useState } from "react";
 
-export const useFilters = (contactos) => {
-    const listaFiltros = [
-        { label: "Comprobados", key: "comprobado" },
-        { label: "Desconocidos", key: "nocomprobado" },
-        { label: "Públicos", key: "publico" },
-        { label: "Privados", key: "privado" },
-        { label: "Aviación", key: "aviacion" },
-        { label: "Emisoras", key: "emisora" },
-        { label: "Empresas", key: "empresa" },
-        { label: "Eventos", key: "evento" },
-        { label: "Particulares", key: "particular" },
-        { label: "Servicios", key: "servicio" },
-    ];
+export const useFilters = () => {
+    const getContacts = () => {
+        fetch("ajax/contacto/get")
+            .then(function (response) {
+                if (response.ok) {
+                    return response.json(); // Llama a la función json para obtener los datos
+                } else {
+                    console.log(
+                        "Respuesta de red OK pero respuesta HTTP no OK"
+                    );
+                }
+            })
+            .then(function (data) {
+                setContactos(data); // Aquí tendrás los datos de la respuesta
+                // Ahora puedes hacer algo con los datos, por ejemplo, mostrarlos en la interfaz
+            })
+            .catch(function (error) {
+                console.log(
+                    "Hubo un problema con la petición Fetch:" + error.message
+                );
+            });
+    };
 
+    const [contactos, setContactos] = useState([]);
     const [contactosFiltrados, setFiltrados] = useState([]);
     const [visible, setVisible] = useState(false);
     const [filtros, setFiltros] = useState({
@@ -29,6 +39,19 @@ export const useFilters = (contactos) => {
         emisora: true,
     });
 
+    const listaFiltros = [
+        { label: "Comprobados", key: "comprobado" },
+        { label: "Desconocidos", key: "nocomprobado" },
+        { label: "Públicos", key: "publico" },
+        { label: "Privados", key: "privado" },
+        { label: "Aviación", key: "aviacion" },
+        { label: "Emisoras", key: "emisora" },
+        { label: "Empresas", key: "empresa" },
+        { label: "Eventos", key: "evento" },
+        { label: "Particulares", key: "particular" },
+        { label: "Servicios", key: "servicio" },
+    ];
+
     const handleFilterVisible = () => {
         setVisible(!visible);
     };
@@ -37,8 +60,8 @@ export const useFilters = (contactos) => {
         setFiltros({ ...filtros, [filtro]: !filtros[filtro] });
     };
 
-    const filtrarContactos = (contacts) => {
-        return contacts.filter((dato) => {
+    const filtrarContactos = (contactos) => {
+        return contactos.filter((dato) => {
             return (
                 (dato.comprobado === 1 && filtros.comprobado) ||
                 (dato.comprobado === 0 && filtros.nocomprobado) ||
@@ -54,14 +77,6 @@ export const useFilters = (contactos) => {
         });
     };
 
-    useEffect(() => {
-        setFiltrados(filtrarContactos(contactos));
-    }, [contactos, filtros]);
-
-    useEffect(() => {
-        filtrarContactos(contactos);
-    }, [filtros]);
-
     const handlerCheckUncheck = () => {
         setFiltros((prevFiltros) => {
             const nuevoFiltros = { ...prevFiltros };
@@ -72,6 +87,26 @@ export const useFilters = (contactos) => {
         });
     };
 
+    const eraseContact = (id) => {
+        getContacts();
+    };
+
+    const updateContact = () => {
+        getContacts();
+    }
+
+    useEffect(() => {
+        getContacts();
+    }, []);
+
+    useEffect(() => {
+        setFiltrados(filtrarContactos(contactos));
+    }, [contactos, filtros]);
+
+    useEffect(() => {
+        filtrarContactos(contactos);
+    }, [filtros]);
+
     return {
         visible,
         filtros,
@@ -80,5 +115,7 @@ export const useFilters = (contactos) => {
         listaFiltros,
         handleFilterVisible,
         handlerCheckUncheck,
+        eraseContact,
+        updateContact,
     };
 };

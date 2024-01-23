@@ -92,8 +92,8 @@ class importar_frecuencias extends Command
         if (strtolower($linea[17]) != "no" && !empty($linea[17])) {
 
             $tipoCodificacion = TipoCodificacion::where('nombre', 'like', '%' . $linea[17] . '%')->first();
-            $nuevaFrecuencia['codificada'] = true;
-            $nuevaCodificacion['tipo_id'] = $tipoCodificacion->id ?? null;
+            
+            $codificacion = $tipoCodificacion->id ?? null;
 
             if (!empty($linea[13])) { //CTCSS
                 $ctcss = Ctcss::where('codigo', $linea[13])->first();
@@ -109,11 +109,7 @@ class importar_frecuencias extends Command
                 $nuevaCodificacion['dcs_id'] = null;
             }
 
-            try {
-                $codificacion = Codificacion::create($nuevaCodificacion);
-            } catch (Throwable $e) {
-                dd($nuevaCodificacion);
-            }
+
         } else {
             $nuevaFrecuencia['codificada'] = false;
             $tipoCodificacion = null;
@@ -195,7 +191,6 @@ class importar_frecuencias extends Command
 
         // CONTACTO
         if ($nuevoRepetidor) $nuevoContacto['repetidor_id'] = $nuevoRepetidor->id;
-        if ($tipoCodificacion) $nuevoContacto['codificacion_id'] = $codificacion->id;
         if ($banda) $nuevoContacto['banda_id'] = $banda->id;
         if ($modo) $nuevoContacto['modo_id'] = $modo->id;
         $nuevoContacto['frecuencia_id'] = $frecuencia->id;
@@ -208,6 +203,9 @@ class importar_frecuencias extends Command
         $nuevoContacto['user_id'] = 1;
         $nuevoContacto['tipo_id'] = $tipo_contacto;
         $nuevoContacto['hora'] = null;
+        $nuevoContacto['codificacion_id'] = $codificacion->id ?? 1;
+        $nuevoContacto['dcs_id'] = $dcs->id ?? 1;
+        $nuevoContacto['ctcss_id'] = $ctcss->id ?? 1;
 
         $contacto = Contacto::create($nuevoContacto);
     }

@@ -5,7 +5,7 @@ import TextInput from "@/Components/TextInput";
 
 import { handlerForm } from "./handlerForm";
 import { useForm } from "@inertiajs/react";
-import { handleContacts } from "./handleContacts";
+import { handleContacts } from "../Helpers/handleContacts";
 import { useEffect } from "react";
 
 export const NuevoContacto = ({ datos, selects }) => {
@@ -41,14 +41,14 @@ export const NuevoContacto = ({ datos, selects }) => {
         hora: horaActual,
         fecha: fechaActual,
         tipo_id: 0,
-        banda_id: null,
-        modo_id: null,
+        banda_id: 0,
+        modo_id: 0,
         calidad: 0,
         offset: "",
         direccion: "=",
-        tipo_codificacion_id: null,
-        dcs_id: null,
-        ctcss_id: null,
+        tipo_codificacion_id: -1,
+        dcs_id: 0,
+        ctcss_id: 0,
         localidad: "",
         provincia: "",
         pais: "",
@@ -65,14 +65,14 @@ export const NuevoContacto = ({ datos, selects }) => {
             hora: horaActual,
             fecha: fechaActual,
             tipo_id: 0,
-            banda_id: null,
-            modo_id: null,
+            banda_id: 0,
+            modo_id: 0,
             calidad: 0,
             offset: "",
             direccion: "=",
-            tipo_codificacion_id: null,
-            dcs_id: null,
-            ctcss_id: null,
+            tipo_codificacion_id: -1,
+            dcs_id: 0,
+            ctcss_id: 0,
             localidad: "",
             provincia: "",
             pais: "",

@@ -4,13 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    @font-face {
-      font-family: Ethnocentric;
-      font-weight: 400;
-      src: url(/fonts/Ethnocentric.woff) format("woff");
-    }
-  }
+
 
 :root {
     --altura: 150px;

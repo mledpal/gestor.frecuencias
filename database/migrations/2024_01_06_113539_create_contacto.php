@@ -32,14 +32,20 @@ return new class extends Migration
             $table->unsignedBigInteger('repetidor_id')->nullable();
             $table->foreign('repetidor_id', 'fk_frec_repe')->references('id')->on('repetidor')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->unsignedBigInteger('codificacion_id')->nullable();
-            $table->foreign('codificacion_id', 'fk_frec_codi')->references('id')->on('codificacion')->onDelete('restrict')->onUpdate('restrict');
-
             $table->unsignedBigInteger('banda_id')->nullable();
             $table->foreign('banda_id', 'fk_frec_band')->references('id')->on('banda')->onDelete('restrict')->onUpdate('restrict');
 
             $table->unsignedBigInteger('modo_id')->nullable();
             $table->foreign('modo_id', 'fk_frec_modo')->references('id')->on('modotransmision')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->unsignedBigInteger('codificacion_id')->nullable();
+            $table->foreign('codificacion_id', 'fk_contacto_codificacion')->references('id')->on('tipo_codificacion')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->unsignedBigInteger('dcs_id')->nullable();
+            $table->foreign('dcs_id', 'fk_contacto_dcs')->references('id')->on('dcs_codes')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->unsignedBigInteger('ctcss_id')->nullable();
+            $table->foreign('ctcss_id', 'fk_contacto_ctcss')->references('id')->on('ctcss_codes')->onDelete('restrict')->onUpdate('restrict');
 
 
             $table->unsignedBigInteger('user_id')->nullable(false);
@@ -51,7 +57,6 @@ return new class extends Migration
             $table->text('observaciones')->nullable();
 
             $table->timestamps();
-
         });
     }
 
