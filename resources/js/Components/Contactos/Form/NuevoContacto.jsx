@@ -40,15 +40,15 @@ export const NuevoContacto = ({ datos, selects }) => {
         privado: 0,
         hora: horaActual,
         fecha: fechaActual,
-        tipo_id: 0,
-        banda_id: 0,
-        modo_id: 0,
+        tipo_id: 1,
+        banda_id: 1,
+        modo_id: 1,
         calidad: 0,
         offset: "",
         direccion: "=",
-        tipo_codificacion_id: -1,
-        dcs_id: 0,
-        ctcss_id: 0,
+        tipo_codificacion_id: 1,
+        dcs_id: 1,
+        ctcss_id: 1,
         localidad: "",
         provincia: "",
         pais: "",
@@ -64,15 +64,15 @@ export const NuevoContacto = ({ datos, selects }) => {
             privado: 0,
             hora: horaActual,
             fecha: fechaActual,
-            tipo_id: 0,
-            banda_id: 0,
-            modo_id: 0,
+            tipo_id: 1,
+            banda_id: 1,
+            modo_id: 1,
             calidad: 0,
             offset: "",
             direccion: "=",
-            tipo_codificacion_id: -1,
-            dcs_id: 0,
-            ctcss_id: 0,
+            tipo_codificacion_id: 1,
+            dcs_id: 1,
+            ctcss_id: 1,
             localidad: "",
             provincia: "",
             pais: "",
@@ -80,7 +80,7 @@ export const NuevoContacto = ({ datos, selects }) => {
         });
     }, []);
 
-    const { crear } = handleContacts(post);
+    const { crear } = handleContacts({ post });
 
     const {
         handleBanda,

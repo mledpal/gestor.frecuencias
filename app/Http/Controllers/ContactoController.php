@@ -42,6 +42,9 @@ class ContactoController extends Controller
 
     public function crear(ValidarContacto $request)
     {
+
+        // dd($request->request);
+
         if (Auth::check()) {
 
             $user = Auth::user();
@@ -100,9 +103,13 @@ class ContactoController extends Controller
             $contacto['user_id'] = $user->id;
             $contacto['observaciones'] = $request->observaciones;
 
-            Contacto::create($contacto);
+            $newContact = Contacto::create($contacto);
 
-            return back()->with('flash', ['mensaje' => 'Contacto creado correctamente']);
+            if($newContact) {
+                return json_encode(['mensaje' => 'Contacto creado correctamente']);
+            } else {
+                return json_encode(['mensaje-error' => 'Hubo un error al crear el contacto']);
+            }
         } else {
             return redirect('/login');
         }
