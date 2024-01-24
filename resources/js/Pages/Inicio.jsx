@@ -4,7 +4,6 @@ import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { MainPage } from "./Zonas/MainPage";
 
-
 export default function Inicio({ userDB, title, roles, selects }) {
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
@@ -28,20 +27,20 @@ export default function Inicio({ userDB, title, roles, selects }) {
             className="h-screen max-h-screen w-screen flex flex-col justify-between box-border overflow-hidden font-sans"
         >
             <Head title={title} />
-            <header className="relative flex flex-row items-center justify-between w-full h-[10%] bg-colorbg">
+            <header className="relative flex flex-row items-center justify-between w-full h-[10%] bg-colorbg max-[1280px]:h-[10%]">
                 <img
                     src="/img/logo.webp"
-                    className="w-[100px] h-[100px] cursor-pointer"
+                    className="w-[100px] h-[100px] cursor-pointer max-[1280px]:w-[50px] max-[1280px]:h-[50px]"
                 />
                 <UserImage isAdmin={isAdmin} userDB={userDB} />
                 <BurgerMenu isAdmin={isAdmin} />
             </header>
 
-            <main className="flex flex-col w-full  bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px]  h-4/5">
+            <main className="flex flex-col w-full  bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px] h-4/5 max-[1280px]:h-[90%]">
                 <MainPage selects={selects} />
             </main>
 
-            <footer className="flex flex-row w-full h-[5%] justify-between items-center p-10  bg-transparent">
+            <footer className="flex flex-row w-full h-[4%] justify-between items-center p-10 bg-transparent max-[1280px]:hidden">
                 <h3>Miguel Ledesma Palacios</h3>
                 <h4>Proyecto DAW-D</h4>
             </footer>

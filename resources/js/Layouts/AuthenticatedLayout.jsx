@@ -12,7 +12,7 @@ export default function Authenticated({ user, header, children }) {
     return (
         <div className="min-h-screen w-[100%] bg-gray-100 dark:bg-colorbg900">
             <nav className="bg-white dark:bg-colorbg900 border-b border-gray-100 dark:border-gray-700 ">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 max-[1280px]:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
@@ -20,7 +20,7 @@ export default function Authenticated({ user, header, children }) {
                                     {/* Logo de la aplicación */}
                                     <img
                                         src="/img/logo.webp"
-                                        className="w-[70px] h-[70px] text-gray-500"
+                                        className="w-[70px] h-[70px] text-gray-500 "
                                     />
                                 </Link>
                             </div>
@@ -166,7 +166,7 @@ export default function Authenticated({ user, header, children }) {
             </nav>
             {header && (
                 <header className="bg-white dark:bg-gray-800 shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 max-[1280px]:px-8">
                         {header}
                     </div>
                 </header>

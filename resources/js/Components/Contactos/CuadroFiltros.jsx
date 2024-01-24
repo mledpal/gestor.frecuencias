@@ -12,7 +12,7 @@ export const CuadroFiltros = ({
         <div
             id="cuadroFiltros"
             className="absolute scale-75 left-0 top-0 mt-[-40px] ml-[45px] bg-blue-950 flex-col w-[260px] rounded-lg
-            shadow-[5px_5px_10px_rgba(0,0,0,.8),inset_3px_3px_8px_rgba(255,255,255,.5)] items-center justify-between p-2"
+            shadow-[5px_5px_10px_rgba(0,0,0,.8),inset_3px_3px_8px_rgba(255,255,255,.5)] items-center justify-between p-2 max-[1280px]:scale-50 max-[1280px]:mt-[-130px] max-[1280px]:ml-[0px] "
         >
             <div
                 id="selectFilters"

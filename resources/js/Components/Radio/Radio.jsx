@@ -5,10 +5,9 @@ import "./js/boton.js";
 // import "./handleBotones";
 
 export const Radio = ({ status, canResetPassword, form }) => {
-
     return (
         <>
-            <div className="container">
+            <div className="container max-[1280px]:scale-75">
                 <div className="zonas izquierda">
                     <div className="redondo volume">
                         <span className="texto">MAIN VOL - SQL</span>

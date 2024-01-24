@@ -35,14 +35,14 @@ export const MainPage = ({ selects }) => {
 
     return (
         <>
-            <div className="flex flex-row gap-1 h-full w-full items-center justify-between">
+            <div className="flex flex-row gap-1 h-full w-full items-center justify-start">
                 <div
                     id="contactos"
-                    className="h-full px-8 py-2 bg-slate-900 w-[350px] flex flex-col items-center justify-center grow overflow-y-auto overflow-x-hidden "
+                    className="h-full px-8 py-2 bg-slate-900 w-[350px] flex flex-col items-center justify-center grow overflow-y-auto overflow-x-hidden max-[1280px]:px-2 max-[1280px]:py-1 max-[1280px]:w-[240px] "
                 >
                     <div
                         name="botones_contactos"
-                        className="sticky top-0 mt-0 mb-8 px-1 h-[25px] w-full flex flex-row justify-around items-center select-none bg-slate-900 z-10 "
+                        className="sticky top-0 mt-0 mb-8 px-1 h-[25px] w-full flex flex-row justify-around items-center select-none bg-slate-900 z-10"
                     >
                         <i
                             onClick={() => handleOpen("lg")}

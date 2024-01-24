@@ -112,8 +112,8 @@ export const NuevoContacto = ({
     // Variables para setear los estilos de algunas zonas
 
     const classZona =
-        " w-4/5 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
-    const claseContacto = `flex flex-col justify-start items-center w-3/5 mx-auto min-h-screen bg-blue-700 shadow-[0_0_15px_rgba(255,255,255,.6)] `;
+        " w-4/5 max-[1280px]:w-5/6 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
+    const claseContacto = `flex flex-col justify-start items-center w-3/5 mx-auto min-h-screen bg-blue-700 shadow-[0_0_15px_rgba(255,255,255,.6)] max-[1280px]:w-5/6`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
@@ -137,7 +137,7 @@ export const NuevoContacto = ({
             encType="multipart/form-data"
             className={claseContacto}
         >
-            <div className="sticky top-0  bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10">
+            <div className="sticky top-0  bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10 max-[1280px]:w-5/6">
                 <div
                     name="guardar_datos"
                     className="w-1/5 flex items-center gap-8"

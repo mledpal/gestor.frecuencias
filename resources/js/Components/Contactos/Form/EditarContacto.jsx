@@ -20,7 +20,6 @@ export const EditarContacto = ({
     borrarContacto,
     updateContact,
 }) => {
-
     const {
         tipos_contacto,
         bandas,
@@ -104,7 +103,12 @@ export const EditarContacto = ({
         setVisibilidad,
     } = handlerForm({ datos, setData });
 
-    const { submit, eliminar } = handleContacts({ post, setDatos, contactos, updateContact });
+    const { submit, eliminar } = handleContacts({
+        post,
+        setDatos,
+        contactos,
+        updateContact,
+    });
 
     const handleDelete = (id) => {
         withReactContent(Swal)
@@ -150,18 +154,20 @@ export const EditarContacto = ({
 
     // Variables para setear los estilos de algunas zonas
 
+    const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen ${datos.tipo.color}`;
+
     const classZona =
         " w-4/5 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
-    const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen ] ${datos.tipo.color}`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
-        "w-full bg-blue-950 text-xl font-bold p-2 select-none cursor-pointer flex flex-row items-center justify-center gap-10 p-5 rounded-t-xl ";
+        "w-full bg-blue-950 text-xl max-[1280px]:text-sm font-bold p-2 select-none cursor-pointer flex flex-row items-center justify-center gap-10 p-5 rounded-t-xl ";
     const clasesFieldSet =
-        "p-4 w-full flex flex-col items-center justify-start mb-2 ";
+        "p-4 w-full flex flex-col items-center justify-start mb-2 max-[1280px]:text-[.8rem]";
     const clasesDivContainer =
-        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center ";
-    const clasesLabel = "text-center mb-2 text-black select-none";
+        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center max-[1280px]:flex-col max-[1280px]:gap-2 ";
+    const clasesLabel =
+        "text-center mb-2 text-black select-none max-[1280px]:text-[.8rem] ";
     const clasesAgregar =
         "rounded-full transition shadow-[inset_0_0_5px_rgba(0,0,0,.5)] hover:bg-lime-500 hover:shadow-[0_0_5px_rgba(255,255,255,.5)] ease-in transition:ease-out duration-100 m-2 fa-solid fa-plus cursor-pointer select-none p-3";
 
@@ -178,7 +184,7 @@ export const EditarContacto = ({
             <div className="sticky top-0  bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10">
                 <div
                     name="guardar_datos"
-                    className="w-1/5 flex items-center gap-8"
+                    className="w-1/5 flex items-center gap-8 "
                 >
                     <i
                         className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
