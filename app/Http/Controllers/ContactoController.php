@@ -42,20 +42,38 @@ class ContactoController extends Controller
 
     public function crear(ValidarContacto $request)
     {
-
-        // dd($request->request);
-
         if (Auth::check()) {
 
             $user = Auth::user();
 
             // dd($request);
+
+            // Busca si ya existe ese contacto creado (Por frecuencia, localización y usuario actual)
+            $frecuencia_bus = $request->frecuencia;
+            $localidad_bus = $request->localidad;
+            $provincia_bus = $request->provincia;
+
+            $existe = Contacto::whereHas('frecuencia', function (Builder $query) use ($frecuencia_bus) {
+                $query->where('frecuencia', $frecuencia_bus);
+            })->whereHas('localizacion', function (Builder $query) use ($localidad_bus, $provincia_bus) {
+                $query->where('localidad', $localidad_bus)->where('provincia', $provincia_bus);
+            })->where('user_id', $user->id)->first();
+
+            if ($existe) {
+                return back()->with('flash', [
+                    'mensaje-error' => 'Ya existe ese contacto',
+                ]);
+            }
+
+
+
             // Localización
 
             $localizacion_id = null;
             if (isset($request->localidad) && isset($request->provincia)) {
 
                 $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->where('gps', $request->gps)->first();
+
 
                 if (!$localizacion_bus) {
                     $localizacion = Localizacion::create([
