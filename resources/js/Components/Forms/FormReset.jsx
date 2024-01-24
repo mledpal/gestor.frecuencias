@@ -30,7 +30,7 @@ export const FormReset = () => {
         // Hacer lo que necesites con el token y el email
         input_email.value = email;
         input_token.value = token;
-        
+
         setData('email', email);
         setData('token', token);
 
@@ -49,6 +49,7 @@ export const FormReset = () => {
                     value={data.email}
                     className="mt-1 block w-full"
                     autoComplete="email"
+                    placeholder="email"
                     onChange={(e) => setData("email", e.target.value)}
                 />
 
@@ -65,6 +66,7 @@ export const FormReset = () => {
                     value={data.password}
                     className="mt-1 block w-full"
                     autoComplete="new-password"
+                    placeholder="Nueva contraseña"
                     isFocused={true}
                     onChange={(e) => setData("password", e.target.value)}
                 />
@@ -84,6 +86,7 @@ export const FormReset = () => {
                     value={data.password_confirmation}
                     className="mt-1 block w-full"
                     autoComplete="new-password"
+                    placeholder="Confirme la contraseña"
                     onChange={(e) =>
                         setData("password_confirmation", e.target.value)
                     }

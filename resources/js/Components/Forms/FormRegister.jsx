@@ -5,7 +5,7 @@ import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
-export const FormRegister = ({ status }) => {
+export const FormRegister = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
         username: "",
         nombre: "",
@@ -23,9 +23,19 @@ export const FormRegister = ({ status }) => {
 
     const submit = (e) => {
         e.preventDefault();
-
         post(route("register"));
     };
+
+    const handleInputChange = (fieldName, value) => {
+        setData({
+            ...data,
+            [fieldName]: value,
+        });
+
+        console.log(data);
+    };
+
+    console.log(errors);
 
     return (
         <form onSubmit={submit} encType="multipart/form-data" className="grid ">
@@ -40,12 +50,14 @@ export const FormRegister = ({ status }) => {
                         className="mt-1 block w-full"
                         autoComplete="username"
                         isFocused={true}
-                        onChange={(e) => setData("username", e.target.value)}
+                        onChange={(e) =>
+                            handleInputChange("username", e.target.value)
+                        }
                         placeholder="Usuario"
                         required
                     />
 
-                    <InputError message={errors.username} className="mt-2" />
+                    <InputError message={errors?.username?.username} className="mt-2" />
                 </div>
 
                 <div>
@@ -58,12 +70,14 @@ export const FormRegister = ({ status }) => {
                         value={data.email}
                         className="mt-1 block w-full"
                         autoComplete="email"
-                        onChange={(e) => setData("email", e.target.value)}
+                        onChange={(e) =>
+                            handleInputChange("email", e.target.value)
+                        }
                         placeholder="E-mail"
                         required
                     />
 
-                    <InputError message={errors.email} className="mt-2" />
+                    <InputError message={errors?.email?.email} className="mt-2" />
                 </div>
             </div>
 
@@ -78,12 +92,14 @@ export const FormRegister = ({ status }) => {
                         className="mt-1 block w-full"
                         autoComplete="nombre"
                         isFocused={true}
-                        onChange={(e) => setData("nombre", e.target.value)}
+                        onChange={(e) =>
+                            handleInputChange("nombre", e.target.value)
+                        }
                         placeholder="Nombre"
                         required
                     />
 
-                    <InputError message={errors.nombre} className="mt-2" />
+                    <InputError message={errors?.nombre?.nombre} className="mt-2" />
                 </div>
 
                 <div>
@@ -96,12 +112,14 @@ export const FormRegister = ({ status }) => {
                         className="mt-1 block w-full"
                         autoComplete="apellidos"
                         isFocused={true}
-                        onChange={(e) => setData("apellidos", e.target.value)}
+                        onChange={(e) =>
+                            handleInputChange("apellidos", e.target.value)
+                        }
                         placeholder="Apellidos"
                         required
                     />
 
-                    <InputError message={errors.apellidos} className="mt-2" />
+                    <InputError message={errors?.apellidos?.apellidos} className="mt-2" />
                 </div>
             </div>
 
@@ -116,12 +134,14 @@ export const FormRegister = ({ status }) => {
                         value={data.password}
                         className="mt-1 block w-full"
                         autoComplete="new-password"
-                        onChange={(e) => setData("password", e.target.value)}
+                        onChange={(e) =>
+                            handleInputChange("password", e.target.value)
+                        }
                         placeholder="Contraseña"
                         required
                     />
 
-                    <InputError message={errors.password} className="mt-2" />
+                    <InputError message={errors?.password} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -138,14 +158,17 @@ export const FormRegister = ({ status }) => {
                         className="mt-1 block w-full"
                         autoComplete="new-password"
                         onChange={(e) =>
-                            setData("password_confirmation", e.target.value)
+                            handleInputChange(
+                                "password_confirmation",
+                                e.target.value
+                            )
                         }
                         placeholder="Repita contraseña"
                         required
                     />
 
                     <InputError
-                        message={errors.password_confirmation}
+                        message={errors?.password}
                         className="mt-2"
                     />
                 </div>

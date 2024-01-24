@@ -62,7 +62,7 @@ class User extends Authenticatable
     /**
      * Relación de un usuario con sus múltiples contactos
      */
-    public function contactos() : HasMany
+    public function contactos(): HasMany
     {
         return $this->hasMany(Contacto::class);
     }
@@ -97,7 +97,7 @@ class User extends Authenticatable
      */
     public function getDireccionCompletaAttribute()
     {
-        if($this->localizacion) {
+        if ($this->localizacion) {
             return $this->localizacion->calle . ' ' . $this->localizacion->localidad . ' ' . $this->localizacion->provincia;
         } else {
             return null;
@@ -118,7 +118,7 @@ class User extends Authenticatable
     protected function photo(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => '/storage/images/' . $value,
+            get: fn (?string $value) => $value ? '/storage/images/' . $value : '/img/default_user.webp',
         );
     }
 
