@@ -11,7 +11,6 @@ export default {
     ],
 
     safelist: [
-        "bg-gray-500",
         {
             pattern:
                 /bg-(red|green|blue|yellow|pink|orange|gray|indigo)-(500|600|700|800|900)/,

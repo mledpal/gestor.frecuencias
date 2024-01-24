@@ -31,11 +31,7 @@ export const FormRegister = () => {
             ...data,
             [fieldName]: value,
         });
-
-        console.log(data);
     };
-
-    console.log(errors);
 
     return (
         <form onSubmit={submit} encType="multipart/form-data" className="grid ">

@@ -38,7 +38,7 @@ export const MainPage = ({ selects }) => {
             <div className="flex flex-row gap-1 h-full w-full items-center justify-start">
                 <div
                     id="contactos"
-                    className="h-full px-8 py-2 bg-slate-900 w-[350px] flex flex-col items-center justify-center grow overflow-y-auto overflow-x-hidden max-[1280px]:px-2 max-[1280px]:py-1 max-[1280px]:w-[240px] "
+                    className="h-full px-8 py-2 bg-slate-900 w-[350px] flex flex-col items-center justify-center grow overflow-y-auto overflow-x-hidden max-[1200px]:px-2 max-[1200px]:py-1 max-[1200px]:w-[240px] "
                 >
                     <div
                         name="botones_contactos"
@@ -75,13 +75,16 @@ export const MainPage = ({ selects }) => {
                     />
                 </div>
 
-                <div id="detalle" className="mx-4 h-full w-3/5 overflow-y-auto">
+                <div
+                    id="detalle"
+                    className="mx-4 h-full overflow-y-auto w-3/5 "
+                >
                     {datos ? (
                         <EditarContacto
                             datos={datos}
                             selects={selects}
                             isFocused={true}
-                            contactos={contactos}
+                            // contactos={contactos}
                             setDatos={setDatos}
                             borrarContacto={borrarContacto}
                             updateContact={updateContact}
@@ -90,8 +93,7 @@ export const MainPage = ({ selects }) => {
                         <NoContactos />
                     )}
                 </div>
-
-                <div id="mensajes" className="h-full w-1/5"></div>
+                <div id="mensajes" className="h-full w-1/4"></div>
             </div>
 
             <Dialog

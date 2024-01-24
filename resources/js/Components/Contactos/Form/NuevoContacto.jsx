@@ -219,7 +219,7 @@ export const NuevoContacto = ({
                                 id="tipo_id"
                                 name="tipo_id"
                                 value={data.tipo_id}
-                                className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer required:border-red-500 valid:border-green-500"
+                                className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer required:border-red-500 valid:border-green-500 "
                                 onChange={(e) => handleTipo(e)}
                                 placeholder="tipo"
                                 required

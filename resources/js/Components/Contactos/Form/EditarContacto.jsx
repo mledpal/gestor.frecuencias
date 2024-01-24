@@ -228,7 +228,8 @@ export const EditarContacto = ({
                 <legend className={clasesLegend}>Datos</legend>
                 <fieldset name="datos" className={clasesFieldSet}>
                     <div className={clasesDivContainer}>
-                        <div className="w-full flex flex-row items-center justify-center">
+                        <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
+                            {" "}
                             <InputLabel
                                 htmlFor="comprobado"
                                 value="Comprobado"
@@ -246,7 +247,7 @@ export const EditarContacto = ({
                                 className="mt-2"
                             />
                         </div>
-                        <div className="w-full flex flex-row items-center justify-center">
+                        <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
                             <InputLabel
                                 htmlFor="privado"
                                 value="Privado"
@@ -267,7 +268,7 @@ export const EditarContacto = ({
                     </div>
 
                     <div className={clasesDivContainer}>
-                        <div className="w-1/3 flex flex-col items-center">
+                        <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                             <InputLabel
                                 htmlFor="tipo_id"
                                 value="Tipo"
@@ -301,7 +302,7 @@ export const EditarContacto = ({
                             />
                         </div>
 
-                        <div className="w-1/3 flex flex-col items-center">
+                        <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                             <InputLabel
                                 htmlFor="fecha"
                                 value="Fecha"
@@ -323,7 +324,7 @@ export const EditarContacto = ({
                             />
                         </div>
 
-                        <div className="w-1/3 flex flex-col items-center">
+                        <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                             <InputLabel
                                 htmlFor="hora"
                                 value="Hora"
@@ -537,7 +538,7 @@ export const EditarContacto = ({
                             className={clasesFieldSet}
                         >
                             <div className={clasesDivContainer}>
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="localizacion_id"
                                         value="Localidad"
@@ -547,7 +548,7 @@ export const EditarContacto = ({
                                         id="localidad"
                                         name="localidad"
                                         value={data.localidad ?? ""}
-                                        className="mt-1 block w-full text-center"
+                                        className="mt-1 block w-full text-center "
                                         isFocused={true}
                                         onChange={(e) =>
                                             setData("localidad", e.target.value)
@@ -561,7 +562,7 @@ export const EditarContacto = ({
                                         className="mt-2"
                                     />
                                 </div>
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="provincia"
                                         value="Provincia"
@@ -585,7 +586,7 @@ export const EditarContacto = ({
                                         className="mt-2"
                                     />
                                 </div>
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="pais"
                                         value="Pais"
@@ -611,7 +612,7 @@ export const EditarContacto = ({
                                 </div>
                             </div>
                             <div className={clasesDivContainer}>
-                                <div className="w-full flex flex-col items-center">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="gps"
                                         value="GPS"
@@ -668,7 +669,7 @@ export const EditarContacto = ({
                     <>
                         <fieldset name="repetidor" className={clasesFieldSet}>
                             <div className={clasesDivContainer}>
-                                <div className="w-1/3">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="direccion"
                                         value="Dirección"
@@ -696,7 +697,7 @@ export const EditarContacto = ({
                                         )}
                                     </select>
                                 </div>
-                                <div className="w-1/3">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="offset"
                                         value="Offset"
@@ -749,7 +750,7 @@ export const EditarContacto = ({
                             className={clasesFieldSet}
                         >
                             <div className={clasesDivContainer}>
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="codificacion_id"
                                         value="Codificación"
@@ -783,7 +784,7 @@ export const EditarContacto = ({
                                     />
                                 </div>
 
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="ctcss_id"
                                         value="CTCSS"
@@ -817,7 +818,7 @@ export const EditarContacto = ({
                                     />
                                 </div>
 
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
                                     <InputLabel
                                         htmlFor="dcs_id"
                                         value="DCS"
