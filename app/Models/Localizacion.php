@@ -14,6 +14,13 @@ class Localizacion extends Model
 
     protected $fillable = ['localidad', 'provincia', 'pais', 'gps'];
 
+    /**
+     * Relación de una localización con sus comentarios
+     */
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
+    }
 
     /**
      * Relación de una localización con su contacto

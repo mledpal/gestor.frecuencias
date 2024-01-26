@@ -60,6 +60,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * Relación de un usuario con sus comentarios
+     */
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
+    }
+
+    /**
      * Relación de un usuario con sus múltiples contactos
      */
     public function contactos(): HasMany

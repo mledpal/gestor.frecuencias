@@ -22,6 +22,13 @@ class Frecuencia extends Model
         return $this->hasMany(Contacto::class);
     }
 
+    /**
+     * Relación de una frecuencia con sus comentarios
+     */
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
+    }
 
     /**
      * Función que devuelve el valor de la frecuencia con 3 decimales fijos

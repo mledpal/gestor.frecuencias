@@ -92,7 +92,7 @@ class importar_frecuencias extends Command
         if (strtolower($linea[17]) != "no" && !empty($linea[17])) {
 
             $tipoCodificacion = TipoCodificacion::where('nombre', 'like', '%' . $linea[17] . '%')->first();
-            
+
             $codificacion = $tipoCodificacion->id ?? null;
 
             if (!empty($linea[13])) { //CTCSS
@@ -108,8 +108,6 @@ class importar_frecuencias extends Command
             } else {
                 $nuevaCodificacion['dcs_id'] = null;
             }
-
-
         } else {
             $nuevaFrecuencia['codificada'] = false;
             $tipoCodificacion = null;
@@ -158,20 +156,22 @@ class importar_frecuencias extends Command
         $nombre = strtolower($linea[3]);
 
         if (
-            strpos(
-                $nombre,
-                'polici'
-            ) !== false ||
+            strpos($nombre, 'polic') !== false ||
             strpos($nombre, 'bomber') !== false ||
             strpos($nombre, 'guardia') !== false ||
             strpos($nombre, 'protec') !== false ||
-            strpos($nombre, 'ambu') !== false
+            strpos($nombre, 'ambu') !== false ||
+            strpos($nombre, '112') !== false ||
+            strpos($nombre, 'prot.') !== false
         ) {
             echo "Servicio \n";
             $tipo_contacto = 7; // Servicios
         } elseif (
             strpos($nombre, 'aerop') !== false ||
-            strpos($nombre, 'avi') !== false
+            strpos($nombre, 'avi') !== false ||
+            strpos($nombre, 'acars') !== false ||
+            strpos($nombre, 'control') !== false ||
+            strpos($nombre, 'radar') !== false
         ) {
             echo "Aviación \n";
             $tipo_contacto = 2; // Aviacion
@@ -182,6 +182,18 @@ class importar_frecuencias extends Command
         ) {
             echo "URE \n";
             $tipo_contacto = 8;
+        } elseif (
+            strpos($nombre, 'auto') !== false ||
+            strpos($nombre, 'basur') !== false ||
+            strpos($nombre, 'corte') !== false ||
+            strpos($nombre, 'finca') !== false ||
+            strpos($nombre, 'radio taxi') !== false ||
+            strpos($nombre, 'renfe') !== false ||
+            strpos($nombre, 'seguridad') !== false ||
+            strpos($nombre, 'sevillana') !== false
+        ) {
+            echo "Empresa \n";
+            $tipo_contacto = 4;
         } else {
             $tipo_contacto = 1; // Desconocidos
         }

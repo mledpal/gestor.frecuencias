@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
@@ -31,6 +32,11 @@ Route::controller(ContactoController::class)->group(function () {
     Route::post('ajax/contacto/{id}', 'actualizar')->name('contacto_actualizar');
 });
 
+
+Route::controller(ComentarioController::class)->group(function () {
+    Route::post('comentario/crear', 'crear')->name('comentario_crear');
+    Route::get('/comentario/{frecuencia}/{localizacion}', 'getComentarios')->name('comentario_fetch');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

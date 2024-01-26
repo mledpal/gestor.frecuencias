@@ -161,7 +161,7 @@ export const EditarContacto = ({
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
-        "w-full bg-blue-950 text-xl max-[1280px]:text-sm font-bold p-2 select-none cursor-pointer flex flex-row items-center justify-center gap-10 p-5 rounded-t-xl ";
+        "w-full bg-blue-950 max-w-screen-desktop:text-xl text-sm max-[1280px]:text-sm font-bold p-2 select-none cursor-pointer flex flex-row items-center justify-center gap-10 p-5 rounded-t-xl ";
     const clasesFieldSet =
         "p-4 w-full flex flex-col items-center justify-start mb-2 max-[1280px]:text-[.8rem]";
     const clasesDivContainer =
@@ -181,7 +181,7 @@ export const EditarContacto = ({
             encType="multipart/form-data"
             className={claseContacto}
         >
-            <div className="sticky top-0  bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10">
+            <div className="sticky top-0 h-[75px] bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10">
                 <div
                     name="guardar_datos"
                     className="w-1/5 flex items-center gap-8 "
@@ -202,8 +202,10 @@ export const EditarContacto = ({
                         onClick={close}
                     ></i>
                 </div>
-                <div className="w-3/5 flex flex-col items-center justify-center">
-                    <h2 className="font-bold text-xl">{datos.nombre}</h2>
+                <div className="w-3/5 flex flex-col items-center justify-center text-center">
+                    <h2 className="font-bold max-w-screen-desktop:text-xl text-xs">
+                        {datos.nombre}
+                    </h2>
                     <span className="text-sm">
                         {datos.frecuencia.frecuencia} Mhz
                     </span>
@@ -367,7 +369,7 @@ export const EditarContacto = ({
                                 required
                             />
                             <InputError
-                                message={errors.frecuencia}
+                                message={errors.nombre}
                                 className="mt-2"
                             />
                         </div>

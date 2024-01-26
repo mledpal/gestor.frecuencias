@@ -10,6 +10,7 @@ import { NoContactos } from "@/Components/Contactos/NoContactos";
 import { useFilters } from "@/hooks/useFilters";
 import { NuevoContacto } from "@/Components/Contactos/Form/NuevoContacto";
 import { useContactoCreate } from "@/hooks/useContactoCreate";
+import { Mensajes } from "@/Components/Mensajes/Mensajes";
 
 export const MainPage = ({ selects }) => {
     const [datos, setDatos] = useState(null);
@@ -35,10 +36,10 @@ export const MainPage = ({ selects }) => {
 
     return (
         <>
-            <div className="flex flex-row gap-1 h-full w-full items-center justify-start">
+            <div className="flex flex-row h-full w-full items-center justify-start">
                 <div
                     id="contactos"
-                    className="h-full px-8 py-2 bg-slate-900 w-[350px] flex flex-col items-center justify-center grow overflow-y-auto overflow-x-hidden max-[1200px]:px-2 max-[1200px]:py-1 max-[1200px]:w-[240px] "
+                    className="h-full px-8 py-2 bg-slate-900 w-[300px] flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden max-[1200px]:px-2 max-[1200px]:py-1 max-[1200px]:w-[240px] grow-0 "
                 >
                     <div
                         name="botones_contactos"
@@ -77,14 +78,13 @@ export const MainPage = ({ selects }) => {
 
                 <div
                     id="detalle"
-                    className="mx-4 h-full overflow-y-auto w-3/5 "
+                    className="mx-4 h-full overflow-y-auto w-[50%]"
                 >
                     {datos ? (
                         <EditarContacto
                             datos={datos}
                             selects={selects}
                             isFocused={true}
-                            // contactos={contactos}
                             setDatos={setDatos}
                             borrarContacto={borrarContacto}
                             updateContact={updateContact}
@@ -93,7 +93,12 @@ export const MainPage = ({ selects }) => {
                         <NoContactos />
                     )}
                 </div>
-                <div id="mensajes" className="h-full w-1/4"></div>
+                <div
+                    id="mensajes"
+                    className="h-full grow w-auto flex flex-col items-center justify-start mx-2"
+                >
+                    {datos ? <Mensajes datos={datos} /> : ""}
+                </div>
             </div>
 
             <Dialog
