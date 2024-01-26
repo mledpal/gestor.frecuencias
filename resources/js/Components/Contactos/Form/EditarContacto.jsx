@@ -361,7 +361,6 @@ export const EditarContacto = ({
                                 name="nombre"
                                 value={data.nombre}
                                 className="mt-1 block w-full"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("nombre", e.target.value)
                                 }
@@ -417,7 +416,6 @@ export const EditarContacto = ({
                                 name="frecuencia"
                                 value={data.frecuencia}
                                 className="mt-1 block w-full text-center"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("frecuencia", e.target.value)
                                 }
@@ -551,7 +549,6 @@ export const EditarContacto = ({
                                         name="localidad"
                                         value={data.localidad ?? ""}
                                         className="mt-1 block w-full text-center "
-                                        isFocused={true}
                                         onChange={(e) =>
                                             setData("localidad", e.target.value)
                                         }
@@ -575,7 +572,6 @@ export const EditarContacto = ({
                                         name="provincia"
                                         value={data.provincia ?? ""}
                                         className="mt-1 block w-full text-center"
-                                        isFocused={true}
                                         onChange={(e) =>
                                             setData("provincia", e.target.value)
                                         }
@@ -599,7 +595,6 @@ export const EditarContacto = ({
                                         name="pais"
                                         value={data.pais ?? ""}
                                         className="mt-1 block w-full text-center"
-                                        isFocused={true}
                                         onChange={(e) =>
                                             setData("pais", e.target.value)
                                         }
@@ -625,7 +620,6 @@ export const EditarContacto = ({
                                         name="gps"
                                         value={data.gps ?? ""}
                                         className="mt-1 block w-full text-center"
-                                        isFocused={true}
                                         onChange={(e) =>
                                             setData("gps", e.target.value)
                                         }
@@ -710,7 +704,6 @@ export const EditarContacto = ({
                                         name="offset"
                                         value={data.offset ?? ""}
                                         className="mt-1 block w-full text-center"
-                                        isFocused={true}
                                         onChange={(e) =>
                                             setData(
                                                 "offset",

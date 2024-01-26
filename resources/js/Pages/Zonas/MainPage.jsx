@@ -10,9 +10,9 @@ import { NoContactos } from "@/Components/Contactos/NoContactos";
 import { useFilters } from "@/hooks/useFilters";
 import { NuevoContacto } from "@/Components/Contactos/Form/NuevoContacto";
 import { useContactoCreate } from "@/hooks/useContactoCreate";
-import { Mensajes } from "@/Components/Mensajes/Mensajes";
+import { Comentarios } from "@/Components/Comentarios/Comentarios";
 
-export const MainPage = ({ selects }) => {
+export const MainPage = ({ selects,isAdmin }) => {
     const [datos, setDatos] = useState(null);
 
     const {
@@ -33,6 +33,9 @@ export const MainPage = ({ selects }) => {
         setDatos(null);
         eraseContact(id);
     };
+
+
+
 
     return (
         <>
@@ -97,7 +100,7 @@ export const MainPage = ({ selects }) => {
                     id="mensajes"
                     className="h-full grow w-auto flex flex-col items-center justify-start mx-2"
                 >
-                    {datos ? <Mensajes datos={datos} /> : ""}
+                    {datos ? <Comentarios datos={datos} isAdmin={isAdmin}/> : ""}
                 </div>
             </div>
 

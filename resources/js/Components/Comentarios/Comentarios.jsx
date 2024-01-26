@@ -3,8 +3,10 @@ import InputError from "../InputError";
 import TextInput from "../TextInput";
 import { useEffect, useState } from "react";
 import { getComentarios } from "./Helpers/getComentarios";
+import { Comentario } from "./Comentario";
+import Pusher from "pusher-js";
 
-export const Mensajes = ({ datos }) => {
+export const Comentarios = ({ datos, isAdmin }) => {
     const [comentarios, setComentarios] = useState([]);
 
     const clasesBotonesFormulario =
@@ -17,6 +19,23 @@ export const Mensajes = ({ datos }) => {
     });
 
     useEffect(() => {
+        const pusher = new Pusher("5285b606cdf2c249808a", {
+            cluster: "eu",
+        });
+
+        const channel = pusher.subscribe("canal-comentarios");
+
+        channel.bind("App\\Events\\NuevoComentario", (data) => {
+            setComments([...comments, data]);
+        });
+
+        return () => {
+            channel.unbind();
+            pusher.unsubscribe("canal-comentarios");
+        };
+    }, [comentarios]);
+
+    useEffect(() => {
         setData({
             localizacion_id: datos?.localizacion_id,
             frecuencia_id: datos?.frecuencia_id,
@@ -24,9 +43,7 @@ export const Mensajes = ({ datos }) => {
         });
     }, [datos]);
 
-    useEffect(() => {
-        setComentarios(null);
-
+    const updateComentarios = () => {
         const fetchData = async () => {
             try {
                 // Realizar la solicitud para obtener los comentarios
@@ -47,16 +64,21 @@ export const Mensajes = ({ datos }) => {
         };
 
         fetchData();
+    };
+
+    useEffect(() => {
+        updateComentarios();
     }, [datos]);
 
     const submit = (e) => {
         e.preventDefault();
         try {
-            console.log(`Enviando mensajes`, e);
             post(route("comentario_crear"));
             reset("comentario");
         } catch (error) {
             console.error(error);
+        } finally {
+            updateComentarios();
         }
     };
 
@@ -103,7 +125,7 @@ export const Mensajes = ({ datos }) => {
                     </div>
                     <div className="w-3/5 flex flex-col items-center justify-center text-center">
                         <h2 className="font-bold max-w-screen-desktop:text-xl text-lg">
-                            Mensajes
+                            Comentarios
                         </h2>
                     </div>
                     <div name="numero_mensajes" className="w-1/5"></div>
@@ -114,10 +136,9 @@ export const Mensajes = ({ datos }) => {
                         id="comentario"
                         name="comentario"
                         value={data.comentario}
-                        className="p-2 block w-full text-center text-sm"
-                        isFocused={true}
+                        className="p-2 block w-full text-center text-sm text-white"
                         onChange={(e) => setData("comentario", e.target.value)}
-                        placeholder="Escriba un mensaje"
+                        placeholder="Escriba un comentario"
                         required
                     />
                     <InputError message={errors.comentario} className="mt-2" />
@@ -126,17 +147,22 @@ export const Mensajes = ({ datos }) => {
 
             <div
                 name="lista_mensajes"
-                className="w-full h-full border-2 p-4 overflow-y-scroll"
+                className="w-full h-full p-4 overflow-y-auto select-none"
             >
-                <h2 className="w-full text-center font-ethno text-xxl">
-                    Lista de Mensajes{" "}
-                </h2>
                 {comentarios
                     ? comentarios.map((c, index) => {
                           return (
-                              <p className="text-xs font-light" key={index}>
-                                  {c.comentario}
-                              </p>
+                              <div
+                                  className="text-xs font-light odd:bg-slate-800 even:bg-slate-700"
+                                  key={index}
+                              >
+                                  <Comentario
+                                      c={c}
+                                      isAdmin={isAdmin}
+                                      setComentarios={setComentarios}
+                                      comentarios={comentarios}
+                                  />
+                              </div>
                           );
                       })
                     : "No hay comentarios"}

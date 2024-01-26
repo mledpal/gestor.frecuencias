@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NuevoComentario;
 use App\Http\Requests\ValidarComentario;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
@@ -25,13 +26,10 @@ class ComentarioController extends Controller
 
             Comentario::create($nuevoComentario);
 
+            broadcast(new NuevoComentario($nuevoComentario));
+
             if ($nuevoComentario) {
-                return back()->with(
-                    'flash',
-                    [
-                        'mensaje' => 'Comentario agregado',
-                    ]
-                );
+                return back()->with('mensaje', ['mensaje' => 'MEnsaje creado correctamente']);
             } else {
                 return back()->with(
                     'flash',
@@ -56,9 +54,27 @@ class ComentarioController extends Controller
 
             unset($comentarios);
 
-            $comentarios = Comentario::with('user')->where('frecuencia_id', $frecuencia)->where('localizacion_id', $localizacion)->get()->toArray();
+            $comentarios = Comentario::with(['user:id,photo,username,indicativo'])->where('frecuencia_id', $frecuencia)->where('localizacion_id', $localizacion)->orderBy('created_at', 'desc')->get()->toArray();
 
             return json_encode($comentarios);
+        } else {
+            return redirect('/login');
+        }
+    }
+
+    /**
+     * Función que elimina un comentario dada su id
+     * @param $id
+     */
+    public function eliminar($id)
+    {
+        if (Auth::check()) {
+
+            if (Comentario::destroy($id)) {
+                return json_encode(['mensaje' => 'Comentario eliminado']);
+            } else {
+                return json_encode(['mensaje-error' => 'Comentario no eliminado']);
+            }
         } else {
             return redirect('/login');
         }
