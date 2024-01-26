@@ -89,7 +89,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
                 method="POST"
                 onSubmit={submit}
                 encType="multipart/form-data"
-                className="sticky top-0  z-10 w-full flex flex-col items-center justify-center mt-0 gap-2"
+                className="sticky top-0  z-2 w-full flex flex-col items-center justify-center mt-0 gap-2"
             >
                 <input
                     type="hidden"
