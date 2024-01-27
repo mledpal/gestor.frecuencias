@@ -29,7 +29,7 @@ export const GpsMap = ({ coordenadas, nombre }) => {
             var marker = new google.maps.Marker({
                 position: position,
                 map: map,
-                title: nombre ?? 'Contacto'
+                title: nombre ?? "Contacto",
             });
 
             initMap();
