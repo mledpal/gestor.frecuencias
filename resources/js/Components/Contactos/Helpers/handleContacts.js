@@ -20,9 +20,11 @@ export const handleContacts = ({
         e.preventDefault();
 
         try {
-            post(route("contacto_actualizar", [(id) => id]));
+            const idReg = parseInt(id.getAttribute("value"));
+            const url = `ajax/contacto/${idReg}`;
+            
+            post(url);
 
-            // const idReg = parseInt(id.getAttribute("value"));
             // let response = getContactInfo(idReg);
 
             updateContact();

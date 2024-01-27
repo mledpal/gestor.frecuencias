@@ -29,7 +29,7 @@ class ValidarContacto extends FormRequest
             'fecha' => 'required|date',
             'hora' => 'nullable|date_format:H:i',
             'tipo_id' => 'required|integer',
-            'banda_id' => 'required|integer|min:0',
+            'banda_id' => 'nullable|integer|min:0',
             'modo_id' => 'required|integer|min:0',
             'calidad' => 'nullable|integer',
             'offset' => 'nullable|string',

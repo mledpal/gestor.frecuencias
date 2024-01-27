@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const handlerForm = ({datos, setData}) => {
-
+export const handlerForm = ({ datos, setData }) => {
     useEffect(() => {
         setVisibilidad((prevVisibilidad) => ({
             ...prevVisibilidad,
@@ -61,7 +60,7 @@ export const handlerForm = ({datos, setData}) => {
 
     const handleBanda = (e) => {
         let value = e.target.value;
-        
+
         setData("banda_id", value);
     };
 
@@ -72,7 +71,7 @@ export const handlerForm = ({datos, setData}) => {
 
     const handleCodificacion = (e) => {
         let value = e.target.value;
-        setData("tipo_codificacion_id", value);
+        setData("codificacion_id", value);
     };
 
     const handleCtcss = (e) => {

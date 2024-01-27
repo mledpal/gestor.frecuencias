@@ -425,7 +425,6 @@ export const EditarContacto = ({
                                     className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                     onChange={(e) => handleBanda(e)}
                                     placeholder="Banda"
-                                    required
                                 >
                                     {Object.entries(bandas).map(
                                         ([id, banda]) => (
@@ -750,9 +749,7 @@ export const EditarContacto = ({
                                             name="codificacion_id"
                                             value={data.codificacion_id ?? -1}
                                             className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                            onChange={(e) =>
-                                                handleCodificacion(e)
-                                            }
+                                            onChange={(e) => handleCodificacion(e)}
                                             placeholder="Codificaación"
                                             required
                                         >
