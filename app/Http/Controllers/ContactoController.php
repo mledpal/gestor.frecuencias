@@ -236,6 +236,22 @@ class ContactoController extends Controller
         }
     }
 
+
+    public function getContactInfo($id)
+    {
+        if (Auth::check()) {
+
+            $contacto = Contacto::findorFail($id);
+
+            if ($contacto) {
+                return $contacto;
+            } else {
+                return redirect('/login');
+            }
+        }
+    }
+
+
     /**
      * Función que sirve para eliminar un contacto
      * @param $id -> Id del contacto

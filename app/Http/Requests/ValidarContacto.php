@@ -37,7 +37,7 @@ class ValidarContacto extends FormRequest
             'codificacion_id' => 'nullable|integer',
             'dcs_id' => 'nullable|integer',
             'ctcss_id' => 'nullable|integer',
-            'gps' => 'nullable|string|max:100',
+            'gps' => ['nullable', 'regex:/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/', 'max:100'],
         ];
     }
 
@@ -51,6 +51,7 @@ class ValidarContacto extends FormRequest
             'required' => 'El dato es requerido',
             'email' => 'Debe introducir un correo válido',
             'string' => 'El valor debe ser una cadena de texto',
+            'regex' => 'Ingrese unas coordenadas gps válidas (Google Maps)'
         ];
     }
 }

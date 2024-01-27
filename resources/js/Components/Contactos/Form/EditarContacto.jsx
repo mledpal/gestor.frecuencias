@@ -1,16 +1,17 @@
-import { useEffect } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 
+import { Dialog } from "@material-tailwind/react";
 import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 
-import { handlerForm } from "./handlerForm";
+import { handlerForm } from "../Helpers/handlerForm";
 import { useForm } from "@inertiajs/react";
 import { handleContacts } from "../Helpers/handleContacts";
 
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import { GpsMap } from "@/Components/GPSMap/GpsMap";
 
 export const EditarContacto = ({
     setDatos,
@@ -29,6 +30,12 @@ export const EditarContacto = ({
         ctcss,
         direcciones,
     } = selects;
+
+    const [coordenadas, setCoordenadas] = useState([]);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        setOpen(!open); // Cambia el valor de open a su opuesto
+    };
 
     const { data, setData, post, processing, errors, reset } = useForm({
         id: datos.id,
@@ -57,10 +64,6 @@ export const EditarContacto = ({
     });
 
     useEffect(() => {
-        document.getElementById("detalle").scrollTo(0, 0);
-    }, [datos]);
-
-    useEffect(() => {
         setData({
             id: datos.id,
             frecuencia: datos.frecuencia.frecuencia,
@@ -86,6 +89,15 @@ export const EditarContacto = ({
             pais: datos.localizacion?.pais,
             gps: datos.localizacion?.gps,
         });
+
+        if (datos.localizacion?.gps) {
+            let coords = datos.localizacion.gps.split(",");
+            setCoordenadas(coords);
+        }
+    }, [datos]);
+
+    useEffect(() => {
+        document.getElementById("detalle").scrollTo(0, 0);
     }, [datos]);
 
     const {
@@ -103,54 +115,20 @@ export const EditarContacto = ({
         setVisibilidad,
     } = handlerForm({ datos, setData });
 
-    const { submit, eliminar } = handleContacts({
+    const { submit, handleDelete } = handleContacts({
         post,
-        setDatos,
+        setData,
         contactos,
         updateContact,
+        borrarContacto,
     });
-
-    const handleDelete = (id) => {
-        withReactContent(Swal)
-            .fire({
-                title: "¿Desea eliminar el contacto?",
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: "Si",
-                denyButtonText: `No`,
-                icon: "question",
-            })
-            .then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    eliminar(id);
-                    borrarContacto(id);
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        },
-                    });
-                    Toast.fire({
-                        icon: "success",
-                        title: "Contacto borrado",
-                    });
-                } else if (result.isDenied) {
-                    Swal.fire("Cancelado", "", "info");
-                }
-            });
-    };
 
     const close = (e) => {
         e.preventDefault;
         setDatos(null);
     };
+
+
 
     // Variables para setear los estilos de algunas zonas
 
@@ -175,687 +153,716 @@ export const EditarContacto = ({
         "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
 
     return (
-        <form
-            method="POST"
-            onSubmit={submit}
-            encType="multipart/form-data"
-            className={claseContacto}
-        >
-            <div className="sticky top-0 h-[75px] bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10">
-                <div
-                    name="guardar_datos"
-                    className="w-1/5 flex items-center gap-8 "
-                >
-                    <i
-                        className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
-                        onClick={submit}
-                    ></i>
+        <>
+            <form
+                method="POST"
+                onSubmit={submit}
+                encType="multipart/form-data"
+                className={claseContacto}
+            >
+                <input type="hidden" id="id" value={data.id} />
+                <div className="sticky top-0 h-[75px] bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10">
+                    <div
+                        name="guardar_datos"
+                        className="w-1/5 flex items-center gap-8 "
+                    >
+                        <i
+                            className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
+                            onClick={submit}
+                        ></i>
 
-                    <i
-                        className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                        onClick={() => {
-                            handleDelete(datos.id);
-                        }}
-                    ></i>
-                    <i
-                        className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
-                        onClick={close}
-                    ></i>
-                </div>
-                <div className="w-3/5 flex flex-col items-center justify-center text-center">
-                    <h2 className="font-bold max-w-screen-desktop:text-xl text-xs">
-                        {datos.nombre}
-                    </h2>
-                    <span className="text-sm">
-                        {datos.frecuencia.frecuencia} Mhz
-                    </span>
-                    <span className="italic text-sm">{datos.tipo.nombre}</span>
-                </div>
-
-                <div
-                    name="otrosIconos"
-                    className="w-1/5 flex items-end justify-end"
-                >
-                    {datos.localizacion?.gps ? (
-                        <i className="fa-solid fa-location-dot cursor-pointer hover:scale-150 select-none"></i>
-                    ) : (
-                        ""
-                    )}
-                </div>
-            </div>
-
-            <input type="hidden" id="id" value={data.id} />
-
-            <div className={classZona}>
-                <legend className={clasesLegend}>Datos</legend>
-                <fieldset name="datos" className={clasesFieldSet}>
-                    <div className={clasesDivContainer}>
-                        <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
-                            {" "}
-                            <InputLabel
-                                htmlFor="comprobado"
-                                value="Comprobado"
-                                className={clasesLabel}
-                            />
-                            <Checkbox
-                                id="comprobado"
-                                name="comprobado"
-                                onChange={(e) => handleCheck(e)}
-                                value={data.comprobado}
-                                checked={data.comprobado ? "on" : ""}
-                            />
-                            <InputError
-                                message={errors.comprobado}
-                                className="mt-2"
-                            />
-                        </div>
-                        <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
-                            <InputLabel
-                                htmlFor="privado"
-                                value="Privado"
-                                className={clasesLabel}
-                            />
-                            <Checkbox
-                                id="privado"
-                                name="privado"
-                                onChange={(e) => handlePrivado(e)}
-                                value={data.privado}
-                                checked={data.privado ? "on" : ""}
-                            />
-                            <InputError
-                                message={errors.privado}
-                                className="mt-2"
-                            />
-                        </div>
+                        <i
+                            className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
+                            onClick={() => {
+                                handleDelete(datos.id);
+                            }}
+                        ></i>
+                        <i
+                            className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
+                            onClick={close}
+                        ></i>
+                    </div>
+                    <div className="w-3/5 flex flex-col items-center justify-center text-center">
+                        <h2 className="font-bold max-w-screen-desktop:text-xl text-xs">
+                            {datos.nombre}
+                        </h2>
+                        <span className="text-sm">
+                            {datos.frecuencia.frecuencia} Mhz
+                        </span>
+                        <span className="italic text-sm">
+                            {datos.tipo.nombre}
+                        </span>
                     </div>
 
-                    <div className={clasesDivContainer}>
-                        <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                            <InputLabel
-                                htmlFor="tipo_id"
-                                value="Tipo"
-                                className={clasesLabel}
-                            />
-                            <select
-                                id="tipo_id"
-                                name="tipo_id"
-                                value={data.tipo_id}
-                                className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                onChange={(e) => handleTipo(e)}
-                                placeholder="tipo"
-                                required
-                            >
-                                {Object.entries(tipos_contacto).map(
-                                    ([id, tipo]) => (
+                    <div
+                        name="otrosIconos"
+                        className="w-1/5 flex items-end justify-end"
+                    >
+                        {datos.localizacion?.gps ? (
+                            <i
+                                className="fa-solid fa-location-dot cursor-pointer hover:scale-150 select-none"
+                                onClick={handleOpen}
+                            ></i>
+                        ) : (
+                            ""
+                        )}
+                    </div>
+                </div>
+
+                <div className={classZona}>
+                    <legend className={clasesLegend}>Datos</legend>
+                    <fieldset name="datos" className={clasesFieldSet}>
+                        <div className={clasesDivContainer}>
+                            <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
+                                {" "}
+                                <InputLabel
+                                    htmlFor="comprobado"
+                                    value="Comprobado"
+                                    className={clasesLabel}
+                                />
+                                <Checkbox
+                                    id="comprobado"
+                                    name="comprobado"
+                                    onChange={(e) => handleCheck(e)}
+                                    value={data.comprobado}
+                                    checked={data.comprobado ? "on" : ""}
+                                />
+                                <InputError
+                                    message={errors.comprobado}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
+                                <InputLabel
+                                    htmlFor="privado"
+                                    value="Privado"
+                                    className={clasesLabel}
+                                />
+                                <Checkbox
+                                    id="privado"
+                                    name="privado"
+                                    onChange={(e) => handlePrivado(e)}
+                                    value={data.privado}
+                                    checked={data.privado ? "on" : ""}
+                                />
+                                <InputError
+                                    message={errors.privado}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+
+                        <div className={clasesDivContainer}>
+                            <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                <InputLabel
+                                    htmlFor="tipo_id"
+                                    value="Tipo"
+                                    className={clasesLabel}
+                                />
+                                <select
+                                    id="tipo_id"
+                                    name="tipo_id"
+                                    value={data.tipo_id}
+                                    className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                    onChange={(e) => handleTipo(e)}
+                                    placeholder="tipo"
+                                    required
+                                >
+                                    {Object.entries(tipos_contacto).map(
+                                        ([id, tipo]) => (
+                                            <option
+                                                key={id} // Asegúrate de agregar una clave única para cada opción
+                                                className="mt-1 block w-full bg-[#121827] cursor-pointer"
+                                                value={id ?? -1}
+                                            >
+                                                {tipo}
+                                            </option>
+                                        )
+                                    )}
+                                </select>
+
+                                <InputError
+                                    message={errors.tipo}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                <InputLabel
+                                    htmlFor="fecha"
+                                    value="Fecha"
+                                    className={clasesLabel}
+                                />
+                                <input
+                                    type="date"
+                                    id="fecha"
+                                    name="fecha"
+                                    className={clasesDOM}
+                                    onChange={(e) =>
+                                        setData("fecha", e.target.value)
+                                    }
+                                    value={data.fecha}
+                                />
+                                <InputError
+                                    message={errors.fecha}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                <InputLabel
+                                    htmlFor="hora"
+                                    value="Hora"
+                                    className={clasesLabel}
+                                />
+                                <input
+                                    type="time"
+                                    id="hora"
+                                    name="hora"
+                                    className={clasesDOM}
+                                    onChange={(e) =>
+                                        setData("hora", e.target.value)
+                                    }
+                                    value={data.hora ?? "00:00"}
+                                />
+                                <InputError
+                                    message={errors.hora}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+
+                        <div className={clasesDivContainer}>
+                            <div className="w-full">
+                                <InputLabel
+                                    htmlFor="nombre"
+                                    value="Nombre"
+                                    className={clasesLabel}
+                                />
+                                <TextInput
+                                    id="nombre"
+                                    name="nombre"
+                                    value={data.nombre}
+                                    className="mt-1 block w-full"
+                                    onChange={(e) =>
+                                        setData("nombre", e.target.value)
+                                    }
+                                    placeholder="Nombre"
+                                    required
+                                />
+                                <InputError
+                                    message={errors.nombre}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+
+                        <div className={clasesDivContainer}>
+                            <div className="w-full">
+                                <InputLabel
+                                    htmlFor="observaciones"
+                                    value="Observaciones"
+                                    className={clasesLabel}
+                                />
+                                <textarea
+                                    id="observaciones"
+                                    name="observaciones"
+                                    className={clasesDOM}
+                                    onChange={(e) =>
+                                        setData("observaciones", e.target.value)
+                                    }
+                                    placeholder="observaciones"
+                                    value={data.observaciones ?? ""}
+                                    required
+                                ></textarea>
+                                <InputError
+                                    message={errors.observaciones}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div className={classZona}>
+                    <legend className={clasesLegend}>Frecuencia</legend>
+                    <fieldset name="frecuencia" className={clasesFieldSet}>
+                        <div className={clasesDivContainer}>
+                            <div className="w-full">
+                                <InputLabel
+                                    htmlFor="frecuencia"
+                                    value="Frecuencia"
+                                    className={clasesLabel}
+                                />
+                                <TextInput
+                                    id="frecuencia"
+                                    name="frecuencia"
+                                    value={data.frecuencia}
+                                    className="mt-1 block w-full text-center"
+                                    onChange={(e) =>
+                                        setData("frecuencia", e.target.value)
+                                    }
+                                    placeholder="Frecuencia"
+                                    disabled
+                                />
+                                <InputError
+                                    message={errors.frecuencia}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+                        <div className={clasesDivContainer}>
+                            <div className="w-full">
+                                <InputLabel
+                                    htmlFor="banda_id"
+                                    value="Banda"
+                                    className={clasesLabel}
+                                />
+                                <select
+                                    id="banda_id"
+                                    name="banda_id"
+                                    value={data.banda_id ?? -1}
+                                    className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                    onChange={(e) => handleBanda(e)}
+                                    placeholder="Banda"
+                                    required
+                                >
+                                    {Object.entries(bandas).map(
+                                        ([id, banda]) => (
+                                            <option
+                                                key={id} // Asegúrate de agregar una clave única para cada opción
+                                                className="mt-1 block w-full bg-[#121827] cursor-pointer"
+                                                value={id ?? -1}
+                                            >
+                                                {banda}
+                                            </option>
+                                        )
+                                    )}
+                                </select>
+
+                                <InputError
+                                    message={errors.banda}
+                                    className="text-center"
+                                />
+                            </div>
+
+                            <div className="w-full">
+                                <InputLabel
+                                    htmlFor="modo_id"
+                                    value="Modo TX"
+                                    className={clasesLabel}
+                                />
+                                <select
+                                    id="modo_id"
+                                    name="modo_id"
+                                    value={data.modo_id ?? -1}
+                                    className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                    onChange={(e) => handleModo(e)}
+                                    placeholder="Modo Transmision"
+                                    required
+                                >
+                                    {Object.entries(modos).map(([id, modo]) => (
                                         <option
                                             key={id} // Asegúrate de agregar una clave única para cada opción
                                             className="mt-1 block w-full bg-[#121827] cursor-pointer"
                                             value={id ?? -1}
                                         >
-                                            {tipo}
+                                            {modo}
                                         </option>
-                                    )
-                                )}
-                            </select>
+                                    ))}
+                                </select>
 
-                            <InputError
-                                message={errors.tipo}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                            <InputLabel
-                                htmlFor="fecha"
-                                value="Fecha"
-                                className={clasesLabel}
-                            />
-                            <input
-                                type="date"
-                                id="fecha"
-                                name="fecha"
-                                className={clasesDOM}
-                                onChange={(e) =>
-                                    setData("fecha", e.target.value)
-                                }
-                                value={data.fecha}
-                            />
-                            <InputError
-                                message={errors.fecha}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                            <InputLabel
-                                htmlFor="hora"
-                                value="Hora"
-                                className={clasesLabel}
-                            />
-                            <input
-                                type="time"
-                                id="hora"
-                                name="hora"
-                                className={clasesDOM}
-                                onChange={(e) =>
-                                    setData("hora", e.target.value)
-                                }
-                                value={data.hora ?? "00:00"}
-                            />
-                            <InputError
-                                message={errors.hora}
-                                className="mt-2"
-                            />
-                        </div>
-                    </div>
-
-                    <div className={clasesDivContainer}>
-                        <div className="w-full">
-                            <InputLabel
-                                htmlFor="nombre"
-                                value="Nombre"
-                                className={clasesLabel}
-                            />
-                            <TextInput
-                                id="nombre"
-                                name="nombre"
-                                value={data.nombre}
-                                className="mt-1 block w-full"
-                                onChange={(e) =>
-                                    setData("nombre", e.target.value)
-                                }
-                                placeholder="Nombre"
-                                required
-                            />
-                            <InputError
-                                message={errors.nombre}
-                                className="mt-2"
-                            />
-                        </div>
-                    </div>
-
-                    <div className={clasesDivContainer}>
-                        <div className="w-full">
-                            <InputLabel
-                                htmlFor="observaciones"
-                                value="Observaciones"
-                                className={clasesLabel}
-                            />
-                            <textarea
-                                id="observaciones"
-                                name="observaciones"
-                                className={clasesDOM}
-                                onChange={(e) =>
-                                    setData("observaciones", e.target.value)
-                                }
-                                placeholder="observaciones"
-                                value={data.observaciones ?? ""}
-                                required
-                            ></textarea>
-                            <InputError
-                                message={errors.observaciones}
-                                className="mt-2"
-                            />
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-
-            <div className={classZona}>
-                <legend className={clasesLegend}>Frecuencia</legend>
-                <fieldset name="frecuencia" className={clasesFieldSet}>
-                    <div className={clasesDivContainer}>
-                        <div className="w-full">
-                            <InputLabel
-                                htmlFor="frecuencia"
-                                value="Frecuencia"
-                                className={clasesLabel}
-                            />
-                            <TextInput
-                                id="frecuencia"
-                                name="frecuencia"
-                                value={data.frecuencia}
-                                className="mt-1 block w-full text-center"
-                                onChange={(e) =>
-                                    setData("frecuencia", e.target.value)
-                                }
-                                placeholder="Frecuencia"
-                                disabled
-                            />
-                            <InputError
-                                message={errors.frecuencia}
-                                className="mt-2"
-                            />
-                        </div>
-                    </div>
-                    <div className={clasesDivContainer}>
-                        <div className="w-full">
-                            <InputLabel
-                                htmlFor="banda_id"
-                                value="Banda"
-                                className={clasesLabel}
-                            />
-                            <select
-                                id="banda_id"
-                                name="banda_id"
-                                value={data.banda_id ?? -1}
-                                className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                onChange={(e) => handleBanda(e)}
-                                placeholder="Banda"
-                                required
-                            >
-                                {Object.entries(bandas).map(([id, banda]) => (
-                                    <option
-                                        key={id} // Asegúrate de agregar una clave única para cada opción
-                                        className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                        value={id ?? -1}
-                                    >
-                                        {banda}
-                                    </option>
-                                ))}
-                            </select>
-
-                            <InputError
-                                message={errors.banda}
-                                className="text-center"
-                            />
-                        </div>
-
-                        <div className="w-full">
-                            <InputLabel
-                                htmlFor="modo_id"
-                                value="Modo TX"
-                                className={clasesLabel}
-                            />
-                            <select
-                                id="modo_id"
-                                name="modo_id"
-                                value={data.modo_id ?? -1}
-                                className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                onChange={(e) => handleModo(e)}
-                                placeholder="Modo Transmision"
-                                required
-                            >
-                                {Object.entries(modos).map(([id, modo]) => (
-                                    <option
-                                        key={id} // Asegúrate de agregar una clave única para cada opción
-                                        className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                        value={id ?? -1}
-                                    >
-                                        {modo}
-                                    </option>
-                                ))}
-                            </select>
-
-                            <InputError
-                                message={errors.modo}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="w-full">
-                            <InputLabel
-                                htmlFor="calidad"
-                                value="Calidad"
-                                className={clasesLabel}
-                            />
-                            <input
-                                type="number"
-                                id="calidad"
-                                name="calidad"
-                                value={data.calidad}
-                                className={clasesDOM}
-                                min={0}
-                                max={5}
-                                step={1}
-                                onChange={(e) =>
-                                    setData("calidad", e.target.value)
-                                }
-                                placeholder="Calidad"
-                                required
-                            />
-                            <InputError
-                                message={errors.calidad}
-                                className="mt-2"
-                            />
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-
-            <div className={classZona}>
-                <legend
-                    className={clasesLegend}
-                    onClick={() => handleToggleVisibilidad("locVisib")}
-                >
-                    <span>Localización</span>
-                    <i className="fa-solid fa-location-dot"></i>
-                </legend>
-                {datos.localizacion_id || visibilidad.locVisib ? (
-                    <>
-                        <fieldset
-                            name="localizacion"
-                            className={clasesFieldSet}
-                        >
-                            <div className={clasesDivContainer}>
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="localizacion_id"
-                                        value="Localidad"
-                                        className={clasesLabel}
-                                    />
-                                    <TextInput
-                                        id="localidad"
-                                        name="localidad"
-                                        value={data.localidad ?? ""}
-                                        className="mt-1 block w-full text-center "
-                                        onChange={(e) =>
-                                            setData("localidad", e.target.value)
-                                        }
-                                        placeholder="Localidad"
-                                        required
-                                    />
-
-                                    <InputError
-                                        message={errors.localidad}
-                                        className="mt-2"
-                                    />
-                                </div>
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="provincia"
-                                        value="Provincia"
-                                        className={clasesLabel}
-                                    />
-                                    <TextInput
-                                        id="provincia"
-                                        name="provincia"
-                                        value={data.provincia ?? ""}
-                                        className="mt-1 block w-full text-center"
-                                        onChange={(e) =>
-                                            setData("provincia", e.target.value)
-                                        }
-                                        placeholder="Provincia"
-                                        required
-                                    />
-
-                                    <InputError
-                                        message={errors.localidad}
-                                        className="mt-2"
-                                    />
-                                </div>
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="pais"
-                                        value="Pais"
-                                        className={clasesLabel}
-                                    />
-                                    <TextInput
-                                        id="pais"
-                                        name="pais"
-                                        value={data.pais ?? ""}
-                                        className="mt-1 block w-full text-center"
-                                        onChange={(e) =>
-                                            setData("pais", e.target.value)
-                                        }
-                                        placeholder="pais"
-                                        required
-                                    />
-
-                                    <InputError
-                                        message={errors.pais}
-                                        className="mt-2"
-                                    />
-                                </div>
+                                <InputError
+                                    message={errors.modo}
+                                    className="mt-2"
+                                />
                             </div>
-                            <div className={clasesDivContainer}>
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="gps"
-                                        value="GPS"
-                                        className={clasesLabel}
-                                    />
-                                    <TextInput
-                                        id="gps"
-                                        name="gps"
-                                        value={data.gps ?? ""}
-                                        className="mt-1 block w-full text-center"
-                                        onChange={(e) =>
-                                            setData("gps", e.target.value)
-                                        }
-                                        placeholder="gps"
-                                        required
-                                    />
 
-                                    <InputError
-                                        message={errors.gps}
-                                        className="mt-2"
-                                    />
-                                </div>
+                            <div className="w-full">
+                                <InputLabel
+                                    htmlFor="calidad"
+                                    value="Calidad"
+                                    className={clasesLabel}
+                                />
+                                <input
+                                    type="number"
+                                    id="calidad"
+                                    name="calidad"
+                                    value={data.calidad}
+                                    className={clasesDOM}
+                                    min={0}
+                                    max={5}
+                                    step={1}
+                                    onChange={(e) =>
+                                        setData("calidad", e.target.value)
+                                    }
+                                    placeholder="Calidad"
+                                    required
+                                />
+                                <InputError
+                                    message={errors.calidad}
+                                    className="mt-2"
+                                />
                             </div>
-                        </fieldset>
-                    </>
-                ) : (
-                    <i
-                        className={clasesAgregar}
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div className={classZona}>
+                    <legend
+                        className={clasesLegend}
                         onClick={() => handleToggleVisibilidad("locVisib")}
-                    ></i>
-                )}
-            </div>
+                    >
+                        <span>Localización</span>
+                        <i className="fa-solid fa-location-dot"></i>
+                    </legend>
+                    {datos.localizacion_id || visibilidad.locVisib ? (
+                        <>
+                            <fieldset
+                                name="localizacion"
+                                className={clasesFieldSet}
+                            >
+                                <div className={clasesDivContainer}>
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="localizacion_id"
+                                            value="Localidad"
+                                            className={clasesLabel}
+                                        />
+                                        <TextInput
+                                            id="localidad"
+                                            name="localidad"
+                                            value={data.localidad ?? ""}
+                                            className="mt-1 block w-full text-center "
+                                            onChange={(e) =>
+                                                setData(
+                                                    "localidad",
+                                                    e.target.value
+                                                )
+                                            }
+                                            placeholder="Localidad"
+                                            required
+                                        />
 
-            <div className={classZona}>
-                <legend
-                    className={clasesLegend}
-                    onClick={() => handleToggleVisibilidad("repVisib")}
-                >
-                    <span>Repetidor</span>
-                    <span>
-                        {datos.repetidor_id
-                            ? eval(
-                                  datos.frecuencia.frecuencia +
-                                      datos.repetidor?.direccion +
-                                      datos.repetidor?.offset
-                              ).toFixed(3)
-                            : ""}
-                    </span>
+                                        <InputError
+                                            message={errors.localidad}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="provincia"
+                                            value="Provincia"
+                                            className={clasesLabel}
+                                        />
+                                        <TextInput
+                                            id="provincia"
+                                            name="provincia"
+                                            value={data.provincia ?? ""}
+                                            className="mt-1 block w-full text-center"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "provincia",
+                                                    e.target.value
+                                                )
+                                            }
+                                            placeholder="Provincia"
+                                            required
+                                        />
 
-                    <i className="fa-solid fa-tower-cell"></i>
-                </legend>
-                {datos.repetidor_id || visibilidad.repVisib ? (
-                    <>
-                        <fieldset name="repetidor" className={clasesFieldSet}>
-                            <div className={clasesDivContainer}>
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="direccion"
-                                        value="Dirección"
-                                        className={clasesLabel}
-                                    />
-                                    <select
-                                        id="direccion"
-                                        name="direccion"
-                                        value={data.direccion}
-                                        className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                        onChange={(e) => handleDireccion(e)}
-                                        placeholder="Dirección"
-                                        required
-                                    >
-                                        {Object.entries(direcciones).map(
-                                            ([id, nombre]) => (
-                                                <option
-                                                    key={id} // Asegúrate de agregar una clave única para cada opción
-                                                    className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                                    value={id}
-                                                >
-                                                    {nombre}
-                                                </option>
-                                            )
-                                        )}
-                                    </select>
+                                        <InputError
+                                            message={errors.localidad}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="pais"
+                                            value="Pais"
+                                            className={clasesLabel}
+                                        />
+                                        <TextInput
+                                            id="pais"
+                                            name="pais"
+                                            value={data.pais ?? ""}
+                                            className="mt-1 block w-full text-center"
+                                            onChange={(e) =>
+                                                setData("pais", e.target.value)
+                                            }
+                                            placeholder="pais"
+                                            required
+                                        />
+
+                                        <InputError
+                                            message={errors.pais}
+                                            className="mt-2"
+                                        />
+                                    </div>
                                 </div>
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="offset"
-                                        value="Offset"
-                                        className={clasesLabel}
-                                    />
-                                    <TextInput
-                                        id="offset"
-                                        name="offset"
-                                        value={data.offset ?? ""}
-                                        className="mt-1 block w-full text-center"
-                                        onChange={(e) =>
-                                            setData(
-                                                "offset",
-                                                e.target.value ?? ""
-                                            )
-                                        }
-                                        placeholder="Offset"
-                                        required
-                                    />
-                                    <InputError
-                                        message={errors.offset}
-                                        className="mt-2"
-                                    />
+                                <div className={clasesDivContainer}>
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="gps"
+                                            value="GPS"
+                                            className={clasesLabel}
+                                        />
+                                        <TextInput
+                                            id="gps"
+                                            name="gps"
+                                            value={data.gps ?? ""}
+                                            className="mt-1 block w-full text-center"
+                                            onChange={(e) =>
+                                                setData("gps", e.target.value)
+                                            }
+                                            placeholder="gps"
+                                            required
+                                        />
+
+                                        <InputError
+                                            message={errors.gps}
+                                            className="mt-2"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
-                    </>
-                ) : (
-                    <i
-                        className={clasesAgregar}
+                            </fieldset>
+                        </>
+                    ) : (
+                        <i
+                            className={clasesAgregar}
+                            onClick={() => handleToggleVisibilidad("locVisib")}
+                        ></i>
+                    )}
+                </div>
+
+                <div className={classZona}>
+                    <legend
+                        className={clasesLegend}
                         onClick={() => handleToggleVisibilidad("repVisib")}
-                    ></i>
-                )}
-            </div>
+                    >
+                        <span>Repetidor</span>
+                        <span>
+                            {datos.repetidor_id
+                                ? eval(
+                                      datos.frecuencia.frecuencia +
+                                          datos.repetidor?.direccion +
+                                          datos.repetidor?.offset
+                                  ).toFixed(3)
+                                : ""}
+                        </span>
 
-            <div className={classZona}>
-                <legend
-                    className={clasesLegend}
-                    onClick={() => handleToggleVisibilidad("codVisib")}
-                >
-                    <span>Codificación</span>
-                    <i className="fa-solid fa-barcode"></i>
-                </legend>
-
-                {visibilidad.codVisib || datos.codificacion_id ? (
-                    <>
-                        <fieldset
-                            name="codificacion"
-                            className={clasesFieldSet}
-                        >
-                            <div className={clasesDivContainer}>
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="codificacion_id"
-                                        value="Codificación"
-                                        className={clasesLabel}
-                                    />
-                                    <select
-                                        id="codificacion_id"
-                                        name="codificacion_id"
-                                        value={data.codificacion_id ?? -1}
-                                        className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                        onChange={(e) => handleCodificacion(e)}
-                                        placeholder="Codificaación"
-                                        required
-                                    >
-                                        {Object.entries(codificaciones).map(
-                                            ([id, nombre]) => (
-                                                <option
-                                                    key={id} // Asegúrate de agregar una clave única para cada opción
-                                                    className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                                    value={id ?? -1}
-                                                >
-                                                    {nombre}
-                                                </option>
-                                            )
-                                        )}
-                                    </select>
-
-                                    <InputError
-                                        message={errors.codificacion}
-                                        className="mt-2"
-                                    />
+                        <i className="fa-solid fa-tower-cell"></i>
+                    </legend>
+                    {datos.repetidor_id || visibilidad.repVisib ? (
+                        <>
+                            <fieldset
+                                name="repetidor"
+                                className={clasesFieldSet}
+                            >
+                                <div className={clasesDivContainer}>
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="direccion"
+                                            value="Dirección"
+                                            className={clasesLabel}
+                                        />
+                                        <select
+                                            id="direccion"
+                                            name="direccion"
+                                            value={data.direccion}
+                                            className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                            onChange={(e) => handleDireccion(e)}
+                                            placeholder="Dirección"
+                                            required
+                                        >
+                                            {Object.entries(direcciones).map(
+                                                ([id, nombre]) => (
+                                                    <option
+                                                        key={id} // Asegúrate de agregar una clave única para cada opción
+                                                        className="mt-1 block w-full bg-[#121827] cursor-pointer"
+                                                        value={id}
+                                                    >
+                                                        {nombre}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
+                                    </div>
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="offset"
+                                            value="Offset"
+                                            className={clasesLabel}
+                                        />
+                                        <TextInput
+                                            id="offset"
+                                            name="offset"
+                                            value={data.offset ?? ""}
+                                            className="mt-1 block w-full text-center"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "offset",
+                                                    e.target.value ?? ""
+                                                )
+                                            }
+                                            placeholder="Offset"
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.offset}
+                                            className="mt-2"
+                                        />
+                                    </div>
                                 </div>
+                            </fieldset>
+                        </>
+                    ) : (
+                        <i
+                            className={clasesAgregar}
+                            onClick={() => handleToggleVisibilidad("repVisib")}
+                        ></i>
+                    )}
+                </div>
 
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="ctcss_id"
-                                        value="CTCSS"
-                                        className={clasesLabel}
-                                    />
-                                    <select
-                                        id="ctcss_id"
-                                        name="ctcss_id"
-                                        value={data.ctcss_id ?? -1}
-                                        className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                        onChange={(e) => handleCtcss(e)}
-                                        placeholder="CTCSS"
-                                        required
-                                    >
-                                        {Object.entries(ctcss).map(
-                                            ([id, codigo]) => (
-                                                <option
-                                                    key={id} // Asegúrate de agregar una clave única para cada opción
-                                                    className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                                    value={id}
-                                                >
-                                                    {codigo}
-                                                </option>
-                                            )
-                                        )}
-                                    </select>
-
-                                    <InputError
-                                        message={errors.ctcss}
-                                        className="mt-2"
-                                    />
-                                </div>
-
-                                <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
-                                    <InputLabel
-                                        htmlFor="dcs_id"
-                                        value="DCS"
-                                        className={clasesLabel}
-                                    />
-                                    <select
-                                        id="dcs_id"
-                                        name="dcs_id"
-                                        value={data.dcs_id ?? -1}
-                                        className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                        onChange={(e) => handleDcs(e)}
-                                        placeholder="DCS"
-                                        required
-                                    >
-                                        {Object.entries(dcs).map(
-                                            ([id, codigo]) => (
-                                                <option
-                                                    key={id} // Asegúrate de agregar una clave única para cada opción
-                                                    className="mt-1 block w-full bg-[#121827] cursor-pointer"
-                                                    value={id}
-                                                >
-                                                    {codigo}
-                                                </option>
-                                            )
-                                        )}
-                                    </select>
-
-                                    <InputError
-                                        message={errors.ctcss}
-                                        className="mt-2"
-                                    />
-                                </div>
-                            </div>
-                        </fieldset>
-                    </>
-                ) : (
-                    <i
-                        className={clasesAgregar}
+                <div className={classZona}>
+                    <legend
+                        className={clasesLegend}
                         onClick={() => handleToggleVisibilidad("codVisib")}
-                    ></i>
-                )}
-            </div>
-        </form>
+                    >
+                        <span>Codificación</span>
+                        <i className="fa-solid fa-barcode"></i>
+                    </legend>
+
+                    {visibilidad.codVisib || datos.codificacion_id ? (
+                        <>
+                            <fieldset
+                                name="codificacion"
+                                className={clasesFieldSet}
+                            >
+                                <div className={clasesDivContainer}>
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="codificacion_id"
+                                            value="Codificación"
+                                            className={clasesLabel}
+                                        />
+                                        <select
+                                            id="codificacion_id"
+                                            name="codificacion_id"
+                                            value={data.codificacion_id ?? -1}
+                                            className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                            onChange={(e) =>
+                                                handleCodificacion(e)
+                                            }
+                                            placeholder="Codificaación"
+                                            required
+                                        >
+                                            {Object.entries(codificaciones).map(
+                                                ([id, nombre]) => (
+                                                    <option
+                                                        key={id} // Asegúrate de agregar una clave única para cada opción
+                                                        className="mt-1 block w-full bg-[#121827] cursor-pointer"
+                                                        value={id ?? -1}
+                                                    >
+                                                        {nombre}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
+
+                                        <InputError
+                                            message={errors.codificacion}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="ctcss_id"
+                                            value="CTCSS"
+                                            className={clasesLabel}
+                                        />
+                                        <select
+                                            id="ctcss_id"
+                                            name="ctcss_id"
+                                            value={data.ctcss_id ?? -1}
+                                            className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                            onChange={(e) => handleCtcss(e)}
+                                            placeholder="CTCSS"
+                                            required
+                                        >
+                                            {Object.entries(ctcss).map(
+                                                ([id, codigo]) => (
+                                                    <option
+                                                        key={id} // Asegúrate de agregar una clave única para cada opción
+                                                        className="mt-1 block w-full bg-[#121827] cursor-pointer"
+                                                        value={id}
+                                                    >
+                                                        {codigo}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
+
+                                        <InputError
+                                            message={errors.ctcss}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
+                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                        <InputLabel
+                                            htmlFor="dcs_id"
+                                            value="DCS"
+                                            className={clasesLabel}
+                                        />
+                                        <select
+                                            id="dcs_id"
+                                            name="dcs_id"
+                                            value={data.dcs_id ?? -1}
+                                            className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                            onChange={(e) => handleDcs(e)}
+                                            placeholder="DCS"
+                                            required
+                                        >
+                                            {Object.entries(dcs).map(
+                                                ([id, codigo]) => (
+                                                    <option
+                                                        key={id} // Asegúrate de agregar una clave única para cada opción
+                                                        className="mt-1 block w-full bg-[#121827] cursor-pointer"
+                                                        value={id}
+                                                    >
+                                                        {codigo}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
+
+                                        <InputError
+                                            message={errors.ctcss}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </>
+                    ) : (
+                        <i
+                            className={clasesAgregar}
+                            onClick={() => handleToggleVisibilidad("codVisib")}
+                        ></i>
+                    )}
+                </div>
+            </form>
+
+            <Dialog
+                id="googlegps"
+                name="googlegps"
+                size="xl"
+                open={open}
+                handler={handleOpen}
+            >
+                <GpsMap coordenadas={coordenadas} nombre={datos.nombre} />
+            </Dialog>
+        </>
     );
 };

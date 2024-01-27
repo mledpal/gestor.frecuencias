@@ -12,7 +12,7 @@ import { NuevoContacto } from "@/Components/Contactos/Form/NuevoContacto";
 import { useContactoCreate } from "@/hooks/useContactoCreate";
 import { Comentarios } from "@/Components/Comentarios/Comentarios";
 
-export const MainPage = ({ selects,isAdmin }) => {
+export const MainPage = ({ selects, isAdmin }) => {
     const [datos, setDatos] = useState(null);
 
     const {
@@ -33,9 +33,6 @@ export const MainPage = ({ selects,isAdmin }) => {
         setDatos(null);
         eraseContact(id);
     };
-
-
-
 
     return (
         <>
@@ -100,7 +97,11 @@ export const MainPage = ({ selects,isAdmin }) => {
                     id="mensajes"
                     className="h-full grow w-auto flex flex-col items-center justify-start mx-2"
                 >
-                    {datos ? <Comentarios datos={datos} isAdmin={isAdmin}/> : ""}
+                    {datos ? (
+                        <Comentarios datos={datos} isAdmin={isAdmin} />
+                    ) : (
+                        ""
+                    )}
                 </div>
             </div>
 

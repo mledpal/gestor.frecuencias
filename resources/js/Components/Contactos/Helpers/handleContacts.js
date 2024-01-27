@@ -1,7 +1,13 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { getContactInfo } from "./getContactInfo";
 
-export const handleContacts = ({ post, updateContact }) => {
+export const handleContacts = ({
+    post,
+    borrarContacto,
+    updateContact,
+    setData,
+}) => {
     // Métodos / Hooks
 
     const MySwal = withReactContent(Swal);
@@ -10,16 +16,22 @@ export const handleContacts = ({ post, updateContact }) => {
         post(route("contacto_crear"));
     };
 
-    const submit = (e, id) => {
+    function submit(e) {
         e.preventDefault();
+
         try {
             post(route("contacto_actualizar", [(id) => id]));
+
+            // const idReg = parseInt(id.getAttribute("value"));
+            // let response = getContactInfo(idReg);
+
+            updateContact();
+
             Swal.fire({
                 title: "Actualizado",
                 text: "Contacto actualizado correctamente",
                 icon: "success",
             });
-            updateContact();
         } catch (error) {
             Swal.fire({
                 title: "No actualizado",
@@ -28,7 +40,7 @@ export const handleContacts = ({ post, updateContact }) => {
             });
             console.error(error);
         }
-    };
+    }
 
     const eliminar = (id) => {
         // Realiza la solicitud DELETE usando fetch
@@ -74,10 +86,48 @@ export const handleContacts = ({ post, updateContact }) => {
             });
     };
 
+    const handleDelete = (id) => {
+        withReactContent(Swal)
+            .fire({
+                title: "¿Desea eliminar el contacto?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Si",
+                denyButtonText: `No`,
+                icon: "question",
+            })
+            .then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    eliminar(id);
+                    borrarContacto(id);
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        },
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Contacto borrado",
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire("Cancelado", "", "info");
+                }
+            });
+    };
+
     return {
         actualizar,
         crear,
         eliminar,
         submit,
+        handleDelete,
     };
 };

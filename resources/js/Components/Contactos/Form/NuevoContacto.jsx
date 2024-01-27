@@ -3,7 +3,7 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 
-import { handlerForm } from "./handlerForm";
+import { handlerForm } from "../Helpers/handlerForm";
 import { useForm } from "@inertiajs/react";
 import { handleContacts } from "../Helpers/handleContacts";
 import { useEffect } from "react";
