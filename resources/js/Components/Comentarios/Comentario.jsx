@@ -42,7 +42,7 @@ export const Comentario = ({ c, isAdmin, comentarios, setComentarios }) => {
         <div className="w-full min-h-[75px] p-2 rounded-lg flex flex-row items-center justify-between">
             <div className="flex flex-col items-center justify-center">
                 <img
-                    className="w-[50px] h-[50px] rounded-full"
+                    className="m-1 w-[50px] h-[50px] rounded-full"
                     src={c.user.photo}
                 />
                 <span className="text-[.7rem] p-1 text-gray-400">{c.user.username}</span>
