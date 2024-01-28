@@ -76,6 +76,12 @@ class ContactoController extends Controller
                 $requestAll['modo_id'] = $request->modo_id;
             }
 
+            if ($request->codificacion_id == -1) {
+                $requestAll['codificacion_id'] = null;
+            } else {
+                $requestAll['codificacion_id'] = $request->codificacion_id;
+            }
+
             // Busca si ya existe ese contacto creado (Por frecuencia, localización y usuario actual)
             $frecuencia_bus = $request->frecuencia;
             $localidad_bus = $request->localidad;
@@ -149,7 +155,7 @@ class ContactoController extends Controller
             $contacto['localizacion_id'] = $localizacion_id;
             $contacto['frecuencia_id'] = $frecuencia_id;
             $contacto['repetidor_id'] = $repetidor_id ?? null;
-            $contacto['codificacion_id'] = $request->codificacion_id ?? $request->codificacion;
+            $contacto['codificacion_id'] = $requestAll['codificacion_id'];
             $contacto['dcs_id'] = $requestAll['dcs_id'];
             $contacto['ctcss_id'] = $requestAll['ctcss_id'];
             $contacto['banda_id'] = $requestAll['banda_id'];
@@ -210,6 +216,11 @@ class ContactoController extends Controller
                 $requestAll['banda_id'] = $request->banda_id;
             }
 
+            if ($request->codificacion_id == -1) {
+                $requestAll['codificacion_id'] = null;
+            } else {
+                $requestAll['codificacion_id'] = $request->codificacion_id;
+            }
 
             $contacto = Contacto::with('frecuencia', 'codificacion', 'localizacion')->findorFail($request->id);
 
@@ -227,7 +238,7 @@ class ContactoController extends Controller
                 'modo_id' => $requestAll['modo_id'],
                 'ctcss_id' => $requestAll['ctcss_id'],
                 'dcs_id' => $requestAll['dcs_id'],
-                'codificacion_id' => $request->codificacion_id ?? $request->codificacion,
+                'codificacion_id' => $requestAll['codificacion_id'],
             ]);
 
 

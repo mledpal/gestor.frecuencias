@@ -39,7 +39,7 @@ class Frecuencia extends Model
         $decimales = substr($this->attributes['frecuencia'], $punto + 1, 4);
         $char = substr($decimales, -1);
 
-        if ($char == '5') {
+        if ($char == '5' && strlen($decimales) == 4) {
             return number_format($this->attributes['frecuencia'], 4);
         } else {
             return number_format($this->attributes['frecuencia'], 3);

@@ -5,7 +5,7 @@ import { Gps } from "./Icons/Gps";
 import { Privado } from "./Icons/Privado";
 
 export const Contacto = ({ datos, setDatos }) => {
-    const claseContacto = `w-[250px] h-[80px] shadow-gray-400 flex flex-row items-center justify-around rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2 cursor-pointer shadow-inner select-none ease-in-out hover:bg-gradient-to-b duration-100 ease-in-out hover:bg-gray-800 hover:from-gray-600 max-[1280px]:scale-75 max-[1280px]:my-0 ${datos.tipo.color}`;
+    const claseContacto = `w-[250px] h-[80px]  flex flex-row items-center justify-around rounded-tl-md rounded-br-md rounded-tr-2xl rounded-bl-2xl my-2 cursor-pointer shadow-[inset_-2px_2px_5px_rgba(255,255,255,.5),inset_2px_-2px_3px_rgba(0,0,0,.8)] select-none ease-in-out hover:bg-gradient-to-r duration-100 ease-in-out hover:bg-gray-800 hover:from-gray-600 hover:shadow-[0_0_10px_rgba(255,255,0,.9)] max-[1280px]:scale-75 max-[1280px]:my-0 ${datos.tipo.color}`;
 
     try {
         return (
