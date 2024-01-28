@@ -35,7 +35,14 @@ class Frecuencia extends Model
      */
     public function getFrecuenciaAttribute()
     {
+        $punto = strpos($this->attributes['frecuencia'], ".");
+        $decimales = substr($this->attributes['frecuencia'], $punto + 1, 4);
+        $char = substr($decimales, -1);
 
-        return number_format($this->attributes['frecuencia'], 3);
+        if ($char == '5') {
+            return number_format($this->attributes['frecuencia'], 4);
+        } else {
+            return number_format($this->attributes['frecuencia'], 3);
+        }
     }
 }

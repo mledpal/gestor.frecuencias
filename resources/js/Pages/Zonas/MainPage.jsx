@@ -13,7 +13,12 @@ import { useContactoCreate } from "@/hooks/useContactoCreate";
 import { Comentarios } from "@/Components/Comentarios/Comentarios";
 import { BuscarContacto } from "@/Components/Contactos/Form/BuscarContacto";
 
-export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
+export const MainPage = ({
+    selects,
+    isAdmin,
+    busqueda,
+    userDB,
+}) => {
     const [datos, setDatos] = useState(null);
 
     const {
@@ -151,7 +156,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 }
                 size={size || "md"}
                 handler={handleOpenBuscador}
-                className="bg-transparent w-1/2 h-4/5 flex flex-col m-auto shadow-[0px_0px_15px_rgba(255,255,255,.5)] rounded-xl"
+                className="bg-transparent w-1/2 max-h-screen flex flex-col m-auto shadow-[0px_0px_15px_rgba(255,255,255,.5)] rounded-xl overflow-y-auto"
             >
                 <BuscarContacto
                     isAdmin={isAdmin}

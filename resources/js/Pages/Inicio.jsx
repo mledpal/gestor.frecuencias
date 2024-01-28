@@ -41,7 +41,7 @@ export default function Inicio({ userDB, title, roles, selects, busqueda }) {
                     selects={selects}
                     isAdmin={isAdmin}
                     busqueda={busqueda}
-                    userDB = {userDB}
+                    userDB={userDB}
                 />
             </main>
 

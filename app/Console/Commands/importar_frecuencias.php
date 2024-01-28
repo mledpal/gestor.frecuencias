@@ -81,10 +81,19 @@ class importar_frecuencias extends Command
         $comprobado = $linea[8] == "VERDADERO" ? 1 : 0;
 
         // REPETIDOR $linea[16] -> Desplazamiento
+        $repetidor_id = null;
+
         if ($linea[15] === "VERDADERO") {
             $direccion = substr($linea[16], 0, 1);
             $offset = substr($linea[16], 1);
-            $nuevoRepetidor = Repetidor::create(['offset' => $offset, 'direccion' => $direccion]);
+            $repetidor_bus = Repetidor::where('direccion', $direccion)->where('offset', $offset)->first();
+
+            if ($repetidor_bus) {
+                $repetidor_id = $repetidor_bus->id;
+            } else {
+                $nuevoRepetidor = Repetidor::create(['offset' => $offset, 'direccion' => $direccion]);
+                $repetidor_id = $nuevoRepetidor->id;
+            }
         }
 
 
@@ -202,7 +211,6 @@ class importar_frecuencias extends Command
         unset($nombre);
 
         // CONTACTO
-        if ($nuevoRepetidor) $nuevoContacto['repetidor_id'] = $nuevoRepetidor->id;
         if ($banda) $nuevoContacto['banda_id'] = $banda->id;
         if ($modo) $nuevoContacto['modo_id'] = $modo->id;
         $nuevoContacto['frecuencia_id'] = $frecuencia->id;
@@ -211,6 +219,7 @@ class importar_frecuencias extends Command
         $nuevoContacto['comprobado'] = $comprobado;
         $nuevoContacto['fecha'] = $fecha;
         $nuevoContacto['hora'] = date("H:i:s", time());
+        $nuevoContacto['repetidor_id'] = $repetidor_id;
         $nuevoContacto['localizacion_id'] = $localizacion->id ?? null;
         $nuevoContacto['user_id'] = 1;
         $nuevoContacto['tipo_id'] = $tipo_contacto;

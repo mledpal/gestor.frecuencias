@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('frecuencia', function (Blueprint $table) {
             $table->id();
-            $table->float('frecuencia', 7, 3);
+            $table->float('frecuencia', 8, 4);
             $table->timestamps();
         });
     }

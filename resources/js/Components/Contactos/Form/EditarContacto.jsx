@@ -652,7 +652,7 @@ export const EditarContacto = ({
                         <span>
                             {datos.repetidor_id
                                 ? (() => {
-                                      switch (datos.frecuencia.direccion) {
+                                      switch (datos.repetidor.direccion) {
                                           case "+":
                                           case "-":
                                               return eval(
@@ -660,7 +660,7 @@ export const EditarContacto = ({
                                                       datos.repetidor
                                                           ?.direccion +
                                                       datos.repetidor?.offset
-                                              ).toFixed(3);
+                                              ).toFixed(4);
                                           default:
                                               return datos.frecuencia
                                                   .frecuencia;

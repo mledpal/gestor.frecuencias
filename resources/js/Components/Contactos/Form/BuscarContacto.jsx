@@ -36,7 +36,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
         privado: null,
         fecha_ini: "",
         fecha_fin: "",
-        tipo_id: null,
+        tipo_id: undefined,
         localidad: "",
         provincia: "",
     });
@@ -51,7 +51,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
             privado: null,
             fecha_ini: "",
             fecha_fin: "",
-            tipo_id: null,
+            tipo_id: undefined,
             localidad: "",
             provincia: "",
         });
@@ -72,18 +72,18 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
     return (
         <div
             id="buscarContacto"
-            className="h-full w-full flex flex-col items-center justify-between"
+            className="h-full w-full flex flex-col items-center justify-between  rounded-xl"
         >
-            <header className="h-15 w-full flex items-center justify-center bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5)]">
+            <header className="h-15 w-full flex items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
                 Buscador de Frecuencias
             </header>
 
             <form
                 method="post"
                 onSubmit={submit}
-                className="h-full w-full flex flex-col justify-between"
+                className="h-full w-full flex flex-col justify-between "
             >
-                <main className="flex flex-col grow">
+                <main className="flex flex-col grow bg-gradient-to-br from-slate-800  to-gray-800 shadow-[inset_2px_0px_5px_rgba(255,255,255,.5),inset_-2px_0px_5px_rgba(0,0,0,.5)] pb-5">
                     <div className="flex flex-col items-center justify-end">
                         <div className="w-full flex flex-row items-center justify-end">
                             <InputLabel
@@ -319,7 +319,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
                     </div>
                 </main>
 
-                <footer className="p-5 flex items-center justify-around h-15">
+                <footer className="p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
                     <Button
                         variant="gradient"
                         color="blue"

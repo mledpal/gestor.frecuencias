@@ -135,7 +135,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
                     <TextInput
                         id="comentario"
                         name="comentario"
-                        value={data.comentario}
+                        value={data.comentario ?? ""}
                         className="p-2 block w-full text-center text-sm text-white"
                         onChange={(e) => setData("comentario", e.target.value)}
                         placeholder="Escriba un comentario"

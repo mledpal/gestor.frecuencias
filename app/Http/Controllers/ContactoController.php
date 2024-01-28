@@ -52,6 +52,30 @@ class ContactoController extends Controller
 
             // dd($request);
 
+            $requestAll = $request->all();
+
+            if ($request->ctcss_id == -1) {
+                $requestAll['ctcss_id'] = null;
+            } else {
+                $requestAll['ctcss_id'] = $request->ctcss_id;
+            }
+            if ($request->dcs_id == -1) {
+                $requestAll['dcs_id'] = null;
+            } else {
+                $requestAll['dcs_id'] = $request->dcs_id;
+            }
+            if ($request->banda_id == -1) {
+                $requestAll['banda_id'] = null;
+            } else {
+                $requestAll['banda_id'] = $request->banda_id;
+            }
+
+            if ($request->modo_id == -1) {
+                $requestAll['modo_id'] = null;
+            } else {
+                $requestAll['modo_id'] = $request->modo_id;
+            }
+
             // Busca si ya existe ese contacto creado (Por frecuencia, localización y usuario actual)
             $frecuencia_bus = $request->frecuencia;
             $localidad_bus = $request->localidad;
@@ -126,10 +150,10 @@ class ContactoController extends Controller
             $contacto['frecuencia_id'] = $frecuencia_id;
             $contacto['repetidor_id'] = $repetidor_id ?? null;
             $contacto['codificacion_id'] = $request->codificacion_id ?? $request->codificacion;
-            $contacto['dcs_id'] = $request->dcs_id;
-            $contacto['ctcss_id'] = $request->ctcss_id;
-            $contacto['banda_id'] = $request->banda_id;
-            $contacto['modo_id'] = $request->modo_id;
+            $contacto['dcs_id'] = $requestAll['dcs_id'];
+            $contacto['ctcss_id'] = $requestAll['ctcss_id'];
+            $contacto['banda_id'] = $requestAll['banda_id'];
+            $contacto['modo_id'] = $requestAll['modo_id'];
             $contacto['user_id'] = $user->id;
             $contacto['observaciones'] = $request->observaciones;
 
@@ -160,6 +184,33 @@ class ContactoController extends Controller
 
             $user = Auth::user();
 
+            $requestAll = $request->all();
+
+            if ($request->modo_id == -1) {
+                $requestAll['modo_id'] = null;
+            } else {
+                $requestAll['modo_id'] = $request->modo_id;
+            }
+
+            if ($request->ctcss_id == -1) {
+                $requestAll['ctcss_id'] = null;
+            } else {
+                $requestAll['ctcss_id'] = $request->ctcss_id;
+            }
+
+            if ($request->dcs_id == -1) {
+                $requestAll['dcs_id'] = null;
+            } else {
+                $requestAll['dcs_id'] = $request->dcs_id;
+            }
+
+            if ($request->banda_id == -1) {
+                $requestAll['banda_id'] = null;
+            } else {
+                $requestAll['banda_id'] = $request->banda_id;
+            }
+
+
             $contacto = Contacto::with('frecuencia', 'codificacion', 'localizacion')->findorFail($request->id);
 
             $contacto->update([
@@ -172,10 +223,10 @@ class ContactoController extends Controller
                 'observaciones' => $request->observaciones,
                 'frecuencia_id' => $request->frecuencia_id,
                 'calidad' => $request->calidad ?? 0,
-                'banda_id' => $request->banda_id,
-                'modo_id' => $request->modo_id,
-                'ctcss_id' => $request->ctcss_id,
-                'dcs_id' => $request->dcs_id,
+                'banda_id' => $requestAll['banda_id'],
+                'modo_id' => $requestAll['modo_id'],
+                'ctcss_id' => $requestAll['ctcss_id'],
+                'dcs_id' => $requestAll['dcs_id'],
                 'codificacion_id' => $request->codificacion_id ?? $request->codificacion,
             ]);
 
