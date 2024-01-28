@@ -29,7 +29,7 @@ class MainController extends Controller
 
             $tipos_contacto = TipoContacto::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
 
-            $bandas = Banda::orderBy('id', 'ASC')->get()->pluck('banda','id')->toArray();
+            $bandas = Banda::orderBy('id', 'ASC')->get()->pluck('banda', 'id')->toArray();
             $modos = ModoTransmision::orderBy('id', 'ASC')->get()->pluck('nombre', 'id')->toArray();
 
             $tiposCodificacion = TipoCodificacion::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();

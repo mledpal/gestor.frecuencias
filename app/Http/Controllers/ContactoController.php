@@ -72,7 +72,7 @@ class ContactoController extends Controller
             $localizacion_id = null;
             if (isset($request->localidad) && isset($request->provincia)) {
 
-                $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->where('gps', $request->gps)->first();
+                $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->first();
 
 
                 if (!$localizacion_bus) {
@@ -97,8 +97,16 @@ class ContactoController extends Controller
             }
 
             // Repetidor
-            if (isset($request->offset)) {
-                $repetidor = Repetidor::firstOrCreate(['offset' => $request->offset, 'direccion' => $request->direccion]);
+            $repetidor_id = null;
+            if (isset($request->offset) && isset($request->direccion)) {
+                $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion);
+
+                if ($repetidor_bus) {
+                    $repetidor_id = $repetidor_bus->id;
+                } else {
+                    $nuevoRepetidor = Repetidor::create(['offset' => $request->offset, 'direccion' => $request->direccion]);
+                    $repetidor_id = $nuevoRepetidor->id;
+                }
             }
 
 
@@ -112,7 +120,7 @@ class ContactoController extends Controller
             $contacto['tipo_id'] = $request->tipo_id;
             $contacto['localizacion_id'] = $localizacion_id;
             $contacto['frecuencia_id'] = $frecuencia_id;
-            $contacto['repetidor_id'] = $repetidor->id ?? null;
+            $contacto['repetidor_id'] = $repetidor_id ?? null;
             $contacto['codificacion_id'] = $request->codificacion_id ?? $request->codificacion;
             $contacto['dcs_id'] = $request->dcs_id;
             $contacto['ctcss_id'] = $request->ctcss_id;
@@ -170,25 +178,19 @@ class ContactoController extends Controller
 
             // REPETIDOR
 
-            $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion)->first();
-
-            if (isset($request->repetidor_id) && !empty($repetidor_bus)) {
-                if ($request->repetidor_id == $repetidor_bus->id) { // Mismo Repetidor
-                    $contacto->repetidor->update([
-                        'offset' => $request->offset,
-                        'direccion' => $request->direccion,
-                    ]);
+            if (!isset($request->offset)) { // Si los valores de offset son nulos, se pone a null el id del repetidor
+                $contacto->update(['repetidor_id' => null]);
+            } else {
+                $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion)->first();
+                if ($repetidor_bus) {
+                    if ($repetidor_bus->id !== $contacto->repetidor_id) { // Si es el mismo, no hace nada
+                        $contacto->update(['repetidor_id' => $repetidor_bus->id]); // Si existe y está creado, lo asigna
+                    }
                 } else {
-                    $contacto->update(['repetidor_id' => $repetidor_bus->id]); // Existe pero es diferente por lo que se cambia
+                    $nuevoRepetidor = Repetidor::create(['offset' => $request->offset, 'direccion' => $request->direccion]); // Si no existe, lo crea y lo asigna
+                    $contacto->update(['repetidor_id' => $nuevoRepetidor->id]); // Si existe y está creado, lo asigna
                 }
-            } elseif (isset($request->offset) && isset($request->direccion)) { // No existe el repetidor, por lo que se crea nuevo
-                $repetidor = Repetidor::create([
-                    'offset' => $request->offset,
-                    'direccion' => $request->direccion,
-                ]);
-                $contacto->update(['repetidor_id' => $repetidor->id]);
             } // FIN REPETIDOR
-
 
 
             // LOCALIZACION

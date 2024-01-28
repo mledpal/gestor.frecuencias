@@ -52,7 +52,7 @@ export const EditarContacto = ({
         modo_id: datos.modo_id,
         calidad: datos.calidad,
         offset: datos.repetidor?.offset,
-        direccion: datos.repetidor?.direccion,
+        direccion: datos.repetidor?.direccion ?? "=",
         codificacion_id: datos?.codificacion_id,
         dcs_id: datos?.dcs_id,
         ctcss_id: datos?.ctcss_id,
@@ -79,7 +79,7 @@ export const EditarContacto = ({
             modo_id: datos.modo_id,
             calidad: datos.calidad,
             offset: datos.repetidor?.offset,
-            direccion: datos.repetidor?.direccion,
+            direccion: datos.repetidor?.direccion ?? "=",
             codificacion_id: datos?.codificacion_id,
             dcs_id: datos?.dcs_id,
             ctcss_id: datos?.ctcss_id,
@@ -127,8 +127,6 @@ export const EditarContacto = ({
         e.preventDefault;
         setDatos(null);
     };
-
-
 
     // Variables para setear los estilos de algunas zonas
 
@@ -667,7 +665,7 @@ export const EditarContacto = ({
                                         <select
                                             id="direccion"
                                             name="direccion"
-                                            value={data.direccion}
+                                            value={data.direccion ?? "="}
                                             className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                             onChange={(e) => handleDireccion(e)}
                                             placeholder="Dirección"
@@ -749,7 +747,9 @@ export const EditarContacto = ({
                                             name="codificacion_id"
                                             value={data.codificacion_id ?? -1}
                                             className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                            onChange={(e) => handleCodificacion(e)}
+                                            onChange={(e) =>
+                                                handleCodificacion(e)
+                                            }
                                             placeholder="Codificaación"
                                             required
                                         >
