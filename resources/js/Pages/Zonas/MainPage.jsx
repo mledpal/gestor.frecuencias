@@ -11,8 +11,9 @@ import { useFilters } from "@/hooks/useFilters";
 import { NuevoContacto } from "@/Components/Contactos/Form/NuevoContacto";
 import { useContactoCreate } from "@/hooks/useContactoCreate";
 import { Comentarios } from "@/Components/Comentarios/Comentarios";
+import { BuscarContacto } from "@/Components/Contactos/Form/BuscarContacto";
 
-export const MainPage = ({ selects, isAdmin }) => {
+export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
     const [datos, setDatos] = useState(null);
 
     const {
@@ -25,9 +26,13 @@ export const MainPage = ({ selects, isAdmin }) => {
         handlerCheckUncheck,
         eraseContact,
         updateContact,
-    } = useFilters();
+        busquedaReset,
+    } = useFilters(busqueda);
 
     const { datosNuevos, handleOpen, open } = useContactoCreate();
+
+    const [size, setSize] = useState(null);
+    const handleOpenBuscador = (value) => setSize(value);
 
     const borrarContacto = (id) => {
         setDatos(null);
@@ -43,13 +48,26 @@ export const MainPage = ({ selects, isAdmin }) => {
                 >
                     <div
                         name="botones_contactos"
-                        className="sticky top-0 mt-0 mb-8 px-1 h-[25px] w-full flex flex-row justify-around items-center select-none bg-slate-900 z-10"
+                        className="sticky top-0 mt-0 mb-8 p-1 h-[30px] w-full flex flex-row justify-around items-center select-none bg-slate-900 z-10"
                     >
                         <i
                             onClick={() => handleOpen("lg")}
                             className="fa-solid fa-circle-plus cursor-pointer hover:scale-150 transition-transform ease-in-out"
                         ></i>
-                        <i className="fa-solid fa-magnifying-glass cursor-pointer transition-transform ease-in-out hover:scale-150"></i>
+                        <i
+                            className={`fa-solid fa-magnifying-glass cursor-pointer transition-transform ease-in-out hover:scale-150 ${
+                                busqueda ? "text-red-500" : ""
+                            }`}
+                            onClick={() => handleOpenBuscador("md")}
+                        ></i>
+                        {busqueda ? (
+                            <i
+                                className="fa-solid fa-magnifying-glass-arrow-right cursor-pointer hover:scale-150 duration-150 select-none"
+                                onClick={busquedaReset}
+                            ></i>
+                        ) : (
+                            ""
+                        )}
                         <span>
                             <i
                                 className={`fa-solid fa-filter cursor-pointer transition-transform ease-in-out hover:scale-150 $hover:text-red-500 ${
@@ -88,6 +106,7 @@ export const MainPage = ({ selects, isAdmin }) => {
                             setDatos={setDatos}
                             borrarContacto={borrarContacto}
                             updateContact={updateContact}
+                            userDB={userDB}
                         />
                     ) : (
                         <NoContactos />
@@ -117,8 +136,27 @@ export const MainPage = ({ selects, isAdmin }) => {
                     datos={datosNuevos}
                     handleOpen={handleOpen}
                     selects={selects}
-                    isFocused={true}
                     updateContact={updateContact}
+                />
+            </Dialog>
+
+            <Dialog
+                open={
+                    size === "xs" ||
+                    size === "sm" ||
+                    size === "md" ||
+                    size === "lg" ||
+                    size === "xl" ||
+                    size === "xxl"
+                }
+                size={size || "md"}
+                handler={handleOpenBuscador}
+                className="bg-transparent w-1/2 h-4/5 flex flex-col m-auto shadow-[0px_0px_15px_rgba(255,255,255,.5)] rounded-xl"
+            >
+                <BuscarContacto
+                    isAdmin={isAdmin}
+                    selects={selects}
+                    handleOpenBuscador={handleOpenBuscador}
                 />
             </Dialog>
         </>

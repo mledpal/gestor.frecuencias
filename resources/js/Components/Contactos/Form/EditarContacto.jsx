@@ -20,6 +20,7 @@ export const EditarContacto = ({
     selects,
     borrarContacto,
     updateContact,
+    userDB,
 }) => {
     const {
         tipos_contacto,
@@ -164,17 +165,23 @@ export const EditarContacto = ({
                         name="guardar_datos"
                         className="w-1/5 flex items-center gap-8 "
                     >
-                        <i
-                            className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
-                            onClick={submit}
-                        ></i>
+                        {datos.user_id === userDB.id ? (
+                            <>
+                                <i
+                                    className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario} `}
+                                    onClick={submit}
+                                ></i>
+                                <i
+                                    className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
+                                    onClick={() => {
+                                        handleDelete(datos.id);
+                                    }}
+                                ></i>
+                            </>
+                        ) : (
+                            ""
+                        )}
 
-                        <i
-                            className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                            onClick={() => {
-                                handleDelete(datos.id);
-                            }}
-                        ></i>
                         <i
                             className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
                             onClick={close}
@@ -194,13 +201,18 @@ export const EditarContacto = ({
 
                     <div
                         name="otrosIconos"
-                        className="w-1/5 flex items-end justify-end"
+                        className="w-1/5 p-2 h-[75px] flex flex-col items-end justify-between"
                     >
                         {datos.localizacion?.gps ? (
                             <i
                                 className="fa-solid fa-location-dot cursor-pointer hover:scale-150 select-none"
                                 onClick={handleOpen}
                             ></i>
+                        ) : (
+                            ""
+                        )}
+                        {datos.user_id !== userDB.id ? (
+                            <i className="fa-solid fa-magnifying-glass-plus cursor-pointer hover:scale-150 select-none"></i>
                         ) : (
                             ""
                         )}

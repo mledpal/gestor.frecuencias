@@ -1,26 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, busqueda } from "react";
 
-export const useFilters = () => {
+export const useFilters = (busqueda) => {
+    useEffect(() => {
+        getContacts();
+    }, [busqueda]);
+
+    const busquedaReset = () => {
+        busqueda = undefined;
+        getContacts();
+    };
+
+    // Función que recoge todos los contactos por AJAX
     const getContacts = () => {
-        fetch("ajax/contacto/get")
-            .then(function (response) {
-                if (response.ok) {
-                    return response.json(); // Llama a la función json para obtener los datos
-                } else {
+        if (busqueda === undefined) {
+            fetch("ajax/contacto/get")
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json(); // Llama a la función json para obtener los datos
+                    } else {
+                        console.log(
+                            "Respuesta de red OK pero respuesta HTTP no OK"
+                        );
+                    }
+                })
+                .then(function (data) {
+                    setContactos(data); // Aquí tendrás los datos de la respuesta
+                    // Ahora puedes hacer algo con los datos, por ejemplo, mostrarlos en la interfaz
+                })
+                .catch(function (error) {
                     console.log(
-                        "Respuesta de red OK pero respuesta HTTP no OK"
+                        "Hubo un problema con la petición Fetch:" +
+                            error.message
                     );
-                }
-            })
-            .then(function (data) {
-                setContactos(data); // Aquí tendrás los datos de la respuesta
-                // Ahora puedes hacer algo con los datos, por ejemplo, mostrarlos en la interfaz
-            })
-            .catch(function (error) {
-                console.log(
-                    "Hubo un problema con la petición Fetch:" + error.message
-                );
-            });
+                });
+        } else {
+            setContactos(busqueda);
+        }
     };
 
     const [contactos, setContactos] = useState([]);
@@ -93,7 +108,7 @@ export const useFilters = () => {
 
     const updateContact = () => {
         getContacts();
-    }
+    };
 
     useEffect(() => {
         getContacts();
@@ -117,5 +132,6 @@ export const useFilters = () => {
         handlerCheckUncheck,
         eraseContact,
         updateContact,
+        busquedaReset,
     };
 };

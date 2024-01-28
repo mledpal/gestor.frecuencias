@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\FrecuenciaController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -31,8 +32,8 @@ Route::controller(ContactoController::class)->group(function () {
     Route::get('ajax/contacto/get', 'getContacts')->name('contacto_get');
     Route::get('ajax/contacto/{id}', 'getContactInfo')->name('contacto_info');
     Route::post('ajax/contacto/{id}', 'actualizar')->name('contacto_actualizar');
+    Route::post('/', 'busqueda')->name('contacto_busqueda');
 });
-
 
 Route::controller(ComentarioController::class)->group(function () {
     Route::post('comentario/crear', 'crear')->name('comentario_crear');

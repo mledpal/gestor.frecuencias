@@ -4,7 +4,7 @@ import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { MainPage } from "./Zonas/MainPage";
 
-export default function Inicio({ userDB, title, roles, selects }) {
+export default function Inicio({ userDB, title, roles, selects, busqueda }) {
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
 
@@ -37,7 +37,12 @@ export default function Inicio({ userDB, title, roles, selects }) {
             </header>
 
             <main className="flex flex-col w-full  bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px] h-4/5 max-[1280px]:h-[90%]">
-                <MainPage selects={selects} isAdmin={isAdmin} />
+                <MainPage
+                    selects={selects}
+                    isAdmin={isAdmin}
+                    busqueda={busqueda}
+                    userDB = {userDB}
+                />
             </main>
 
             <footer className="flex flex-row w-full h-[4%] justify-between items-center p-10 bg-transparent max-[1280px]:hidden">
