@@ -52,7 +52,7 @@ export const EditarContacto = ({
         modo_id: datos.modo_id,
         calidad: datos.calidad,
         offset: datos.repetidor?.offset,
-        direccion: datos.repetidor?.direccion ?? "=",
+        direccion: datos.repetidor?.direccion,
         codificacion_id: datos?.codificacion_id,
         dcs_id: datos?.dcs_id,
         ctcss_id: datos?.ctcss_id,
@@ -79,7 +79,7 @@ export const EditarContacto = ({
             modo_id: datos.modo_id,
             calidad: datos.calidad,
             offset: datos.repetidor?.offset,
-            direccion: datos.repetidor?.direccion ?? "=",
+            direccion: datos.repetidor?.direccion,
             codificacion_id: datos?.codificacion_id,
             dcs_id: datos?.dcs_id,
             ctcss_id: datos?.ctcss_id,
@@ -639,11 +639,22 @@ export const EditarContacto = ({
                         <span>Repetidor</span>
                         <span>
                             {datos.repetidor_id
-                                ? eval(
-                                      datos.frecuencia.frecuencia +
-                                          datos.repetidor?.direccion +
-                                          datos.repetidor?.offset
-                                  ).toFixed(3)
+                                ? (() => {
+                                      switch (datos.frecuencia.direccion) {
+                                          case "+":
+                                          case "-":
+                                              return eval(
+                                                  datos.frecuencia.frecuencia +
+                                                      datos.repetidor
+                                                          ?.direccion +
+                                                      datos.repetidor?.offset
+                                              ).toFixed(3);
+                                          default:
+                                              return datos.frecuencia
+                                                  .frecuencia;
+                                              break;
+                                      }
+                                  })()
                                 : ""}
                         </span>
 
