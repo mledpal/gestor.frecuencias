@@ -91,12 +91,15 @@ export const useFilters = (busqueda) => {
             );
         });
     };
+    const [stateFilters, setFilterState] = useState(false);
 
     const handlerCheckUncheck = () => {
+        setFilterState(!stateFilters);
+
         setFiltros((prevFiltros) => {
             const nuevoFiltros = { ...prevFiltros };
             listaFiltros.forEach((f) => {
-                nuevoFiltros[f.key] = !prevFiltros[f.key];
+                nuevoFiltros[f.key] = stateFilters;
             });
             return nuevoFiltros;
         });
