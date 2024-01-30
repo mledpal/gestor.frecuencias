@@ -36,7 +36,8 @@ class User extends Authenticatable
         'email',
         'password',
         'photo',
-        'qsl'
+        'qsl',
+        'localizacion_id'
     ];
 
     /**

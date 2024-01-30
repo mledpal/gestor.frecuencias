@@ -36,13 +36,13 @@ class MainController extends Controller
             $modos[-1] = "Desconocido";
 
             $tiposCodificacion = TipoCodificacion::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
-            $tiposCodificacion[-1] = "Desconocido";
+            $tiposCodificacion[-1] = "Ninguna";
 
             $dcsCodes = Dcs::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
-            $dcsCodes[-1] = "Desconocido";
+            $dcsCodes[-1] = "Ninguno";
 
             $ctcssCodes = Ctcss::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
-            $ctcssCodes[-1] = 'Desconocido';
+            $ctcssCodes[-1] = 'Ninguno';
 
             $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
 
@@ -75,14 +75,20 @@ class MainController extends Controller
         }
     }
 
+    // Ruta para desloguearse
     public function logout()
     {
         Auth::logout();
         return Redirect::to('/');
     }
 
+    // Ruta de la vista de la radio
     public function radio()
     {
         return view('radio');
     }
+
+
+
+
 }

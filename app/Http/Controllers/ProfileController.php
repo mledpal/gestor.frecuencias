@@ -24,9 +24,13 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $userID = Auth::id(); // Obtener el ID del usuario autenticado de forma más directa
+        $user = User::with('localizacion')->findOrFail($userID);
+
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'user' => $user,
         ]);
     }
 
