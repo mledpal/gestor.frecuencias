@@ -3,6 +3,7 @@ import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UploadImage from "./Partials/UploadImage";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
+import UpdateLocalizacionForm from "./Partials/UpdateLocalizacionForm";
 import { Head } from "@inertiajs/react";
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
@@ -25,6 +26,10 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                             status={status}
                             className="max-w-xl"
                         />
+                    </div>
+
+                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                        <UpdateLocalizacionForm className="max-w-xl" />
                     </div>
 
                     <div className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">

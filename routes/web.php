@@ -24,6 +24,8 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/logout', 'logout')->name('index.logout');
     Route::get('/radio', 'radio')->name('index.radio');
+    Route::get('/exportar', 'exportar')->name('exportar');
+    Route::get('/importar', 'importar')->name('importar');
 });
 
 Route::controller(ContactoController::class)->group(function () {

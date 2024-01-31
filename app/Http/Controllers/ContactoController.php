@@ -103,24 +103,28 @@ class ContactoController extends Controller
 
             // Localización
 
-            $localizacion_id = null;
-            if (isset($request->localidad) && isset($request->provincia)) {
+            $localizacion_id = $request->localizacion_id;
+            if (isset($request->localidad) || isset($request->provincia) || isset($request->gps)) {
 
-                $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->first();
+                $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->where('gps', $request->gps)->first();
 
-
-                if (!$localizacion_bus) {
+                if($localizacion_bus) {
+                    if ($localizacion_id !== $localizacion_bus->id) {
+                        $localizacion_id = $localizacion_bus->id;
+                    }
+                } else {
                     $localizacion = Localizacion::create([
                         'localidad' => $request->localidad,
                         'provincia' => $request->provincia,
                         'pais' => $request->pais,
                         'gps' => $request->gps
                     ]);
+
                     $localizacion_id = $localizacion->id;
-                } else {
-                    $localizacion_id = $localizacion_bus->id;
                 }
             }
+
+
 
             $frecuencia_bus = Frecuencia::where('frecuencia', $request->frecuencia)->first();
             if (!$frecuencia_bus) {

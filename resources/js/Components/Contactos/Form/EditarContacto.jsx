@@ -13,6 +13,9 @@ import { handleContacts } from "../Helpers/handleContacts";
 
 import { GpsMap } from "@/Components/GPSMap/GpsMap";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 export const EditarContacto = ({
     setDatos,
     contactos,
@@ -54,9 +57,9 @@ export const EditarContacto = ({
         calidad: datos.calidad,
         offset: datos.repetidor?.offset,
         direccion: datos.repetidor?.direccion,
-        codificacion_id: datos?.codificacion_id,
-        dcs_id: datos?.dcs_id,
-        ctcss_id: datos?.ctcss_id,
+        codificacion_id: datos?.codificacion_id ?? -1,
+        dcs_id: datos?.dcs_id ?? -1,
+        ctcss_id: datos?.ctcss_id ?? -1,
         localizacion_id: datos.localizacion_id,
         localidad: datos.localizacion?.localidad,
         provincia: datos.localizacion?.provincia,
@@ -81,9 +84,9 @@ export const EditarContacto = ({
             calidad: datos.calidad,
             offset: datos.repetidor?.offset,
             direccion: datos.repetidor?.direccion,
-            codificacion_id: datos?.codificacion_id,
-            dcs_id: datos?.dcs_id,
-            ctcss_id: datos?.ctcss_id,
+            codificacion_id: datos?.codificacion_id ?? -1,
+            dcs_id: datos?.dcs_id ?? -1,
+            ctcss_id: datos?.ctcss_id ?? -1,
             localizacion_id: datos.localizacion_id,
             localidad: datos.localizacion?.localidad,
             provincia: datos.localizacion?.provincia,
@@ -100,6 +103,43 @@ export const EditarContacto = ({
     useEffect(() => {
         document.getElementById("detalle").scrollTo(0, 0);
     }, [datos]);
+
+    const handleAddContact = () => {
+        // Tengo que mandar los datos a una ruta para crear el contacto.
+        withReactContent(Swal)
+            .fire({
+                title: "¿Desea agregar el contacto?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Si",
+                denyButtonText: `No`,
+                icon: "question",
+            })
+            .then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    post(route("contacto_crear"));
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        },
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Contacto cread",
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire("Cancelado", "", "info");
+                }
+            });
+    };
 
     const {
         handleBanda,
@@ -131,7 +171,7 @@ export const EditarContacto = ({
 
     // Variables para setear los estilos de algunas zonas
 
-    const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen ${datos.tipo.color}`;
+    const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen bg-sky-900`;
 
     const classZona =
         " w-4/5 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
@@ -160,7 +200,9 @@ export const EditarContacto = ({
                 className={claseContacto}
             >
                 <input type="hidden" id="id" value={data.id} />
-                <div className="sticky top-0 h-[75px] bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10">
+                <div
+                    className={`sticky top-0 h-[75px]  bg-gradient-to-b from-${datos.tipo.color} to-slate-900 to-50%   z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10`}
+                >
                     <div
                         name="guardar_datos"
                         className="w-1/5 flex items-center gap-8 "
@@ -205,14 +247,17 @@ export const EditarContacto = ({
                     >
                         {datos.localizacion?.gps ? (
                             <i
-                                className="fa-solid fa-location-dot cursor-pointer hover:scale-150 select-none"
+                                className="fa-solid fa-location-dot cursor-pointer hover:scale-150 duration-150 select-none"
                                 onClick={handleOpen}
                             ></i>
                         ) : (
                             ""
                         )}
                         {datos.user_id !== userDB.id ? (
-                            <i className="fa-solid fa-magnifying-glass-plus cursor-pointer hover:scale-150 select-none"></i>
+                            <i
+                                className="fa-solid fa-magnifying-glass-plus cursor-pointer hover:scale-150 duration-150 select-none"
+                                onClick={handleAddContact}
+                            ></i>
                         ) : (
                             ""
                         )}
@@ -353,7 +398,7 @@ export const EditarContacto = ({
                                     id="nombre"
                                     name="nombre"
                                     value={data.nombre}
-                                    className="mt-1 block w-full"
+                                    className="block w-full text-center font-bold"
                                     onChange={(e) =>
                                         setData("nombre", e.target.value)
                                     }
@@ -408,7 +453,7 @@ export const EditarContacto = ({
                                     id="frecuencia"
                                     name="frecuencia"
                                     value={data.frecuencia}
-                                    className="mt-1 block w-full text-center"
+                                    className="block w-full text-center"
                                     onChange={(e) =>
                                         setData("frecuencia", e.target.value)
                                     }
@@ -877,9 +922,10 @@ export const EditarContacto = ({
             <Dialog
                 id="googlegps"
                 name="googlegps"
-                size="xl"
+                size="xxl"
                 open={open}
                 handler={handleOpen}
+                className="w-screen min-h-screen bg-transparent shadow-transparent m-auto  overflow-y-auto"
             >
                 <GpsMap coordenadas={coordenadas} nombre={datos.nombre} />
             </Dialog>

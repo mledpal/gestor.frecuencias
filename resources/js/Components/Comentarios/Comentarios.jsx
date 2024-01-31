@@ -103,11 +103,11 @@ export const Comentarios = ({ datos, isAdmin }) => {
                 ></input>
 
                 <header
-                    name="mensajes"
+                    name="comentarios"
                     className="w-full flex flex-row items-center justify-between p-4 h-[75px] bg-slate-900"
                 >
                     <div
-                        name="botones_mensajes"
+                        name="botones_comentarios"
                         className="w-1/5 flex flex-row items-center justify-around"
                     >
                         <i
@@ -128,7 +128,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
                             Comentarios
                         </h2>
                     </div>
-                    <div name="numero_mensajes" className="w-1/5"></div>
+                    <div name="numero_comentarios" className="w-1/5"></div>
                 </header>
 
                 <div className="w-full rounded-xl">
@@ -146,7 +146,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
             </form>
 
             <div
-                name="lista_mensajes"
+                name="lista_comentarios"
                 className="w-full h-full p-4 overflow-y-auto select-none"
             >
                 {comentarios

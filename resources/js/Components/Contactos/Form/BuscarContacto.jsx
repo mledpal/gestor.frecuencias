@@ -72,7 +72,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
     return (
         <div
             id="buscarContacto"
-            className="h-full w-full flex flex-col items-center justify-between  rounded-xl"
+            className="w-1/2 flex flex-col items-center justify-between  rounded-xl m-auto"
         >
             <header className="h-15 w-full flex items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
                 Buscador de Frecuencias

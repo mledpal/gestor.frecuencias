@@ -12,13 +12,9 @@ import { NuevoContacto } from "@/Components/Contactos/Form/NuevoContacto";
 import { useContactoCreate } from "@/hooks/useContactoCreate";
 import { Comentarios } from "@/Components/Comentarios/Comentarios";
 import { BuscarContacto } from "@/Components/Contactos/Form/BuscarContacto";
+import { Mensajes } from "@/Components/Mensajes/Mensajes";
 
-export const MainPage = ({
-    selects,
-    isAdmin,
-    busqueda,
-    userDB,
-}) => {
+export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
     const [datos, setDatos] = useState(null);
 
     const {
@@ -63,7 +59,7 @@ export const MainPage = ({
                             className={`fa-solid fa-magnifying-glass cursor-pointer transition-transform ease-in-out hover:scale-150 ${
                                 busqueda ? "text-red-500" : ""
                             }`}
-                            onClick={() => handleOpenBuscador("md")}
+                            onClick={() => handleOpenBuscador("xxl")}
                         ></i>
                         {busqueda ? (
                             <i
@@ -114,7 +110,7 @@ export const MainPage = ({
                             userDB={userDB}
                         />
                     ) : (
-                        <NoContactos />
+                        <NoContactos handleOpenBuscador={handleOpenBuscador} handleOpen={handleOpen}/>
                     )}
                 </div>
                 <div
@@ -124,7 +120,7 @@ export const MainPage = ({
                     {datos ? (
                         <Comentarios datos={datos} isAdmin={isAdmin} />
                     ) : (
-                        ""
+                        <Mensajes isAdmin={isAdmin} />
                     )}
                 </div>
             </div>
@@ -132,10 +128,10 @@ export const MainPage = ({
             <Dialog
                 id="nuevocontacto"
                 name="nuevocontacto"
-                size="lg"
+                size="xxl"
                 open={open}
                 handler={handleOpen}
-                className="bg-transparent overflow-y-scroll "
+                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
             >
                 <NuevoContacto
                     datos={datosNuevos}
@@ -156,7 +152,7 @@ export const MainPage = ({
                 }
                 size={size || "md"}
                 handler={handleOpenBuscador}
-                className="bg-transparent w-1/2 max-h-screen flex flex-col m-auto shadow-[0px_0px_15px_rgba(255,255,255,.5)] rounded-xl overflow-y-auto"
+                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
             >
                 <BuscarContacto
                     isAdmin={isAdmin}
@@ -164,6 +160,7 @@ export const MainPage = ({
                     handleOpenBuscador={handleOpenBuscador}
                 />
             </Dialog>
+
         </>
     );
 };

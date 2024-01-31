@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { getContactInfo } from "./getContactInfo";
+
 
 export const handleContacts = ({
     post,
@@ -22,7 +22,7 @@ export const handleContacts = ({
         try {
             const idReg = parseInt(id.getAttribute("value"));
             const url = `ajax/contacto/${idReg}`;
-            
+
             post(url);
 
             // let response = getContactInfo(idReg);

@@ -21,7 +21,7 @@ class TablaTipoCodificacion extends Seeder
     private function datos()
     {
         return [
-            ['nombre' => 'Ninguna'],
+            ['nombre' => 'Desconocida'],
             ['nombre' => 'Secrafonia'],
             ['nombre' => 'DMR'],
             ['nombre' => 'Tetra'],

@@ -111,9 +111,9 @@ export const NuevoContacto = ({
 
     // Variables para setear los estilos de algunas zonas
 
+    const claseContacto = `flex flex-col items-center justify-between  rounded-xl m-auto bg-indigo-900 w-1/2 shadow-[0_0_15px_rgba(255,255,255,.6)] max-[1280px]:w-5/6`;
     const classZona =
         " w-4/5 max-[1280px]:w-5/6 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
-    const claseContacto = `flex flex-col justify-start items-center w-3/5 mx-auto min-h-screen bg-blue-700 shadow-[0_0_15px_rgba(255,255,255,.6)] max-[1280px]:w-5/6`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
@@ -149,7 +149,7 @@ export const NuevoContacto = ({
 
                     <i
                         className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                        onClick={reset}
+                        onClick={() => reset()}
                     ></i>
                     <i
                         className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}

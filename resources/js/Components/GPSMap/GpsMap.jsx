@@ -40,7 +40,7 @@ export const GpsMap = ({ coordenadas, nombre }) => {
         <div className="container bg-slate-700 m-auto">
             <div
                 id="map"
-                className="bg-slate-800 w-full h-screen border-[10px] border-slate-700"
+                className="bg-slate-800 w-full h-screen rounded-xl border-[5px] border-slate-700"
             ></div>
         </div>
     );
