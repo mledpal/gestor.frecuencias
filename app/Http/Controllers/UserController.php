@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidarLocalizacion;
+use App\Http\Requests\ValidarUsuario;
 use App\Models\Localizacion;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -42,6 +44,47 @@ class UserController extends Controller
 
         } else {
             return route('/login');
+        }
+    }
+
+
+    public function busqueda(ValidarUsuario $request) {
+        if(Auth::check()) {
+
+            $usuarios = User::with('roles')->select('id' ,'username', 'photo')->whereNot('id', Auth::id())->orderBy('username', 'asc');
+
+
+            if (isset($request->usuario)) {
+                $usuarios->where('nombre', 'like', '%'.$request->usuario.'%');
+            }
+
+            if(isset($request->localidad)) {
+                $usuarios->whereHas('localizacion', function($query) use($request) {
+                    $query->where('localidad', 'like', $request->localidad);
+                });
+            }
+
+            if(isset($request->provincia)) {
+                $usuarios->whereHas('localizacion', function($query) use($request) {
+                    $query->where('provincia', 'like', $request->provincia);
+                });
+            }
+
+            $respuesta = json_encode($usuarios->get()->toArray());
+
+            return $respuesta;
+
+        } else {
+            return route('login');
+        }
+    }
+
+    public function getInfo($id) {
+        if(Auth::check()) {
+            $usuario = User::select('id' ,'username', 'photo')->findOrFail($id);
+            return $usuario;
+        } else {
+            return route('login');
         }
     }
 }

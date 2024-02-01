@@ -64,7 +64,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                         {busqueda ? (
                             <i
                                 className="fa-solid fa-magnifying-glass-arrow-right cursor-pointer hover:scale-150 duration-150 select-none"
-                                onClick={busquedaReset}
+                                onClick={() => busquedaReset}
                             ></i>
                         ) : (
                             ""
@@ -110,7 +110,10 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                             userDB={userDB}
                         />
                     ) : (
-                        <NoContactos handleOpenBuscador={handleOpenBuscador} handleOpen={handleOpen}/>
+                        <NoContactos
+                            handleOpenBuscador={handleOpenBuscador}
+                            handleOpen={handleOpen}
+                        />
                     )}
                 </div>
                 <div
@@ -120,7 +123,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                     {datos ? (
                         <Comentarios datos={datos} isAdmin={isAdmin} />
                     ) : (
-                        <Mensajes isAdmin={isAdmin} />
+                        <Mensajes />
                     )}
                 </div>
             </div>

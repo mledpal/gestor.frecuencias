@@ -14,12 +14,6 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
 
     const {
         tipos_contacto,
-        bandas,
-        modos,
-        codificaciones,
-        dcs,
-        ctcss,
-        direcciones,
     } = selects;
 
     useEffect(() => {

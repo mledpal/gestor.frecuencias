@@ -1,22 +1,26 @@
-import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { Button } from "@material-tailwind/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { searchUsers } from "./helpers/searchUsers";
+import { UserImage } from "@/Components/Images/UserImage";
 
-export const BuscarUsuario = ({ selects, handleOpenBuscador, isAdmin }) => {
-    const clasesDOM =
-        "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
-
+export const BuscarUsuarios = ({
+    handleOpenBuscador,
+    handleOpenSendMessage,
+    setUserID,
+}) => {
+    const [respuesta, setRespuesta] = useState(null);
     const clasesLabel = "text-center mb-2 text-black select-none";
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         document.getElementById("buscarContacto").scrollTo(0, 0);
-    //     }, 100);
-    // }, []);
+    useEffect(() => {
+        setTimeout(() => {
+            document.getElementById("buscarUsuario").scrollTo(0, 0);
+        }, 100);
+        setRespuesta(null);
+    }, []);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         usuario: "",
@@ -24,31 +28,25 @@ export const BuscarUsuario = ({ selects, handleOpenBuscador, isAdmin }) => {
         provincia: "",
     });
 
-    const resetForm = (e) => {
+    const handleUserClicked = (e, id) => {
         e.preventDefault();
-        setData({
-            usuario: "",
-            localidad: "",
-            provincia: "",
-        });
+        handleOpenBuscador(null);
+        setUserID(id);
+        handleOpenSendMessage("xxl");
     };
 
-    const submit = (e) => {
+    async function submit(e) {
         e.preventDefault();
-
-        try {
-            post(route("usuario_busqueda"));
-        } catch (error) {
-            console.error(error);
-        } finally {
-            handleOpenBuscador(null);
-        }
-    };
+        let response = await searchUsers(data);
+        setRespuesta(response);
+    }
 
     return (
         <div
             id="buscarUsuario"
-            className="shadow-[0px_0px_15px_rgba(255,255,255,.5)] flex flex-col items-center justify-between  rounded-xl m-auto"
+            className={`shadow-[0px_0px_15px_rgba(255,255,255,.5)] flex flex-col items-center justify-between  rounded-xl m-auto ${
+                respuesta ? "overflow-y-auto" : ""
+            }`}
         >
             <header className="h-15 w-full flex items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
                 Buscador de Usuarios
@@ -72,7 +70,6 @@ export const BuscarUsuario = ({ selects, handleOpenBuscador, isAdmin }) => {
                                 name="usuario"
                                 value={data.usuario}
                                 className="mt-1 block w-full text-center"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("usuario", e.target.value)
                                 }
@@ -96,7 +93,6 @@ export const BuscarUsuario = ({ selects, handleOpenBuscador, isAdmin }) => {
                                 name="localidad"
                                 value={data.localidad}
                                 className="mt-1 block w-full text-center"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("localidad", e.target.value)
                                 }
@@ -119,7 +115,6 @@ export const BuscarUsuario = ({ selects, handleOpenBuscador, isAdmin }) => {
                                 name="provincia"
                                 value={data.provincia}
                                 className="mt-1 block w-full text-center"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("provincia", e.target.value)
                                 }
@@ -132,6 +127,26 @@ export const BuscarUsuario = ({ selects, handleOpenBuscador, isAdmin }) => {
                             />
                         </div>
                     </div>
+                    <article className="w-full text-center h-full p-4 flex flex-col items-center justify-start gap-2">
+                        {respuesta ? (
+                            respuesta.map((user, id) => (
+                                <span
+                                    key={id}
+                                    onClick={(e) =>
+                                        handleUserClicked(e, user.id)
+                                    }
+                                >
+                                    <UserImage
+                                        isAdmin={0}
+                                        userDB={user}
+                                        link="#"
+                                    />
+                                </span>
+                            ))
+                        ) : (
+                            <h3>No hay datos</h3>
+                        )}
+                    </article>
                 </main>
 
                 <footer className="p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
@@ -148,7 +163,7 @@ export const BuscarUsuario = ({ selects, handleOpenBuscador, isAdmin }) => {
                     <Button
                         variant="text"
                         color="light-green"
-                        onClick={resetForm}
+                        onClick={() => reset()}
                         className="border-[1px] px-5 py-2 hover:scale-110 bg-green-700 text-white duration-200 ease-in-out"
                     >
                         <span>

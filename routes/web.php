@@ -4,7 +4,9 @@ use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\FrecuenciaController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +21,19 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::controller(UserController::class)->group(function () {
+    Route::post('user/busqueda', 'busqueda')->name('usuario_busqueda');
+    Route::get('user/{id}/getInfo', 'getInfo')->name('usuario_informacion');
+});
+
+
+Route::controller(MensajeController::class)->group(function () {
+    Route::post('mensajes/enviar', 'enviarMensaje')->name('enviar_mensaje');
+    Route::get('mensajes/recuperar', 'getConversaciones')->name('todas_conversaciones');
+    Route::get('mensajes/{destinoId}/recuperar', 'recuperarConversacion')->name('recuperar_conversacion');
+});
+
 
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'index')->name('index');

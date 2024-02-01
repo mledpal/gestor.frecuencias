@@ -33,7 +33,7 @@ export default function Inicio({ userDB, title, roles, selects, busqueda }) {
                     src="/img/logo.webp"
                     className="w-[100px] h-[100px] cursor-pointer max-[1280px]:w-[50px] max-[1280px]:h-[50px]"
                 />
-                <UserImage isAdmin={isAdmin} userDB={userDB} />
+                <UserImage userDB={userDB} link="/profile" />
                 <BurgerMenu isAdmin={isAdmin} />
             </header>
 

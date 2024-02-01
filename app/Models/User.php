@@ -69,6 +69,21 @@ class User extends Authenticatable
     }
 
     /**
+     * Relación del usuario con los mensajes enviados
+     */
+    public function enviados() {
+        return $this->hasMany(Mensaje::class, 'remitente_id', 'id');
+    }
+
+    /**
+     * Relación del usuario con los mensajes enviados
+     */
+    public function recibidos() {
+        return $this->hasMany(Mensaje::class, 'destinatario_id', 'id');
+    }
+
+
+    /**
      * Relación de un usuario con sus múltiples contactos
      */
     public function contactos(): HasMany
