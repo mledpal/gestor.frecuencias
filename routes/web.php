@@ -32,6 +32,7 @@ Route::controller(MensajeController::class)->group(function () {
     Route::post('mensajes/enviar', 'enviarMensaje')->name('enviar_mensaje');
     Route::get('mensajes/recuperar', 'getConversaciones')->name('todas_conversaciones');
     Route::get('mensajes/{destinoId}/recuperar', 'recuperarConversacion')->name('recuperar_conversacion');
+    Route::delete('mensajes/{id}/delete', 'borrarConversacion')->name('borrar_conversacion');
 });
 
 

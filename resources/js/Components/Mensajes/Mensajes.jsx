@@ -1,13 +1,17 @@
-import { useForm } from "@inertiajs/react";
 import InputError from "../InputError";
 import TextInput from "../TextInput";
+
+import { useForm } from "@inertiajs/react";
 import { BuscarUsuarios } from "../Usuarios/Forms/BuscarUsuarios";
 import { useEffect, useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { Conversacion } from "../Conversacion/Conversacion";
-
 import { getConversaciones } from "@/Helpers/getConversaciones";
 import { UserImage } from "../Images/UserImage";
+import { borrarConversacion } from "./helpers/borrarConversacion";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export const Mensajes = () => {
     const [mensajes, setMensajes] = useState([]);
@@ -34,6 +38,44 @@ export const Mensajes = () => {
     const [sizeMsg, setSizeMsg] = useState(null);
     const [userID, setUserID] = useState(null);
     const handleOpenSendMessage = (value) => setSizeMsg(value);
+
+    async function handleDeleteConversation(e, id) {
+        e.preventDefault();
+
+        withReactContent(Swal)
+            .fire({
+                title: "¿Desea eliminar la conversación?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Si",
+                denyButtonText: `No`,
+                icon: "question",
+            })
+            .then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    borrarConversacion(id);
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        },
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Conversación borrada",
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire("Cancelado", "", "info");
+                }
+            });
+    }
 
     useEffect(() => {
         getData();
@@ -96,14 +138,25 @@ export const Mensajes = () => {
                         ? mensajes.map((c, index) => {
                               return (
                                   <div
-                                      onClick={(e) =>
-                                          handleUserClicked(e, c.id)
-                                      }
-                                      className="p-4 text-xs w-full flex justify-center items-center font-light odd:bg-slate-800 even:bg-slate-700"
                                       key={index}
-                                      link="#"
+                                      className="p-4 w-full flex odd:bg-slate-800 even:bg-slate-700 items-center justify-between"
                                   >
-                                      <UserImage userDB={c} link="" />
+                                      <div
+                                          onClick={(e) =>
+                                              handleUserClicked(e, c.id)
+                                          }
+                                          className=" text-xs  justify-center  font-light"
+                                          link="#"
+                                      >
+                                          <UserImage userDB={c} link="" />
+                                      </div>
+                                      <span
+                                          onClick={(e) =>
+                                              handleDeleteConversation(e, c.id)
+                                          }
+                                      >
+                                          <i className="fa-solid fa-trash-can text-red-500 cursor-pointer hover:scale-125 hover:shadow-[0_0_5px_rgba(0,0,0,.1)] ease-in-out duration-150"></i>
+                                      </span>
                                   </div>
                               );
                           })

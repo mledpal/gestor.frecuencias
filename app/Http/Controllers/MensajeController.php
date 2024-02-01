@@ -76,4 +76,23 @@ class MensajeController extends Controller
             return route('/login');
         }
     }
+
+    public function borrarConversacion($id)
+    {
+        if (Auth::check()) {
+            $idUsuario = Auth::id();
+
+            Mensaje::where(function ($query) use ($idUsuario, $id) {
+                $query->where('remitente_id', $idUsuario)
+                    ->where('destinatario_id', $id);
+            })
+                ->orWhere(function ($query) use ($idUsuario, $id) {
+                    $query->where('remitente_id', $id)
+                        ->where('destinatario_id', $idUsuario);
+                })
+                ->delete();
+        } else {
+            return route('/login');
+        }
+    }
 }
