@@ -37,35 +37,34 @@ class UserController extends Controller
                 $usuario->update([
                     'localizacion_id' => $nuevaLocalizacion->id,
                 ]);
-
             } // FIN  LOCALIZACION
 
             return back()->with('flash', ['mensaje' => 'Localización actualizada correctamente']);
-
         } else {
             return route('/login');
         }
     }
 
 
-    public function busqueda(ValidarUsuario $request) {
-        if(Auth::check()) {
+    public function busqueda(ValidarUsuario $request)
+    {
+        if (Auth::check()) {
 
-            $usuarios = User::with('roles')->select('id' ,'username', 'photo')->whereNot('id', Auth::id())->orderBy('username', 'asc');
+            $usuarios = User::with('roles')->select('id', 'username', 'photo')->whereNot('id', Auth::id())->orderBy('username', 'asc');
 
 
             if (isset($request->usuario)) {
-                $usuarios->where('nombre', 'like', '%'.$request->usuario.'%');
+                $usuarios->where('username', 'like', '%' . $request->usuario . '%');
             }
 
-            if(isset($request->localidad)) {
-                $usuarios->whereHas('localizacion', function($query) use($request) {
+            if (isset($request->localidad)) {
+                $usuarios->whereHas('localizacion', function ($query) use ($request) {
                     $query->where('localidad', 'like', $request->localidad);
                 });
             }
 
-            if(isset($request->provincia)) {
-                $usuarios->whereHas('localizacion', function($query) use($request) {
+            if (isset($request->provincia)) {
+                $usuarios->whereHas('localizacion', function ($query) use ($request) {
                     $query->where('provincia', 'like', $request->provincia);
                 });
             }
@@ -73,15 +72,15 @@ class UserController extends Controller
             $respuesta = json_encode($usuarios->get()->toArray());
 
             return $respuesta;
-
         } else {
             return route('login');
         }
     }
 
-    public function getInfo($id) {
-        if(Auth::check()) {
-            $usuario = User::select('id' ,'username', 'photo')->findOrFail($id);
+    public function getInfo($id)
+    {
+        if (Auth::check()) {
+            $usuario = User::select('id', 'username', 'photo')->findOrFail($id);
             return $usuario;
         } else {
             return route('login');
