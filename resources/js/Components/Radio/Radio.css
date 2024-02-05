@@ -377,7 +377,7 @@ div.screen form {
   border-radius: var(--radius);
 }
 
-form label {
+div.screen form label {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -414,7 +414,7 @@ div.screen form input[type="submit"] {
   transition: box-shadow .5s, filter .5s, background-color .5s;
 }
 
-form input[type="submit"]:hover {
+div.screen form input[type="submit"]:hover {
   transition: box-shadow .5s, filter .5s, background-color .5s;
   background-color: #111;
   box-shadow: 0 0 5px black inset;
@@ -422,7 +422,7 @@ form input[type="submit"]:hover {
   filter: drop-shadow(0 0 5px var(--key-color));
 }
 
-input[type="checkbox"] {
+div.screen input[type="checkbox"] {
     background: transparent;
 }
 
@@ -437,9 +437,9 @@ div.screen input[type="password"]::placeholder {
 }
 
 
-input[type="text"]:focus::placeholder,
-input[type="email"]:focus::placeholder,
-input[type="password"]:focus::placeholder{
+div.screen input[type="text"]:focus::placeholder,
+div.screen input[type="email"]:focus::placeholder,
+div.screen input[type="password"]:focus::placeholder{
   transition: transform .5s;
   transform: translateY(-35px);
 }
