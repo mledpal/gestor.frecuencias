@@ -37,7 +37,6 @@ export const FormLogin = ({ canResetPassword }) => {
                     value={data.email}
                     className="mt-1 block w-full"
                     autoComplete="email"
-                    isFocused={true}
                     placeholder="email"
                     onChange={(e) => setData("email", e.target.value)}
                 />

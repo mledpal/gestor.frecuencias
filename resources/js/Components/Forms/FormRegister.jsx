@@ -45,7 +45,6 @@ export const FormRegister = () => {
                         value={data.username}
                         className="mt-1 block w-full"
                         autoComplete="username"
-                        isFocused={true}
                         onChange={(e) =>
                             handleInputChange("username", e.target.value)
                         }
@@ -87,7 +86,6 @@ export const FormRegister = () => {
                         value={data.nombre}
                         className="mt-1 block w-full"
                         autoComplete="nombre"
-                        isFocused={true}
                         onChange={(e) =>
                             handleInputChange("nombre", e.target.value)
                         }
@@ -107,7 +105,6 @@ export const FormRegister = () => {
                         value={data.apellidos}
                         className="mt-1 block w-full"
                         autoComplete="apellidos"
-                        isFocused={true}
                         onChange={(e) =>
                             handleInputChange("apellidos", e.target.value)
                         }

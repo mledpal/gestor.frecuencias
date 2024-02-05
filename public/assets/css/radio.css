@@ -12,8 +12,7 @@
 }
 
 :root {
-
-
+    font-family: system-ui;
   --radius: 25px;
   --key-color: #7f8db5;
 }
@@ -24,6 +23,7 @@ div#app {
     display: grid;
     place-content: center;
     text-align: center;
+    font-family: system-ui;
 }
 
 div.container {
@@ -366,9 +366,16 @@ div.btn_radial_in{
 
 /* FORMULARIO */
 
+div.screen input[type="text"]::placeholder,
+div.screen input[type="email"]::placeholder,
+div.screen input[type="password"]::placeholder,
+div.screen form input[type="submit"],
+div.screen form {
+    font-family: 'ds-digit';
+}
+
 form {
   padding: 20px;
-  font-family: 'ds-digit';
   font-size: 1.5em;
   display: grid;
   place-items: center;
@@ -402,7 +409,6 @@ input[type="password"] {
 }
 
 form input[type="submit"] {
-  font-family: 'ds-digit';
   border: none;
   outline: none;
   padding: 10px 30px;
@@ -432,7 +438,6 @@ input[type="password"]::placeholder {
     text-align: center;
     color: rgba(127,127,127, .5);
     font-weight: 100;
-    font-family: 'ds-digit';
     font-size: 1.2em;
 }
 

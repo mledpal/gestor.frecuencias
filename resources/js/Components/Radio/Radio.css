@@ -366,7 +366,7 @@ div.btn_radial_in{
 
 /* FORMULARIO */
 
-form {
+div.screen form {
   padding: 20px;
   font-family: 'ds-digit';
   font-size: 1.5em;
@@ -385,9 +385,9 @@ form label {
   justify-content: space-between;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+div.screen input[type="text"],
+div.screen input[type="email"],
+div.screen input[type="password"] {
     color:black;
     width: 100%;
     background: transparent;
@@ -401,7 +401,7 @@ input[type="password"] {
 
 }
 
-form input[type="submit"] {
+div.screen form input[type="submit"] {
   font-family: 'ds-digit';
   border: none;
   outline: none;
@@ -426,9 +426,9 @@ input[type="checkbox"] {
     background: transparent;
 }
 
-input[type="text"]::placeholder,
-input[type="email"]::placeholder,
-input[type="password"]::placeholder {
+div.screen input[type="text"]::placeholder,
+div.screen input[type="email"]::placeholder,
+div.screen input[type="password"]::placeholder {
     text-align: center;
     color: rgba(127,127,127, .5);
     font-weight: 100;
