@@ -34,6 +34,9 @@
     width: 100%;
     min-height: 100vh;
 
+    scrollbar-color: var(--color-bg-900) var(--color-bg) ;
+    scrollbar-width: thin;
+
 }
 
 
@@ -42,3 +45,4 @@ body {
     width: 100%;
     min-height: 100vh;
 }
+

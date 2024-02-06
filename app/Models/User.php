@@ -71,14 +71,16 @@ class User extends Authenticatable
     /**
      * Relación del usuario con los mensajes enviados
      */
-    public function enviados() {
+    public function enviados()
+    {
         return $this->hasMany(Mensaje::class, 'remitente_id', 'id');
     }
 
     /**
      * Relación del usuario con los mensajes enviados
      */
-    public function recibidos() {
+    public function recibidos()
+    {
         return $this->hasMany(Mensaje::class, 'destinatario_id', 'id');
     }
 
@@ -142,7 +144,7 @@ class User extends Authenticatable
     protected function photo(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => $value ? '/storage/images/' . $value : '/img/default_user.webp',
+            get: fn (?string $value) => $value ? '/images/' . $value : '/img/default_user.webp',
         );
     }
 
