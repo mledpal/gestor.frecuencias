@@ -162,7 +162,7 @@ export const BuscarUsuarios = ({
                     <Button
                         variant="text"
                         color="light-green"
-                        onClick={() => reset()}
+                        onClick={() => { reset(); setRespuesta(null) }}
                         className="border-[1px] px-5 py-2 hover:scale-110 bg-green-700 text-white duration-200 ease-in-out"
                     >
                         <span>

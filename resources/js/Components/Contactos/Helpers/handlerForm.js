@@ -53,52 +53,9 @@ export const handlerForm = ({ datos, setData }) => {
         }
     };
 
-    const handleTipo = (e) => {
-        let value = e.target.value;
-        setData("tipo_id", value);
-    };
-
-    const handleBanda = (e) => {
-        let value = e.target.value;
-
-        setData("banda_id", value);
-    };
-
-    const handleModo = (e) => {
-        let value = e.target.value;
-        setData("modo_id", value);
-    };
-
-    const handleCodificacion = (e) => {
-        let value = e.target.value;
-        setData("codificacion_id", value);
-    };
-
-    const handleCtcss = (e) => {
-        let value = e.target.value;
-        setData("ctcss_id", value);
-    };
-
-    const handleDcs = (e) => {
-        let value = e.target.value;
-        setData("dcs_id", value);
-    };
-
-    const handleDireccion = (e) => {
-        let value = e.target.value;
-        setData("direccion", value);
-    };
-
     return {
-        handleBanda,
         handleCheck,
-        handleCtcss,
-        handleDcs,
-        handleDireccion,
-        handleModo,
-        handleTipo,
         handleToggleVisibilidad,
-        handleCodificacion,
         handlePrivado,
         visibilidad,
         setVisibilidad,

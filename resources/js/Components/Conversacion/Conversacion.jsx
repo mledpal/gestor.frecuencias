@@ -81,7 +81,7 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                     value={data.destinatario_id ?? ""}
                 />
 
-                <input name="_token" type="hidden" value={data._token} />
+                <input name="_token" type="hidden" value={data._token ?? ""} />
 
                 <main className="flex flex-col grow bg-gradient-to-br from-slate-800  to-gray-800 shadow-[inset_2px_0px_5px_rgba(255,255,255,.5),inset_-2px_0px_5px_rgba(0,0,0,.5)] pb-5">
                     <div className="sticky top-24 flex flex-row items-center justify-between px-4 gap-4 mt-4">

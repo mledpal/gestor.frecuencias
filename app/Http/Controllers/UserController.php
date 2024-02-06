@@ -59,13 +59,13 @@ class UserController extends Controller
 
             if (isset($request->localidad)) {
                 $usuarios->whereHas('localizacion', function ($query) use ($request) {
-                    $query->where('localidad', 'like', $request->localidad);
+                    $query->where('localidad', 'like', '%' . $request->localidad . '%');
                 });
             }
 
             if (isset($request->provincia)) {
                 $usuarios->whereHas('localizacion', function ($query) use ($request) {
-                    $query->where('provincia', 'like', $request->provincia);
+                    $query->where('provincia', 'like', '%' . $request->provincia . '%');
                 });
             }
 

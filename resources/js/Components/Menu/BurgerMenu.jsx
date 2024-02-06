@@ -1,8 +1,9 @@
 import { CommonMenu, UserMenu } from ".";
+import { MenuAyuda } from "./MenuAyuda";
 
 export const BurgerMenu = ({ isAdmin }) => {
     return (
-        <>
+        <div className="select-none">
             <i className="fa-solid fa-bars fa-2xl mr-10 cursor-pointer max-[1280px]:scale-75 hover:text-gray-600 duration-150 ease-linear peer"></i>
 
             <ul
@@ -12,7 +13,9 @@ export const BurgerMenu = ({ isAdmin }) => {
                 <CommonMenu />
                 <hr className="my-2" />
                 <UserMenu isAdmin={isAdmin} />
+                <hr className="my-2" />
+                <MenuAyuda />
             </ul>
-        </>
+        </div>
     );
 };

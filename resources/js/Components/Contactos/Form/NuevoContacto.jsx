@@ -51,9 +51,9 @@ export const NuevoContacto = ({
         calidad: 0,
         offset: "",
         direccion: "=",
-        tipo_codificacion_id: 1,
-        dcs_id: 1,
-        ctcss_id: 1,
+        tipo_codificacion_id: -1,
+        dcs_id: -1,
+        ctcss_id: -1,
         localidad: "",
         provincia: "",
         pais: "",
@@ -75,9 +75,9 @@ export const NuevoContacto = ({
             calidad: 0,
             offset: "",
             direccion: "=",
-            tipo_codificacion_id: 1,
-            dcs_id: 1,
-            ctcss_id: 1,
+            tipo_codificacion_id: -1,
+            dcs_id: -1,
+            ctcss_id: -1,
             localidad: "",
             provincia: "",
             pais: "",
@@ -95,18 +95,11 @@ export const NuevoContacto = ({
     };
 
     const {
-        handleBanda,
         handleCheck,
         handlePrivado,
-        handleCtcss,
-        handleDcs,
-        handleDireccion,
-        handleModo,
-        handleTipo,
         handleToggleVisibilidad,
-        handleCodificacion,
         visibilidad,
-        setVisibilidad,
+
     } = handlerForm({ datos, setData });
 
     // Variables para setear los estilos de algunas zonas
@@ -220,7 +213,12 @@ export const NuevoContacto = ({
                                 name="tipo_id"
                                 value={data.tipo_id}
                                 className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer required:border-red-500 valid:border-green-500 "
-                                onChange={(e) => handleTipo(e)}
+                                onChange={(e) =>
+                                    setData(
+                                        "tipo_id",
+                                        e.target.value
+                                    )
+                                }
                                 placeholder="tipo"
                                 required
                             >
@@ -381,7 +379,9 @@ export const NuevoContacto = ({
                                 name="banda_id"
                                 value={data.banda_id}
                                 className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                onChange={(e) => handleBanda(e)}
+                                onChange={(e) =>
+                                    setData("banda_id", e.target.value)
+                                }
                                 placeholder="Banda"
                                 required
                             >
@@ -413,7 +413,9 @@ export const NuevoContacto = ({
                                 name="modo_id"
                                 value={data.modo_id}
                                 className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                onChange={(e) => handleModo(e)}
+                                onChange={(e) =>
+                                    setData("modo_id", e.target.value)
+                                }
                                 placeholder="Modo Transmision"
                                 required
                             >
@@ -612,7 +614,9 @@ export const NuevoContacto = ({
                                         name="direccion"
                                         value={data.direccion}
                                         className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                        onChange={(e) => handleDireccion(e)}
+                                        onChange={(e) =>
+                                            setData("direccion", e.target.value)
+                                        }
                                         placeholder="Dirección"
                                         required
                                     >
@@ -693,7 +697,12 @@ export const NuevoContacto = ({
                                         name="tipo_codificacion_id"
                                         value={data.tipo_codificacion_id ?? -1}
                                         className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                        onChange={(e) => handleCodificacion(e)}
+                                        onChange={(e) =>
+                                            setData(
+                                                "tipo_codificacion_id",
+                                                e.target.value
+                                            )
+                                        }
                                         placeholder="Codificación"
                                         required
                                     >
@@ -727,7 +736,9 @@ export const NuevoContacto = ({
                                         name="ctcss_id"
                                         value={data.ctcss_id ?? -1}
                                         className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                        onChange={(e) => handleCtcss(e)}
+                                        onChange={(e) =>
+                                            setData("ctcss_id", e.target.value)
+                                        }
                                         placeholder="CTCSS"
                                         required
                                     >
@@ -761,7 +772,9 @@ export const NuevoContacto = ({
                                         name="dcs_id"
                                         value={data.dcs_id ?? -1}
                                         className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                        onChange={(e) => handleDcs(e)}
+                                        onChange={(e) =>
+                                            setData("dcs_id", e.target.value)
+                                        }
                                         placeholder="DCS"
                                         required
                                     >
