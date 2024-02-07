@@ -108,7 +108,7 @@ class ContactoController extends Controller
 
                 $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->where('gps', $request->gps)->first();
 
-                if($localizacion_bus) {
+                if ($localizacion_bus) {
                     if ($localizacion_id !== $localizacion_bus->id) {
                         $localizacion_id = $localizacion_bus->id;
                     }
@@ -166,6 +166,8 @@ class ContactoController extends Controller
             $contacto['modo_id'] = $requestAll['modo_id'];
             $contacto['user_id'] = $user->id;
             $contacto['observaciones'] = $request->observaciones;
+            $contacto['calidad'] = $request->calidad;
+
 
             $newContact = Contacto::create($contacto);
 

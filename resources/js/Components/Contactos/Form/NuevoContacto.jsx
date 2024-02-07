@@ -47,7 +47,7 @@ export const NuevoContacto = ({
         fecha: fechaActual,
         tipo_id: 1,
         banda_id: 1,
-        modo_id: 1,
+        modo_id: -1,
         calidad: 0,
         offset: "",
         direccion: "=",
@@ -71,7 +71,7 @@ export const NuevoContacto = ({
             fecha: fechaActual,
             tipo_id: 1,
             banda_id: 1,
-            modo_id: 1,
+            modo_id: -1,
             calidad: 0,
             offset: "",
             direccion: "=",
@@ -85,22 +85,10 @@ export const NuevoContacto = ({
         });
     }, []);
 
-    const { crear } = handleContacts({ post });
+    const { crear } = handleContacts({ post, handleOpen, updateContact });
 
-    const handleCrear = (e) => {
-        e.preventDefault();
-        post(route("contacto_crear"));
-        updateContact();
-        handleOpen();
-    };
-
-    const {
-        handleCheck,
-        handlePrivado,
-        handleToggleVisibilidad,
-        visibilidad,
-
-    } = handlerForm({ datos, setData });
+    const { handleCheck, handlePrivado, handleToggleVisibilidad, visibilidad } =
+        handlerForm({ datos, setData });
 
     // Variables para setear los estilos de algunas zonas
 
@@ -137,7 +125,7 @@ export const NuevoContacto = ({
                 >
                     <i
                         className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
-                        onClick={handleCrear}
+                        onClick={crear}
                     ></i>
 
                     <i
@@ -214,10 +202,7 @@ export const NuevoContacto = ({
                                 value={data.tipo_id}
                                 className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer required:border-red-500 valid:border-green-500 "
                                 onChange={(e) =>
-                                    setData(
-                                        "tipo_id",
-                                        e.target.value
-                                    )
+                                    setData("tipo_id", e.target.value)
                                 }
                                 placeholder="tipo"
                                 required
@@ -236,7 +221,7 @@ export const NuevoContacto = ({
                             </select>
 
                             <InputError
-                                message={errors.tipo}
+                                message={errors.tipo_id}
                                 className="mt-2"
                             />
                         </div>
@@ -431,7 +416,7 @@ export const NuevoContacto = ({
                             </select>
 
                             <InputError
-                                message={errors.modo}
+                                message={errors.modo_id}
                                 className="mt-2"
                             />
                         </div>

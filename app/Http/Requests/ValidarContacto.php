@@ -30,7 +30,7 @@ class ValidarContacto extends FormRequest
             'hora' => 'nullable|date_format:H:i',
             'tipo_id' => 'required|integer',
             'banda_id' => 'nullable|integer|min:0',
-            'modo_id' => 'required|integer|min:0',
+            'modo_id' => 'required|integer|min:-1',
             'calidad' => 'nullable|integer',
             'offset' => 'nullable|string',
             'direccion' => 'nullable|string|max:1',
@@ -51,7 +51,9 @@ class ValidarContacto extends FormRequest
             'required' => 'El dato es requerido',
             'email' => 'Debe introducir un correo válido',
             'string' => 'El valor debe ser una cadena de texto',
-            'regex' => 'Ingrese unas coordenadas gps válidas (Google Maps)'
+            'regex' => 'Ingrese unas coordenadas gps válidas (Google Maps)',
+            'min' => 'El valor está por debajo del límite',
+            'max' => 'El valor está por encima del límite',
         ];
     }
 }

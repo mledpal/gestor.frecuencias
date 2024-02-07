@@ -1,19 +1,21 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-
 export const handleContacts = ({
     post,
     borrarContacto,
     updateContact,
-    setData,
+    handleOpen,
 }) => {
     // Métodos / Hooks
 
     const MySwal = withReactContent(Swal);
 
-    const crear = () => {
+    const crear = (e) => {
+        e.preventDefault();
         post(route("contacto_crear"));
+        updateContact();
+        handleOpen();
     };
 
     function submit(e) {
