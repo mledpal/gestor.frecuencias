@@ -120,22 +120,27 @@ export const EditarContacto = ({
             .then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    post(route("contacto_crear"));
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
+                    post(route("contacto_crear"), {
+                        onSuccess: () => {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                },
+                            });
+                            Toast.fire({
+                                icon: "success",
+                                title: "Contacto cread",
+                            });
                         },
-                    });
-                    Toast.fire({
-                        icon: "success",
-                        title: "Contacto cread",
+                        onError: () => {
+                            Swal.fire("Hubo un error", "", "warning");
+                        },
                     });
                 } else if (result.isDenied) {
                     Swal.fire("Cancelado", "", "info");
@@ -144,19 +149,11 @@ export const EditarContacto = ({
     };
 
     const {
-        handleBanda,
         handleCheck,
         handlePrivado,
         handleFavorito,
-        handleCtcss,
-        handleDcs,
-        handleDireccion,
-        handleModo,
-        handleTipo,
         handleToggleVisibilidad,
-        handleCodificacion,
         visibilidad,
-        setVisibilidad,
     } = handlerForm({ datos, setData });
 
     const { submit, handleDelete } = handleContacts({

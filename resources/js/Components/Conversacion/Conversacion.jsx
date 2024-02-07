@@ -1,10 +1,10 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+
 import { useForm } from "@inertiajs/react";
 import { Button } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-
 import { getUserInfo } from "@/Helpers/getUserInfo";
 import { getConversacion } from "@/Helpers/getConversacion";
 import { Mensaje } from "../Mensajes/Mensaje";
@@ -22,12 +22,40 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
         _token: "",
     });
 
-    async function getData(userID) {
-        let datos = await getUserInfo(userID);
-        let texto = await getConversacion(userID);
-        setData({ destinatario_id: datos.id });
-        setConversacion(texto);
+    useEffect(() => {
+        setData({
+            destinatario_id: userData?.id,
+            _token: csrf,
+        });
+    }, [conversacion]);
+
+    useEffect(() => {
+        getData(userID);
+
+        setCSRF(
+            document
+                .querySelector('meta[id="meta_token"]')
+                .getAttribute("content")
+        );
+
+        setTimeout(() => {
+            setData({
+                destinatario_id: datos.id,
+                token: csrf,
+            });
+            document.getElementById("conversacion").scrollTo(0, 0);
+        }, 100);
+
+        let datos = getUserInfo(userID);
         setUserData(datos);
+    }, []);
+
+    async function getData(userID) {
+        const datos = await getUserInfo(userID);
+        const texto = await getConversacion(userID);
+        setUserData(datos);
+        setConversacion(texto);
+        document.getElementById("conversacion").scrollTo(0, 0);
     }
 
     async function submit(e) {
@@ -35,37 +63,35 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
 
         reset("mensaje");
 
-        try {
-            post(route("enviar_mensaje"));
-            let texto = await getConversacion(userID);
-            setConversacion(texto);
-        } catch (error) {
-            console.error(error);
-        }
+        post(route("enviar_mensaje"), {
+            onSuccess: () => {
+                getData(data.destinatario_id);
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
     }
-
-    useEffect(() => {
-        getData(userID);
-        setCSRF(
-            document
-                .querySelector('meta[id="meta_token"]')
-                .getAttribute("content")
-        );
-        setTimeout(() => {
-            setData({
-                _token: csrf,
-            });
-            document.getElementById("conversacion").scrollTo(0, 0);
-        }, 100);
-    }, []);
 
     return (
         <div
             id="conversacion"
             className={`shadow-[0px_0px_15px_rgba(255,255,255,.5)]  max-h-screen h-screen overflow-y-auto w-1/4 flex flex-col items-center justify-between  rounded-xl m-auto`}
         >
-            <header className="sticky top-0 h-50 w-full flex items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
-                {userData ? `Conversación con ${userData.username}` : ""}
+            <header className="sticky top-0 h-50 w-full flex flex-col items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
+                {userData ? (
+                    <div className="h-[75px] w-full flex flex-row gap-4 items-center justify-center">
+                        <img
+                            src={userData.photo}
+                            className=" w-[70px] h-[70px] rounded-full"
+                        />
+                        <span className=" backdrop-blur-md">
+                            {userData.username}
+                        </span>
+                    </div>
+                ) : (
+                    ""
+                )}
             </header>
 
             <form
@@ -81,10 +107,10 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                     value={data.destinatario_id ?? ""}
                 />
 
-                <input name="_token" type="hidden" value={data._token ?? ""} />
+                <input name="_token" type="hidden" value={csrf ?? ""} />
 
-                <main className="flex flex-col grow bg-gradient-to-br from-slate-800  to-gray-800 shadow-[inset_2px_0px_5px_rgba(255,255,255,.5),inset_-2px_0px_5px_rgba(0,0,0,.5)] pb-5">
-                    <div className="sticky top-24 flex flex-row items-center justify-between px-4 gap-4 mt-4">
+                <main className="flex flex-col grow bg-gradient-to-br from-slate-800  to-gray-800 pb-5 ">
+                    <div className=" sticky top-[131px] flex flex-col items-center justify-between px-4 gap-4 mt-4 bg-slate-800 ">
                         <div className="w-full">
                             <InputLabel
                                 htmlFor="mensaje"
@@ -99,6 +125,7 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 onChange={(e) =>
                                     setData("mensaje", e.target.value)
                                 }
+                                onSubmit={submit}
                                 placeholder="mensaje"
                                 autoComplete="off"
                             />
@@ -106,6 +133,41 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 message={errors.mensaje}
                                 className="mt-2"
                             />
+                        </div>
+                        <div className="w-full flex flex-row items-center justify-between p-4 ">
+                            <Button
+                                variant="gradient"
+                                color="blue"
+                                onClick={submit}
+                                className="border-[1px] px-5 py-2 hover:scale-110 bg-blue-700 text-white duration-200 ease-in-out"
+                            >
+                                <span>
+                                    Enviar{" "}
+                                    <i className="fa-solid fa-paper-plane"></i>
+                                </span>
+                            </Button>
+                            <Button
+                                variant="text"
+                                color="light-green"
+                                onClick={() => reset("mensaje")}
+                                className="border-[1px] px-5 py-2 hover:scale-110 bg-green-700 text-white duration-200 ease-in-out"
+                            >
+                                <span>
+                                    Reset <i className="fa-solid fa-trash" />
+                                </span>
+                            </Button>
+
+                            <Button
+                                variant="text"
+                                color="red"
+                                onClick={() => handleOpenSendMessage(null)}
+                                className="border-[1px] px-5 py-2 hover:scale-110 bg-red-700 text-white duration-200 ease-in-out"
+                            >
+                                <span>
+                                    Salir{" "}
+                                    <i className="fa-solid fa-door-open"></i>
+                                </span>
+                            </Button>
                         </div>
                     </div>
 
@@ -125,39 +187,7 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                     </article>
                 </main>
 
-                <footer className="sticky bottom-0 p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
-                    <Button
-                        variant="gradient"
-                        color="blue"
-                        onClick={submit}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-blue-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Enviar <i className="fa-solid fa-paper-plane"></i>
-                        </span>
-                    </Button>
-                    <Button
-                        variant="text"
-                        color="light-green"
-                        onClick={() => reset()}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-green-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Reset <i className="fa-solid fa-trash" />
-                        </span>
-                    </Button>
-
-                    <Button
-                        variant="text"
-                        color="red"
-                        onClick={() => handleOpenSendMessage(null)}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-red-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Salir <i className="fa-solid fa-door-open"></i>
-                        </span>
-                    </Button>
-                </footer>
+                {/* <footer className="sticky bottom-0 p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] "></footer> */}
             </form>
         </div>
     );

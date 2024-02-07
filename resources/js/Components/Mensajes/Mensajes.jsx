@@ -13,7 +13,7 @@ import { borrarConversacion } from "./helpers/borrarConversacion";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-export const Mensajes = () => {
+export const Mensajes = ({ userDB }) => {
     const [mensajes, setMensajes] = useState([]);
     const clasesBotonesFormulario =
         "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
@@ -55,7 +55,7 @@ export const Mensajes = () => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     borrarConversacion(id);
-
+                    getData();
                     const Toast = Swal.mixin({
                         toast: true,
                         position: "top-end",
@@ -117,7 +117,7 @@ export const Mensajes = () => {
                     </h2>
                     <div className="w-1/5"></div>
                 </header>
-
+                {/*
                 <form className="w-full rounded-xl" onSubmit={handleSubmit}>
                     <TextInput
                         name="usuario_bus"
@@ -128,7 +128,7 @@ export const Mensajes = () => {
                         required
                     />
                     <InputError message={errors.usuario_bus} className="mt-2" />
-                </form>
+                </form> */}
 
                 <main
                     name="lista_mensajes"

@@ -18,7 +18,7 @@ export const Mensaje = ({ datos }) => {
             </div>
             <div className="flex flex-col items-center justify-between pb-2 min-h-[75px] w-4/5 ">
                 <span className="h-1/4 py-2 text-gray-500">{fecha}</span>
-                <span className="h-3/4 flex flex-start text-sm max-w-[60ch] px-4">
+                <span className="h-3/4 flex flex-start text-sm max-w-[60ch] px-4 text-justify">
                     {datos.mensaje}
                 </span>
             </div>
