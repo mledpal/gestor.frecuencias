@@ -37,7 +37,7 @@ export const NuevoContacto = ({
 
     let fechaActual = new Date().toISOString().split("T")[0];
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, errors, reset } = useForm({
         frecuencia: "",
         nombre: "",
         observaciones: "",
@@ -87,10 +87,15 @@ export const NuevoContacto = ({
         });
     }, []);
 
-    const { crear } = handleContacts({ post, handleOpen, updateContact });
+    const { crear } = handleContacts({ updateContact, handleOpen, post, data });
 
-    const { handleCheck, handlePrivado, handleFavorito, handleToggleVisibilidad, visibilidad } =
-        handlerForm({ datos, setData });
+    const {
+        handleCheck,
+        handlePrivado,
+        handleFavorito,
+        handleToggleVisibilidad,
+        visibilidad,
+    } = handlerForm({ datos, setData });
 
     // Variables para setear los estilos de algunas zonas
 

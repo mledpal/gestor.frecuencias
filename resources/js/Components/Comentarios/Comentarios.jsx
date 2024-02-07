@@ -94,12 +94,12 @@ export const Comentarios = ({ datos, isAdmin }) => {
                 <input
                     type="hidden"
                     name="localizacion_id"
-                    value={datos.localizacion_id}
+                    value={datos.localizacion_id ?? ""}
                 ></input>
                 <input
                     type="hidden"
                     name="frecuencia_id"
-                    value={datos.frecuencia_id}
+                    value={datos.frecuencia_id ?? ""}
                 ></input>
 
                 <header

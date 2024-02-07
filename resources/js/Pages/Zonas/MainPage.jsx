@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dialog } from "@material-tailwind/react";
 
 import { useState } from "react";
@@ -18,12 +18,12 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
     const [datos, setDatos] = useState(null);
 
     const {
-        handleCheck,
         contactosFiltrados,
         filtros,
         listaFiltros,
-        handleFilterVisible,
         visible,
+        handleCheck,
+        handleFilterVisible,
         handlerCheckUncheck,
         eraseContact,
         updateContact,
@@ -49,7 +49,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 >
                     <div
                         name="botones_contactos"
-                        className="sticky top-0 mt-0 mb-8 p-1 h-[30px] w-full flex flex-row justify-around items-center select-none bg-slate-900 z-10"
+                        className="sticky top-0 mt-0 mb-8 p-1 h-[80px] w-full flex flex-row justify-around items-center select-none bg-transparent z-10 backdrop-blur-lg"
                     >
                         <i
                             onClick={() => handleOpen("lg")}
@@ -64,7 +64,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                         {busqueda ? (
                             <i
                                 className="fa-solid fa-magnifying-glass-arrow-right cursor-pointer hover:scale-150 duration-150 select-none"
-                                onClick={() => busquedaReset}
+                                onClick={() => busquedaReset()}
                             ></i>
                         ) : (
                             ""
@@ -123,7 +123,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                     {datos ? (
                         <Comentarios datos={datos} isAdmin={isAdmin} />
                     ) : (
-                        <Mensajes />
+                        <Mensajes userDB={userDB} />
                     )}
                 </div>
             </div>
@@ -138,9 +138,10 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
             >
                 <NuevoContacto
                     datos={datosNuevos}
-                    handleOpen={handleOpen}
                     selects={selects}
+                    handleOpen={handleOpen}
                     updateContact={updateContact}
+                    // getContacts={this.getContacts}
                 />
             </Dialog>
 
@@ -163,7 +164,6 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                     handleOpenBuscador={handleOpenBuscador}
                 />
             </Dialog>
-
         </>
     );
 };

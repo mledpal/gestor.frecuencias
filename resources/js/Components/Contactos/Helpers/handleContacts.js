@@ -1,22 +1,29 @@
+import { useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 export const handleContacts = ({
     post,
     borrarContacto,
-    updateContact,
     handleOpen,
+    updateContact,
 }) => {
     // Métodos / Hooks
 
+    const [respuesta, setRespuesta] = useState(null);
+
     const MySwal = withReactContent(Swal);
 
-    const crear = (e) => {
+    async function crear(e) {
         e.preventDefault();
-        post(route("contacto_crear"));
-        updateContact();
-        handleOpen();
-    };
+
+        post(route("contacto_crear"), {
+            onSuccess: () => {
+                updateContact();
+                handleOpen();
+            },
+        });
+    }
 
     function submit(e) {
         e.preventDefault();
@@ -25,17 +32,26 @@ export const handleContacts = ({
             const idReg = parseInt(id.getAttribute("value"));
             const url = `ajax/contacto/${idReg}`;
 
-            post(route("contacto_actualizar", { id: idReg }));
+            post(route("contacto_actualizar", { id: idReg }), {
+                onSuccess: () => {
+                    updateContact();
+
+                    Swal.fire({
+                        title: "Actualizado",
+                        text: "Contacto actualizado correctamente",
+                        icon: "success",
+                    });
+                },
+                onError: (errors) => {
+                    Swal.fire({
+                        title: "No actualizado",
+                        text: "Hubo un error",
+                        icon: "warning",
+                    });
+                },
+            });
 
             // let response = getContactInfo(idReg);
-
-            updateContact();
-
-            Swal.fire({
-                title: "Actualizado",
-                text: "Contacto actualizado correctamente",
-                icon: "success",
-            });
         } catch (error) {
             Swal.fire({
                 title: "No actualizado",

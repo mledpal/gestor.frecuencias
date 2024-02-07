@@ -1,12 +1,13 @@
 export async function getConversacion(idDestinatario) {
-    const url = `mensajes/${idDestinatario}/recuperar`;
-
     try {
-        const response = await fetch(url, {
-            method: "GET",
-        });
+        const response = await fetch(
+            route("recuperar_conversacion", { id: idDestinatario }),
+            {
+                method: "GET",
+            }
+        );
 
-        const datos = response.json();
+        const datos = await response.json();
         return datos;
     } catch (error) {
         return { "mensaje-error": "No hay mensajes" };
