@@ -65,6 +65,7 @@ export const EditarContacto = ({
         provincia: datos.localizacion?.provincia,
         pais: datos.localizacion?.pais,
         gps: datos.localizacion?.gps,
+        favorito: datos.favorito,
     });
 
     useEffect(() => {
@@ -92,6 +93,7 @@ export const EditarContacto = ({
             provincia: datos.localizacion?.provincia,
             pais: datos.localizacion?.pais,
             gps: datos.localizacion?.gps,
+            favorito: datos.favorito,
         });
 
         if (datos.localizacion?.gps) {
@@ -145,6 +147,7 @@ export const EditarContacto = ({
         handleBanda,
         handleCheck,
         handlePrivado,
+        handleFavorito,
         handleCtcss,
         handleDcs,
         handleDireccion,
@@ -287,6 +290,26 @@ export const EditarContacto = ({
                                     className="mt-2"
                                 />
                             </div>
+
+                            <div className="w-full flex flex-row items-center justify-center">
+                                <InputLabel
+                                    htmlFor="favorito"
+                                    value="Favorito"
+                                    className={clasesLabel}
+                                />
+                                <Checkbox
+                                    id="favorito"
+                                    name="favorito"
+                                    onChange={(e) => handleFavorito(e)}
+                                    value={data.favorito}
+                                    checked={data.favorito ? "on" : ""}
+                                />
+                                <InputError
+                                    message={errors.favorito}
+                                    className="mt-2"
+                                />
+                            </div>
+
                             <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
                                 <InputLabel
                                     htmlFor="privado"
@@ -319,7 +342,9 @@ export const EditarContacto = ({
                                     name="tipo_id"
                                     value={data.tipo_id}
                                     className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                    onChange={(e) => handleTipo(e)}
+                                    onChange={(e) =>
+                                        setData("tipo_id", e.target.value)
+                                    }
                                     placeholder="tipo"
                                     required
                                 >
@@ -478,7 +503,9 @@ export const EditarContacto = ({
                                     name="banda_id"
                                     value={data.banda_id ?? -1}
                                     className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                    onChange={(e) => handleBanda(e)}
+                                    onChange={(e) =>
+                                        setData("banda_id", e.target.value)
+                                    }
                                     placeholder="Banda"
                                 >
                                     {Object.entries(bandas).map(
@@ -511,7 +538,9 @@ export const EditarContacto = ({
                                     name="modo_id"
                                     value={data.modo_id ?? -1}
                                     className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                    onChange={(e) => handleModo(e)}
+                                    onChange={(e) =>
+                                        setData("modo_id", e.target.value)
+                                    }
                                     placeholder="Modo Transmision"
                                     required
                                 >
@@ -735,7 +764,12 @@ export const EditarContacto = ({
                                             name="direccion"
                                             value={data.direccion ?? "="}
                                             className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                            onChange={(e) => handleDireccion(e)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "direccion",
+                                                    e.target.value
+                                                )
+                                            }
                                             placeholder="Dirección"
                                             required
                                         >
@@ -816,7 +850,10 @@ export const EditarContacto = ({
                                             value={data.codificacion_id ?? -1}
                                             className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                             onChange={(e) =>
-                                                handleCodificacion(e)
+                                                setData(
+                                                    "codificacion_id",
+                                                    e.target.value
+                                                )
                                             }
                                             placeholder="Codificaación"
                                             required
@@ -851,7 +888,12 @@ export const EditarContacto = ({
                                             name="ctcss_id"
                                             value={data.ctcss_id ?? -1}
                                             className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                            onChange={(e) => handleCtcss(e)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "ctcss_id",
+                                                    e.target.value
+                                                )
+                                            }
                                             placeholder="CTCSS"
                                             required
                                         >
@@ -885,7 +927,12 @@ export const EditarContacto = ({
                                             name="dcs_id"
                                             value={data.dcs_id ?? -1}
                                             className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
-                                            onChange={(e) => handleDcs(e)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "dcs_id",
+                                                    e.target.value
+                                                )
+                                            }
                                             placeholder="DCS"
                                             required
                                         >

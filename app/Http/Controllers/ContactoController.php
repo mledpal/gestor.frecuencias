@@ -151,8 +151,8 @@ class ContactoController extends Controller
             // Crea el nuevo contacto
             $contacto = array();
             $contacto['nombre'] = $request->nombre;
-            $contacto['comprobado'] = $request->comprobado;
-            $contacto['privado'] = $request->privado;
+            $contacto['comprobado'] = $request->comprobado ?? false;
+            $contacto['privado'] = $request->privado ?? false;
             $contacto['fecha'] = $request->fecha;
             $contacto['hora'] = $request->hora;
             $contacto['tipo_id'] = $request->tipo_id;
@@ -167,6 +167,7 @@ class ContactoController extends Controller
             $contacto['user_id'] = $user->id;
             $contacto['observaciones'] = $request->observaciones;
             $contacto['calidad'] = $request->calidad;
+            $contacto['favorito'] = $request->favorito ?? false;
 
 
             $newContact = Contacto::create($contacto);
@@ -196,7 +197,10 @@ class ContactoController extends Controller
 
             $user = Auth::user();
 
+
             $requestAll = $request->all();
+
+            // dd($requestAll);
 
             if ($request->modo_id == -1) {
                 $requestAll['modo_id'] = null;
@@ -245,6 +249,7 @@ class ContactoController extends Controller
                 'ctcss_id' => $requestAll['ctcss_id'],
                 'dcs_id' => $requestAll['dcs_id'],
                 'codificacion_id' => $requestAll['codificacion_id'],
+                'favorito' => $request->favorito ?? false,
             ]);
 
 

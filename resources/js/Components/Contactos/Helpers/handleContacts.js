@@ -25,7 +25,7 @@ export const handleContacts = ({
             const idReg = parseInt(id.getAttribute("value"));
             const url = `ajax/contacto/${idReg}`;
 
-            post(url);
+            post(route("contacto_actualizar", { id: idReg }));
 
             // let response = getContactInfo(idReg);
 

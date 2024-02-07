@@ -58,6 +58,7 @@ export const NuevoContacto = ({
         provincia: "",
         pais: "",
         gps: "",
+        favorito: 0,
     });
 
     useEffect(() => {
@@ -82,12 +83,13 @@ export const NuevoContacto = ({
             provincia: "",
             pais: "",
             gps: "",
+            favorito: 0,
         });
     }, []);
 
     const { crear } = handleContacts({ post, handleOpen, updateContact });
 
-    const { handleCheck, handlePrivado, handleToggleVisibilidad, visibilidad } =
+    const { handleCheck, handlePrivado, handleFavorito, handleToggleVisibilidad, visibilidad } =
         handlerForm({ datos, setData });
 
     // Variables para setear los estilos de algunas zonas
@@ -166,6 +168,24 @@ export const NuevoContacto = ({
                             />
                             <InputError
                                 message={errors.comprobado}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="w-full flex flex-row items-center justify-center">
+                            <InputLabel
+                                htmlFor="favorito"
+                                value="Favorito"
+                                className={clasesLabel}
+                            />
+                            <Checkbox
+                                id="favorito"
+                                name="favorito"
+                                onChange={(e) => handleFavorito(e)}
+                                value={data.favorito}
+                                checked={data.favorito ? "on" : ""}
+                            />
+                            <InputError
+                                message={errors.favorito}
                                 className="mt-2"
                             />
                         </div>

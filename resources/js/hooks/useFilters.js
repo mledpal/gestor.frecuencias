@@ -42,6 +42,7 @@ export const useFilters = (busqueda) => {
     const [contactosFiltrados, setFiltrados] = useState([]);
     const [visible, setVisible] = useState(false);
     const [filtros, setFiltros] = useState({
+        favorito: true,
         comprobado: true,
         nocomprobado: true,
         publico: true,
@@ -55,6 +56,7 @@ export const useFilters = (busqueda) => {
     });
 
     const listaFiltros = [
+        { label: "Favoritos", key: "favorito" },
         { label: "Comprobados", key: "comprobado" },
         { label: "Desconocidos", key: "nocomprobado" },
         { label: "Públicos", key: "publico" },
@@ -78,6 +80,7 @@ export const useFilters = (busqueda) => {
     const filtrarContactos = (contactos) => {
         return contactos.filter((dato) => {
             return (
+                (dato.favorito === 1 && filtros.favorito) ||
                 (dato.comprobado === 1 && filtros.comprobado) ||
                 (dato.comprobado === 0 && filtros.nocomprobado) ||
                 (dato.privado === 0 && filtros.publico) ||

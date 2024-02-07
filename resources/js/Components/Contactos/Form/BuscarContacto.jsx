@@ -12,9 +12,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
 
     const clasesLabel = "text-center mb-2 text-black select-none";
 
-    const {
-        tipos_contacto,
-    } = selects;
+    const { tipos_contacto } = selects;
 
     useEffect(() => {
         setTimeout(() => {

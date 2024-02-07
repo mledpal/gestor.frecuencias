@@ -53,8 +53,24 @@ export const handlerForm = ({ datos, setData }) => {
         }
     };
 
+    const handleFavorito = (e) => {
+        let value = e.target.value;
+        const favorito = document.getElementById("favorito");
+
+        switch (value) {
+            case "1":
+                setData("favorito", "");
+                favorito.checked = "";
+                break;
+            default:
+                setData("favorito", 1);
+                favorito.checked = 1;
+        }
+    };
+
     return {
         handleCheck,
+        handleFavorito,
         handleToggleVisibilidad,
         handlePrivado,
         visibilidad,
