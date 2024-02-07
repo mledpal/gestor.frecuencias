@@ -11,18 +11,22 @@ export const UserMenu = ({ isAdmin }) => {
                 Mensajes
             </li>
 
-            {isAdmin && (
+            {isAdmin ? (
                 <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm ">
                     <i className="fa-solid fa-address-book"></i>
                     Usuarios
                 </li>
+            ) : (
+                ""
             )}
 
-            {isAdmin && (
+            {isAdmin ? (
                 <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm ">
                     <i className="fa-solid fa-shield"></i>
                     Administración
                 </li>
+            ) : (
+                ""
             )}
         </>
     );
