@@ -35,7 +35,12 @@ export const Contacto = ({ datos, setDatos }) => {
                         className="w-[40%] h-full flex flex-col items-center justify-between py-2"
                     >
                         <Repetidor repetidor={datos.repetidor_id} />
-                        <Gps gps={datos.localizacion?.gps} />
+
+                        {datos.localizacion?.gps ? (
+                            <Gps gps={datos.localizacion?.gps} />
+                        ) : (
+                            ""
+                        )}
                         <Favorito favorito={datos.favorito} />
                     </div>
                     <div
