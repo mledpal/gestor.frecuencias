@@ -1,8 +1,9 @@
 export const NoContactos = ({ handleOpenBuscador, handleOpen }) => {
     const cssButtons =
-        "w-4/5 h-2/3 border-2 border-transparent bg-gradient-to-br from-gray-800 to-gray-900 shadow-[inset_2px_-2px_5px_black,inset_-2px_2px_5px_rgba(255,255,255,.7)] rounded-xl hover:scale-110 hover:shadow-[0_0_5px_rgba(0,0,0,.5),inset_0_0_5px_rgba(255,255,255,.5)] hover:border-2 hover:border-gray-400 duration-150 ease-linear cursor-pointer select-none flex flex-col items-center justify-center";
+        "w-4/5 h-2/3 border-2 border-transparent bg-gradient-to-br from-gray-800 to-gray-900 shadow-[inset_2px_-2px_5px_black,inset_-2px_2px_5px_rgba(255,255,255,.7)] rounded-xl hover:scale-110 hover:shadow-[0_0_5px_rgba(0,0,0,.5),inset_0_0_5px_rgba(255,255,255,.5)] hover:border-2 hover:border-gray-400 duration-150 ease-linear cursor-pointer select-none flex flex-col items-center justify-center peer ";
 
-    const cssIcons = "fa-xl p-2 my-4";
+    const cssIcons =
+        "fa-xl p-2 my-4 peer:hover:drop-shadow-[0_0_10px_rgba(255,255,255,1)] duration-300 z-10 rounded-full";
 
     return (
         <div className="flex flex-col items-center justify-between gap-2 w-full h-full">
@@ -27,7 +28,9 @@ export const NoContactos = ({ handleOpenBuscador, handleOpen }) => {
                     <i
                         className={`fa-solid fa-magnifying-glass ${cssIcons}`}
                     ></i>
-                    <span>Buscar Contacto</span>
+                    <span>
+                        Buscar Contacto
+                    </span>
                 </div>
                 <div className={cssButtons}>
                     <i className={`fa-solid fa-users ${cssIcons}`}></i>

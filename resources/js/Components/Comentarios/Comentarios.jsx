@@ -9,9 +9,23 @@ import { Comentario } from "./Comentario";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
+import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
 export const Comentarios = ({ datos, isAdmin }) => {
+    useEffect(() => {
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher("5285b606cdf2c249808a", {
+            cluster: "eu",
+        });
+
+        var channel = pusher.subscribe("canal-comentarios");
+        channel.bind("App\\Events\\NuevoComentario", function (data) {
+            alert(JSON.stringify(data));
+        });
+    }, []);
+
     const [comentarios, setComentarios] = useState([]);
     const MySwal = withReactContent(Swal);
 

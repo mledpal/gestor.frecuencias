@@ -10,30 +10,24 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NuevoComentario
+class NuevoComentario implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-
     public $comentario;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct($comentario)
     {
         $this->comentario = $comentario;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        return [
-            new PrivateChannel('canal-comentarios'),
-        ];
+        return ['canal-comentarios'];
+    }
+
+    public function broadcastAs()
+    {
+        return 'NuevoComentario';
     }
 }
