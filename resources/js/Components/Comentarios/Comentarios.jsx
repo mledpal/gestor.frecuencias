@@ -22,7 +22,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
 
         var channel = pusher.subscribe("canal-comentarios");
         channel.bind("App\\Events\\NuevoComentario", function (data) {
-            alert(JSON.stringify(data));
+            updateComentarios();
         });
     }, []);
 
