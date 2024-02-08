@@ -68,6 +68,7 @@ export const BuscarUsuarios = ({
                             <TextInput
                                 name="usuario_bus"
                                 value={data.usuario}
+                                isFocused={true}
                                 className="mt-1 block w-full text-center"
                                 onChange={(e) =>
                                     setData("usuario", e.target.value)
@@ -162,7 +163,10 @@ export const BuscarUsuarios = ({
                     <Button
                         variant="text"
                         color="light-green"
-                        onClick={() => { reset(); setRespuesta(null) }}
+                        onClick={() => {
+                            reset();
+                            setRespuesta(null);
+                        }}
                         className="border-[1px] px-5 py-2 hover:scale-110 bg-green-700 text-white duration-200 ease-in-out"
                     >
                         <span>

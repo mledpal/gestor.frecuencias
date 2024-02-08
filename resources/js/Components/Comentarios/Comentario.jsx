@@ -2,7 +2,6 @@ import { handleComentarios } from "./Helpers/handleComentarios";
 
 export const Comentario = ({ c, isAdmin, updateComentarios }) => {
     const { deleteComentario } = handleComentarios(updateComentarios);
-    console.log(updateComentarios);
 
     let fecha = new Date(c.created_at).toLocaleString("es-ES", {
         timeZone: "Europe/Madrid", // Zona horaria de España

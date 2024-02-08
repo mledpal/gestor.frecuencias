@@ -134,12 +134,12 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 className="mt-2"
                             />
                         </div>
-                        <div className="w-full flex flex-row items-center justify-between p-4 ">
+                        <div className="w-full flex flex-row items-center justify-between p-4">
                             <Button
                                 variant="gradient"
                                 color="blue"
                                 onClick={submit}
-                                className="border-[1px] px-5 py-2 hover:scale-110 bg-blue-700 text-white duration-200 ease-in-out"
+                                className="border-[1px] p-2 max-w-screen-desktop:hover:scale-110 hover:scale-100 bg-blue-700 text-white duration-200 ease-in-out max-w-screen-desktop:scale-100 scale-75"
                             >
                                 <span>
                                     Enviar{" "}
@@ -150,7 +150,7 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 variant="text"
                                 color="light-green"
                                 onClick={() => reset("mensaje")}
-                                className="border-[1px] px-5 py-2 hover:scale-110 bg-green-700 text-white duration-200 ease-in-out"
+                                className="border-[1px] p-2 max-w-screen-desktop:hover:scale-110 hover:scale-100 bg-green-700 text-white duration-200 ease-in-out max-w-screen-desktop:scale-100 scale-75"
                             >
                                 <span>
                                     Reset <i className="fa-solid fa-trash" />
@@ -161,7 +161,7 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 variant="text"
                                 color="red"
                                 onClick={() => handleOpenSendMessage(null)}
-                                className="border-[1px] px-5 py-2 hover:scale-110 bg-red-700 text-white duration-200 ease-in-out"
+                                className="border-[1px] p-2 max-w-screen-desktop:hover:scale-110 hover:scale-100 bg-red-700 text-white duration-200 ease-in-out max-w-screen-desktop:scale-100 scale-75"
                             >
                                 <span>
                                     Salir{" "}

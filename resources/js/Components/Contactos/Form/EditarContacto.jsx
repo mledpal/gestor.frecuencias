@@ -237,7 +237,7 @@ export const EditarContacto = ({
                                 />
                             </div>
 
-                            <div className="w-full flex flex-row items-center justify-center">
+                            <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
                                 <InputLabel
                                     htmlFor="favorito"
                                     value="Favorito"
