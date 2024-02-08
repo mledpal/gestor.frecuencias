@@ -176,17 +176,16 @@ export const Comentarios = ({ datos, isAdmin }) => {
                 className="w-full h-full p-4 overflow-y-auto select-none"
             >
                 {comentarios
-                    ? comentarios.map((c, index) => {
+                    ? comentarios.map((c) => {
                           return (
                               <div
                                   className="text-xs font-light odd:bg-slate-800 even:bg-slate-700"
-                                  key={index}
+                                  key={c.id}
                               >
                                   <Comentario
                                       c={c}
                                       isAdmin={isAdmin}
-                                      setComentarios={setComentarios}
-                                      comentarios={comentarios}
+                                      updateComentarios={updateComentarios}
                                   />
                               </div>
                           );

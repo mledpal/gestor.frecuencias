@@ -71,9 +71,8 @@ class ComentarioController extends Controller
         if (Auth::check()) {
 
             if (Comentario::destroy($id)) {
-                return json_encode(['mensaje' => 'Comentario eliminado']);
-            } else {
-                return json_encode(['mensaje-error' => 'Comentario no eliminado']);
+                return back();
+                // return json_encode(['mensaje' => 'Comentario eliminado']);
             }
         } else {
             return redirect('/login');
