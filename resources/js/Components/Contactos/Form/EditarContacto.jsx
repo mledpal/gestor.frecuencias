@@ -8,13 +8,11 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 
 import { handlerForm } from "../Helpers/handlerForm";
-import { useForm } from "@inertiajs/react";
+
 import { handleContacts } from "../Helpers/handleContacts";
 
 import { GpsMap } from "@/Components/GPSMap/GpsMap";
-
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import { useForm } from "@inertiajs/react";
 
 export const EditarContacto = ({
     setDatos,
@@ -35,11 +33,13 @@ export const EditarContacto = ({
         direcciones,
     } = selects;
 
-    const [coordenadas, setCoordenadas] = useState([]);
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(!open); // Cambia el valor de open a su opuesto
     };
+
+    const [respuesta, setRespuesta] = useState(null);
+    const [coordenadas, setCoordenadas] = useState([]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         id: datos.id,
@@ -102,51 +102,12 @@ export const EditarContacto = ({
         }
     }, [datos]);
 
-    useEffect(() => {
-        document.getElementById("detalle").scrollTo(0, 0);
-    }, [datos]);
-
-    const handleAddContact = () => {
-        // Tengo que mandar los datos a una ruta para crear el contacto.
-        withReactContent(Swal)
-            .fire({
-                title: "¿Desea agregar el contacto?",
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: "Si",
-                denyButtonText: `No`,
-                icon: "question",
-            })
-            .then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    post(route("contacto_crear"), {
-                        onSuccess: () => {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: "top-end",
-                                showConfirmButton: false,
-                                timer: 1000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.onmouseenter = Swal.stopTimer;
-                                    toast.onmouseleave = Swal.resumeTimer;
-                                },
-                            });
-                            Toast.fire({
-                                icon: "success",
-                                title: "Contacto cread",
-                            });
-                        },
-                        onError: () => {
-                            Swal.fire("Hubo un error", "", "warning");
-                        },
-                    });
-                } else if (result.isDenied) {
-                    Swal.fire("Cancelado", "", "info");
-                }
-            });
-    };
+    const { submit, handleDelete, handleAddContact } = handleContacts({
+        contactos,
+        updateContact,
+        borrarContacto,
+        datos,
+    });
 
     const {
         handleCheck,
@@ -155,19 +116,6 @@ export const EditarContacto = ({
         handleToggleVisibilidad,
         visibilidad,
     } = handlerForm({ datos, setData });
-
-    const { submit, handleDelete } = handleContacts({
-        post,
-        setData,
-        contactos,
-        updateContact,
-        borrarContacto,
-    });
-
-    const close = (e) => {
-        e.preventDefault;
-        setDatos(null);
-    };
 
     // Variables para setear los estilos de algunas zonas
 
@@ -226,7 +174,7 @@ export const EditarContacto = ({
 
                         <i
                             className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
-                            onClick={close}
+                            onClick={() => setDatos(null)}
                         ></i>
                     </div>
                     <div className="w-3/5 flex flex-col items-center justify-center text-center">

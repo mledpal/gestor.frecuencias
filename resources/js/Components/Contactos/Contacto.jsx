@@ -41,14 +41,14 @@ export const Contacto = ({ datos, setDatos }) => {
                         ) : (
                             ""
                         )}
-                        <Favorito favorito={datos.favorito} />
+                        <Privado privado={datos.privado} />
                     </div>
                     <div
                         name="tecnico"
                         className="w-[100px] h-full p-2 flex flex-col justify-between items-center"
                     >
                         <FrecuenciaComprobada comprobada={datos.comprobado} />
-                        <Privado privado={datos.privado} />
+                        <Favorito favorito={datos.favorito} />
                         <ModoTransmision
                             modo={datos.modo ? datos.modo.nombre : ""}
                         />

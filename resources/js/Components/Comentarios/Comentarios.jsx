@@ -1,13 +1,19 @@
 import { useForm } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 import InputError from "../InputError";
 import TextInput from "../TextInput";
-import { useEffect, useState } from "react";
+
 import { getComentarios } from "./Helpers/getComentarios";
 import { Comentario } from "./Comentario";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 import Pusher from "pusher-js";
 
 export const Comentarios = ({ datos, isAdmin }) => {
     const [comentarios, setComentarios] = useState([]);
+    const MySwal = withReactContent(Swal);
 
     const clasesBotonesFormulario =
         "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
@@ -72,14 +78,20 @@ export const Comentarios = ({ datos, isAdmin }) => {
 
     const submit = (e) => {
         e.preventDefault();
-        try {
-            post(route("comentario_crear"));
-            reset("comentario");
-        } catch (error) {
-            console.error(error);
-        } finally {
-            updateComentarios();
-        }
+
+        post(route("comentario_crear"), {
+            onSuccess: () => {
+                reset("comentario");
+                updateComentarios();
+            },
+            onError: (errors) => {
+                Swal.fire({
+                    title: "No actualizado",
+                    text: "Hubo un error",
+                    icon: "warning",
+                });
+            },
+        });
     };
 
     return (

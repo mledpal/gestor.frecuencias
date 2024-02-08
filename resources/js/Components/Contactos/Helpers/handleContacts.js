@@ -1,18 +1,22 @@
-import { useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
+import { useEffect } from "react";
+
 export const handleContacts = ({
-    post,
     borrarContacto,
     handleOpen,
     updateContact,
+    datos,
+    post,
 }) => {
     // Métodos / Hooks
 
-    const [respuesta, setRespuesta] = useState(null);
-
     const MySwal = withReactContent(Swal);
+
+    useEffect(() => {
+        document.getElementById("detalle").scrollTo(0, 0);
+    }, [datos]);
 
     async function crear(e) {
         e.preventDefault();
@@ -36,10 +40,20 @@ export const handleContacts = ({
                 onSuccess: () => {
                     updateContact();
 
-                    Swal.fire({
-                        title: "Actualizado",
-                        text: "Contacto actualizado correctamente",
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        },
+                    });
+                    Toast.fire({
                         icon: "success",
+                        title: "Contacto actualizado correctamente",
                     });
                 },
                 onError: (errors) => {
@@ -61,25 +75,46 @@ export const handleContacts = ({
             console.error(error);
         }
     }
-
-    const eliminar = (id) => {
-        // Realiza la solicitud DELETE usando fetch
-        fetch(`/contacto/${id}/eliminar`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[id="meta_token"]')
-                    .getAttribute("content"),
-            },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+    const handleAddContact = (e) => {
+        e.preventDefault();
+        // Tengo que mandar los datos a una ruta para crear el contacto.
+        withReactContent(Swal)
+            .fire({
+                title: "¿Desea agregar el contacto?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Si",
+                denyButtonText: `No`,
+                icon: "question",
             })
-            .catch((error) => {
-                console.error(error);
+            .then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    post(route("contacto_crear"), {
+                        onSuccess: () => {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                },
+                            });
+                            Toast.fire({
+                                icon: "success",
+                                title: "Contacto creado",
+                            });
+                        },
+                        onError: () => {
+                            Swal.fire("Hubo un error", "", "warning");
+                        },
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire("Cancelado", "", "info");
+                }
             });
     };
 
@@ -143,11 +178,33 @@ export const handleContacts = ({
             });
     };
 
+    const eliminar = (id) => {
+        // Realiza la solicitud DELETE usando fetch
+        fetch(`/contacto/${id}/eliminar`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[id="meta_token"]')
+                    .getAttribute("content"),
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
     return {
         actualizar,
         crear,
         eliminar,
         submit,
         handleDelete,
+        handleAddContact,
     };
 };

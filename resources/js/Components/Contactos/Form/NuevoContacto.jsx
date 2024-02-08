@@ -87,7 +87,11 @@ export const NuevoContacto = ({
         });
     }, []);
 
-    const { crear } = handleContacts({ updateContact, handleOpen, post, data });
+    const { crear } = handleContacts({
+        updateContact,
+        handleOpen,
+        post,
+    });
 
     const {
         handleCheck,
