@@ -107,6 +107,7 @@ export const EditarContacto = ({
         updateContact,
         borrarContacto,
         datos,
+        post,
     });
 
     const {
