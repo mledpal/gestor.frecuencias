@@ -26,34 +26,11 @@ export const Comentarios = ({ datos, isAdmin }) => {
         });
     }, []);
 
-    const [comentarios, setComentarios] = useState([]);
-    const MySwal = withReactContent(Swal);
-
-    const clasesBotonesFormulario =
-        "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
-
     const { data, setData, post, processing, errors, reset } = useForm({
         localizacion_id: datos?.localizacion_id,
         frecuencia_id: datos?.frecuencia_id,
         comentario: "",
     });
-
-    useEffect(() => {
-        const pusher = new Pusher("5285b606cdf2c249808a", {
-            cluster: "eu",
-        });
-
-        const channel = pusher.subscribe("canal-comentarios");
-
-        channel.bind("App\\Events\\NuevoComentario", (data) => {
-            setComments([...comments, data]);
-        });
-
-        return () => {
-            channel.unbind();
-            pusher.unsubscribe("canal-comentarios");
-        };
-    }, [comentarios]);
 
     useEffect(() => {
         setData({
@@ -62,6 +39,29 @@ export const Comentarios = ({ datos, isAdmin }) => {
             comentario: "",
         });
     }, [datos]);
+
+    const [comentarios, setComentarios] = useState([]);
+    const MySwal = withReactContent(Swal);
+
+    const clasesBotonesFormulario =
+        "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
+
+    // useEffect(() => {
+    //     const pusher = new Pusher("5285b606cdf2c249808a", {
+    //         cluster: "eu",
+    //     });
+
+    //     const channel = pusher.subscribe("canal-comentarios");
+
+    //     channel.bind("App\\Events\\NuevoComentario", (data) => {
+    //         setComments([...comments, data]);
+    //     });
+
+    //     return () => {
+    //         channel.unbind();
+    //         pusher.unsubscribe("canal-comentarios");
+    //     };
+    // }, [comentarios]);
 
     const updateComentarios = () => {
         const fetchData = async () => {
