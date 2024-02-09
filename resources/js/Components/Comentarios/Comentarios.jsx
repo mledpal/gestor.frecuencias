@@ -13,18 +13,8 @@ import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
 export const Comentarios = ({ datos, isAdmin }) => {
-    useEffect(() => {
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher("5285b606cdf2c249808a", {
-            cluster: "eu",
-        });
-
-        var channel = pusher.subscribe("canal-comentarios");
-        channel.bind("App\\Events\\NuevoComentario", function (data) {
-            updateComentarios();
-        });
-    }, []);
+    const MySwal = withReactContent(Swal);
+    const [comentarios, setComentarios] = useState([]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         localizacion_id: datos?.localizacion_id,
@@ -33,15 +23,25 @@ export const Comentarios = ({ datos, isAdmin }) => {
     });
 
     useEffect(() => {
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher("5285b606cdf2c249808a", {
+            cluster: "eu",
+        });
+
+        var channel = pusher.subscribe("canal-comentarios");
+        channel.bind("NuevoComentario", function (data) {
+            updateComentarios();
+        });
+    }, [comentarios]);
+
+    useEffect(() => {
         setData({
             localizacion_id: datos?.localizacion_id,
             frecuencia_id: datos?.frecuencia_id,
             comentario: "",
         });
     }, [datos]);
-
-    const [comentarios, setComentarios] = useState([]);
-    const MySwal = withReactContent(Swal);
 
     const clasesBotonesFormulario =
         "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";

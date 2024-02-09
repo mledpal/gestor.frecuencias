@@ -70,6 +70,9 @@ class ComentarioController extends Controller
     {
         if (Auth::check()) {
 
+            $comentario = Comentario::findOrFail($id);
+            broadcast(new NuevoComentario($comentario));
+
             if (Comentario::destroy($id)) {
                 return back();
                 // return json_encode(['mensaje' => 'Comentario eliminado']);

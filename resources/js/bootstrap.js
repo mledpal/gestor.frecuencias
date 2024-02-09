@@ -19,9 +19,8 @@ var pusher = new Pusher("5285b606cdf2c249808a", {
 
 var channel = pusher.subscribe("canal-comentarios");
 channel.bind("NuevoComentario", function (data) {
-    console.log(JSON.stringify(data));
+    // alert(JSON.stringify(data));
 });
-
 
 // Ably
 
@@ -40,5 +39,3 @@ channel.bind("NuevoComentario", function (data) {
 //         console.log("connected to ably server");
 //     }
 // });
-
-
