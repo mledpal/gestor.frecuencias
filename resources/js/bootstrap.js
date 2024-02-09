@@ -9,18 +9,18 @@ window.axios = axios;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-import Pusher from "pusher-js";
+// import Pusher from "pusher-js";
 
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 
-var pusher = new Pusher("5285b606cdf2c249808a", {
-    cluster: "eu",
-});
+// var pusher = new Pusher("5285b606cdf2c249808a", {
+//     cluster: "eu",
+// });
 
-var channel = pusher.subscribe("canal-comentarios");
-channel.bind("NuevoComentario", function (data) {
-    alert(JSON.stringify(data));
-});
+// var channel = pusher.subscribe("canal-comentarios");
+// channel.bind("NuevoComentario", function (data) {
+//     console.log(JSON.stringify(data));
+// });
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -39,3 +39,17 @@ channel.bind("NuevoComentario", function (data) {
 //     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
 //     forceTLS: true,
 // });
+
+import Echo from "@ably/laravel-echo";
+import * as Ably from "ably";
+
+window.Ably = Ably; // make globally accessible to Echo
+window.Echo = new Echo({
+    broadcaster: "ably",
+});
+
+window.Echo.connector.ably.connection.on((stateChange) => {
+    if (stateChange.current === "connected") {
+        console.log("connected to ably server");
+    }
+});
