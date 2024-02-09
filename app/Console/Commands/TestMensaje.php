@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Ably\AblyRest;
+use App\Models\Contacto;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class TestMensaje extends Command
@@ -26,15 +28,10 @@ class TestMensaje extends Command
      */
     public function handle()
     {
+        $user = User::find(1);
 
-        $apiKey = '-n3DVQ.QW58iA:NlZmlh8WGzadRH-9wz3yTlUFOl_955uZga9OOMEPTGE';
-        $ably = new AblyRest($apiKey);
-        $channelName = 'chatroom';
-        $channel = $ably->channels->get($channelName);
-        $messageData = array(
-            'mensaje' => 'Este es un mensaje de prueba desde PHP',
-            'usuario' => 'usuario_prueba'
-        );
-        $channel->publish('mensaje', $messageData);
+        $busqueda = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('privado', false)->where('user_id', '!=', $user->id)->orderBy('nombre', 'asc')->get()->toArray();
+
+        echo count($busqueda);
     }
 }
