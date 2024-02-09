@@ -9,6 +9,9 @@ import { getUserInfo } from "@/Helpers/getUserInfo";
 import { getConversacion } from "@/Helpers/getConversacion";
 import { Mensaje } from "../Mensajes/Mensaje";
 
+import Echo from "laravel-echo";
+import Pusher from "pusher-js";
+
 export const Conversacion = ({ handleOpenSendMessage, userID }) => {
     const clasesLabel = "text-center mb-2 text-black select-none";
 
@@ -21,6 +24,39 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
         destinatario_id: "",
         _token: "",
     });
+
+    useEffect(() => {
+        const realtime = new Ably.Realtime(
+            "-n3DVQ.-Y01TA:OH0ZfLPH76pQ6rZGYmYgrGcKUC045Sel1JkGajojTUo"
+        );
+        const channel = realtime.channels.get("chatroom");
+
+        channel.attach();
+
+        function handleDetached() {
+            console.log("Detached from the channel " + channel.name);
+        }
+
+        channel.on("detached", handleDetached);
+
+        return () => {
+            channel.off("detached", handleDetached);
+            channel.detach();
+        };
+    }, []);
+
+    useEffect(() => {
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher("5285b606cdf2c249808a", {
+            cluster: "eu",
+        });
+
+        var channel = pusher.subscribe("canal-mensajes");
+        channel.bind("App\\Events\\NuevoMensaje", function (data) {
+            getData();
+        });
+    }, [conversacion]);
 
     useEffect(() => {
         setData({
@@ -60,6 +96,12 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
 
     async function submit(e) {
         e.preventDefault();
+
+        // const realtime = new Ably.Realtime(
+        //     "-n3DVQ.-Y01TA:OH0ZfLPH76pQ6rZGYmYgrGcKUC045Sel1JkGajojTUo"
+        // );
+        // const channel = realtime.channels.get("chatroom");
+        // channel.publish("chatroom", data.mensaje);
 
         reset("mensaje");
 

@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Ably\AblyRest;
+use App\Events\NuevoMensaje;
+
 class MensajeController extends Controller
 {
     public function recuperarConversacion($destinoId)
@@ -44,6 +47,19 @@ class MensajeController extends Controller
             $requestAll['remitente_id'] = $userId;
 
             Mensaje::create($requestAll);
+
+            broadcast(new NuevoMensaje($requestAll));
+
+            // $apiKey = '-n3DVQ.QW58iA:NlZmlh8WGzadRH-9wz3yTlUFOl_955uZga9OOMEPTGE';
+            // $ably = new AblyRest($apiKey);
+            // $channelName = 'chatroom';
+            // $channel = $ably->channels->get($channelName);
+            // $messageData = array(
+            //     'mensaje' => 'Este es un mensaje de prueba desde PHP',
+            //     'usuario' => 'usuario_prueba'
+            // );
+
+            // $channel->publish('mensaje', $messageData);
 
             return back()->with('flash', ['mensaje' => 'Mensaje enviado']);
         } else {
