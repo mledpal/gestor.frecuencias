@@ -11,18 +11,19 @@ import withReactContent from "sweetalert2-react-content";
 
 // import Echo from "laravel-echo";
 import Pusher from "pusher-js";
-Pusher.logToConsole = true;
-const pusher = new Pusher("5285b606cdf2c249808a", {
-    cluster: "eu",
-});
-const channel = pusher.subscribe("canal-comentarios");
-// Fin de la configuración de PUSHER
+
+
 
 export const Comentarios = ({ datos, isAdmin }) => {
     const MySwal = withReactContent(Swal);
     const [comentarios, setComentarios] = useState([]);
 
     useEffect(() => {
+        Pusher.logToConsole = true;
+        const pusher = new Pusher("5285b606cdf2c249808a", {
+            cluster: "eu",
+        });
+        const channel = pusher.subscribe("canal-comentarios");
         channel.bind("NuevoComentario", function (data) {
             updateComentarios();
         });
