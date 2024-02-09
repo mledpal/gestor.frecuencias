@@ -22,9 +22,11 @@ export const Comentarios = ({ datos, isAdmin }) => {
     const MySwal = withReactContent(Swal);
     const [comentarios, setComentarios] = useState([]);
 
-    channel.bind("NuevoComentario", function (data) {
-        updateComentarios();
-    });
+    useEffect(() => {
+        channel.bind("NuevoComentario", function (data) {
+            updateComentarios();
+        });
+    }, [comentarios]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         localizacion_id: datos?.localizacion_id,
