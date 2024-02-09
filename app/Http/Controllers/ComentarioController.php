@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\NuevoComentario;
 use App\Http\Requests\ValidarComentario;
 use App\Models\Comentario;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +27,11 @@ class ComentarioController extends Controller
 
             Comentario::create($nuevoComentario);
 
-            broadcast(new NuevoComentario($nuevoComentario));
+            try {
+                broadcast(new NuevoComentario($nuevoComentario));
+            } catch (Exception $e) {
+                echo null;
+            }
 
             if ($nuevoComentario) {
                 return back()->with('mensaje', ['mensaje' => 'MEnsaje creado correctamente']);
@@ -71,7 +76,11 @@ class ComentarioController extends Controller
         if (Auth::check()) {
 
             $comentario = Comentario::findOrFail($id);
-            broadcast(new NuevoComentario($comentario));
+            try {
+                broadcast(new NuevoComentario($comentario));
+            } catch (Exception $e) {
+                echo null;
+            }
 
             if (Comentario::destroy($id)) {
                 return back();
