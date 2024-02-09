@@ -133,7 +133,7 @@ export const EditarContacto = ({
     const clasesDivContainer =
         "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center max-[1280px]:flex-col max-[1280px]:gap-2 ";
     const clasesLabel =
-        "text-center mb-2 text-black select-none max-[1280px]:text-[.8rem] ";
+        "text-center mb-2 text-white select-none max-[1280px]:text-[.8rem] ";
     const clasesAgregar =
         "rounded-full transition shadow-[inset_0_0_5px_rgba(0,0,0,.5)] hover:bg-lime-500 hover:shadow-[0_0_5px_rgba(255,255,255,.5)] ease-in transition:ease-out duration-100 m-2 fa-solid fa-plus cursor-pointer select-none p-3";
 

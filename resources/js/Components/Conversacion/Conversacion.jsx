@@ -14,10 +14,12 @@ import Pusher from "pusher-js";
 
 export const Conversacion = ({ handleOpenSendMessage, userID }) => {
     const clasesLabel = "text-center mb-2 text-black select-none";
+    const csrf = document
+        .querySelector('meta[id="meta_token"]')
+        .getAttribute("content");
 
     const [userData, setUserData] = useState(null);
     const [conversacion, setConversacion] = useState(null);
-    const [csrf, setCSRF] = useState(null);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         mensaje: "",
@@ -26,54 +28,20 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
     });
 
     // useEffect(() => {
-    //     const realtime = new Ably.Realtime(
-    //         "-n3DVQ.-Y01TA:OH0ZfLPH76pQ6rZGYmYgrGcKUC045Sel1JkGajojTUo"
-    //     );
-    //     const channel = realtime.channels.get("chatroom");
+    //     Pusher.logToConsole = true;
 
-    //     channel.attach();
+    //     var pusher = new Pusher("5285b606cdf2c249808a", {
+    //         cluster: "eu",
+    //     });
 
-    //     function handleDetached() {
-    //         console.log("Detached from the channel " + channel.name);
-    //     }
-
-    //     channel.on("detached", handleDetached);
-
-    //     return () => {
-    //         channel.off("detached", handleDetached);
-    //         channel.detach();
-    //     };
-    // }, []);
-
-    useEffect(() => {
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher("5285b606cdf2c249808a", {
-            cluster: "eu",
-        });
-
-        var channel = pusher.subscribe("canal-mensajes");
-        channel.bind("App\\Events\\NuevoMensaje", function (data) {
-            getData();
-        });
-    }, [conversacion]);
-
-    useEffect(() => {
-        setData({
-            destinatario_id: userData?.id,
-            _token: csrf,
-        });
-    }, [conversacion]);
+    //     var channel2 = pusher.subscribe("canal-mensajes");
+    //     channel2.bind("NuevoMensaje", function (data) {
+    //         updateConversacion(data.destinatario_id);
+    //     });
+    // }, [conversacion]);
 
     useEffect(() => {
         getData(userID);
-
-        setCSRF(
-            document
-                .querySelector('meta[id="meta_token"]')
-                .getAttribute("content")
-        );
-
         setTimeout(() => {
             setData({
                 destinatario_id: datos.id,
@@ -85,6 +53,13 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
         let datos = getUserInfo(userID);
         setUserData(datos);
     }, []);
+
+    useEffect(() => {
+        setData({
+            destinatario_id: userID,
+            _token: csrf,
+        });
+    }, [conversacion]);
 
     async function getData(userID) {
         const datos = await getUserInfo(userID);
@@ -107,7 +82,8 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
 
         post(route("enviar_mensaje"), {
             onSuccess: () => {
-                getData(data.destinatario_id);
+                updateConversacion(userID);
+                // getData(data.destinatario_id);
             },
             onError: (errors) => {
                 console.error(errors);
@@ -115,10 +91,30 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
         });
     }
 
+    const updateConversacion = (userID) => {
+        const fetchData = async () => {
+            try {
+                // Realizar la solicitud para obtener los comentarios
+                const respuesta = await getConversacion(userID);
+
+                // Verificar si se recibieron datos
+                if (respuesta) {
+                    setConversacion(respuesta);
+                } else {
+                    console.log("No se recibieron comentarios.");
+                }
+            } catch (error) {
+                console.error("Error al obtener comentarios:", error);
+            }
+        };
+
+        fetchData();
+    };
+
     return (
         <div
             id="conversacion"
-            className={`shadow-[0px_0px_15px_rgba(255,255,255,.5)]  max-h-screen h-screen overflow-y-auto w-1/4 flex flex-col items-center justify-between  rounded-xl m-auto`}
+            className={`shadow-[0px_0px_15px_rgba(255,255,255,.5)]  max-h-screen h-screen overflow-y-auto w-2/4 flex flex-col items-center justify-between  rounded-xl m-auto`}
         >
             <header className="sticky top-0 h-50 w-full flex flex-col items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
                 {userData ? (
@@ -181,7 +177,7 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 variant="gradient"
                                 color="blue"
                                 onClick={submit}
-                                className="border-[1px] p-2 max-w-screen-desktop:hover:scale-110 hover:scale-100 bg-blue-700 text-white duration-200 ease-in-out max-w-screen-desktop:scale-100 scale-75"
+                                className="border-[1px] p-2  bg-blue-700 text-white duration-200 ease-in-out hover:scale-125 2xl:scale-100 max-2xl:scale-50"
                             >
                                 <span>
                                     Enviar{" "}
@@ -192,7 +188,7 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 variant="text"
                                 color="light-green"
                                 onClick={() => reset("mensaje")}
-                                className="border-[1px] p-2 max-w-screen-desktop:hover:scale-110 hover:scale-100 bg-green-700 text-white duration-200 ease-in-out max-w-screen-desktop:scale-100 scale-75"
+                                className="border-[1px] p-2  bg-green-700 text-white duration-200 ease-in-out hover:scale-125 scale-100"
                             >
                                 <span>
                                     Reset <i className="fa-solid fa-trash" />
@@ -203,7 +199,7 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 variant="text"
                                 color="red"
                                 onClick={() => handleOpenSendMessage(null)}
-                                className="border-[1px] p-2 max-w-screen-desktop:hover:scale-110 hover:scale-100 bg-red-700 text-white duration-200 ease-in-out max-w-screen-desktop:scale-100 scale-75"
+                                className="border-[1px] p-2  bg-red-700 text-white duration-200 ease-in-out hover:scale-125 scale-100"
                             >
                                 <span>
                                     Salir{" "}

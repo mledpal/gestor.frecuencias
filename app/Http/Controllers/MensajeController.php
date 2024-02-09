@@ -46,9 +46,9 @@ class MensajeController extends Controller
             $requestAll = $request->all();
             $requestAll['remitente_id'] = $userId;
 
-            Mensaje::create($requestAll);
+            $mensaje = Mensaje::create($requestAll);
 
-            broadcast(new NuevoMensaje($requestAll));
+            broadcast(new NuevoMensaje($mensaje));
 
             // $apiKey = '-n3DVQ.QW58iA:NlZmlh8WGzadRH-9wz3yTlUFOl_955uZga9OOMEPTGE';
             // $ably = new AblyRest($apiKey);

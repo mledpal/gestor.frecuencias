@@ -11,7 +11,7 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 import Pusher from "pusher-js";
 
-Pusher.logToConsole = true;
+Pusher.logToConsole = false;
 
 var pusher = new Pusher("5285b606cdf2c249808a", {
     cluster: "eu",
@@ -20,6 +20,11 @@ var pusher = new Pusher("5285b606cdf2c249808a", {
 var channel = pusher.subscribe("canal-comentarios");
 channel.bind("NuevoComentario", function (data) {
     // alert(JSON.stringify(data));
+});
+
+var channel2 = pusher.subscribe("canal-mensajes");
+channel2.bind("NuevoMensaje", function (data) {
+    alert(JSON.stringify(data));
 });
 
 // Ably

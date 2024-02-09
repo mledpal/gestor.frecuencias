@@ -23,7 +23,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
     });
 
     useEffect(() => {
-        Pusher.logToConsole = true;
+        Pusher.logToConsole = false;
 
         var pusher = new Pusher("5285b606cdf2c249808a", {
             cluster: "eu",
