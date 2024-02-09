@@ -359,7 +359,7 @@ class ContactoController extends Controller
             if ($request->propio) {
                 $busqueda = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc');
             } else {
-                $busqueda = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('privado', false)->orderBy('nombre', 'asc');
+                $busqueda = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('privado', false)->where('user_id', '!=', $user->id)->orderBy('nombre', 'asc');
             }
 
             if (isset($request->nombre)) {
