@@ -9,31 +9,29 @@ import { Comentario } from "./Comentario";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import Echo from "laravel-echo";
+// import Echo from "laravel-echo";
 import Pusher from "pusher-js";
+
+Pusher.logToConsole = true;
+
+const pusher = new Pusher("5285b606cdf2c249808a", {
+    cluster: "eu",
+});
+const channel = pusher.subscribe("canal-comentarios");
 
 export const Comentarios = ({ datos, isAdmin }) => {
     const MySwal = withReactContent(Swal);
     const [comentarios, setComentarios] = useState([]);
+
+    channel.bind("NuevoComentario", function (data) {
+        updateComentarios();
+    });
 
     const { data, setData, post, processing, errors, reset } = useForm({
         localizacion_id: datos?.localizacion_id,
         frecuencia_id: datos?.frecuencia_id,
         comentario: "",
     });
-
-    useEffect(() => {
-        Pusher.logToConsole = false;
-
-        var pusher = new Pusher("5285b606cdf2c249808a", {
-            cluster: "eu",
-        });
-
-        var channel = pusher.subscribe("canal-comentarios");
-        channel.bind("NuevoComentario", function (data) {
-            updateComentarios();
-        });
-    }, [comentarios]);
 
     useEffect(() => {
         setData({
