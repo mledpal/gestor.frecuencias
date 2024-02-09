@@ -102,7 +102,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
                 Swal.fire({
                     title: "No actualizado",
                     text: "Hubo un error",
-                    icon: "warning",
+                    icon: "error",
                 });
             },
         });

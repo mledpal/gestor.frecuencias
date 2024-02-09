@@ -48,7 +48,7 @@ export const MenuAyuda = () => {
                 }
                 size={size || "md"}
                 handler={handleOpenAbout}
-                className="w-screen h-screen bg-transparent shadow-transparent flex flex-col m-auto  items-center justify-center overflow-y-auto"
+                className="w-screen h-screen bg-transparent backdrop-blur-sm shadow-transparent flex flex-col m-auto  items-center justify-center overflow-y-auto"
             >
                 <About handleOpenAbout={handleOpenAbout} />
             </Dialog>
