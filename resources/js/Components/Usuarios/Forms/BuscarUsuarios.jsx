@@ -2,10 +2,11 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-import { Button } from "@material-tailwind/react";
+
 import { useEffect, useState } from "react";
 import { searchUsers } from "./helpers/searchUsers";
 import { UserImage } from "@/Components/Images/UserImage";
+import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 
 export const BuscarUsuarios = ({
     handleOpenBuscador,
@@ -40,6 +41,8 @@ export const BuscarUsuarios = ({
         let response = await searchUsers(data);
         setRespuesta(response);
     }
+
+
 
     return (
         <div
@@ -150,40 +153,11 @@ export const BuscarUsuarios = ({
                 </main>
 
                 <footer className="p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
-                    <Button
-                        variant="gradient"
-                        color="blue"
-                        onClick={submit}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-blue-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Enviar <i className="fa-solid fa-paper-plane"></i>
-                        </span>
-                    </Button>
-                    <Button
-                        variant="text"
-                        color="light-green"
-                        onClick={() => {
-                            reset();
-                            setRespuesta(null);
-                        }}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-green-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Reset <i className="fa-solid fa-trash" />
-                        </span>
-                    </Button>
-
-                    <Button
-                        variant="text"
-                        color="red"
-                        onClick={() => handleOpenBuscador(null)}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-red-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Salir <i className="fa-solid fa-door-open"></i>
-                        </span>
-                    </Button>
+                    <BotonesFormulario
+                        actionSubmit={submit}
+                        actionReset={() => reset()}
+                        actionExit={() => handleOpenBuscador(null)}
+                    />
                 </footer>
             </form>
         </div>

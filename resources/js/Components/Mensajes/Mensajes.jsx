@@ -18,19 +18,10 @@ export const Mensajes = ({ userDB }) => {
     const clasesBotonesFormulario =
         "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
 
-    const { data, setData, post, processing, errors, reset } = useForm({
-        usuario_bus: "",
-    });
-
     async function getData() {
         let texto = await getConversaciones();
         setMensajes(texto);
     }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        reset();
-    };
 
     const [size, setSize] = useState(null);
     const handleOpenBuscador = (value) => setSize(value);
@@ -87,6 +78,8 @@ export const Mensajes = ({ userDB }) => {
         handleOpenSendMessage("xxl");
     };
 
+
+
     return (
         <>
             <div className="flex flex-col items-center justify-between gap-2 w-full h-full">
@@ -103,11 +96,6 @@ export const Mensajes = ({ userDB }) => {
                             className={`fa-solid fa-magnifying-glass text-white ${clasesBotonesFormulario} `}
                             onClick={() => handleOpenBuscador("xxl")}
                         ></i>
-
-                        <i
-                            className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                            onClick={() => reset()}
-                        ></i>
                         {/* <i
                         className={`fa-solid fa-person-walking-arrow-right text-white `}
                     ></i> */}
@@ -117,18 +105,6 @@ export const Mensajes = ({ userDB }) => {
                     </h2>
                     <div className="w-1/5"></div>
                 </header>
-                {/*
-                <form className="w-full rounded-xl" onSubmit={handleSubmit}>
-                    <TextInput
-                        name="usuario_bus"
-                        value={data.usuario_bus}
-                        className="p-2 block w-full text-center text-sm text-white"
-                        onChange={(e) => setData("usuario_bus", e.target.value)}
-                        placeholder="Busque a un usuario"
-                        required
-                    />
-                    <InputError message={errors.usuario_bus} className="mt-2" />
-                </form> */}
 
                 <main
                     name="lista_mensajes"

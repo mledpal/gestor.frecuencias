@@ -3,7 +3,6 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 
 import { useForm } from "@inertiajs/react";
-import { Button } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { getUserInfo } from "@/Helpers/getUserInfo";
 import { getConversacion } from "@/Helpers/getConversacion";
@@ -11,6 +10,7 @@ import { Mensaje } from "../Mensajes/Mensaje";
 
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
+import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 
 export const Conversacion = ({ handleOpenSendMessage, userID }) => {
     const clasesLabel = "text-center mb-2 text-black select-none";
@@ -172,40 +172,12 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
                                 className="mt-2"
                             />
                         </div>
-                        <div className="w-full flex flex-row items-center justify-between p-4">
-                            <Button
-                                variant="gradient"
-                                color="blue"
-                                onClick={submit}
-                                className="border-[1px] p-2  bg-blue-700 text-white duration-200 ease-in-out hover:scale-125 2xl:scale-100 max-2xl:scale-50"
-                            >
-                                <span>
-                                    Enviar{" "}
-                                    <i className="fa-solid fa-paper-plane"></i>
-                                </span>
-                            </Button>
-                            <Button
-                                variant="text"
-                                color="light-green"
-                                onClick={() => reset("mensaje")}
-                                className="border-[1px] p-2  bg-green-700 text-white duration-200 ease-in-out hover:scale-125 scale-100"
-                            >
-                                <span>
-                                    Reset <i className="fa-solid fa-trash" />
-                                </span>
-                            </Button>
-
-                            <Button
-                                variant="text"
-                                color="red"
-                                onClick={() => handleOpenSendMessage(null)}
-                                className="border-[1px] p-2  bg-red-700 text-white duration-200 ease-in-out hover:scale-125 scale-100"
-                            >
-                                <span>
-                                    Salir{" "}
-                                    <i className="fa-solid fa-door-open"></i>
-                                </span>
-                            </Button>
+                        <div className="w-full flex flex-row items-center justify-end gap-3 p-4">
+                            <BotonesFormulario
+                                actionSubmit={submit}
+                                actionReset={() => reset("mensaje")}
+                                actionExit={() => handleOpenSendMessage(null)}
+                            />
                         </div>
                     </div>
 

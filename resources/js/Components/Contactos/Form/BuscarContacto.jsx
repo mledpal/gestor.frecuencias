@@ -1,10 +1,13 @@
+import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-import { Button } from "@material-tailwind/react";
 import { useEffect } from "react";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
     const clasesDOM =
@@ -20,7 +23,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
         }, 100);
     }, []);
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, errors, reset } = useForm({
         propio: true,
         frecuencia: "",
         nombre: "",
@@ -33,32 +36,46 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
         provincia: "",
     });
 
-    const resetForm = (e) => {
-        e.preventDefault();
-        setData({
-            propio: true,
-            frecuencia: "",
-            nombre: "",
-            comprobado: null,
-            privado: null,
-            fecha_ini: "",
-            fecha_fin: "",
-            tipo_id: undefined,
-            localidad: "",
-            provincia: "",
-        });
-    };
-
     const submit = (e) => {
         e.preventDefault();
 
-        try {
-            post(route("contacto_busqueda"));
-        } catch (error) {
-            console.error(error);
-        } finally {
-            handleOpenBuscador(null);
-        }
+        post(route("contacto_busqueda"), {
+            onSuccess: () => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    },
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Busqueda finalizada",
+                });
+                handleOpenBuscador(null);
+            },
+            onError: () => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    },
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Hubo un error al buscar",
+                });
+            },
+        });
     };
 
     return (
@@ -312,37 +329,11 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
                 </main>
 
                 <footer className="p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
-                    <Button
-                        variant="gradient"
-                        color="blue"
-                        onClick={submit}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-blue-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Enviar <i className="fa-solid fa-paper-plane"></i>
-                        </span>
-                    </Button>
-                    <Button
-                        variant="text"
-                        color="light-green"
-                        onClick={resetForm}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-green-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Reset <i className="fa-solid fa-trash" />
-                        </span>
-                    </Button>
-
-                    <Button
-                        variant="text"
-                        color="red"
-                        onClick={() => handleOpenBuscador(null)}
-                        className="border-[1px] px-5 py-2 hover:scale-110 bg-red-700 text-white duration-200 ease-in-out"
-                    >
-                        <span>
-                            Salir <i className="fa-solid fa-door-open"></i>
-                        </span>
-                    </Button>
+                    <BotonesFormulario
+                        actionSubmit={submit}
+                        actionReset={() => reset()}
+                        actionExit={() => handleOpenBuscador(null)}
+                    />
                 </footer>
             </form>
         </div>
