@@ -28,7 +28,6 @@ export const Comentarios = ({ datos, isAdmin }) => {
         });
         return () => {
             channel.unbind();
-            pusher.unsubscribe("canal-comentarios");
         };
     }, [comentarios]);
 
