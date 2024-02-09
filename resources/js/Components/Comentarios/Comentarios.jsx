@@ -26,6 +26,10 @@ export const Comentarios = ({ datos, isAdmin }) => {
         channel.bind("NuevoComentario", function (data) {
             updateComentarios();
         });
+        return () => {
+            channel.unbind();
+            pusher.unsubscribe("canal-comentarios");
+        };
     }, [comentarios]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
