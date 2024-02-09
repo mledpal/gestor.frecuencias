@@ -1,9 +1,9 @@
-import { Button } from "@material-tailwind/react";
+import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 
 export const About = ({ handleOpenAbout }) => {
     return (
         <div
-            className="w-[800px] h-2/5 bg-slate-800 shadow-[inset_-2px_2px_10px_rgba(255,255,255,.5),-2px_-2px_10px_rgba(0,0,0,.5)] flex flex-col items-center justify-between  rounded-xl m-auto select-none"
+            className="w-[800px] h-4/5 bg-slate-800 shadow-[inset_-2px_2px_10px_rgba(255,255,255,.5),-2px_-2px_10px_rgba(0,0,0,.5)] flex flex-col items-center justify-between  rounded-xl m-auto select-none"
             onClick={() => handleOpenAbout(null)}
         >
             <header className="h-15 w-full flex items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
@@ -28,16 +28,7 @@ export const About = ({ handleOpenAbout }) => {
                 </article>
             </main>
             <footer className="w-full p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
-                <Button
-                    variant="text"
-                    color="red"
-                    onClick={() => handleOpenAbout(null)}
-                    className="border-[1px] px-5 py-2 hover:scale-110 bg-red-700 text-white duration-200 ease-in-out"
-                >
-                    <span>
-                        Salir <i className="fa-solid fa-door-open"></i>
-                    </span>
-                </Button>
+                <BotonesFormulario actionExit={() => handleOpenAbout(null)} />
             </footer>
         </div>
     );

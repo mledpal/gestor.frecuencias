@@ -10,37 +10,50 @@ export const BotonesFormulario = ({
 
     return (
         <>
-            <Button
-                variant="gradient"
-                color="blue"
-                onClick={actionSubmit}
-                className={`${classButtons} bg-blue-700`}
-            >
-                <span>
-                    Enviar <i className="fa-solid fa-paper-plane"></i>
-                </span>
-            </Button>
-            <Button
-                variant="text"
-                color="light-green"
-                onClick={actionReset}
-                className={`${classButtons} bg-green-700`}
-            >
-                <span>
-                    Reset <i className="fa-solid fa-trash" />
-                </span>
-            </Button>
+            {actionSubmit ? (
+                <Button
+                    variant="gradient"
+                    color="blue"
+                    onClick={actionSubmit}
+                    className={`${classButtons} bg-blue-700`}
+                >
+                    <span>
+                        Enviar <i className="fa-solid fa-paper-plane"></i>
+                    </span>
+                </Button>
+            ) : (
+                <div></div>
+            )}
 
-            <Button
-                variant="text"
-                color="red"
-                onClick={actionExit}
-                className={`${classButtons} bg-red-700`}
-            >
-                <span>
-                    Salir <i className="fa-solid fa-door-open"></i>
-                </span>
-            </Button>
+            {actionReset ? (
+                <Button
+                    variant="text"
+                    color="light-green"
+                    onClick={actionReset}
+                    className={`${classButtons} bg-green-700`}
+                >
+                    <span>
+                        Reset <i className="fa-solid fa-trash" />
+                    </span>
+                </Button>
+            ) : (
+                <div></div>
+            )}
+
+            {actionExit ? (
+                <Button
+                    variant="text"
+                    color="red"
+                    onClick={actionExit}
+                    className={`${classButtons} bg-red-700`}
+                >
+                    <span>
+                        Salir <i className="fa-solid fa-door-open"></i>
+                    </span>
+                </Button>
+            ) : (
+                <div></div>
+            )}
         </>
     );
 };
