@@ -25,25 +25,25 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
         _token: "",
     });
 
-    useEffect(() => {
-        const realtime = new Ably.Realtime(
-            "-n3DVQ.-Y01TA:OH0ZfLPH76pQ6rZGYmYgrGcKUC045Sel1JkGajojTUo"
-        );
-        const channel = realtime.channels.get("chatroom");
+    // useEffect(() => {
+    //     const realtime = new Ably.Realtime(
+    //         "-n3DVQ.-Y01TA:OH0ZfLPH76pQ6rZGYmYgrGcKUC045Sel1JkGajojTUo"
+    //     );
+    //     const channel = realtime.channels.get("chatroom");
 
-        channel.attach();
+    //     channel.attach();
 
-        function handleDetached() {
-            console.log("Detached from the channel " + channel.name);
-        }
+    //     function handleDetached() {
+    //         console.log("Detached from the channel " + channel.name);
+    //     }
 
-        channel.on("detached", handleDetached);
+    //     channel.on("detached", handleDetached);
 
-        return () => {
-            channel.off("detached", handleDetached);
-            channel.detach();
-        };
-    }, []);
+    //     return () => {
+    //         channel.off("detached", handleDetached);
+    //         channel.detach();
+    //     };
+    // }, []);
 
     useEffect(() => {
         Pusher.logToConsole = true;
