@@ -9,25 +9,19 @@ window.axios = axios;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-import Pusher from "pusher-js";
+// import Pusher from "pusher-js";
 
-Pusher.logToConsole = false;
+// Pusher.logToConsole = false;
 
-var pusher = new Pusher("5285b606cdf2c249808a", {
-    cluster: "eu",
-});
+// var pusher = new Pusher("5285b606cdf2c249808a", {
+//     cluster: "eu",
+// });
 
-var channel = pusher.subscribe("canal-comentarios");
-channel.bind("NuevoComentario", function (data) {
-    // alert(JSON.stringify(data));
-    console.log("Recibido mensaje Canal-Comentarios");
-});
-
-var channel2 = pusher.subscribe("canal-mensajes");
-channel2.bind("NuevoMensaje", function (data) {
-    console.log("Recibido mensaje Canal-Mensajes");
-    // alert(JSON.stringify(data));
-});
+// var ch1 = pusher.subscribe("canal-comentarios");
+// ch1.bind("NuevoComentario", function (data) {
+//     // alert(JSON.stringify(data));
+//     // console.log("Recibido mensaje Canal-Comentarios");
+// });
 
 // Ably
 

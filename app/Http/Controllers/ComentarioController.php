@@ -33,16 +33,7 @@ class ComentarioController extends Controller
                 echo null;
             }
 
-            if ($nuevoComentario) {
-                return back()->with('mensaje', ['mensaje' => 'MEnsaje creado correctamente']);
-            } else {
-                return back()->with(
-                    'flash',
-                    [
-                        'mensaje-error' => 'Hubo un problema',
-                    ]
-                );
-            }
+            return back();
         } else {
             return redirect('/login');
         }

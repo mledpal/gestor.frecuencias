@@ -31,16 +31,45 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
     });
 
     useEffect(() => {
-        Pusher.logToConsole = true;
-
+        Pusher.logToConsole = false;
         var pusher = new Pusher("5285b606cdf2c249808a", {
             cluster: "eu",
         });
 
-        var channel2 = pusher.subscribe("canal-mensajes");
-        channel2.bind("NuevoMensaje", function (data) {
-            updateConversacion(data.destinatario_id);
+        const ch2 = pusher.subscribe("canal-mensajes");
+        ch2.bind("NuevoMensaje", function (data) {
+            if (data.mensaje.remitente_id != userDB.id) {
+                const nuevoMensaje = {
+                    created_at: new Date().toISOString(),
+                    remitente_id: data.mensaje.remitente_id,
+                    remitente: {
+                        id: data.mensaje.destinatario_id,
+                        username: userData.username,
+                        photo: userData?.photo ?? "",
+                        indicativo: userData?.indicativo ?? "",
+                    },
+                    id: data.mensaje.id,
+                    destinatario_id: data.mensaje.destinatario_id,
+                    mensaje: data.mensaje.mensaje,
+                    destinatario: {
+                        id: userDB.id,
+                        username: userDB.username,
+                        photo: userDB.photo ?? "",
+                        indicativo: userDB?.indicativo ?? "",
+                    },
+                    updated_at: new Date().toISOString(),
+                };
+
+                let nuevaConversacion = [nuevoMensaje, ...conversacion];
+
+                setConversacion(nuevaConversacion);
+            }
         });
+
+        return () => {
+            ch2.unbind();
+            pusher.unsubscribe("canal-mensajes");
+        };
     }, [conversacion]);
 
     useEffect(() => {

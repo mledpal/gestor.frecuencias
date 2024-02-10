@@ -46,9 +46,9 @@ class MensajeController extends Controller
             $requestAll = $request->all();
             $requestAll['remitente_id'] = $userId;
 
-            $mensaje = Mensaje::create($requestAll);
+            $nuevoMensaje = Mensaje::create($requestAll);
 
-            broadcast(new NuevoMensaje($mensaje));
+            broadcast(new NuevoMensaje($nuevoMensaje));
 
             // $apiKey = '-n3DVQ.QW58iA:NlZmlh8WGzadRH-9wz3yTlUFOl_955uZga9OOMEPTGE';
             // $ably = new AblyRest($apiKey);
@@ -61,7 +61,7 @@ class MensajeController extends Controller
 
             // $channel->publish('mensaje', $messageData);
 
-            return back()->with('flash', ['mensaje' => 'Mensaje enviado']);
+            return back();
         } else {
             return route('/login');
         }
