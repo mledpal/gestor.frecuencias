@@ -23,7 +23,7 @@ class NuevoComentario implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return ['canal-comentarios'];
+        return ['canal-' . $this->comentario['frecuencia_id'] . '-' . $this->comentario['localizacion_id'] . '-comentarios'];
     }
 
     public function broadcastAs()

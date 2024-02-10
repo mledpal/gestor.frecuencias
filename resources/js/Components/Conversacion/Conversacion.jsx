@@ -36,7 +36,10 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
             cluster: "eu",
         });
 
-        const ch2 = pusher.subscribe("canal-mensajes");
+        const ids = [data.destinatario_id, userDB.id].sort((a, b) => a - b);
+
+        const ch2 = pusher.subscribe(`canal-${ids[0]}-${ids[1]}-mensajes`);
+
         ch2.bind("NuevoMensaje", function (data) {
             if (data.mensaje.remitente_id != userDB.id) {
                 const nuevoMensaje = {

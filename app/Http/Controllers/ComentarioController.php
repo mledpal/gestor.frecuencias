@@ -25,10 +25,10 @@ class ComentarioController extends Controller
             $nuevoComentario['comentario'] = $request->comentario;
             $nuevoComentario['localizacion_id'] = $request->localizacion_id ?? null;
 
-            Comentario::create($nuevoComentario);
+            $comentario = Comentario::create($nuevoComentario);
 
             try {
-                broadcast(new NuevoComentario($nuevoComentario));
+                broadcast(new NuevoComentario($comentario));
             } catch (Exception $e) {
                 echo null;
             }

@@ -23,7 +23,10 @@ class NuevoMensaje implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return ['canal-mensajes'];
+        $ids = [$this->mensaje['destinatario_id'], $this->mensaje['remitente_id']];
+        sort($ids);
+
+        return ['canal-' . $ids[0] . '-' . $ids[1] . '-mensajes'];
     }
 
     public function broadcastAs()

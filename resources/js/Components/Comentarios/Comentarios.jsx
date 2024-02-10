@@ -21,7 +21,9 @@ export const Comentarios = ({ datos, isAdmin }) => {
         const pusher = new Pusher("5285b606cdf2c249808a", {
             cluster: "eu",
         });
-        const channel = pusher.subscribe("canal-comentarios");
+        const channel = pusher.subscribe(
+            `canal-${datos.frecuencia_id}-${datos.localizacion_id}-comentarios`
+        );
         channel.bind("NuevoComentario", function (data) {
             updateComentarios();
         });
