@@ -28,13 +28,12 @@
 - IMPORTANTE: Modificación en las relaciones del Contacto / Frecuencia. Remodelación total de las mismas
   para poder solucionar un problema grave al buscar/editar/crear nuevos contactos con frecuencias y localizaciones
   coincidentes.
+- Sistema de mensajería en tiempo real usando PUSHER
 
 ### Estado actual
 
-- Finalizando la creación de nuevos contactos y el sistema de búsqueda
+- Mejorando el código, separando la lógica del JSX
 
 ### Próximos pasos
 
-- Crear vistas y controladores para visualizar los mensajes de usuarios acerca de una frecuencia/contacto
-- Crear vistas y controladores para los Mensajes entre usuarios
 - Crear vistas y controladores para visualizar los contactos en una lista
