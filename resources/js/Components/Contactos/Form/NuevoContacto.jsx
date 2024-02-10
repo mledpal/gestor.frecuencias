@@ -7,6 +7,7 @@ import { handlerForm } from "../Helpers/handlerForm";
 import { useForm } from "@inertiajs/react";
 import { handleContacts } from "../Helpers/handleContacts";
 import { useEffect } from "react";
+import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 
 export const NuevoContacto = ({
     datos,
@@ -129,12 +130,16 @@ export const NuevoContacto = ({
             encType="multipart/form-data"
             className={claseContacto}
         >
-            <div className="sticky top-0  bg-slate-900 z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10 max-[1280px]:w-5/6">
+            <div className="sticky top-0  bg-slate-900 z-10 w-full flex flex-row items-center justify-center mt-0 p-5 gap-10 max-[1280px]:w-5/6">
+                <div className="w-3/5 flex flex-col items-center justify-center">
+                    <h2 className="font-bold text-xl">Nuevo Contacto</h2>
+                </div>
+
                 <div
                     name="guardar_datos"
-                    className="w-1/5 flex items-center gap-8"
+                    className="w-2/5 flex items-center gap-8 scale-75"
                 >
-                    <i
+                    {/* <i
                         className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
                         onClick={crear}
                     ></i>
@@ -146,16 +151,13 @@ export const NuevoContacto = ({
                     <i
                         className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
                         onClick={() => handleOpen()}
-                    ></i>
+                    ></i> */}
+                    <BotonesFormulario
+                        actionSubmit={crear}
+                        actionReset={() => reset()}
+                        actionExit={() => handleOpen()}
+                    />
                 </div>
-                <div className="w-3/5 flex flex-col items-center justify-center">
-                    <h2 className="font-bold text-xl">Nuevo Contacto</h2>
-                </div>
-
-                <div
-                    name="otrosIconos"
-                    className="w-1/5 flex items-end justify-end"
-                ></div>
             </div>
 
             <div className={classZona}>

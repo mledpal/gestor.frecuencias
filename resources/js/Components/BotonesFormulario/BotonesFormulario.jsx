@@ -33,7 +33,7 @@ export const BotonesFormulario = ({
                     className={`${classButtons} bg-green-700`}
                 >
                     <span>
-                        Reset <i className="fa-solid fa-trash" />
+                        Limpiar <i className="fa-solid fa-trash" />
                     </span>
                 </Button>
             ) : (
@@ -48,7 +48,7 @@ export const BotonesFormulario = ({
                     className={`${classButtons} bg-red-700`}
                 >
                     <span>
-                        Salir <i className="fa-solid fa-door-open"></i>
+                        Cerrar <i className="fa-solid fa-door-open"></i>
                     </span>
                 </Button>
             ) : (
