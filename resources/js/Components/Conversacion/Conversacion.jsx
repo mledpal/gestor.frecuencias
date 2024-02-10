@@ -8,37 +8,40 @@ import { getUserInfo } from "@/Helpers/getUserInfo";
 import { getConversacion } from "@/Helpers/getConversacion";
 import { Mensaje } from "../Mensajes/Mensaje";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 
-export const Conversacion = ({ handleOpenSendMessage, userID }) => {
+export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
     const clasesLabel = "text-center mb-2 text-black select-none";
     const csrf = document
         .querySelector('meta[id="meta_token"]')
         .getAttribute("content");
 
     const [userData, setUserData] = useState(null);
-    const [conversacion, setConversacion] = useState(null);
+    const [conversacion, setConversacion] = useState([]);
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, errors, reset } = useForm({
         mensaje: "",
         destinatario_id: "",
         _token: "",
     });
 
-    // useEffect(() => {
-    //     Pusher.logToConsole = true;
+    useEffect(() => {
+        Pusher.logToConsole = true;
 
-    //     var pusher = new Pusher("5285b606cdf2c249808a", {
-    //         cluster: "eu",
-    //     });
+        var pusher = new Pusher("5285b606cdf2c249808a", {
+            cluster: "eu",
+        });
 
-    //     var channel2 = pusher.subscribe("canal-mensajes");
-    //     channel2.bind("NuevoMensaje", function (data) {
-    //         updateConversacion(data.destinatario_id);
-    //     });
-    // }, [conversacion]);
+        var channel2 = pusher.subscribe("canal-mensajes");
+        channel2.bind("NuevoMensaje", function (data) {
+            updateConversacion(data.destinatario_id);
+        });
+    }, [conversacion]);
 
     useEffect(() => {
         getData(userID);
@@ -72,6 +75,29 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
     async function submit(e) {
         e.preventDefault();
 
+        if (data.mensaje == "" || data.mensaje == undefined) return;
+
+        const nuevoMensaje = {
+            created_at: new Date().toISOString(),
+            destinatario: {
+                id: data.destinatario_id,
+                username: userData.username,
+                photo: userData?.photo ?? "",
+                indicativo: userData?.indicativo ?? "",
+            },
+            destinatario_id: data.destinatario_id,
+            id: null,
+            mensaje: data.mensaje,
+            remitente_id: userDB.id,
+            remitente: {
+                id: userDB.id,
+                username: userDB.username,
+                photo: userDB.photo ?? "",
+                indicativo: userDB?.indicativo ?? "",
+            },
+            updated_at: new Date().toISOString(),
+        };
+
         // const realtime = new Ably.Realtime(
         //     "-n3DVQ.-Y01TA:OH0ZfLPH76pQ6rZGYmYgrGcKUC045Sel1JkGajojTUo"
         // );
@@ -80,36 +106,33 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
 
         reset("mensaje");
 
+        let nuevaConversacion = [nuevoMensaje, ...conversacion];
+        setConversacion(nuevaConversacion);
+
         post(route("enviar_mensaje"), {
-            onSuccess: () => {
-                updateConversacion(userID);
-                // getData(data.destinatario_id);
-            },
             onError: (errors) => {
-                console.error(errors);
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    },
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Hubo un problema",
+                });
+                if (conversacion.length > 0) {
+                    const nuevaConversacion = conversacion.slice(1);
+                    setConversacion(nuevaConversacion);
+                }
             },
         });
     }
-
-    const updateConversacion = (userID) => {
-        const fetchData = async () => {
-            try {
-                // Realizar la solicitud para obtener los comentarios
-                const respuesta = await getConversacion(userID);
-
-                // Verificar si se recibieron datos
-                if (respuesta) {
-                    setConversacion(respuesta);
-                } else {
-                    console.log("No se recibieron comentarios.");
-                }
-            } catch (error) {
-                console.error("Error al obtener comentarios:", error);
-            }
-        };
-
-        fetchData();
-    };
 
     return (
         <div
@@ -183,11 +206,11 @@ export const Conversacion = ({ handleOpenSendMessage, userID }) => {
 
                     <article className="w-full text-center h-full p-4 flex flex-col items-center justify-start gap-2 ">
                         {conversacion
-                            ? conversacion.map((msg, id) => {
+                            ? conversacion.map((msg, index) => {
                                   return (
                                       <span
                                           className="w-full  odd:bg-slate-800 even:bg-slate-700 "
-                                          key={id}
+                                          key={index}
                                       >
                                           <Mensaje datos={msg} />
                                       </span>

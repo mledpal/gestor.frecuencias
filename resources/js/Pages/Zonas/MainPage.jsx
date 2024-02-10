@@ -140,6 +140,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                             userDB={userDB}
                             handleOpenUserSearcher={handleOpenUserSearcher}
                             handleOpenSendMessage={handleOpenSendMessage}
+                            setUserID={setUserID}
                         />
                     )}
                 </div>
@@ -218,6 +219,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 <Conversacion
                     handleOpenSendMessage={handleOpenSendMessage}
                     userID={userID}
+                    userDB={userDB}
                 />
             </Dialog>
         </>

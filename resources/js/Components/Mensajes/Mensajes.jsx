@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getConversaciones } from "@/Helpers/getConversaciones";
 import { UserImage } from "../Images/UserImage";
+import { getConversaciones } from "@/Helpers/getConversaciones";
 import { borrarConversacion } from "./helpers/borrarConversacion";
 
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ import withReactContent from "sweetalert2-react-content";
 export const Mensajes = ({
     handleOpenUserSearcher,
     handleOpenSendMessage,
+    setUserID,
     userDB,
 }) => {
     const [mensajes, setMensajes] = useState([]);

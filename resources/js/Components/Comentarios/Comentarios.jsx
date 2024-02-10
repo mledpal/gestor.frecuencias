@@ -12,25 +12,23 @@ import withReactContent from "sweetalert2-react-content";
 // import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
-
-
 export const Comentarios = ({ datos, isAdmin }) => {
     const MySwal = withReactContent(Swal);
     const [comentarios, setComentarios] = useState([]);
 
-    useEffect(() => {
-        Pusher.logToConsole = false;
-        const pusher = new Pusher("5285b606cdf2c249808a", {
-            cluster: "eu",
-        });
-        const channel = pusher.subscribe("canal-comentarios");
-        channel.bind("NuevoComentario", function (data) {
-            updateComentarios();
-        });
-        return () => {
-            channel.unbind();
-        };
-    }, [comentarios]);
+    // useEffect(() => {
+    //     Pusher.logToConsole = true;
+    //     const pusher = new Pusher("5285b606cdf2c249808a", {
+    //         cluster: "eu",
+    //     });
+    //     const channel = pusher.subscribe("canal-comentarios");
+    //     channel.bind("NuevoComentario", function (data) {
+    //         updateComentarios();
+    //     });
+    //     return () => {
+    //         channel.unbind();
+    //     };
+    // }, [comentarios]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         localizacion_id: datos?.localizacion_id,
@@ -49,22 +47,23 @@ export const Comentarios = ({ datos, isAdmin }) => {
     const clasesBotonesFormulario =
         "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
 
-    // useEffect(() => {
-    //     const pusher = new Pusher("5285b606cdf2c249808a", {
-    //         cluster: "eu",
-    //     });
+    useEffect(() => {
+        Pusher.logToConsole = true;
+        const pusher = new Pusher("5285b606cdf2c249808a", {
+            cluster: "eu",
+        });
 
-    //     const channel = pusher.subscribe("canal-comentarios");
+        const channel = pusher.subscribe("canal-comentarios");
 
-    //     channel.bind("App\\Events\\NuevoComentario", (data) => {
-    //         setComments([...comments, data]);
-    //     });
+        channel.bind("App\\Events\\NuevoComentario", (data) => {
+            setComments([...comments, data]);
+        });
 
-    //     return () => {
-    //         channel.unbind();
-    //         pusher.unsubscribe("canal-comentarios");
-    //     };
-    // }, [comentarios]);
+        return () => {
+            channel.unbind();
+            pusher.unsubscribe("canal-comentarios");
+        };
+    }, [comentarios]);
 
     const updateComentarios = () => {
         const fetchData = async () => {

@@ -19,7 +19,7 @@ var pusher = new Pusher("5285b606cdf2c249808a", {
 
 var channel = pusher.subscribe("canal-comentarios");
 channel.bind("NuevoComentario", function (data) {
-    // alert(JSON.stringify(data));
+    alert(JSON.stringify(data));
 });
 
 var channel2 = pusher.subscribe("canal-mensajes");
