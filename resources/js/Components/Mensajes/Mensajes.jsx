@@ -104,7 +104,7 @@ export const Mensajes = ({
                               return (
                                   <div
                                       key={index}
-                                      className="p-4 my-2 w-3/4 mx-auto flex odd:bg-slate-800 even:bg-slate-700 shadow-[-2px_-2px_5px_rgba(0,0,0,.5)] items-center justify-between rounded-lg"
+                                      className="p-4 my-2 w-full mx-auto flex odd:bg-slate-800 even:bg-slate-700 shadow-[-2px_2px_5px_rgba(0,0,0,.5)] items-center justify-between rounded-lg"
                                   >
                                       <div
                                           onClick={(e) =>
