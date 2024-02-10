@@ -104,13 +104,13 @@ export const Mensajes = ({
                               return (
                                   <div
                                       key={index}
-                                      className="p-4 w-full flex odd:bg-slate-800 even:bg-slate-700 items-center justify-between"
+                                      className="p-4 my-2 w-3/4 mx-auto flex odd:bg-slate-800 even:bg-slate-700 shadow-[-2px_-2px_5px_rgba(0,0,0,.5)] items-center justify-between rounded-lg"
                                   >
                                       <div
                                           onClick={(e) =>
                                               handleUserClicked(e, c.id)
                                           }
-                                          className=" text-xs  justify-center  font-light"
+                                          className=" text-xs justify-center  font-light"
                                           link="#"
                                       >
                                           <UserImage userDB={c} link="" />
@@ -120,7 +120,7 @@ export const Mensajes = ({
                                               handleDeleteConversation(e, c.id)
                                           }
                                       >
-                                          <i className="fa-solid fa-trash-can text-red-500 cursor-pointer hover:scale-125 hover:shadow-[0_0_5px_rgba(0,0,0,.1)] ease-in-out duration-150"></i>
+                                          <i className="fa-solid fa-trash-can text-red-500 cursor-pointer hover:scale-125 hover:shadow-[0_0_5px_rgba(0,0,0,.1)] ease-in-out duration-150 hover:drop-shadow-[0_0_5px_rgba(255,255,255,.4)]"></i>
                                       </span>
                                   </div>
                               );
