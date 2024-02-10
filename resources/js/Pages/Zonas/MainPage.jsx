@@ -13,6 +13,9 @@ import { useContactoCreate } from "@/hooks/useContactoCreate";
 import { Comentarios } from "@/Components/Comentarios/Comentarios";
 import { BuscarContacto } from "@/Components/Contactos/Form/BuscarContacto";
 import { Mensajes } from "@/Components/Mensajes/Mensajes";
+import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
+import { Conversacion } from "@/Components/Conversacion/Conversacion";
+import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
 
 export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
     const [datos, setDatos] = useState(null);
@@ -39,6 +42,15 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
         setDatos(null);
         eraseContact(id);
     };
+
+    const {
+        userID,
+        setUserID,
+        sizeUserSearchModal,
+        sizeUserMsg,
+        handleOpenUserSearcher,
+        handleOpenSendMessage,
+    } = useBuscarUsuario();
 
     return (
         <>
@@ -111,8 +123,9 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                         />
                     ) : (
                         <NoContactos
-                            handleOpenBuscador={handleOpenBuscador}
                             handleOpen={handleOpen}
+                            handleOpenBuscador={handleOpenBuscador}
+                            handleOpenUserSearcher={handleOpenUserSearcher}
                         />
                     )}
                 </div>
@@ -123,7 +136,11 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                     {datos ? (
                         <Comentarios datos={datos} isAdmin={isAdmin} />
                     ) : (
-                        <Mensajes userDB={userDB} />
+                        <Mensajes
+                            userDB={userDB}
+                            handleOpenUserSearcher={handleOpenUserSearcher}
+                            handleOpenSendMessage={handleOpenSendMessage}
+                        />
                     )}
                 </div>
             </div>
@@ -162,6 +179,45 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                     isAdmin={isAdmin}
                     selects={selects}
                     handleOpenBuscador={handleOpenBuscador}
+                />
+            </Dialog>
+            <Dialog
+                open={
+                    sizeUserSearchModal === "xs" ||
+                    sizeUserSearchModal === "sm" ||
+                    sizeUserSearchModal === "md" ||
+                    sizeUserSearchModal === "lg" ||
+                    sizeUserSearchModal === "xl" ||
+                    sizeUserSearchModal === "xxl"
+                }
+                onClose={() => handleOpenUserSearcher(null)}
+                size={sizeUserSearchModal || "md"}
+                handler={handleOpenUserSearcher}
+                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
+            >
+                <BuscarUsuarios
+                    handleOpenBuscador={handleOpenUserSearcher}
+                    handleOpenSendMessage={handleOpenSendMessage}
+                    setUserID={setUserID}
+                />
+            </Dialog>
+            <Dialog
+                open={
+                    sizeUserMsg === "xs" ||
+                    sizeUserMsg === "sm" ||
+                    sizeUserMsg === "md" ||
+                    sizeUserMsg === "lg" ||
+                    sizeUserMsg === "xl" ||
+                    sizeUserMsg === "xxl"
+                }
+                onClose={() => handleOpenSendMessage(null)}
+                size={sizeUserMsg || "md"}
+                handler={handleOpenSendMessage}
+                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
+            >
+                <Conversacion
+                    handleOpenSendMessage={handleOpenSendMessage}
+                    userID={userID}
                 />
             </Dialog>
         </>

@@ -1,11 +1,4 @@
-import InputError from "../InputError";
-import TextInput from "../TextInput";
-
-import { useForm } from "@inertiajs/react";
-import { BuscarUsuarios } from "../Usuarios/Forms/BuscarUsuarios";
 import { useEffect, useState } from "react";
-import { Dialog } from "@material-tailwind/react";
-import { Conversacion } from "../Conversacion/Conversacion";
 import { getConversaciones } from "@/Helpers/getConversaciones";
 import { UserImage } from "../Images/UserImage";
 import { borrarConversacion } from "./helpers/borrarConversacion";
@@ -13,7 +6,11 @@ import { borrarConversacion } from "./helpers/borrarConversacion";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-export const Mensajes = ({ userDB }) => {
+export const Mensajes = ({
+    handleOpenUserSearcher,
+    handleOpenSendMessage,
+    userDB,
+}) => {
     const [mensajes, setMensajes] = useState([]);
     const clasesBotonesFormulario =
         "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
@@ -22,13 +19,6 @@ export const Mensajes = ({ userDB }) => {
         let texto = await getConversaciones();
         setMensajes(texto);
     }
-
-    const [size, setSize] = useState(null);
-    const handleOpenBuscador = (value) => setSize(value);
-
-    const [sizeMsg, setSizeMsg] = useState(null);
-    const [userID, setUserID] = useState(null);
-    const handleOpenSendMessage = (value) => setSizeMsg(value);
 
     async function handleDeleteConversation(e, id) {
         e.preventDefault();
@@ -78,8 +68,6 @@ export const Mensajes = ({ userDB }) => {
         handleOpenSendMessage("xxl");
     };
 
-
-
     return (
         <>
             <div className="flex flex-col items-center justify-between gap-2 w-full h-full">
@@ -94,7 +82,7 @@ export const Mensajes = ({ userDB }) => {
                         <i
                             // onClick={submit}
                             className={`fa-solid fa-magnifying-glass text-white ${clasesBotonesFormulario} `}
-                            onClick={() => handleOpenBuscador("xxl")}
+                            onClick={() => handleOpenUserSearcher("xxl")}
                         ></i>
                         {/* <i
                         className={`fa-solid fa-person-walking-arrow-right text-white `}
@@ -139,44 +127,6 @@ export const Mensajes = ({ userDB }) => {
                         : "No hay comentarios"}
                 </main>
             </div>
-            <Dialog
-                open={
-                    size === "xs" ||
-                    size === "sm" ||
-                    size === "md" ||
-                    size === "lg" ||
-                    size === "xl" ||
-                    size === "xxl"
-                }
-                size={size || "md"}
-                handler={handleOpenBuscador}
-                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
-            >
-                <BuscarUsuarios
-                    handleOpenBuscador={handleOpenBuscador}
-                    handleOpenSendMessage={handleOpenSendMessage}
-                    setUserID={setUserID}
-                />
-            </Dialog>
-
-            <Dialog
-                open={
-                    sizeMsg === "xs" ||
-                    sizeMsg === "sm" ||
-                    sizeMsg === "md" ||
-                    sizeMsg === "lg" ||
-                    sizeMsg === "xl" ||
-                    sizeMsg === "xxl"
-                }
-                size={sizeMsg || "md"}
-                handler={handleOpenSendMessage}
-                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
-            >
-                <Conversacion
-                    handleOpenSendMessage={handleOpenSendMessage}
-                    userID={userID}
-                />
-            </Dialog>
         </>
     );
 };
