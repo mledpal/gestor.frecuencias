@@ -21,7 +21,7 @@ export default forwardRef(function TextInput(
                 className
             }
             ref={input}
-            autocomplete="off"
+            autoComplete="off"
         />
     );
 });
