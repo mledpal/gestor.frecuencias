@@ -4,6 +4,9 @@ export const BotonesFormulario = ({
     actionSubmit,
     actionReset,
     actionExit,
+    textSubmit,
+    textReset,
+    textExit,
 }) => {
     const classButtons =
         "py-3 px-6 text-white duration-200 ease-in-out hover:bg-yellow-400 hover:text-black hover:drop-shadow-[0px_0px_10px_rgba(255,255,255,.5)]";
@@ -18,7 +21,8 @@ export const BotonesFormulario = ({
                     className={`${classButtons} bg-blue-700`}
                 >
                     <span>
-                        Enviar <i className="fa-solid fa-paper-plane"></i>
+                        {textSubmit ? textSubmit : "Enviar"}
+                        <i className="ml-2 fa-solid fa-paper-plane"></i>
                     </span>
                 </Button>
             ) : (
@@ -33,7 +37,8 @@ export const BotonesFormulario = ({
                     className={`${classButtons} bg-green-700`}
                 >
                     <span>
-                        Limpiar <i className="fa-solid fa-trash" />
+                        {textReset ? textReset : "Reset"}
+                        <i className="ml-2 fa-solid fa-trash" />
                     </span>
                 </Button>
             ) : (
@@ -48,7 +53,8 @@ export const BotonesFormulario = ({
                     className={`${classButtons} bg-red-700`}
                 >
                     <span>
-                        Cerrar <i className="fa-solid fa-door-open"></i>
+                        {textExit ? textExit : "Cerrar"}
+                        <i className="ml-2 fa-solid fa-door-open"></i>
                     </span>
                 </Button>
             ) : (
