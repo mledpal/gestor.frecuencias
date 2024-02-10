@@ -249,6 +249,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
                                     setData("nombre", e.target.value)
                                 }
                                 placeholder="Nombre"
+                                autocomplete="off"
                             />
                             <InputError
                                 message={errors.frecuencia}
@@ -271,6 +272,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
                                     setData("frecuencia", e.target.value)
                                 }
                                 placeholder="Frecuencia"
+                                autocomplete="off"
                             />
                             <InputError
                                 message={errors.frecuencia}
@@ -295,6 +297,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
                                     setData("localidad", e.target.value)
                                 }
                                 placeholder="Localidad"
+                                autocomplete="off"
                             />
 
                             <InputError
@@ -318,6 +321,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
                                     setData("provincia", e.target.value)
                                 }
                                 placeholder="Provincia"
+                                autocomplete="off"
                             />
 
                             <InputError

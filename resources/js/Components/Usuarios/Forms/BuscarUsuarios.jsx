@@ -42,8 +42,6 @@ export const BuscarUsuarios = ({
         setRespuesta(response);
     }
 
-
-
     return (
         <div
             id="buscarUsuario"
@@ -76,6 +74,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("usuario", e.target.value)
                                 }
+                                autocomplete="off"
                                 placeholder="usuario"
                             />
                             <InputError
@@ -99,6 +98,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("localidad", e.target.value)
                                 }
+                                autocomplete="off"
                                 placeholder="Localidad"
                             />
 
@@ -121,6 +121,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("provincia", e.target.value)
                                 }
+                                autocomplete="off"
                                 placeholder="Provincia"
                             />
 

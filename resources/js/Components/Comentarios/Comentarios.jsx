@@ -152,6 +152,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
                         className="p-2 block w-full text-center text-sm text-white"
                         onChange={(e) => setData("comentario", e.target.value)}
                         placeholder="Escriba un comentario"
+                        autocomplete="off"
                         required
                     />
                     <InputError message={errors.comentario} className="mt-2" />
