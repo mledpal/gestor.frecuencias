@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect, useState } from "react";
-
 import { Dialog } from "@material-tailwind/react";
 import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
@@ -133,7 +132,7 @@ export const EditarContacto = ({
     const clasesDivContainer =
         "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center max-[1280px]:flex-col max-[1280px]:gap-2 ";
     const clasesLabel =
-        "text-center mb-2 text-white select-none max-[1280px]:text-[.8rem] ";
+        "text-center mb-1 text-white select-none max-[1280px]:text-[.8rem] ";
     const clasesAgregar =
         "rounded-full transition shadow-[inset_0_0_5px_rgba(0,0,0,.5)] hover:bg-lime-500 hover:shadow-[0_0_5px_rgba(255,255,255,.5)] ease-in transition:ease-out duration-100 m-2 fa-solid fa-plus cursor-pointer select-none p-3";
 
@@ -154,12 +153,12 @@ export const EditarContacto = ({
                 >
                     <div
                         name="guardar_datos"
-                        className="w-1/5 flex items-center gap-8 "
+                        className="w-1/5 flex items-center gap-8 scale-100 "
                     >
                         {datos.user_id === userDB.id ? (
                             <>
                                 <i
-                                    className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario} `}
+                                    className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
                                     onClick={submit}
                                 ></i>
                                 <i
@@ -217,7 +216,7 @@ export const EditarContacto = ({
                     <legend className={clasesLegend}>Datos</legend>
                     <fieldset name="datos" className={clasesFieldSet}>
                         <div className={clasesDivContainer}>
-                            <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
+                            <div className="w-full flex flex-col items-center max-w-screen-desktop:justify-center justify-end">
                                 {" "}
                                 <InputLabel
                                     htmlFor="comprobado"
@@ -237,7 +236,7 @@ export const EditarContacto = ({
                                 />
                             </div>
 
-                            <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
+                            <div className="w-full flex flex-col items-center max-w-screen-desktop:justify-center justify-end">
                                 <InputLabel
                                     htmlFor="favorito"
                                     value="Favorito"
@@ -256,7 +255,7 @@ export const EditarContacto = ({
                                 />
                             </div>
 
-                            <div className="w-full flex flex-row items-center max-w-screen-desktop:justify-center justify-end">
+                            <div className="w-full flex flex-col items-center max-w-screen-desktop:justify-center justify-end">
                                 <InputLabel
                                     htmlFor="privado"
                                     value="Privado"

@@ -303,7 +303,7 @@ export const NuevoContacto = ({
                                     setData("nombre", e.target.value)
                                 }
                                 placeholder="Nombre"
-                                autocomplete="off"
+                                autoComplete="off"
                                 required
                             />
                             <InputError
@@ -327,7 +327,7 @@ export const NuevoContacto = ({
                                 onChange={(e) =>
                                     setData("observaciones", e.target.value)
                                 }
-                                autocomplete="off"
+                                autoComplete="off"
                                 placeholder="observaciones"
                                 value={data.observaciones ?? ""}
                                 required
@@ -360,7 +360,7 @@ export const NuevoContacto = ({
                                 onChange={(e) =>
                                     setData("frecuencia", e.target.value)
                                 }
-                                autocomplete="off"
+                                autoComplete="off"
                                 placeholder="Frecuencia"
                                 required
                             />
@@ -498,7 +498,7 @@ export const NuevoContacto = ({
                                         onChange={(e) =>
                                             setData("localidad", e.target.value)
                                         }
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         placeholder="Localidad"
                                         required
                                     />
@@ -523,7 +523,7 @@ export const NuevoContacto = ({
                                             setData("provincia", e.target.value)
                                         }
                                         placeholder="Provincia"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         required
                                     />
 
@@ -547,7 +547,7 @@ export const NuevoContacto = ({
                                             setData("pais", e.target.value)
                                         }
                                         placeholder="pais"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         required
                                     />
 
@@ -569,7 +569,7 @@ export const NuevoContacto = ({
                                         name="gps"
                                         value={data.gps ?? ""}
                                         className="mt-1 block w-full text-center max-[1600px]:w-full"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         onChange={(e) =>
                                             setData("gps", e.target.value)
                                         }
@@ -647,7 +647,7 @@ export const NuevoContacto = ({
                                         name="offset"
                                         value={data.offset ?? ""}
                                         className="mt-1 block w-full text-center"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         onChange={(e) =>
                                             setData(
                                                 "offset",
