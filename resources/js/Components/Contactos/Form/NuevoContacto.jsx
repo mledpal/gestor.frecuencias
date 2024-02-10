@@ -114,13 +114,10 @@ export const NuevoContacto = ({
     const clasesFieldSet =
         "p-4 w-full flex flex-col items-center justify-start mb-2 ";
     const clasesDivContainer =
-        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center ";
+        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center max-[1600px]:flex-col max-[1600px]:gap-2";
     const clasesLabel = "text-center mb-2 text-black select-none";
     const clasesAgregar =
         "rounded-full transition shadow-[inset_0_0_5px_rgba(0,0,0,.5)] hover:bg-lime-500 hover:shadow-[0_0_5px_rgba(255,255,255,.5)] ease-in transition:ease-out duration-100 m-2 fa-solid fa-plus cursor-pointer select-none p-3";
-
-    const clasesBotonesFormulario =
-        "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
 
     return (
         <form
@@ -131,27 +128,14 @@ export const NuevoContacto = ({
             className={claseContacto}
         >
             <div className="sticky top-0  bg-slate-900 z-10 w-full flex flex-row items-center justify-center mt-0 p-5 gap-10 max-[1280px]:w-5/6">
-                <div className="w-3/5 flex flex-col items-center justify-center">
+                <div className="w-2/5 flex flex-col items-center justify-center">
                     <h2 className="font-bold text-xl">Nuevo Contacto</h2>
                 </div>
 
                 <div
                     name="guardar_datos"
-                    className="w-2/5 flex items-center gap-8 scale-75"
+                    className="w-3/5 flex items-center gap-8 scale-75 max-[1280px]:scale-[60%]"
                 >
-                    {/* <i
-                        className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
-                        onClick={crear}
-                    ></i>
-
-                    <i
-                        className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                        onClick={() => reset()}
-                    ></i>
-                    <i
-                        className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
-                        onClick={() => handleOpen()}
-                    ></i> */}
                     <BotonesFormulario
                         actionSubmit={crear}
                         actionReset={() => reset()}
@@ -164,7 +148,7 @@ export const NuevoContacto = ({
                 <legend className={clasesLegend}>Datos</legend>
                 <fieldset name="datos" className={clasesFieldSet}>
                     <div className={clasesDivContainer}>
-                        <div className="w-full flex flex-row items-center justify-center">
+                        <div className="w-full flex flex-row items-center justify-center max-[1600px]:justify-end">
                             <InputLabel
                                 htmlFor="comprobado"
                                 value="Comprobado"
@@ -182,7 +166,7 @@ export const NuevoContacto = ({
                                 className="mt-2"
                             />
                         </div>
-                        <div className="w-full flex flex-row items-center justify-center">
+                        <div className="w-full flex flex-row items-center justify-center max-[1600px]:justify-end">
                             <InputLabel
                                 htmlFor="favorito"
                                 value="Favorito"
@@ -200,7 +184,7 @@ export const NuevoContacto = ({
                                 className="mt-2"
                             />
                         </div>
-                        <div className="w-full flex flex-row items-center justify-center">
+                        <div className="w-full flex flex-row items-center justify-center max-[1600px]:justify-end">
                             <InputLabel
                                 htmlFor="privado"
                                 value="Privado"
@@ -221,7 +205,7 @@ export const NuevoContacto = ({
                     </div>
 
                     <div className={clasesDivContainer}>
-                        <div className="w-1/3 flex flex-col items-center">
+                        <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                             <InputLabel
                                 htmlFor="tipo_id"
                                 value="Tipo"
@@ -231,7 +215,7 @@ export const NuevoContacto = ({
                                 id="tipo_id"
                                 name="tipo_id"
                                 value={data.tipo_id}
-                                className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer required:border-red-500 valid:border-green-500 "
+                                className="block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer required:border-red-500 valid:border-green-500 max-[1600px]: "
                                 onChange={(e) =>
                                     setData("tipo_id", e.target.value)
                                 }
@@ -257,7 +241,7 @@ export const NuevoContacto = ({
                             />
                         </div>
 
-                        <div className="w-1/3 flex flex-col items-center">
+                        <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                             <InputLabel
                                 htmlFor="fecha"
                                 value="Fecha"
@@ -279,7 +263,7 @@ export const NuevoContacto = ({
                             />
                         </div>
 
-                        <div className="w-1/3 flex flex-col items-center">
+                        <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                             <InputLabel
                                 htmlFor="hora"
                                 value="Hora"
@@ -497,7 +481,7 @@ export const NuevoContacto = ({
                             className={clasesFieldSet}
                         >
                             <div className={clasesDivContainer}>
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                                     <InputLabel
                                         htmlFor="localizacion_id"
                                         value="Localidad"
@@ -521,7 +505,7 @@ export const NuevoContacto = ({
                                         className="mt-2"
                                     />
                                 </div>
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                                     <InputLabel
                                         htmlFor="provincia"
                                         value="Provincia"
@@ -531,7 +515,7 @@ export const NuevoContacto = ({
                                         id="provincia"
                                         name="provincia"
                                         value={data.provincia ?? ""}
-                                        className="mt-1 block w-full text-center"
+                                        className="mt-1 block w-full text-center max-[1600px]:w-full"
                                         isFocused={true}
                                         onChange={(e) =>
                                             setData("provincia", e.target.value)
@@ -545,7 +529,7 @@ export const NuevoContacto = ({
                                         className="mt-2"
                                     />
                                 </div>
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                                     <InputLabel
                                         htmlFor="pais"
                                         value="Pais"
@@ -555,7 +539,7 @@ export const NuevoContacto = ({
                                         id="pais"
                                         name="pais"
                                         value={data.pais ?? ""}
-                                        className="mt-1 block w-full text-center"
+                                        className="mt-1 block w-full text-center max-[1600px]:w-full"
                                         isFocused={true}
                                         onChange={(e) =>
                                             setData("pais", e.target.value)
@@ -581,7 +565,7 @@ export const NuevoContacto = ({
                                         id="gps"
                                         name="gps"
                                         value={data.gps ?? ""}
-                                        className="mt-1 block w-full text-center"
+                                        className="mt-1 block w-full text-center max-[1600px]:w-full"
                                         isFocused={true}
                                         onChange={(e) =>
                                             setData("gps", e.target.value)
@@ -619,7 +603,7 @@ export const NuevoContacto = ({
                     <>
                         <fieldset name="repetidor" className={clasesFieldSet}>
                             <div className={clasesDivContainer}>
-                                <div className="w-1/3">
+                                <div className="w-1/3 max-[1600px]:w-full">
                                     <InputLabel
                                         htmlFor="direccion"
                                         value="Dirección"
@@ -629,7 +613,7 @@ export const NuevoContacto = ({
                                         id="direccion"
                                         name="direccion"
                                         value={data.direccion}
-                                        className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                        className="block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                         onChange={(e) =>
                                             setData("direccion", e.target.value)
                                         }
@@ -649,7 +633,7 @@ export const NuevoContacto = ({
                                         )}
                                     </select>
                                 </div>
-                                <div className="w-1/3">
+                                <div className="w-1/3 max-[1600px]:w-full">
                                     <InputLabel
                                         htmlFor="offset"
                                         value="Offset"
@@ -702,7 +686,7 @@ export const NuevoContacto = ({
                             className={clasesFieldSet}
                         >
                             <div className={clasesDivContainer}>
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                                     <InputLabel
                                         htmlFor="tipo_codificacion_id"
                                         value="Codificación"
@@ -741,7 +725,7 @@ export const NuevoContacto = ({
                                     />
                                 </div>
 
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                                     <InputLabel
                                         htmlFor="ctcss_id"
                                         value="CTCSS"
@@ -777,7 +761,7 @@ export const NuevoContacto = ({
                                     />
                                 </div>
 
-                                <div className="w-1/3 flex flex-col items-center">
+                                <div className="w-1/3 flex flex-col items-center max-[1600px]:w-full">
                                     <InputLabel
                                         htmlFor="dcs_id"
                                         value="DCS"
