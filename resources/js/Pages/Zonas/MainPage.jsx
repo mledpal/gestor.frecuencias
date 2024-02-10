@@ -152,7 +152,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 size="xxl"
                 open={open}
                 handler={handleOpen}
-                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
+                className="w-screen min-h-screen backdrop-blur-sm bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
             >
                 <NuevoContacto
                     datos={datosNuevos}
@@ -174,7 +174,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 }
                 size={size || "md"}
                 handler={handleOpenBuscador}
-                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
+                className="w-screen min-h-screen backdrop-blur-sm bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
             >
                 <BuscarContacto
                     isAdmin={isAdmin}
@@ -194,7 +194,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 onClose={() => handleOpenUserSearcher(null)}
                 size={sizeUserSearchModal || "md"}
                 handler={handleOpenUserSearcher}
-                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
+                className="w-screen min-h-screen backdrop-blur-sm bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
             >
                 <BuscarUsuarios
                     handleOpenBuscador={handleOpenUserSearcher}
@@ -214,7 +214,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 onClose={() => handleOpenSendMessage(null)}
                 size={sizeUserMsg || "md"}
                 handler={handleOpenSendMessage}
-                className="w-screen min-h-screen bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
+                className="w-screen min-h-screen backdrop-blur-sm bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
             >
                 <Conversacion
                     handleOpenSendMessage={handleOpenSendMessage}
