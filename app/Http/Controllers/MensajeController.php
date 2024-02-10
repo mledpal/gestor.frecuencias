@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Ably\AblyRest;
 use App\Events\NuevoMensaje;
+use Exception;
 
 class MensajeController extends Controller
 {
@@ -48,7 +49,12 @@ class MensajeController extends Controller
 
             $nuevoMensaje = Mensaje::create($requestAll);
 
-            broadcast(new NuevoMensaje($nuevoMensaje));
+
+            try {
+                broadcast(new NuevoMensaje($nuevoMensaje));
+            } catch (Exception $e) {
+                echo null;
+            }
 
             // $apiKey = '-n3DVQ.QW58iA:NlZmlh8WGzadRH-9wz3yTlUFOl_955uZga9OOMEPTGE';
             // $ably = new AblyRest($apiKey);
