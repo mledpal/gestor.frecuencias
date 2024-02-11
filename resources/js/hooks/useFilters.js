@@ -116,9 +116,9 @@ export const useFilters = (busqueda) => {
         getContacts();
     };
 
-    useEffect(() => {
-        getContacts();
-    }, []);
+    // useEffect(() => {
+    //     getContacts();
+    // }, []);
 
     useEffect(() => {
         setFiltrados(filtrarContactos(contactos));

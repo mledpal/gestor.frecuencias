@@ -84,9 +84,6 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
             });
             document.getElementById("conversacion").scrollTo(0, 0);
         }, 100);
-
-        let datos = getUserInfo(userID);
-        setUserData(datos);
     }, []);
 
     useEffect(() => {
