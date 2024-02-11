@@ -60,3 +60,19 @@ input[type="password"]::-ms-reveal {
     border-radius: 50%;
     padding:5px;
 }
+
+/* Estilos para modo claro */
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+/* Estilos para modo oscuro */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #5a8bf4;
+        color: white;
+    }
+}
