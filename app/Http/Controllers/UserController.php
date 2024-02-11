@@ -50,8 +50,7 @@ class UserController extends Controller
     {
         if (Auth::check()) {
 
-            $usuarios = User::with('roles')->select('id', 'username', 'photo')->whereNot('id', Auth::id())->orderBy('username', 'asc');
-
+            $usuarios = User::with('roles')->select('id', 'username', 'photo', 'indicativo')->whereNot('id', Auth::id())->orderBy('username', 'asc');
 
             if (isset($request->usuario)) {
                 $usuarios->where('username', 'like', '%' . $request->usuario . '%');
@@ -70,7 +69,7 @@ class UserController extends Controller
             }
 
             if (isset($request->indicativo)) {
-                $usuarios->where('indicativo', 'like', '%.' . $request->indicativo . '.%');
+                $usuarios->where('indicativo', 'like', '%' . $request->indicativo . '%');
             }
 
             $respuesta = json_encode($usuarios->get()->toArray());

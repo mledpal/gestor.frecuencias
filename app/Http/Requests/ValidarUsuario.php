@@ -25,6 +25,7 @@ class ValidarUsuario extends FormRequest
             'usuario' => 'nullable|string',
             'localidad' => 'nullable|string',
             'provincia' => 'nullable|string',
+            'indicativo' => 'nullable|string',
         ];
     }
 }
