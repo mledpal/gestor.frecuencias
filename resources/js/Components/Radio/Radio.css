@@ -26,7 +26,7 @@ div#app {
     text-align: center;
 }
 
-div.container {
+#radio div.container {
   margin: auto;
   height: 500px;
   width: 1200px;
@@ -42,17 +42,17 @@ div.container {
   justify-content: space-between;
 }
 
-div.zonas {
+#radio div.zonas {
   height: 100%;
 }
 
-.redondo {
+#radio .redondo {
   border-radius: 50%;
 }
 
 /* ZONA IZQUIERDA ESCANER */
 
-div.izquierda {
+#radio div.izquierda {
   border-top-left-radius: var(--radius);
   border-bottom-left-radius: var(--radius);
   width: 10%;
@@ -62,8 +62,8 @@ div.izquierda {
   justify-content: space-around;
 }
 
-div.volume,
-div.squelch {
+#radio div.volume,
+#radio div.squelch {
   position: relative;
   width: 80px;
   height: 80px;
@@ -71,33 +71,32 @@ div.squelch {
   place-items: center;
   margin-top: 20px;
   margin-left: 20px;
-  position: relative;
   background: radial-gradient(#333 0%, #333 55%, #111 60%, #222 100%);
   box-shadow: -1px 1px 5px #eee6 inset;
 }
 
-div.volume div,
-div.squelch div {
+#radio div.volume div,
+#radio div.squelch div {
     width: 70px;
     height: 70px;
 }
 
-div.volume span,
-div.squelch span {
+#radio div.volume span,
+#radio div.squelch span {
   position: absolute;
   top: -15px;
   color: var(--key-color);
   font-size: .5em;
 }
 
-div.headphone {
+#radio div.headphone {
   position: relative;
   width: 30px;
   height: 30px;
   background: radial-gradient(black 0%, white 2%, black 5%,  black 50%, white 95%);
 }
 
-div.headphone span {
+#radio div.headphone span {
   position: absolute;
   top: -15px;
   left: -28px;
@@ -110,7 +109,7 @@ div.headphone span {
 
 /* ZONA CENTRAL ESCANER */
 
-div.centro {
+#radio div.centro {
   width: 85%;
   display: grid;
   grid-template-rows: 85% 15%;
@@ -133,7 +132,7 @@ div.screen {
 }
 
 /* BOTONERA INFERIOR PANTALLA */
-div.botones_inferior {
+#radio div.botones_inferior {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -143,7 +142,7 @@ div.botones_inferior {
   height: 50%;
 
 }
-div.boton_inferior {
+#radio div.boton_inferior {
   transform: translateY(-10px);
   display: grid;
   place-items: center;
@@ -151,7 +150,7 @@ div.boton_inferior {
   height: 100%;
 }
 
-.key_function {
+#radio .key_function {
   margin-top: 20px;
   font-size: .6em;
   font-weight: 700;
@@ -159,7 +158,7 @@ div.boton_inferior {
   color: rgb(173, 173, 60);
 }
 
-div.btn_inf {
+#radio div.btn_inf {
   display: grid;
   place-items: center;
   width: 80px;
@@ -170,7 +169,7 @@ div.btn_inf {
   cursor: pointer;
 }
 
-span.tecla {
+#radio span.tecla {
   color: var(--key-color);
   font-weight: 800;
   font-size: .6em;
@@ -178,7 +177,7 @@ span.tecla {
 
 
 /* ZONA DERECHA ESCANER */
-div.derecha {
+#radio div.derecha {
   border-top-right-radius: var(--radius);
   border-bottom-right-radius: var(--radius);
   width: 40%;
@@ -187,7 +186,7 @@ div.derecha {
   grid-template-columns: 30% 70%;
 }
 
-div.teclado_derecho {
+#radio div.teclado_derecho {
   box-shadow: -1px 1px 2px #eee4 inset;
   margin-left: 20px;
   border-radius: 10px;
@@ -200,17 +199,17 @@ div.teclado_derecho {
 }
 
 /* TECLAS (INTERNAS) del teclado derecho */
-div.teclado_derecho_keys div.tecla_funcion span.tecla {
+#radio div.teclado_derecho_keys div.tecla_funcion span.tecla {
   font-weight: 600;
   filter: drop-shadow(0 0 5px var(--key-color));
 }
 
 /* TECLAS (SUPERIOR) del teclado derecho */
-div.teclado_derecho_keys div.tecla_subfuncion span.key_function {
+#radio div.teclado_derecho_keys div.tecla_subfuncion span.key_function {
   font-size: .5em;
 }
 
-div.tecla_funcion {
+#radio div.tecla_funcion {
   display: grid;
   place-items: center;
   width: 35px;
@@ -221,7 +220,7 @@ div.tecla_funcion {
   cursor: pointer;
 }
 
-div.derecha div.funciones {
+#radio div.derecha div.funciones {
   height: 94%;
   width: 100%;
   display: flex;
@@ -230,7 +229,7 @@ div.derecha div.funciones {
   justify-content: space-between;
 }
 
-.boton_ps {
+#radio .boton_ps {
   margin-top: 20px;
   border: 5px solid var(--key-color);
   box-shadow: 0 0 5px var(--key-color);
@@ -240,46 +239,46 @@ div.derecha div.funciones {
   cursor: pointer;
 }
 
-.boton_ps:hover {
+#radio .boton_ps:hover {
   transition: filter .5s;
   filter: drop-shadow(0 0 5px var(--key-color));
 }
 
-.boton_ps .tecla {
+#radio .boton_ps .tecla {
   font-size: 1em;
   width: 100%;
   height: 100%;
 }
 
-div.funciones .tecla {
+#radio div.funciones .tecla {
   display:  grid;
   place-items: center;
   width: 100%;
 }
 
-div.funciones .tecla .tecla_funcion{
+#radio div.funciones .tecla .tecla_funcion{
   width: 80px;
   height: 30px;
   border-radius: 5px;
 }
 
-.especial {
+#radio .especial {
   background: #333 !important;
 }
 
-div.btn_direccion {
+#radio div.btn_direccion {
   transform: translateY(2px);
   width: 100px;
 }
 
 
-div.btn_direccion div.tecla .tecla_funcion {
+#radio div.btn_direccion div.tecla .tecla_funcion {
   width: 45px;
   height: 30px;
 }
 
 
-div.btn_direccion {
+#radio div.btn_direccion {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -288,19 +287,19 @@ div.btn_direccion {
 
 /* ZONA INFERIOR DERECHA / DIAL Y TECLA FUNCION */
 
-.derecha .teclado .otros {
+#radio .derecha .teclado .otros {
   position: relative;
   height: 60%;
   width: 87%;
 }
-.otros {
+#radio .otros {
   position: relative;
   width: 100%;
   height: 100%;
   display: grid;
   place-items: center;
 }
-.otros .btn_dsp {
+#radio .otros .btn_dsp {
   display: grid;
   place-items: center;
   position: absolute;
@@ -310,7 +309,7 @@ div.btn_direccion {
   height: 20px;
 }
 
-.otros .btn_funcion {
+#radio .otros .btn_funcion {
   cursor:pointer;
   position: absolute;
   display: grid;
@@ -323,7 +322,7 @@ div.btn_direccion {
   box-shadow: 0 0 5px #111 inset;
 }
 
-.btn_f {
+#radio .btn_f {
   display:grid;
   place-items: center;
   color: transparent;
@@ -334,12 +333,12 @@ div.btn_direccion {
   background: linear-gradient(180deg, #0509 5%, #000C 90%, transparent 100%);
 }
 
-.btn_f .tecla {
+#radio .btn_f .tecla {
   z-index: 1;
   color: #666;
 }
 
-div.otros div.btn_radial
+#radio div.otros div.btn_radial
 {
   display: grid;
   place-items: center;
@@ -352,12 +351,12 @@ div.otros div.btn_radial
   box-shadow: -1px 1px 5px #eee6 inset;
 }
 
-div.btn_radial .btn_radial_in {
+#radio div.btn_radial .btn_radial_in {
     width: 125px;
     height: 125px;
 }
 
-div.btn_radial_in{
+#radio div.btn_radial_in{
   position: relative;
   background: radial-gradient(#333 0%, #333 55%, #111 60%, #222 100%);
   box-shadow: -1px 1px 5px #eee6 inset;
@@ -437,9 +436,9 @@ div.screen input[type="password"]::placeholder {
 }
 
 
-div.screen input[type="text"]:focus::placeholder,
-div.screen input[type="email"]:focus::placeholder,
-div.screen input[type="password"]:focus::placeholder{
+#radio div.screen input[type="text"]:focus::placeholder,
+#radio div.screen input[type="email"]:focus::placeholder,
+#radio div.screen input[type="password"]:focus::placeholder{
   transition: transform .5s;
   transform: translateY(-35px);
 }

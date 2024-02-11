@@ -6,7 +6,7 @@ import "./js/boton.js";
 
 export const Radio = ({ status, canResetPassword, form }) => {
     return (
-        <>
+        <div id="radio">
             <div className="container max-[1280px]:scale-75">
                 <div className="zonas izquierda">
                     <div className="redondo volume">
@@ -265,6 +265,6 @@ export const Radio = ({ status, canResetPassword, form }) => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };

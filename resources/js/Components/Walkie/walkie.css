@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'ds-digit';
-    src: url('assets/fonts/DS-DIGI.TTF');
-  }
+    src: url('../../../../public/assets/fonts/DS-DIGI.TTF');
+}
 
   :root {
     margin:0;
@@ -29,7 +29,7 @@
 
 
 
-  div.container {
+  #walkie div.container {
     width: 350px;
     height: 700px;
     border-radius: var(--radius);
@@ -39,7 +39,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-
     box-shadow: -3px 3px 10px #eee3 inset;
     /* filter: drop-shadow(0 0 15px var(--key-color)); */
     border-radius: var(--radius);
@@ -48,40 +47,40 @@
 
   /* AJUSTES GENERALES */
 
-  .key_text {
+  #walkie .key_text {
     text-align: center;
     font-weight: 600;
     font-size: .8em;
     color: #eee9;
   }
 
-  .btn_up,
-  .btn_down,
-  .tecla {
+  #walkie .btn_up,
+  #walkie .btn_down,
+  #walkie .tecla {
     box-shadow: -2px 2px 5px #ccc5 inset;
     background: linear-gradient(45deg, #000D, #222);
   }
 
-  .btn_menu:hover,
-  .btn_up:hover,
-  .btn_down:hover,
-  .tecla:hover {
+  #walkie .btn_menu:hover,
+  #walkie .btn_up:hover,
+  #walkie .btn_down:hover,
+  #walkie .tecla:hover {
     transition: filter .5s;
     filter: drop-shadow(0 0 5px #eee8);
   }
 
-  .clicked {
+  #walkie .clicked {
     transition: .2s;
     transform: scale(.9);
   }
 
-  .pwr_on {
+#walkie  .pwr_on {
     transition: .3s;
     filter: drop-shadow(0 -2px 10px yellow);
   }
 
   /* ZONA SUPERIOR  */
-  .superior {
+  #walkie .superior {
     width: 300px;
     height: var(--h-sup);
 
@@ -91,7 +90,7 @@
     justify-content: space-around;
   }
 
-  .antena {
+  #walkie .antena {
     background: radial-gradient(farthest-corner at 50px 10px,
     #666 0%,
     #222 40%,
@@ -102,7 +101,7 @@
     border: inherit
   }
 
-  .led_on {
+  #walkie .led_on {
     width: 20px;
     height: 5px;
     border-top-right-radius: 25px;
@@ -110,7 +109,7 @@
     background: red;
   }
 
-  .rueda {
+  #walkie .rueda {
     width: 80px;
     height: 50px;
     background: radial-gradient(farthest-corner at 60px 10px,
@@ -130,7 +129,7 @@
 
   /* ZONA DE LA PANTALLA */
 
-  .container .pantalla {
+  #walkie .container .pantalla {
     margin-top: 0;
     width: 100%;
     height: var(--h-scr);
@@ -138,32 +137,30 @@
     place-items: center;
   }
 
-  .pantalla .borde_screen {
+  #walkie .pantalla .borde_screen {
     display: grid;
     place-items: center;
     width: 90%;
     height: 95%;
     border: 5px solid black;
-    border-radius: 10px;
+    border-radius: var(--radius);
   }
 
-  div.screen {
-    /* transform: scale(); */
+  #walkie div.screen {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 97%;
+    width: 100%;
     height: var(--h-scr);
-    border: 1px solid white;
-    background: #7f8db5;
+    background: #b2d8e8;
     /* filter:drop-shadow(0 0 5px var(--key-color));
     box-shadow: 0px 0px 10px black inset; */
   }
 
   /* FORMULARIO */
 
-  form {
+  #walkie form {
     padding: 5px;
     font-family: 'ds-digit';
     font-size: .8em;
@@ -171,19 +168,18 @@
     place-items: center;
     width: 100%;
     height: 100%;
-    border: 1px solid white;
-    transform: scale(75%);
+    /* transform: scale(75%); */
   }
 
-  form label {
+  #walkie form label {
     width: 100%;
-    display: flex;
+    display: none;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
   }
 
-  form label input {
+  #walkie form label input {
     height: 20px;
     font-family: 'ds-digit';
     border: 0;
@@ -194,7 +190,7 @@
     text-align: center;
   }
 
-  form input[type="submit"] {
+  #walkie form input[type="submit"] {
     font-family: 'ds-digit';
     border: none;
     outline: none;
@@ -208,7 +204,7 @@
     transition: box-shadow .5s, filter .5s, background-color .5s;
   }
 
-  form input[type="submit"]:hover {
+  #walkie form input[type="submit"]:hover {
     transition: box-shadow .5s, filter .5s, background-color .5s;
     background-color: #111;
     box-shadow: 0 0 5px black inset;
@@ -216,14 +212,19 @@
     filter: drop-shadow(0 0 5px var(--key-color));
   }
 
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    transition: filter .3s;
-    filter: drop-shadow(0 0 3px blue);
-  }
 
-  input[type="text"]:focus::placeholder,
-  input[type="password"]:focus::placeholder{
+#walkie input[type="email"]::placeholder,
+#walkie input[type="password"]::placeholder {
+    color:rgba(0,0,0,.5);
+}
+
+#walkie input[type="email"],
+#walkie input[type="password"] {
+    width:100%;
+}
+
+#walkie input[type="text"]:focus::placeholder,
+#walkie input[type="password"]:focus::placeholder{
     transition: transform .5s;
     transform: translateY(-25px);
   }
@@ -234,7 +235,7 @@
 
   /* ZONA DEL ALTAVOZ */
 
-  .container .altavoz {
+  #walkie .container .altavoz {
     position: relative;
     width: 100%;
     height: var(--h-spk);
@@ -242,10 +243,10 @@
     grid-template-columns: 20% 80%;
   }
 
-  .altavoz .speaker {
+  #walkie .altavoz .speaker {
     position: relative;
-    top: 0px;
-    right: 0px;
+    top: 50px;
+    left: 40px;
     width: 200px;
     height: 200px;
     display: flex;
@@ -258,7 +259,7 @@
   } */
 
 
-  .altavoz .speaker {
+  #walkie .altavoz .speaker {
       border-radius: 50%;
       box-shadow: 2px -2px 5px #eee5, -2px 2px 18px #111;
       border: 10px solid #222;
@@ -266,7 +267,7 @@
       background-size: 5px 5px;
   }
 
-  .altavoz .btn_spk {
+   #walkie .altavoz .btn_spk {
     position: relative;
     width: 100%;
     height: 100%;
@@ -276,7 +277,7 @@
     justify-content: center;
   }
 
-  .btn_spk_inf {
+  #walkie .btn_spk_inf {
     width: 100%;
     height: 70%;
     margin-top: 25px;
@@ -287,14 +288,14 @@
   }
 
 
-  .btn_menu {
+  #walkie .btn_menu {
     position: absolute;
     width: 50px;
     height: 30px;
     background: linear-gradient(45deg, #9b1010, #c22d2d);
   }
-  .btn_up,
-  .btn_down {
+  #walkie  .btn_up,
+  #walkie  .btn_down {
     display: grid;
     place-items: center;
     width: 30px;
@@ -302,15 +303,15 @@
     background: linear-gradient(45deg, #111, #222);
   }
 
-  .btn_menu,
-  .btn_up,
-  .btn_down {
+  #walkie .btn_menu,
+  #walkie .btn_up,
+  #walkie .btn_down {
     border-radius: 5px;
     box-shadow: -2px 2px 5px #ccc5 inset;
   }
 
 
-  .btn_up_in {
+  #walkie .btn_up_in {
     width: 0;
     height: 0;
     border-top: 0px solid var(--key-color);
@@ -320,7 +321,7 @@
   }
 
 
-  .btn_down_in {
+  #walkie .btn_down_in {
     width: 0;
     height: 0;
     border-top: 10px solid var(--key-color);
@@ -330,7 +331,7 @@
   }
 
 
-  .btn_exit .tecla {
+  #walkie .btn_exit .tecla {
     width: 50px;
     height: 30px;
     background: linear-gradient(45deg, rgb(3, 3, 77),rgb(5, 5, 136));
@@ -345,7 +346,7 @@
 
   /* ZONA DEL TECLADO INFERIOR */
 
-  .container .botonera {
+  #walkie .container .botonera {
     position: relative;
     width: 90%;
     height: var(--h-bot);
@@ -355,7 +356,7 @@
     place-items: center;
   }
 
-  .tecla {
+  #walkie .tecla {
     cursor:pointer;
     display: flex;
     flex-direction: row;
@@ -367,10 +368,10 @@
     height: 40px;
   }
 
-  .tecla .key_text {
+  #walkie .tecla .key_text {
     font-size: 1.4em;
   }
-  .tecla small {
+  #walkie .tecla small {
     max-width: 6ch;
     font-size: .6em;
     color: #eee;

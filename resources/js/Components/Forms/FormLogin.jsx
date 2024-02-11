@@ -5,8 +5,10 @@ import Checkbox from "../Checkbox";
 import PrimaryButton from "../PrimaryButton";
 import { Link, useForm } from "@inertiajs/react";
 import InputError from "../InputError";
+import { useMediaQuery } from "@react-hook/media-query";
 
 export const FormLogin = ({ canResetPassword }) => {
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
@@ -27,7 +29,7 @@ export const FormLogin = ({ canResetPassword }) => {
 
     return (
         <form onSubmit={submit}>
-            <div className="w-[50%]">
+            <div className={isSmallScreen ? "w-full" : "w-[50%]"}>
                 <InputLabel htmlFor="email" value="Email" />
 
                 <TextInput
@@ -44,7 +46,7 @@ export const FormLogin = ({ canResetPassword }) => {
                 <InputError message={errors.email} className="mt-2" />
             </div>
 
-            <div className="mt-4 w-[50%]">
+            <div className={isSmallScreen ? "w-full" : "w-[50%]"}>
                 <InputLabel htmlFor="password" value="Contraseña" />
 
                 <TextInput

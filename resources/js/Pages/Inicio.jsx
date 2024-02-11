@@ -3,15 +3,22 @@ import { BurgerMenu } from "@/Components/Menu/BurgerMenu";
 import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { MainPage } from "./Zonas/MainPage";
+import { useMediaQuery } from "@react-hook/media-query";
+import { MovilPage } from "./Zonas/MovilPage";
 
 export default function Inicio({ userDB, title, roles, selects, busqueda }) {
     const [userRoles, setRoles] = useState([]);
     const [isAdmin, setAdmin] = useState(0);
     const [vista, setVista] = useState("main");
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
 
     const styleUserImg = isAdmin
         ? "w-10 h-10 rounded-full mr-10 border-white border-2"
         : "w-10 h-10 rounded-full mr-10";
+
+    useEffect(() => {
+        if (isSmallScreen) setVista("movil");
+    }, []);
 
     useEffect(() => {
         const userRolesArray = [];
@@ -37,9 +44,18 @@ export default function Inicio({ userDB, title, roles, selects, busqueda }) {
                 <BurgerMenu isAdmin={isAdmin} />
             </header>
 
-            <main className="flex flex-col w-full  bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px] h-4/5 max-[1280px]:h-[90%]">
+            <main className="flex flex-col w-full bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px] h-4/5 max-[1280px]:h-[90%]">
                 {vista === "main" && (
                     <MainPage
+                        selects={selects}
+                        isAdmin={isAdmin}
+                        busqueda={busqueda}
+                        userDB={userDB}
+                    />
+                )}
+
+                {vista === "movil" && (
+                    <MovilPage
                         selects={selects}
                         isAdmin={isAdmin}
                         busqueda={busqueda}

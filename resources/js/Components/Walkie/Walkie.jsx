@@ -4,7 +4,7 @@ import "./js/walkie";
 
 export const Walkie = ({ status, canResetPassword, form }) => {
     return (
-        <div>
+        <div id="walkie">
             <div className="superior">
                 <div className="antena"></div>
                 <div className="led_on"></div>
@@ -19,7 +19,6 @@ export const Walkie = ({ status, canResetPassword, form }) => {
                                 status={status}
                                 form={form}
                                 canResetPassword={canResetPassword}
-                                
                             />
                         </div>
                     </div>
