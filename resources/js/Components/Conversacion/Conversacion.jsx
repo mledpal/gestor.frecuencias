@@ -14,6 +14,7 @@ import withReactContent from "sweetalert2-react-content";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
+import { RotatingLines } from "react-loader-spinner";
 
 export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
     const clasesLabel = "text-center mb-2 text-black select-none";
@@ -78,10 +79,11 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
     useEffect(() => {
         getData(userID);
         setTimeout(() => {
-            // setData({
-            //     destinatario_id: datos.id,
-            //     token: csrf,
-            // });
+            data &&
+                setData({
+                    destinatario_id: data.id,
+                    token: csrf,
+                });
             document.getElementById("conversacion").scrollTo(0, 0);
         }, 200);
     }, []);
@@ -96,8 +98,8 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
     async function getData(userID) {
         const datos = await getUserInfo(userID);
         const texto = await getConversacion(userID);
-        setUserData(datos);
-        setConversacion(texto);
+        datos && setUserData(datos);
+        texto && setConversacion(texto);
         document.getElementById("conversacion").scrollTo(0, 0);
     }
 
@@ -202,34 +204,59 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
                 <main className="flex flex-col grow bg-gradient-to-br from-slate-800  to-gray-800 pb-5 ">
                     <div className=" sticky top-[131px] flex flex-col items-center justify-between px-4 gap-4 mt-4 bg-slate-800 ">
                         <div className="w-full">
-                            <InputLabel
-                                htmlFor="mensaje"
-                                value="Escriba un mensaje"
-                                className={clasesLabel}
-                            />
-                            <TextInput
-                                id="mensaje"
-                                name="mensaje"
-                                value={data.mensaje ?? ""}
-                                className="mt-1 block w-full text-center"
-                                onChange={(e) =>
-                                    setData("mensaje", e.target.value)
-                                }
-                                onSubmit={submit}
-                                placeholder="mensaje"
-                                autoComplete="off"
-                            />
+                            {data.destinatario_id ? (
+                                <>
+                                    <InputLabel
+                                        htmlFor="mensaje"
+                                        value="Escriba un mensaje"
+                                        className={clasesLabel}
+                                    />
+                                    <TextInput
+                                        id="mensaje"
+                                        name="mensaje"
+                                        value={data.mensaje ?? ""}
+                                        className="mt-1 block w-full text-center"
+                                        onChange={(e) =>
+                                            setData("mensaje", e.target.value)
+                                        }
+                                        onSubmit={submit}
+                                        placeholder="mensaje"
+                                        autoComplete="off"
+                                    />
+                                </>
+                            ) : (
+                                <div className="w-full grid place-items-center">
+                                    <RotatingLines
+                                        visible={true}
+                                        height="96"
+                                        width="96"
+                                        color="grey"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        ariaLabel="rotating-lines-loading"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                    />
+                                </div>
+                            )}
+
                             <InputError
                                 message={errors.mensaje}
                                 className="mt-2"
                             />
                         </div>
                         <div className="w-full flex flex-row items-center justify-end gap-3 p-4">
-                            <BotonesFormulario
-                                actionSubmit={submit}
-                                actionReset={() => reset("mensaje")}
-                                actionExit={() => handleOpenSendMessage(null)}
-                            />
+                            {data.destinatario_id ? (
+                                <BotonesFormulario
+                                    actionSubmit={submit}
+                                    actionReset={() => reset("mensaje")}
+                                    actionExit={() =>
+                                        handleOpenSendMessage(null)
+                                    }
+                                />
+                            ) : (
+                                ""
+                            )}
                         </div>
                     </div>
 
