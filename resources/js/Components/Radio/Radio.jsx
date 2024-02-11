@@ -260,6 +260,9 @@ export const Radio = ({ status, canResetPassword, form }) => {
 
                             <div className="btn_radial redondo">
                                 <div className="btn_radial_in redondo"></div>
+                                <div className="btn_menu hidden"></div>
+                                <div className="btn_up hidden"></div>
+                                <div className="btn_down hidden"></div>
                             </div>
                         </div>
                     </div>

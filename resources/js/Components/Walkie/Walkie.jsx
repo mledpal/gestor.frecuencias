@@ -103,6 +103,7 @@ export const Walkie = ({ status, canResetPassword, form }) => {
                 </div>
             </div>
             <script src="./js/walkie.js"></script>
+            <div className="hidden boton_ps"></div>
         </div>
     );
 };

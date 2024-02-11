@@ -5,15 +5,12 @@ click_in.loop = false;
 click_out.loop = false;
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    const botones = document.getElementsByClassName("tecla");
-    const btn_menu = document.querySelector(".btn_menu");
-    const btn_up = document.querySelector(".btn_up");
-    const btn_down = document.querySelector(".btn_down");
-    const led = document.querySelector(".led_on");
-
     setTimeout(() => {
-        console.log(btn_menu);
+        const botones = document.getElementsByClassName("tecla");
+        const btn_menu = document.getElementsByClassName("btn_menu");
+        const btn_up = document.querySelector(".btn_up");
+        const btn_down = document.querySelector(".btn_down");
+        const led = document.querySelector(".led_on");
 
         for (let btn of botones) {
             btn.addEventListener("mousedown", () => {
@@ -26,14 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        btn_menu.addEventListener("mousedown", () => {
+        btn_menu[0].addEventListener("mousedown", () => {
             led.classList.add("pwr_on");
             click_in.play();
-            btn_menu.classList.add("clicked");
+            btn_menu[0].classList.add("clicked");
         });
-        btn_menu.addEventListener("mouseup", () => {
+        btn_menu[0].addEventListener("mouseup", () => {
             led.classList.remove("pwr_on");
-            btn_menu.classList.remove("clicked");
+            btn_menu[0].classList.remove("clicked");
             click_out.play();
         });
 
