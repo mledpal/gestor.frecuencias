@@ -69,6 +69,10 @@ class UserController extends Controller
                 });
             }
 
+            if (isset($request->indicativo)) {
+                $usuarios->where('indicativo', 'like', '%.' . $request->indicativo . '.%');
+            }
+
             $respuesta = json_encode($usuarios->get()->toArray());
 
             return $respuesta;

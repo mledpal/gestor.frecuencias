@@ -25,6 +25,7 @@ export const BuscarUsuarios = ({
 
     const { data, setData, post, processing, errors, reset } = useForm({
         usuario: "",
+        indicativo: "",
         localidad: "",
         provincia: "",
     });
@@ -76,6 +77,28 @@ export const BuscarUsuarios = ({
                                 }
                                 autoComplete="off"
                                 placeholder="usuario"
+                            />
+                            <InputError
+                                message={errors.usuario}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="w-full">
+                            <InputLabel
+                                htmlFor="indicativo_bus"
+                                value="Indicativo"
+                                className={clasesLabel}
+                            />
+                            <TextInput
+                                name="indicativo_bus"
+                                value={data.indicativo}
+                                isFocused={true}
+                                className="mt-1 block w-full text-center"
+                                onChange={(e) =>
+                                    setData("indicativo", e.target.value)
+                                }
+                                autoComplete="off"
+                                placeholder="indicativo"
                             />
                             <InputError
                                 message={errors.usuario}
