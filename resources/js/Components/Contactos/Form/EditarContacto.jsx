@@ -708,7 +708,7 @@ export const EditarContacto = ({
                                             id="direccion"
                                             name="direccion"
                                             value={data.direccion ?? "="}
-                                            className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                            className="block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                             onChange={(e) =>
                                                 setData(
                                                     "direccion",

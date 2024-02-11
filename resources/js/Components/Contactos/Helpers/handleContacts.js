@@ -15,7 +15,11 @@ export const handleContacts = ({
     const MySwal = withReactContent(Swal);
 
     useEffect(() => {
-        document.getElementById("detalle").scrollTo(0, 0);
+        try {
+            document.getElementById("detalle").scrollTo(0, 0);
+        } catch (error) {
+            // console.error(error);
+        }
     }, [datos]);
 
     async function crear(e) {
