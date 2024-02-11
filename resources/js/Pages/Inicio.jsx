@@ -1,10 +1,10 @@
+import { useEffect, useState } from "react";
+import { Head } from "@inertiajs/react";
+import { useMediaQuery } from "@react-hook/media-query";
+
 import { UserImage } from "@/Components/Images/UserImage";
 import { BurgerMenu } from "@/Components/Menu/BurgerMenu";
-import { Head } from "@inertiajs/react";
-import { useEffect, useState } from "react";
-import { MainPage } from "./Zonas/MainPage";
-import { useMediaQuery } from "@react-hook/media-query";
-import { MovilPage } from "./Zonas/MovilPage";
+import { MainPage, MovilPage } from "./Vistas";
 
 export default function Inicio({ userDB, title, roles, selects, busqueda }) {
     const [userRoles, setRoles] = useState([]);
@@ -41,7 +41,7 @@ export default function Inicio({ userDB, title, roles, selects, busqueda }) {
                     className="w-[100px] h-[100px] cursor-pointer max-[1280px]:w-[50px] max-[1280px]:h-[50px]"
                 />
                 <UserImage userDB={userDB} link="/profile" />
-                <BurgerMenu isAdmin={isAdmin} />
+                <BurgerMenu isAdmin={isAdmin} setVista={setVista} />
             </header>
 
             <main className="flex flex-col w-full bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px] h-4/5 max-[1280px]:h-[90%]">

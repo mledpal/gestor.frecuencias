@@ -17,9 +17,7 @@ import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
 import { Conversacion } from "@/Components/Conversacion/Conversacion";
 import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
 
-
 export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
-
     const [datos, setDatos] = useState(null);
 
     const {
