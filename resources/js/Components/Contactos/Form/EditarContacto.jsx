@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Dialog } from "@material-tailwind/react";
+import { useMediaQuery } from "@react-hook/media-query";
+
 import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
@@ -31,6 +33,8 @@ export const EditarContacto = ({
         ctcss,
         direcciones,
     } = selects;
+
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
@@ -121,8 +125,9 @@ export const EditarContacto = ({
 
     const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen bg-sky-900`;
 
-    const classZona =
-        " w-4/5 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
+    const classZona = `${
+        isSmallScreen ? "w-screen" : "w-4/5"
+    } flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
@@ -149,7 +154,11 @@ export const EditarContacto = ({
             >
                 <input type="hidden" id="id" value={data.id} />
                 <div
-                    className={`sticky top-0 h-[75px]  bg-gradient-to-b from-${datos.tipo.color} to-slate-900 to-50%   z-10 w-4/5 flex items-center justify-center mt-0 p-5 gap-10`}
+                    className={`${
+                        isSmallScreen ? "w-full" : "w-4/5"
+                    } sticky top-0 h-[75px]  bg-gradient-to-b from-${
+                        datos.tipo.color
+                    } to-slate-900 to-50%   z-10  flex items-center justify-center mt-0 p-5 gap-10`}
                 >
                     <div
                         name="guardar_datos"
@@ -286,7 +295,7 @@ export const EditarContacto = ({
                                     id="tipo_id"
                                     name="tipo_id"
                                     value={data.tipo_id}
-                                    className="ml-4 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                    className="block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                     onChange={(e) =>
                                         setData("tipo_id", e.target.value)
                                     }
