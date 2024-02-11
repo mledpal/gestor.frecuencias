@@ -22,7 +22,7 @@ export default function UploadImage({ className = "" }) {
 
     const handleSendFile = (e) => {
         let imagen = e.target.files[0];
-        setData('photo', e.target.value);
+        setData("photo", e.target.value);
 
         if (imagen) {
             const token = document
@@ -46,18 +46,21 @@ export default function UploadImage({ className = "" }) {
             })
                 .then((respuesta) => respuesta.json())
                 .then((datos) => {
-                    if(datos.mensaje == "OK") {
-                        document.getElementById('photoMessage').textContent = "Archivo subido exitosamente";
+                    if (datos.mensaje == "OK") {
+                        document.getElementById("photoMessage").textContent =
+                            "Archivo subido exitosamente";
                     } else {
-                        document.getElementById('photoMessage').textContent = `${datos.message}`;
+                        document.getElementById(
+                            "photoMessage"
+                        ).textContent = `${datos.message}`;
                     }
                 })
                 .catch((error) => {
-                    document.getElementById('photoMessage').textContent = "Error al subir la imagen";
+                    document.getElementById("photoMessage").textContent =
+                        "Error al subir la imagen";
                 });
         }
     };
-
 
     return (
         <section className={className}>
@@ -86,7 +89,10 @@ export default function UploadImage({ className = "" }) {
                         autoComplete="photo"
                         // onChange={handleImageUpload}
                     />
-                    <label className="text-red-600 text-sm" id="photoMessage"></label>
+                    <label
+                        className="text-red-600 text-sm"
+                        id="photoMessage"
+                    ></label>
 
                     <InputError className="mt-2" message={errors.photo} />
                 </div>
@@ -108,9 +114,6 @@ export default function UploadImage({ className = "" }) {
 
                     <InputError className="mt-2" message={errors.photo} />
                 </div> */}
-
-
-
             </form>
         </section>
     );

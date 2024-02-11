@@ -20,8 +20,8 @@ export const FormReset = () => {
     useEffect(() => {
         const currentUrl = window.location.href;
         const url = new URL(currentUrl);
-        const input_email = document.getElementById('email');
-        const input_token = document.getElementById('token');
+        const input_email = document.getElementById("email");
+        const input_token = document.getElementById("token");
 
         // Obtener el valor del token y del email
         const token = url.pathname.split("/").pop(); // Obtener el último segmento de la URL como token
@@ -31,9 +31,8 @@ export const FormReset = () => {
         input_email.value = email;
         input_token.value = token;
 
-        setData('email', email);
-        setData('token', token);
-
+        setData("email", email);
+        setData("token", token);
     }, []);
 
     return (

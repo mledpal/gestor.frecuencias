@@ -78,12 +78,12 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
     useEffect(() => {
         getData(userID);
         setTimeout(() => {
-            setData({
-                destinatario_id: datos.id,
-                token: csrf,
-            });
+            // setData({
+            //     destinatario_id: datos.id,
+            //     token: csrf,
+            // });
             document.getElementById("conversacion").scrollTo(0, 0);
-        }, 100);
+        }, 200);
     }, []);
 
     useEffect(() => {

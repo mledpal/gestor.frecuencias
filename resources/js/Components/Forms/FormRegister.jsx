@@ -52,7 +52,10 @@ export const FormRegister = () => {
                         required
                     />
 
-                    <InputError message={errors?.username?.username} className="mt-2" />
+                    <InputError
+                        message={errors?.username?.username}
+                        className="mt-2"
+                    />
                 </div>
 
                 <div>
@@ -72,7 +75,10 @@ export const FormRegister = () => {
                         required
                     />
 
-                    <InputError message={errors?.email?.email} className="mt-2" />
+                    <InputError
+                        message={errors?.email?.email}
+                        className="mt-2"
+                    />
                 </div>
             </div>
 
@@ -93,7 +99,10 @@ export const FormRegister = () => {
                         required
                     />
 
-                    <InputError message={errors?.nombre?.nombre} className="mt-2" />
+                    <InputError
+                        message={errors?.nombre?.nombre}
+                        className="mt-2"
+                    />
                 </div>
 
                 <div>
@@ -112,7 +121,10 @@ export const FormRegister = () => {
                         required
                     />
 
-                    <InputError message={errors?.apellidos?.apellidos} className="mt-2" />
+                    <InputError
+                        message={errors?.apellidos?.apellidos}
+                        className="mt-2"
+                    />
                 </div>
             </div>
 
@@ -160,10 +172,7 @@ export const FormRegister = () => {
                         required
                     />
 
-                    <InputError
-                        message={errors?.password}
-                        className="mt-2"
-                    />
+                    <InputError message={errors?.password} className="mt-2" />
                 </div>
             </div>
 

@@ -74,7 +74,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("usuario", e.target.value)
                                 }
-                                autocomplete="off"
+                                autoComplete="off"
                                 placeholder="usuario"
                             />
                             <InputError
@@ -98,7 +98,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("localidad", e.target.value)
                                 }
-                                autocomplete="off"
+                                autoComplete="off"
                                 placeholder="Localidad"
                             />
 
@@ -121,7 +121,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("provincia", e.target.value)
                                 }
-                                autocomplete="off"
+                                autoComplete="off"
                                 placeholder="Provincia"
                             />
 
