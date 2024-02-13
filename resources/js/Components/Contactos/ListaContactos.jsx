@@ -7,7 +7,7 @@ export const ListaContactos = ({ contactos, setDatos, setVista }) => {
     return (
         <>
             <div className="h-full w-full flex flex-col items-center">
-                {contactos.length > 0 ? (
+                { contactos && contactos.length > 0 ? (
                     contactos.map((c) => (
                         <Contacto key={c.id} datos={c} setDatos={setDatos} />
                     ))

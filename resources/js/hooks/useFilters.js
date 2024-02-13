@@ -1,9 +1,9 @@
-import { useEffect, useState, busqueda } from "react";
+import { useEffect, useState } from "react";
 
 export const useFilters = (busqueda) => {
     const [isLoading, setLoading] = useState(false);
     const [stateFilters, setFilterState] = useState(false);
-    const [contactos, setContactos] = useState([]);
+    const [contactos, setContactos] = useState(null);
     const [contactosFiltrados, setFiltrados] = useState([]);
     const [visible, setVisible] = useState(false);
 
@@ -35,52 +35,33 @@ export const useFilters = (busqueda) => {
         { label: "Servicios", key: "servicio" },
     ];
 
-    useEffect(() => {
-        setFiltrados(filtrarContactos(contactos));
-        setLoading(false);
-    }, [contactos, filtros]);
-
-    useEffect(() => {
-        filtrarContactos(contactos);
-        setLoading(false);
-    }, [filtros]);
-
-    useEffect(() => {
-        getContacts();
-    }, [busqueda]);
-
-    const busquedaReset = () => {
-        busqueda = undefined;
-        getContacts();
-    };
-
-    // Función que recoge todos los contactos por AJAX
-    const getContacts = () => {
+    async function getContactos() {
         setLoading(true);
-
         if (busqueda === undefined) {
-            fetch("ajax/contacto/get")
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json(); // Llama a la función json para obtener los datos
-                    } else {
-                        console.log(
-                            "Respuesta de red OK pero respuesta HTTP no OK"
-                        );
-                    }
-                })
-                .then(function (data) {
-                    setContactos(data); // Aquí tendrás los datos de la respuesta
-                })
-                .catch(function (error) {
-                    console.log(
-                        "Hubo un problema con la petición Fetch:" +
-                            error.message
-                    );
-                });
+            const response = await fetch("ajax/contacto/get");
+            const data = await response.json();
+            data && setContactos(data);
         } else {
             setContactos(busqueda);
         }
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        setLoading(true);
+        getContactos();
+        setLoading(false);
+    }, [busqueda]);
+
+    useEffect(() => {
+        setLoading(true);
+        if (contactos !== null) setFiltrados(filtrarContactos(contactos));
+        setLoading(false);
+    }, [contactos, filtros]);
+
+    const busquedaReset = () => {
+        busqueda = undefined;
+        getContactos();
     };
 
     const handleFilterVisible = () => {
@@ -92,21 +73,24 @@ export const useFilters = (busqueda) => {
     };
 
     const filtrarContactos = (contactos) => {
-        return contactos.filter((dato) => {
-            return (
-                (dato.favorito === 1 && filtros.favorito) ||
-                (dato.comprobado === 1 && filtros.comprobado) ||
-                (dato.comprobado === 0 && filtros.nocomprobado) ||
-                (dato.privado === 0 && filtros.publico) ||
-                (dato.privado === 1 && filtros.privado) ||
-                (dato.tipo_id === 4 && filtros.empresa) ||
-                (dato.tipo_id === 7 && filtros.servicio) ||
-                (dato.tipo_id === 6 && filtros.particular) ||
-                (dato.tipo_id === 5 && filtros.evento) ||
-                (dato.tipo_id === 2 && filtros.aviacion) ||
-                (dato.tipo_id === 3 && filtros.emisora)
-            );
-        });
+        return (
+            contactos &&
+            contactos.filter((dato) => {
+                return (
+                    (dato.favorito === 1 && filtros.favorito) ||
+                    (dato.comprobado === 1 && filtros.comprobado) ||
+                    (dato.comprobado === 0 && filtros.nocomprobado) ||
+                    (dato.privado === 0 && filtros.publico) ||
+                    (dato.privado === 1 && filtros.privado) ||
+                    (dato.tipo_id === 4 && filtros.empresa) ||
+                    (dato.tipo_id === 7 && filtros.servicio) ||
+                    (dato.tipo_id === 6 && filtros.particular) ||
+                    (dato.tipo_id === 5 && filtros.evento) ||
+                    (dato.tipo_id === 2 && filtros.aviacion) ||
+                    (dato.tipo_id === 3 && filtros.emisora)
+                );
+            })
+        );
     };
 
     const handlerCheckUncheck = () => {
@@ -122,16 +106,15 @@ export const useFilters = (busqueda) => {
     };
 
     const eraseContact = (id) => {
-        getContacts();
+        const nuevosContactos = contactos.filter(
+            (contacto) => contacto.id !== id
+        );
+        setContactos(nuevosContactos);
     };
 
     const updateContact = () => {
-        getContacts();
+        getContactos();
     };
-
-    // useEffect(() => {
-    //     getContacts();
-    // }, []);
 
     return {
         isLoading,
