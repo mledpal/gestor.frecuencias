@@ -88,7 +88,7 @@ export const Conversacion = ({
             data &&
                 setData({
                     destinatario_id: data.id,
-                    token: csrf,
+                    _token: csrf,
                 });
             document.getElementById("conversacion").scrollTo(0, 0);
         }, 200);
