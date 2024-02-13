@@ -57,7 +57,6 @@ export const Conversacion = ({
                         />
                         <span className=" backdrop-blur-md">
                             {userData.username}
-                            <h2>ID De usuario : {data.destinatario_id}</h2>
                         </span>
                     </div>
                 ) : (
