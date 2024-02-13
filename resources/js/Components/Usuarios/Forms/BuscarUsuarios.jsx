@@ -4,12 +4,11 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 
 import { useEffect, useState } from "react";
-import { searchUsers } from "./helpers/searchUsers";
 import { UserImage } from "@/Components/Images/UserImage";
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+// import withReactContent from "sweetalert2-react-content";
 
 export const BuscarUsuarios = ({
     handleOpenBuscador,
@@ -49,8 +48,33 @@ export const BuscarUsuarios = ({
         handleOpenSendMessage("xxl");
     };
 
+    async function searchUsers(data, token) {
+        try {
+            // post(route("usuario_busqueda"));
+
+            let url = "user/busqueda?_token=" + token;
+
+            let response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": token,
+                },
+                body: JSON.stringify(data),
+            });
+
+            let datos = await response.json();
+
+            return datos;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     async function submit(e) {
         e.preventDefault();
+
+        setData({ _token: token });
 
         let response = await searchUsers(data, token);
         setRespuesta(response);
