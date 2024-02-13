@@ -1,12 +1,11 @@
 import { useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import { getUserInfo } from "@/Helpers/getUserInfo";
-import { getConversacion } from "@/Helpers/getConversacion";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
-import Echo from "laravel-echo";
+import Swal from "sweetalert2";
 import Pusher from "pusher-js";
+
+// import withReactContent from "sweetalert2-react-content";
+// import Echo from "laravel-echo";
 
 export const useConversacion = (userID, userDB) => {
     const clasesLabel = "text-center mb-2 text-black select-none";
@@ -19,6 +18,54 @@ export const useConversacion = (userID, userDB) => {
         destinatario_id: userID ?? "",
         _token: "",
     });
+
+    async function getConversacion(idDestinatario) {
+        try {
+            const response = await fetch(
+                route("recuperar_conversacion", { id: idDestinatario }),
+                {
+                    method: "GET",
+                }
+            );
+
+            const datos = await response.json();
+            return datos;
+        } catch (error) {
+            return { "mensaje-error": "No hay mensajes" };
+        }
+    }
+
+    async function getUserInfo(id) {
+        let url = `user/${id}/getInfo`;
+
+        try {
+            let response = await fetch(url);
+            let data = await response.json();
+            return data;
+        } catch (error) {
+            return { error };
+        }
+    }
+    async function getData(userID) {
+        console.log(userID);
+        const datos = await getUserInfo(userID);
+        const texto = await getConversacion(userID);
+        datos && setUserData(datos);
+        texto && setConversacion(texto);
+        document.getElementById("conversacion").scrollTo(0, 0);
+    }
+
+    useEffect(() => {
+        getData(userID);
+        setTimeout(() => {
+            data &&
+                setData({
+                    destinatario_id: data.id ?? userID,
+                    _token: csrf,
+                });
+            document.getElementById("conversacion").scrollTo(0, 0);
+        }, 200);
+    }, []);
 
     useEffect(() => {
         Pusher.logToConsole = false;
@@ -66,31 +113,11 @@ export const useConversacion = (userID, userDB) => {
     }, [conversacion]);
 
     useEffect(() => {
-        getData(userID);
-        setTimeout(() => {
-            data &&
-                setData({
-                    destinatario_id: data.id,
-                    _token: csrf,
-                });
-            document.getElementById("conversacion").scrollTo(0, 0);
-        }, 200);
-    }, []);
-
-    useEffect(() => {
         setData({
             destinatario_id: userID,
             _token: csrf,
         });
     }, [conversacion]);
-
-    async function getData(userID) {
-        const datos = await getUserInfo(userID);
-        const texto = await getConversacion(userID);
-        datos && setUserData(datos);
-        texto && setConversacion(texto);
-        document.getElementById("conversacion").scrollTo(0, 0);
-    }
 
     async function submit(e) {
         e.preventDefault();
