@@ -8,12 +8,14 @@ import { useForm } from "@inertiajs/react";
 import { handleContacts } from "../Helpers/handleContacts";
 import { useEffect } from "react";
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
+import { useMediaQuery } from "@react-hook/media-query";
 
 export const NuevoContacto = ({
     datos,
     selects,
     handleOpen,
     updateContact,
+    setVista,
 }) => {
     const {
         tipos_contacto,
@@ -24,6 +26,8 @@ export const NuevoContacto = ({
         ctcss,
         direcciones,
     } = selects;
+
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
 
     useEffect(() => {
         setTimeout(() => {
@@ -88,10 +92,12 @@ export const NuevoContacto = ({
         });
     }, []);
 
-    const { crear } = handleContacts({
+    const { crear, crearMovil } = handleContacts({
         updateContact,
         handleOpen,
         post,
+        isSmallScreen,
+        setVista,
     });
 
     const {
@@ -104,9 +110,12 @@ export const NuevoContacto = ({
 
     // Variables para setear los estilos de algunas zonas
 
-    const claseContacto = `flex flex-col items-center justify-between  rounded-xl m-auto bg-indigo-900 w-1/2 shadow-[0_0_15px_rgba(255,255,255,.6)] max-[1280px]:w-5/6`;
-    const classZona =
-        " w-4/5 max-[1280px]:w-5/6 flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg";
+    const claseContacto = `${
+        isSmallScreen ? "w-screen" : "w-1/2 max-[1280px]:w-5/6"
+    } flex flex-col items-center justify-between  rounded-xl m-auto bg-indigo-900  shadow-[0_0_15px_rgba(255,255,255,.6)] `;
+    const classZona = `${
+        isSmallScreen ? "w-screen" : "w-4/5 max-[1280px]:w-5/6"
+    }  flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
@@ -123,23 +132,40 @@ export const NuevoContacto = ({
         <form
             id="nuevocontacto"
             method="POST"
-            onSubmit={crear}
+            onSubmit={(e) => {
+                e.preventDefault(); // Esto previene el comportamiento por defecto del formulario
+                isSmallScreen ? crearMovil() : crear();
+            }}
             encType="multipart/form-data"
             className={claseContacto}
         >
-            <div className="sticky top-0  bg-slate-900 z-10 w-full flex flex-row items-center justify-center mt-0 p-5 gap-10 max-[1280px]:w-5/6">
-                <div className="w-2/5 flex flex-col items-center justify-center">
+            <div
+                className={` ${
+                    isSmallScreen
+                        ? "w-screen  gap-0"
+                        : "w-full max-[1280px]:w-5/6 flex-row gap-10"
+                } flex flex-col items-center sticky top-0  bg-slate-900 z-10 mt-0 p-4 `}
+            >
+                <div
+                    className={` ${
+                        isSmallScreen ? "w-screen p-4" : "w-2/5 "
+                    } flex flex-col items-center justify-center`}
+                >
                     <h2 className="font-bold text-xl">Nuevo Contacto</h2>
                 </div>
 
                 <div
                     name="guardar_datos"
-                    className="w-3/5 flex items-center gap-8 scale-75 max-[1280px]:scale-[60%]"
+                    className={` ${
+                        isSmallScreen ? "w-screen p-2  " : "w-3/5 gap-8 "
+                    } flex flex-row items-center justify-between`}
                 >
                     <BotonesFormulario
-                        actionSubmit={crear}
+                        actionSubmit={isSmallScreen ? crearMovil : crear}
                         actionReset={() => reset()}
-                        actionExit={() => handleOpen()}
+                        actionExit={() => {
+                            handleOpen ? handleOpen() : setVista("movil");
+                        }}
                     />
                 </div>
             </div>

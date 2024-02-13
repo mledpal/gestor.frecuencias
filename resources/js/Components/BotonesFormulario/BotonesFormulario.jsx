@@ -9,7 +9,7 @@ export const BotonesFormulario = ({
     textExit,
 }) => {
     const classButtons =
-        "py-3 px-6 text-white duration-200 ease-in-out hover:bg-yellow-400 hover:text-black hover:drop-shadow-[0px_0px_10px_rgba(255,255,255,.5)]";
+        "w-[80px] h-[40px] py-3 px-0 text-white duration-200 ease-in-out hover:bg-yellow-400 hover:text-black hover:drop-shadow-[0px_0px_10px_rgba(255,255,255,.5)]";
 
     return (
         <>

@@ -1,12 +1,18 @@
-export const CommonMenu = () => {
+import { useMediaQuery } from "@react-hook/media-query";
+
+export const CommonMenu = ({ setVista }) => {
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+
     return (
         <>
-            <a href={route("index")}>
-                <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-md ">
-                    <i className="fa-solid fa-house" />
-                    Inicio
-                </li>
-            </a>
+            <li
+                className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-md "
+                onClick={() => setVista(isSmallScreen ? "movil" : "main")}
+            >
+                <i className="fa-solid fa-house" />
+                Inicio
+            </li>
+
             {/* <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-md ">
                 <i className="fa-solid fa-magnifying-glass"></i>
                 Buscar
@@ -18,8 +24,6 @@ export const CommonMenu = () => {
                     Mi cuenta
                 </li>
             </a>
-
-
         </>
     );
 };

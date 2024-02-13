@@ -4,7 +4,7 @@ import { useMediaQuery } from "@react-hook/media-query";
 
 import { UserImage } from "@/Components/Images/UserImage";
 import { BurgerMenu } from "@/Components/Menu/BurgerMenu";
-import { MainPage, MovilPage } from "./Vistas";
+import { Vistas } from "./Vistas";
 
 export default function Inicio({ userDB, title, roles, selects, busqueda }) {
     const [userRoles, setRoles] = useState([]);
@@ -44,30 +44,29 @@ export default function Inicio({ userDB, title, roles, selects, busqueda }) {
                 <BurgerMenu isAdmin={isAdmin} setVista={setVista} />
             </header>
 
-            <main className="flex flex-col w-full bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px] h-4/5 max-[1280px]:h-[90%]">
-                {vista === "main" && (
-                    <MainPage
-                        selects={selects}
-                        isAdmin={isAdmin}
-                        busqueda={busqueda}
-                        userDB={userDB}
-                    />
-                )}
-
-                {vista === "movil" && (
-                    <MovilPage
-                        selects={selects}
-                        isAdmin={isAdmin}
-                        busqueda={busqueda}
-                        userDB={userDB}
-                    />
-                )}
+            <main
+                className={` ${
+                    isSmallScreen
+                        ? "h-full w-full overflow-y-auto"
+                        : "h-4/5 max-[1280px]:h-[90%]"
+                } flex flex-col w-full bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px] `}
+            >
+                <Vistas
+                    vista={vista}
+                    setVista={setVista}
+                    selects={selects}
+                    isAdmin={isAdmin}
+                    busqueda={busqueda}
+                    userDB={userDB}
+                />
             </main>
 
-            <footer className="flex flex-row w-full h-[4%] justify-between items-center p-10 bg-transparent max-[1280px]:hidden">
-                <h3>Miguel Ledesma Palacios</h3>
-                <h4>Proyecto DAW-D</h4>
-            </footer>
+            {!isSmallScreen && (
+                <footer className="flex flex-row w-full h-[4%] justify-between items-center p-10 bg-transparent max-[1280px]:hidden">
+                    <h3>Miguel Ledesma Palacios</h3>
+                    <h4>Proyecto DAW-D</h4>
+                </footer>
+            )}
         </div>
     );
 }

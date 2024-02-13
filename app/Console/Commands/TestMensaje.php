@@ -28,10 +28,10 @@ class TestMensaje extends Command
      */
     public function handle()
     {
-        $user = User::find(1);
+        $user = User::with('roles')->get();
 
-        $busqueda = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('privado', false)->where('user_id', '!=', $user->id)->orderBy('nombre', 'asc')->get()->toArray();
-
-        echo count($busqueda);
+        foreach ($user as $us) {
+            echo $us->username . " " . $us->isAdmin;
+        }
     }
 }

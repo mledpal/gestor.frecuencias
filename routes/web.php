@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\FrecuenciaController;
@@ -22,11 +23,14 @@ use Inertia\Inertia;
 |
 */
 
+Route::controller(AdminController::class)->group(function () {
+    Route::get('admin/usuarios', 'usuarios')->name('admin_usuarios');
+});
+
 Route::controller(UserController::class)->group(function () {
     Route::post('user/busqueda', 'busqueda')->name('usuario_busqueda');
     Route::get('user/{id}/getInfo', 'getInfo')->name('usuario_informacion');
 });
-
 
 Route::controller(MensajeController::class)->group(function () {
     Route::post('mensajes/enviar', 'enviarMensaje')->name('enviar_mensaje');

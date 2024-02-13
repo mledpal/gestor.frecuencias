@@ -148,6 +148,14 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * Función que devuelve true si el usuario es admin
+     */
+    public function getisAdminAttribute()
+    {
+        return $this->roles()->where('nombre', 'admin')->exists();
+    }
+
 
     /**
      * Upload de las imágenes del usuario

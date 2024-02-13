@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 import { useEffect } from "react";
+import { useMediaQuery } from "@react-hook/media-query";
 
 export const handleContacts = ({
     borrarContacto,
@@ -9,10 +10,12 @@ export const handleContacts = ({
     updateContact,
     datos,
     post,
+    setVista,
 }) => {
     // Métodos / Hooks
 
     const MySwal = withReactContent(Swal);
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
 
     useEffect(() => {
         try {
@@ -32,6 +35,47 @@ export const handleContacts = ({
             },
         });
     }
+
+    const crearMovil = () => {
+        post(route("contacto_crear"), {
+            onSuccess: () => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    },
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Contacto creado correctamente",
+                });
+                setVista(isSmallScreen ? "movil" : "main");
+            },
+            onError: (error) => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    },
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Hubo un error",
+                });
+                setVista(isSmallScreen ? "movil" : "main");
+            },
+        });
+    };
 
     function submit(e) {
         e.preventDefault();
@@ -206,6 +250,7 @@ export const handleContacts = ({
     return {
         actualizar,
         crear,
+        crearMovil,
         eliminar,
         submit,
         handleDelete,

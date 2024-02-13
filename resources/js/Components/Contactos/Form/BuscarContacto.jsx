@@ -9,7 +9,13 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
+export const BuscarContacto = ({
+    selects,
+    handleOpenBuscador,
+    isAdmin,
+    setVista,
+    isSmallScreen,
+}) => {
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
 
@@ -56,7 +62,7 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
                     icon: "success",
                     title: "Busqueda finalizada",
                 });
-                handleOpenBuscador(null);
+                isSmallScreen ? setVista("movil") : handleOpenBuscador(null);
             },
             onError: () => {
                 const Toast = Swal.mixin({
@@ -81,7 +87,9 @@ export const BuscarContacto = ({ selects, handleOpenBuscador, isAdmin }) => {
     return (
         <div
             id="buscarContacto"
-            className="w-1/2 flex flex-col items-center justify-between  rounded-xl m-auto"
+            className={` ${
+                isSmallScreen ? "w-screen overflow-y-auto" : "w-1/2"
+            } flex flex-col items-center justify-between  rounded-xl m-auto`}
         >
             <header className="h-15 w-full flex items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
                 Buscador de Frecuencias
