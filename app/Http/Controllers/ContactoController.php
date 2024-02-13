@@ -359,7 +359,13 @@ class ContactoController extends Controller
             if ($request->propio) {
                 $busqueda = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc');
             } else {
-                $busqueda = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('privado', false)->where('user_id', '!=', $user->id)->orderBy('nombre', 'asc');
+                $busqueda = Contacto::with(['usuario' => function ($query) {
+                    $query->select('id', 'username', 'photo');
+                }])
+                    ->with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')
+                    ->where('privado', false)
+                    ->where('user_id', '!=', $user->id)
+                    ->orderBy('nombre', 'asc');
             }
 
             if (isset($request->nombre)) {
@@ -415,6 +421,9 @@ class ContactoController extends Controller
             $roles = $user->roles;
 
             $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
+
+
+
 
             $campos_select = [
                 'tipos_contacto' => $tipos_contacto,

@@ -41,7 +41,6 @@ export const EditarContacto = ({
         setOpen(!open); // Cambia el valor de open a su opuesto
     };
 
-    const [respuesta, setRespuesta] = useState(null);
     const [coordenadas, setCoordenadas] = useState([]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -72,32 +71,33 @@ export const EditarContacto = ({
     });
 
     useEffect(() => {
-        setData({
-            id: datos.id,
-            frecuencia: datos.frecuencia.frecuencia,
-            nombre: datos.nombre,
-            observaciones: datos?.observaciones,
-            comprobado: datos.comprobado,
-            privado: datos.privado,
-            frecuencia_id: datos.frecuencia_id,
-            hora: datos?.hora,
-            fecha: datos?.fecha,
-            tipo_id: datos.tipo.id,
-            banda_id: datos.banda_id,
-            modo_id: datos.modo_id,
-            calidad: datos.calidad,
-            offset: datos.repetidor?.offset,
-            direccion: datos.repetidor?.direccion,
-            codificacion_id: datos?.codificacion_id ?? -1,
-            dcs_id: datos?.dcs_id ?? -1,
-            ctcss_id: datos?.ctcss_id ?? -1,
-            localizacion_id: datos.localizacion_id,
-            localidad: datos.localizacion?.localidad,
-            provincia: datos.localizacion?.provincia,
-            pais: datos.localizacion?.pais,
-            gps: datos.localizacion?.gps,
-            favorito: datos.favorito,
-        });
+        datos &&
+            setData({
+                id: datos.id,
+                frecuencia: datos.frecuencia.frecuencia,
+                nombre: datos.nombre,
+                observaciones: datos?.observaciones,
+                comprobado: datos.comprobado,
+                privado: datos.privado,
+                frecuencia_id: datos.frecuencia_id,
+                hora: datos?.hora,
+                fecha: datos?.fecha,
+                tipo_id: datos.tipo.id,
+                banda_id: datos.banda_id,
+                modo_id: datos.modo_id,
+                calidad: datos.calidad,
+                offset: datos.repetidor?.offset,
+                direccion: datos.repetidor?.direccion,
+                codificacion_id: datos?.codificacion_id ?? -1,
+                dcs_id: datos?.dcs_id ?? -1,
+                ctcss_id: datos?.ctcss_id ?? -1,
+                localizacion_id: datos.localizacion_id,
+                localidad: datos.localizacion?.localidad,
+                provincia: datos.localizacion?.provincia,
+                pais: datos.localizacion?.pais,
+                gps: datos.localizacion?.gps,
+                favorito: datos.favorito,
+            });
 
         if (datos.localizacion?.gps) {
             let coords = datos.localizacion.gps.split(",");
@@ -220,6 +220,20 @@ export const EditarContacto = ({
                         )}
                     </div>
                 </div>
+
+                {datos.user_id !== userDB.id ? (
+                    <div className="w-4/5 bg-black flex flex-row items-center justify-center p-4 gap-5">
+                        <img
+                            className="w-[30px] h-[30px] rounded-full"
+                            src={datos.usuario.photo}
+                        />
+                        <span className="text-xs">
+                            {datos.usuario.username}
+                        </span>
+                    </div>
+                ) : (
+                    ""
+                )}
 
                 <div className={classZona}>
                     <legend className={clasesLegend}>Datos</legend>
