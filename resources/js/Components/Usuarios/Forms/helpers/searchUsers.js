@@ -1,9 +1,7 @@
-export async function searchUsers(data) {
+export async function searchUsers(data, token) {
     try {
         // post(route("usuario_busqueda"));
-        const token = document
-            .getElementById("meta_token")
-            .getAttribute("content");
+
         let url = "user/busqueda?_token=" + token;
 
         let response = await fetch(url, {

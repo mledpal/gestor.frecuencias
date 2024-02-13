@@ -44,7 +44,10 @@ export const BuscarUsuarios = ({
 
     async function submit(e) {
         e.preventDefault();
-        let response = await searchUsers(data);
+        const token = document
+            .getElementById("meta_token")
+            .getAttribute("content");
+        let response = await searchUsers(data, token);
         setRespuesta(response);
         const Toast = Swal.mixin({
             toast: true,
