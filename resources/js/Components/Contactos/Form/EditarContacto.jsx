@@ -158,7 +158,7 @@ export const EditarContacto = ({
                         isSmallScreen ? "w-full" : "w-4/5"
                     } sticky top-0 h-[75px]  bg-gradient-to-b from-${
                         datos.tipo.color
-                    } to-slate-900 to-50%   z-10  flex items-center justify-center mt-0 p-5 gap-10`}
+                    } to-slate-900 to-75%  z-10 flex items-center justify-center mt-0 p-5 gap-10`}
                 >
                     <div
                         name="guardar_datos"
