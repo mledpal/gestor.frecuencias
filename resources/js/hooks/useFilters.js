@@ -1,46 +1,12 @@
 import { useEffect, useState, busqueda } from "react";
 
 export const useFilters = (busqueda) => {
-    useEffect(() => {
-        getContacts();
-    }, [busqueda]);
-
-    const busquedaReset = () => {
-        busqueda = undefined;
-        getContacts();
-    };
-
-    // Función que recoge todos los contactos por AJAX
-    const getContacts = () => {
-        if (busqueda === undefined) {
-            fetch("ajax/contacto/get")
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json(); // Llama a la función json para obtener los datos
-                    } else {
-                        console.log(
-                            "Respuesta de red OK pero respuesta HTTP no OK"
-                        );
-                    }
-                })
-                .then(function (data) {
-                    setContactos(data); // Aquí tendrás los datos de la respuesta
-                    // Ahora puedes hacer algo con los datos, por ejemplo, mostrarlos en la interfaz
-                })
-                .catch(function (error) {
-                    console.log(
-                        "Hubo un problema con la petición Fetch:" +
-                            error.message
-                    );
-                });
-        } else {
-            setContactos(busqueda);
-        }
-    };
-
+    const [isLoading, setLoading] = useState(false);
+    const [stateFilters, setFilterState] = useState(false);
     const [contactos, setContactos] = useState([]);
     const [contactosFiltrados, setFiltrados] = useState([]);
     const [visible, setVisible] = useState(false);
+
     const [filtros, setFiltros] = useState({
         favorito: true,
         comprobado: true,
@@ -69,6 +35,54 @@ export const useFilters = (busqueda) => {
         { label: "Servicios", key: "servicio" },
     ];
 
+    useEffect(() => {
+        setFiltrados(filtrarContactos(contactos));
+        setLoading(false);
+    }, [contactos, filtros]);
+
+    useEffect(() => {
+        filtrarContactos(contactos);
+        setLoading(false);
+    }, [filtros]);
+
+    useEffect(() => {
+        getContacts();
+    }, [busqueda]);
+
+    const busquedaReset = () => {
+        busqueda = undefined;
+        getContacts();
+    };
+
+    // Función que recoge todos los contactos por AJAX
+    const getContacts = () => {
+        setLoading(true);
+
+        if (busqueda === undefined) {
+            fetch("ajax/contacto/get")
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json(); // Llama a la función json para obtener los datos
+                    } else {
+                        console.log(
+                            "Respuesta de red OK pero respuesta HTTP no OK"
+                        );
+                    }
+                })
+                .then(function (data) {
+                    setContactos(data); // Aquí tendrás los datos de la respuesta
+                })
+                .catch(function (error) {
+                    console.log(
+                        "Hubo un problema con la petición Fetch:" +
+                            error.message
+                    );
+                });
+        } else {
+            setContactos(busqueda);
+        }
+    };
+
     const handleFilterVisible = () => {
         setVisible(!visible);
     };
@@ -94,7 +108,6 @@ export const useFilters = (busqueda) => {
             );
         });
     };
-    const [stateFilters, setFilterState] = useState(false);
 
     const handlerCheckUncheck = () => {
         setFilterState(!stateFilters);
@@ -120,15 +133,8 @@ export const useFilters = (busqueda) => {
     //     getContacts();
     // }, []);
 
-    useEffect(() => {
-        setFiltrados(filtrarContactos(contactos));
-    }, [contactos, filtros]);
-
-    useEffect(() => {
-        filtrarContactos(contactos);
-    }, [filtros]);
-
     return {
+        isLoading,
         visible,
         filtros,
         handleCheck,

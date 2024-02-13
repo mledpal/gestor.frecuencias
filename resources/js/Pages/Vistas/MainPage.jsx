@@ -16,6 +16,7 @@ import { Mensajes } from "@/Components/Mensajes/Mensajes";
 import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
 import { Conversacion } from "@/Components/Conversacion/Conversacion";
 import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
+import { RotatingLines } from "react-loader-spinner";
 
 export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
     const [datos, setDatos] = useState(null);
@@ -31,6 +32,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
         eraseContact,
         updateContact,
         busquedaReset,
+        isLoading,
     } = useFilters(busqueda);
 
     const { datosNuevos, handleOpen, open } = useContactoCreate();
@@ -101,10 +103,26 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                         </span>
                     </div>
 
-                    <ListaContactos
-                        contactos={contactosFiltrados}
-                        setDatos={setDatos}
-                    />
+                    {isLoading ? (
+                        <div className="h-full w-full flex flex-col items-center p-1">
+                            <RotatingLines
+                                visible={true}
+                                height="96"
+                                width="96"
+                                color="grey"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                ariaLabel="rotating-lines-loading"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                            />
+                        </div>
+                    ) : (
+                        <ListaContactos
+                            contactos={contactosFiltrados}
+                            setDatos={setDatos}
+                        />
+                    )}
                 </div>
 
                 <div
