@@ -96,7 +96,7 @@ export const Vistas = ({
                 />
             )}
 
-            {vista === "conversacion" && (
+            {vista === "conversacion" && id && (
                 <Conversacion
                     userID={id}
                     userDB={userDB}
