@@ -72,7 +72,6 @@ export const Vistas = ({
                     selects={selects}
                     setVista={setVista}
                     isSmallScreen={isSmallScreen}
-                    handleOpenBuscador={handleOpenBuscador}
                 />
             )}
 

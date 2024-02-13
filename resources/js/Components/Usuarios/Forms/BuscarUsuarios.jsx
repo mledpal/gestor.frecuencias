@@ -208,9 +208,9 @@ export const BuscarUsuarios = ({
                         actionSubmit={submit}
                         actionReset={() => reset()}
                         actionExit={() =>
-                            handleOpenBuscador
-                                ? handleOpenBuscador(null)
-                                : setVista("movil")
+                            isSmallScreen
+                                ? setVista("movil")
+                                : handleOpenBuscador(null)
                         }
                     />
                 </footer>

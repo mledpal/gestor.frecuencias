@@ -344,7 +344,11 @@ export const BuscarContacto = ({
                     <BotonesFormulario
                         actionSubmit={submit}
                         actionReset={() => reset()}
-                        actionExit={() => handleOpenBuscador(null)}
+                        actionExit={() => {
+                            handleOpenBuscador
+                                ? handleOpenBuscador()
+                                : setVista("movil");
+                        }}
                     />
                 </footer>
             </form>
