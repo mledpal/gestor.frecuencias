@@ -33,7 +33,7 @@ export const Conversacion = ({
 
     const { data, setData, post, errors, reset } = useForm({
         mensaje: "",
-        destinatario_id: "",
+        destinatario_id: userID ?? "",
         _token: "",
     });
 
