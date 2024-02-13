@@ -25,7 +25,7 @@ class ValidateRegister extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|max:20|unique:'.User::class,
+            'username' => 'required|string|max:20|unique:' . User::class,
             'nombre' => 'required|string|max:50',
             'apellidos' => 'required|string|max:150',
             'email' => 'required|string|email|max:255|unique:' . User::class,
@@ -33,7 +33,8 @@ class ValidateRegister extends FormRequest
         ];
     }
 
-    public function messages() {
+    public function messages()
+    {
         return [
             'unique' => [
                 'username' => 'El nombre de usuario ya está siendo usado',
@@ -42,7 +43,7 @@ class ValidateRegister extends FormRequest
             'required' => 'El dato es requerido',
             'email' => 'Debe introducir un correo válido',
             'string' => 'El valor debe ser una cadena de texto',
+            'min' => 'La contraseña debe ser más larga',
         ];
-
     }
 }
