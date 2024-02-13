@@ -56,7 +56,7 @@ export const Conversacion = ({
                             className=" w-[70px] h-[70px] rounded-full"
                         />
                         <span className=" backdrop-blur-md">
-                            {userData.username}
+                            {userData.username} {data.destinatario_id}
                         </span>
                     </div>
                 ) : (
