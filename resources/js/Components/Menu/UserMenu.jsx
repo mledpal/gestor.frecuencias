@@ -31,7 +31,7 @@ export const UserMenu = ({ setVista }) => {
                     Buscar Contacto
                 </li>
             )}
-
+            <hr className="my-2" />
             <li
                 className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm "
                 onClick={() => setVista("mensajes")}
@@ -39,6 +39,15 @@ export const UserMenu = ({ setVista }) => {
                 <i className="fa-sharp fa-solid fa-envelope"></i>
                 Mensajes
             </li>
+            {isSmallScreen && (
+                <li
+                    className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm "
+                    onClick={() => setVista("buscar_usuario")}
+                >
+                    <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
+                    Buscar Usuario
+                </li>
+            )}
         </>
     );
 };
