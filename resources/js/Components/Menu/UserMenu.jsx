@@ -32,7 +32,10 @@ export const UserMenu = ({ setVista }) => {
                 </li>
             )}
 
-            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm ">
+            <li
+                className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm "
+                onClick={() => setVista("mensajes")}
+            >
                 <i className="fa-sharp fa-solid fa-envelope"></i>
                 Mensajes
             </li>

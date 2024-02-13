@@ -16,7 +16,13 @@ import Pusher from "pusher-js";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 import { RotatingLines } from "react-loader-spinner";
 
-export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
+export const Conversacion = ({
+    handleOpenSendMessage,
+    userID,
+    userDB,
+    setVista,
+    isSmallScreen,
+}) => {
     const clasesLabel = "text-center mb-2 text-black select-none";
     const csrf = document
         .querySelector('meta[id="meta_token"]')
@@ -168,9 +174,19 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
     return (
         <div
             id="conversacion"
-            className={`shadow-[0px_0px_15px_rgba(255,255,255,.5)]  max-h-screen h-screen overflow-y-auto w-2/4 flex flex-col items-center justify-between  rounded-xl m-auto`}
+            className={` ${
+                isSmallScreen
+                    ? "w-screen"
+                    : "w-2/4 shadow-[0px_0px_15px_rgba(255,255,255,.5)]"
+            }   max-h-screen h-screen overflow-y-auto flex flex-col items-center justify-between  rounded-xl m-auto`}
         >
-            <header className="sticky top-0 h-50 w-full flex flex-col items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
+            <header
+                className={`${
+                    isSmallScreen
+                        ? ""
+                        : "shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] "
+                } sticky top-0 h-50 w-full flex flex-col items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl `}
+            >
                 {userData ? (
                     <div className="h-[75px] w-full flex flex-row gap-4 items-center justify-center">
                         <img
@@ -250,9 +266,11 @@ export const Conversacion = ({ handleOpenSendMessage, userID, userDB }) => {
                                 <BotonesFormulario
                                     actionSubmit={submit}
                                     actionReset={() => reset("mensaje")}
-                                    actionExit={() =>
-                                        handleOpenSendMessage(null)
-                                    }
+                                    actionExit={() => {
+                                        handleOpenSendMessage
+                                            ? handleOpenSendMessage()
+                                            : setVista("movil");
+                                    }}
                                 />
                             ) : (
                                 ""

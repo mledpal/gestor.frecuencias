@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Users } from "./Admin/Users/Users";
 import { MainPage } from "./Vistas/MainPage";
 import { MovilPage } from "./Vistas/MovilPage";
@@ -7,6 +7,10 @@ import { useContactoCreate } from "@/hooks/useContactoCreate";
 import { useFilters } from "@/hooks/useFilters";
 import { BuscarContacto } from "@/Components/Contactos/Form/BuscarContacto";
 import { useMediaQuery } from "@react-hook/media-query";
+import { Mensajes } from "@/Components/Mensajes/Mensajes";
+import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
+import { Conversacion } from "@/Components/Conversacion/Conversacion";
+import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
 
 export const Vistas = ({
     vista,
@@ -19,8 +23,18 @@ export const Vistas = ({
     const isSmallScreen = useMediaQuery("(max-width: 900px)");
     const { datosNuevos } = useContactoCreate();
     const { updateContact } = useFilters(busqueda);
+    const [id, setID] = useState(null);
+
     const [size, setSize] = useState(null);
     const handleOpenBuscador = (value) => setSize(value);
+    const {
+        userID,
+        setUserID,
+        sizeUserSearchModal,
+        sizeUserMsg,
+        handleOpenUserSearcher,
+        handleOpenSendMessage,
+    } = useBuscarUsuario();
 
     return (
         <div className="w-full h-full">
@@ -59,6 +73,36 @@ export const Vistas = ({
                     setVista={setVista}
                     isSmallScreen={isSmallScreen}
                     handleOpenBuscador={handleOpenBuscador}
+                />
+            )}
+
+            {vista === "mensajes" && (
+                <Mensajes
+                    userDB={userDB}
+                    handleOpenSendMessage={handleOpenSendMessage}
+                    setUserID={setUserID}
+                    isSmallScreen={isSmallScreen}
+                    setVista={setVista}
+                    setID={setID}
+                />
+            )}
+
+            {vista === "buscar_usuario" && (
+                <BuscarUsuarios
+                    handleOpenBuscador={handleOpenUserSearcher}
+                    handleOpenSendMessage={handleOpenSendMessage}
+                    setUserID={setID}
+                    setVista={setVista}
+                    isSmallScreen={isSmallScreen}
+                />
+            )}
+
+            {vista === "conversacion" && (
+                <Conversacion
+                    userID={id}
+                    userDB={userDB}
+                    setVista={setVista}
+                    isSmallScreen={isSmallScreen}
                 />
             )}
         </div>

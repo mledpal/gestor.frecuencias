@@ -11,6 +11,9 @@ export const Mensajes = ({
     handleOpenSendMessage,
     setUserID,
     userDB,
+    setVista,
+    isSmallScreen,
+    setID,
 }) => {
     const [mensajes, setMensajes] = useState([]);
     const clasesBotonesFormulario =
@@ -65,8 +68,13 @@ export const Mensajes = ({
 
     const handleUserClicked = (e, id) => {
         e.preventDefault();
-        setUserID(id);
-        handleOpenSendMessage("xxl");
+        if (isSmallScreen) {
+            setID(id);
+            setVista("conversacion");
+        } else {
+            setUserID(id);
+            handleOpenSendMessage("xxl");
+        }
     };
 
     return (
@@ -83,7 +91,11 @@ export const Mensajes = ({
                         <i
                             // onClick={submit}
                             className={`fa-solid fa-magnifying-glass text-white ${clasesBotonesFormulario} `}
-                            onClick={() => handleOpenUserSearcher("xxl")}
+                            onClick={() =>
+                                handleOpenUserSearcher
+                                    ? handleOpenUserSearcher("xxl")
+                                    : setVista("buscar_usuario")
+                            }
                         ></i>
                         {/* <i
                         className={`fa-solid fa-person-walking-arrow-right text-white `}
@@ -116,9 +128,9 @@ export const Mensajes = ({
                                           <UserImage userDB={c} link="" />
                                       </div>
                                       <span
-                                          onClick={(e) =>
-                                              handleDeleteConversation(e, c.id)
-                                          }
+                                          onClick={(e) => {
+                                              handleDeleteConversation(e, c.id);
+                                          }}
                                       >
                                           <i className="fa-solid fa-trash-can text-red-500 cursor-pointer hover:scale-125 hover:shadow-[0_0_5px_rgba(0,0,0,.1)] ease-in-out duration-150 hover:drop-shadow-[0_0_5px_rgba(255,255,255,.4)]"></i>
                                       </span>

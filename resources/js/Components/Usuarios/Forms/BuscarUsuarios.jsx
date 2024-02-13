@@ -8,10 +8,15 @@ import { searchUsers } from "./helpers/searchUsers";
 import { UserImage } from "@/Components/Images/UserImage";
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 export const BuscarUsuarios = ({
     handleOpenBuscador,
     handleOpenSendMessage,
     setUserID,
+    isSmallScreen,
+    setVista,
 }) => {
     const [respuesta, setRespuesta] = useState(null);
     const clasesLabel = "text-center mb-2 text-black select-none";
@@ -41,12 +46,29 @@ export const BuscarUsuarios = ({
         e.preventDefault();
         let response = await searchUsers(data);
         setRespuesta(response);
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            },
+        });
+        Toast.fire({
+            icon: "success",
+            title: "Busqueda concluida",
+        });
     }
 
     return (
         <div
             id="buscarUsuario"
-            className={`shadow-[0px_0px_15px_rgba(255,255,255,.5)] flex flex-col items-center justify-between  rounded-xl m-auto ${
+            className={`${
+                isSmallScreen ? "h-full" : ""
+            } shadow-[0px_0px_15px_rgba(255,255,255,.5)] flex flex-col items-center justify-between  rounded-xl m-auto ${
                 respuesta ? "overflow-y-auto" : ""
             }`}
         >
@@ -159,9 +181,14 @@ export const BuscarUsuarios = ({
                             respuesta.map((user, id) => (
                                 <span
                                     key={id}
-                                    onClick={(e) =>
-                                        handleUserClicked(e, user.id)
-                                    }
+                                    onClick={(e) => {
+                                        if (!isSmallScreen) {
+                                            handleUserClicked(e, user.id);
+                                        } else {
+                                            setUserID(user.id);
+                                            setVista("conversacion");
+                                        }
+                                    }}
                                 >
                                     <UserImage
                                         isAdmin={0}
@@ -180,7 +207,11 @@ export const BuscarUsuarios = ({
                     <BotonesFormulario
                         actionSubmit={submit}
                         actionReset={() => reset()}
-                        actionExit={() => handleOpenBuscador(null)}
+                        actionExit={() =>
+                            handleOpenBuscador
+                                ? handleOpenBuscador(null)
+                                : setVista("movil")
+                        }
                     />
                 </footer>
             </form>
