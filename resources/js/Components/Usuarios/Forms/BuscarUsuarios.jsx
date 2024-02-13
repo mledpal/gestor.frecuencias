@@ -20,8 +20,14 @@ export const BuscarUsuarios = ({
 }) => {
     const [respuesta, setRespuesta] = useState(null);
     const clasesLabel = "text-center mb-2 text-black select-none";
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
+        const csrf = document
+            .getElementById("meta_token")
+            .getAttribute("content");
+        setToken(csrf);
+
         setTimeout(() => {
             document.getElementById("buscarUsuario").scrollTo(0, 0);
         }, 100);
@@ -33,6 +39,7 @@ export const BuscarUsuarios = ({
         indicativo: "",
         localidad: "",
         provincia: "",
+        _token: token,
     });
 
     const handleUserClicked = (e, id) => {
@@ -44,9 +51,7 @@ export const BuscarUsuarios = ({
 
     async function submit(e) {
         e.preventDefault();
-        const token = document
-            .getElementById("meta_token")
-            .getAttribute("content");
+
         let response = await searchUsers(data, token);
         setRespuesta(response);
         const Toast = Swal.mixin({

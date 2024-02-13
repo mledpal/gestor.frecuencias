@@ -47,7 +47,6 @@ export const useConversacion = (userID, userDB) => {
         }
     }
     async function getData(userID) {
-        console.log(userID);
         const datos = await getUserInfo(userID);
         const texto = await getConversacion(userID);
         datos && setUserData(datos);
