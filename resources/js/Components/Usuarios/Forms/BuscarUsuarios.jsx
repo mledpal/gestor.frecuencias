@@ -54,13 +54,17 @@ export const BuscarUsuarios = ({
         try {
             // post(route("usuario_busqueda"));
 
-            let url = "user/busqueda?_token=" + token;
+            let csrf = document
+                .getElementById("meta_token")
+                .getAttribute("content");
+
+            let url = "user/busqueda?_token=" + (token ?? csrf);
 
             let response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "x-csrf-token": token,
+                    "x-csrf-token": token ?? csrf,
                 },
 
                 body: JSON.stringify(data),
@@ -136,7 +140,9 @@ export const BuscarUsuarios = ({
                         <input
                             type="hidden"
                             name="_token"
-                            value={data._token}
+                            value={document
+                                .getElementById("meta_token")
+                                .getAttribute("content")}
                         />
 
                         <div className="w-full">
