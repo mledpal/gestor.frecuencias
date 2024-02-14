@@ -77,7 +77,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                         ></i>
                         {busqueda ? (
                             <i
-                                className="fa-solid fa-magnifying-glass-arrow-right cursor-pointer hover:scale-150 duration-150 select-none"
+                                className="fa-solid fa-broom cursor-pointer hover:scale-150 duration-150 select-none"
                                 onClick={() => busquedaReset()}
                             ></i>
                         ) : (
