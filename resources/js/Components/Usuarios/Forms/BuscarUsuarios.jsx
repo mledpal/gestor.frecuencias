@@ -38,7 +38,9 @@ export const BuscarUsuarios = ({
         indicativo: "",
         localidad: "",
         provincia: "",
-        _token: token,
+        _token:
+            token ??
+            document.getElementById("meta_token").getAttribute("content"),
     });
 
     const handleUserClicked = (e, id) => {
@@ -73,8 +75,6 @@ export const BuscarUsuarios = ({
 
     async function submit(e) {
         e.preventDefault();
-
-        setData({ _token: token });
 
         let response = await searchUsers(data, token);
         setRespuesta(response);
@@ -237,8 +237,14 @@ export const BuscarUsuarios = ({
 
                 <footer className="p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
                     <BotonesFormulario
-                        actionSubmit={submit}
-                        actionReset={() => reset()}
+                        actionSubmit={(e) => {
+                            setRespuesta(null);
+                            submit(e);
+                        }}
+                        actionReset={() => {
+                            reset();
+                            setRespuesta(null);
+                        }}
                         actionExit={() =>
                             isSmallScreen
                                 ? setVista("movil")
