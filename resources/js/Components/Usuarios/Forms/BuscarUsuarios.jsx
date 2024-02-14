@@ -54,7 +54,7 @@ export const BuscarUsuarios = ({
         try {
             // post(route("usuario_busqueda"));
 
-            let url = "user/busqueda?_token=" + token;
+            let url = "user/busqueda"; //?_token=" + token;
 
             let response = await fetch(url, {
                 method: "POST",
@@ -75,9 +75,11 @@ export const BuscarUsuarios = ({
 
     async function submit(e) {
         e.preventDefault();
+        setRespuesta(null);
 
         let response = await searchUsers(data, token);
-        setRespuesta(response);
+        response && setRespuesta(response);
+
         const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -120,7 +122,7 @@ export const BuscarUsuarios = ({
                             name="_token"
                             value={data._token}
                         />
-                        
+
                         <div className="w-full">
                             <InputLabel
                                 htmlFor="usuario_bus"
@@ -137,6 +139,7 @@ export const BuscarUsuarios = ({
                                 }
                                 autoComplete="off"
                                 placeholder="usuario"
+                                onSubmit={submit}
                             />
                             <InputError
                                 message={errors.usuario}
@@ -157,6 +160,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("indicativo", e.target.value)
                                 }
+                                onSubmit={submit}
                                 autoComplete="off"
                                 placeholder="indicativo"
                             />
@@ -181,6 +185,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("localidad", e.target.value)
                                 }
+                                onSubmit={submit}
                                 autoComplete="off"
                                 placeholder="Localidad"
                             />
@@ -204,6 +209,7 @@ export const BuscarUsuarios = ({
                                 onChange={(e) =>
                                     setData("provincia", e.target.value)
                                 }
+                                onSubmit={submit}
                                 autoComplete="off"
                                 placeholder="Provincia"
                             />
@@ -243,10 +249,7 @@ export const BuscarUsuarios = ({
 
                 <footer className="p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
                     <BotonesFormulario
-                        actionSubmit={(e) => {
-                            setRespuesta(null);
-                            submit(e);
-                        }}
+                        actionSubmit={submit}
                         actionReset={() => {
                             reset();
                             setRespuesta(null);
