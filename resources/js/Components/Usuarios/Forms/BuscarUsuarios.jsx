@@ -23,11 +23,6 @@ export const BuscarUsuarios = ({
 
     useEffect(() => {
         setTimeout(() => {
-            const csrf = document
-                .getElementById("meta_token")
-                .getAttribute("content");
-            setToken(csrf);
-
             document.getElementById("buscarUsuario").scrollTo(0, 0);
         }, 200);
         setRespuesta(null);
@@ -80,8 +75,14 @@ export const BuscarUsuarios = ({
     }
 
     async function submit(e) {
-        console.log(token);
+        const csrf = document
+            .getElementById("meta_token")
+            .getAttribute("content");
+        setToken(csrf);
+        setData({ ...data, _token: token });
+
         e.preventDefault();
+
         setRespuesta(null);
 
         let response = await searchUsers(data, token);
