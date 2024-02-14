@@ -4,7 +4,6 @@ export const useFilters = (busqueda) => {
     const [contactos, setContactos] = useState(null);
     const [contactosFiltrados, setFiltrados] = useState([]);
     const [isLoading, setLoading] = useState(false);
-    const [stateFilters, setFilterState] = useState(false);
     const [visible, setVisible] = useState(false);
     const [filtros, setFiltros] = useState({
         favorito: true,
@@ -48,11 +47,15 @@ export const useFilters = (busqueda) => {
     }
 
     useEffect(() => {
-        getContactos();
+        if (!busqueda) {
+            getContactos();
+        } else {
+            setContactos(busqueda);
+        }
     }, [busqueda]);
 
     useEffect(() => {
-        if (contactos !== null) {
+        if (contactos) {
             setFiltrados(filtrarContactos(contactos));
         }
     }, [contactos, filtros]);
@@ -94,11 +97,10 @@ export const useFilters = (busqueda) => {
     };
 
     const handlerCheckUncheck = () => {
-        setFilterState((prevState) => !prevState);
         setFiltros((prevFiltros) => {
             const nuevoFiltros = { ...prevFiltros };
             listaFiltros.forEach((f) => {
-                nuevoFiltros[f.key] = stateFilters;
+                nuevoFiltros[f.key] = !filtros[f.key];
             });
             return nuevoFiltros;
         });
@@ -111,7 +113,7 @@ export const useFilters = (busqueda) => {
     };
 
     const updateContact = () => {
-        getContactos();
+        setContactos(null);
     };
 
     return {
