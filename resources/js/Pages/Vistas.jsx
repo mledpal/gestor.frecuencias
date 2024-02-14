@@ -25,8 +25,6 @@ export const Vistas = ({
     const { updateContact } = useFilters(busqueda);
     const [id, setID] = useState(null);
 
-    const [size, setSize] = useState(null);
-    const handleOpenBuscador = (value) => setSize(value);
     const {
         userID,
         setUserID,
