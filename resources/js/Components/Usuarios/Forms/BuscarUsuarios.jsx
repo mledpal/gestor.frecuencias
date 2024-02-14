@@ -22,14 +22,14 @@ export const BuscarUsuarios = ({
     const [token, setToken] = useState(null);
 
     useEffect(() => {
-        const csrf = document
-            .getElementById("meta_token")
-            .getAttribute("content");
-        setToken(csrf);
-
         setTimeout(() => {
+            const csrf = document
+                .getElementById("meta_token")
+                .getAttribute("content");
+            setToken(csrf);
+
             document.getElementById("buscarUsuario").scrollTo(0, 0);
-        }, 100);
+        }, 200);
         setRespuesta(null);
     }, []);
 
@@ -43,6 +43,11 @@ export const BuscarUsuarios = ({
             document.getElementById("meta_token").getAttribute("content"),
     });
 
+    useEffect(() => {
+        console.log(token);
+        token && setData({ ...data, _token: token });
+    }, []);
+
     const handleUserClicked = (e, id) => {
         e.preventDefault();
         handleOpenBuscador(null);
@@ -54,20 +59,13 @@ export const BuscarUsuarios = ({
         try {
             // post(route("usuario_busqueda"));
 
-            let url =
-                "user/busqueda?_token=" +
-                document.getElementById("meta_token").getAttribute("content");
+            let url = "user/busqueda?_token=" + token;
 
             let response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document
-                        .getElementById("meta_token")
-                        .getAttribute("content"),
-                    "x-csrf-token": document
-                        .getElementById("meta_token")
-                        .getAttribute("content"),
+                    "x-csrf-token": token,
                 },
 
                 body: JSON.stringify(data),
@@ -82,6 +80,7 @@ export const BuscarUsuarios = ({
     }
 
     async function submit(e) {
+        console.log(token);
         e.preventDefault();
         setRespuesta(null);
 
@@ -131,7 +130,6 @@ export const BuscarUsuarios = ({
                             name="_token"
                             value={data._token}
                         />
-                        <meta name="csrf-token" content={data._token}></meta>
 
                         <div className="w-full">
                             <InputLabel
