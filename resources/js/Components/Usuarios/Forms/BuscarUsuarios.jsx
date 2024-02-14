@@ -54,14 +54,22 @@ export const BuscarUsuarios = ({
         try {
             // post(route("usuario_busqueda"));
 
-            let url = "user/busqueda"; //?_token=" + token;
+            let url =
+                "user/busqueda?_token=" +
+                document.getElementById("meta_token").getAttribute("content");
 
             let response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": token,
+                    "X-CSRF-TOKEN": document
+                        .getElementById("meta_token")
+                        .getAttribute("content"),
+                    "x-csrf-token": document
+                        .querySelector("[name=csrf-token]")
+                        .getAttribute("content"),
                 },
+
                 body: JSON.stringify(data),
             });
 
@@ -117,11 +125,7 @@ export const BuscarUsuarios = ({
             >
                 <main className="flex flex-col grow bg-gradient-to-br from-slate-800  to-gray-800 shadow-[inset_2px_0px_5px_rgba(255,255,255,.5),inset_-2px_0px_5px_rgba(0,0,0,.5)] pb-5">
                     <div className="flex flex-row items-center justify-between px-4 gap-4 mt-4">
-                        <input
-                            type="hidden"
-                            name="_token"
-                            value={data._token}
-                        />
+                        <meta name="csrf-token" content={token}></meta>
 
                         <div className="w-full">
                             <InputLabel

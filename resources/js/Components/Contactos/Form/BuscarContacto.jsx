@@ -7,7 +7,7 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+// import withReactContent from "sweetalert2-react-content";
 
 export const BuscarContacto = ({
     selects,
