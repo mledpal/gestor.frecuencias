@@ -75,13 +75,20 @@ export const BuscarUsuarios = ({
     }
 
     async function submit(e) {
+        e.preventDefault();
+
         const csrf = document
             .getElementById("meta_token")
             .getAttribute("content");
         setToken(csrf);
         setData({ ...data, _token: token });
 
-        e.preventDefault();
+        console.log("DATA : ", data);
+        console.log("TOKEN : ", token);
+        console.log(
+            "META : ",
+            document.getElementById("meta_token").getAttribute("content")
+        );
 
         setRespuesta(null);
 
