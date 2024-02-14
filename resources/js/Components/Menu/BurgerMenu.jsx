@@ -23,13 +23,16 @@ export const BurgerMenu = ({ isAdmin, setVista }) => {
                     onMouseEnter={() => setVisible(true)}
                     onMouseLeave={() => setVisible(false)}
                 >
-                    <CommonMenu setVista={setVista} />
+                    <CommonMenu setVista={setVista} setVisible={setVisible} />
                     <hr className="my-2" />
-                    <UserMenu setVista={setVista} />
+                    <UserMenu setVista={setVista} setVisible={setVisible} />
                     {isAdmin ? (
                         <>
                             <hr className="my-2" />
-                            <AdminMenu setVista={setVista} />
+                            <AdminMenu
+                                setVista={setVista}
+                                setVisible={setVisible}
+                            />
                             <hr className="my-2" />
                         </>
                     ) : (

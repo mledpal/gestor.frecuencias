@@ -1,9 +1,12 @@
-export const AdminMenu = ({ setVista }) => {
+export const AdminMenu = ({ setVista, setVisible }) => {
     return (
         <>
             <li
                 className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm "
-                onClick={() => setVista("admin_users")}
+                onClick={() => {
+                    setVisible(null);
+                    setVista("admin_users");
+                }}
             >
                 <i className="fa-solid fa-address-book text-orange-300"></i>
                 Usuarios

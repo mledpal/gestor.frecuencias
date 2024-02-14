@@ -1,13 +1,16 @@
 import { useMediaQuery } from "@react-hook/media-query";
 
-export const CommonMenu = ({ setVista }) => {
+export const CommonMenu = ({ setVista, setVisible }) => {
     const isSmallScreen = useMediaQuery("(max-width: 900px)");
 
     return (
         <>
             <li
                 className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-md "
-                onClick={() => setVista(isSmallScreen ? "movil" : "main")}
+                onClick={() => {
+                    setVisible(null);
+                    setVista(isSmallScreen ? "movil" : "main");
+                }}
             >
                 <i className="fa-solid fa-house" />
                 Inicio
