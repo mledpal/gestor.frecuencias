@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 
 export const useFilters = (busqueda) => {
-    const [isLoading, setLoading] = useState(false);
-    const [stateFilters, setFilterState] = useState(false);
     const [contactos, setContactos] = useState(null);
     const [contactosFiltrados, setFiltrados] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+    const [stateFilters, setFilterState] = useState(false);
     const [visible, setVisible] = useState(false);
-
     const [filtros, setFiltros] = useState({
         favorito: true,
         comprobado: true,
@@ -37,39 +36,40 @@ export const useFilters = (busqueda) => {
 
     async function getContactos() {
         setLoading(true);
-        if (busqueda === undefined) {
+        try {
             const response = await fetch("ajax/contacto/get");
             const data = await response.json();
-            data && setContactos(data);
-        } else {
-            setContactos(busqueda);
+            setContactos(data);
+        } catch (error) {
+            console.error("Error al obtener contactos:", error);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     }
 
     useEffect(() => {
-        setLoading(true);
         getContactos();
-        setLoading(false);
     }, [busqueda]);
 
     useEffect(() => {
-        setLoading(true);
-        if (contactos !== null) setFiltrados(filtrarContactos(contactos));
-        setLoading(false);
+        if (contactos !== null) {
+            setFiltrados(filtrarContactos(contactos));
+        }
     }, [contactos, filtros]);
 
     const busquedaReset = () => {
-        busqueda = undefined;
         getContactos();
     };
 
     const handleFilterVisible = () => {
-        setVisible(!visible);
+        setVisible((prevVisible) => !prevVisible);
     };
 
     const handleCheck = (filtro) => {
-        setFiltros({ ...filtros, [filtro]: !filtros[filtro] });
+        setFiltros((prevFiltros) => ({
+            ...prevFiltros,
+            [filtro]: !prevFiltros[filtro],
+        }));
     };
 
     const filtrarContactos = (contactos) => {
@@ -94,8 +94,7 @@ export const useFilters = (busqueda) => {
     };
 
     const handlerCheckUncheck = () => {
-        setFilterState(!stateFilters);
-
+        setFilterState((prevState) => !prevState);
         setFiltros((prevFiltros) => {
             const nuevoFiltros = { ...prevFiltros };
             listaFiltros.forEach((f) => {
@@ -106,10 +105,9 @@ export const useFilters = (busqueda) => {
     };
 
     const eraseContact = (id) => {
-        const nuevosContactos = contactos.filter(
-            (contacto) => contacto.id !== id
+        setContactos((prevContactos) =>
+            prevContactos.filter((contacto) => contacto.id !== id)
         );
-        setContactos(nuevosContactos);
     };
 
     const updateContact = () => {
