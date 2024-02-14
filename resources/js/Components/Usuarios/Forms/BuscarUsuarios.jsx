@@ -2,13 +2,10 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-
 import { useEffect, useState } from "react";
 import { UserImage } from "@/Components/Images/UserImage";
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
-
 import Swal from "sweetalert2";
-// import withReactContent from "sweetalert2-react-content";
 
 export const BuscarUsuarios = ({
     handleOpenBuscador,
@@ -18,30 +15,29 @@ export const BuscarUsuarios = ({
     setVista,
 }) => {
     const [respuesta, setRespuesta] = useState(null);
-    const clasesLabel = "text-center mb-2 text-black select-none";
-    const [token, setToken] = useState(null);
-
-    useEffect(() => {
-        setTimeout(() => {
-            document.getElementById("buscarUsuario").scrollTo(0, 0);
-        }, 200);
-        setRespuesta(null);
-    }, []);
-
+    const [token, setToken] = useState(() =>
+        document.getElementById("meta_token").getAttribute("content")
+    );
+    const classesLabel = "text-center mb-2 text-black select-none";
     const { data, setData, post, processing, errors, reset } = useForm({
         usuario: "",
         indicativo: "",
         localidad: "",
         provincia: "",
-        _token:
-            token ??
-            document.getElementById("meta_token").getAttribute("content"),
+        _token: token,
     });
 
     useEffect(() => {
-        console.log(token);
-        token && setData({ ...data, _token: token });
+        const scrollToTop = () => {
+            document.getElementById("buscarUsuario").scrollTo(0, 0);
+        };
+        setTimeout(scrollToTop, 200);
+        setRespuesta(null);
     }, []);
+
+    useEffect(() => {
+        setData((prevData) => ({ ...prevData, _token: token }));
+    }, [token]);
 
     const handleUserClicked = (e, id) => {
         e.preventDefault();
@@ -50,50 +46,37 @@ export const BuscarUsuarios = ({
         handleOpenSendMessage("xxl");
     };
 
-    async function searchUsers(data, token) {
+    const searchUsers = async (data, token) => {
         try {
-            // post(route("usuario_busqueda"));
-
-            let csrf = document
+            const csrf = document
                 .getElementById("meta_token")
                 .getAttribute("content");
-
-            let url = "user/busqueda?_token=" + (token ?? csrf);
-
-            let response = await fetch(url, {
+            const url = "user/busqueda?_token=" + (token || csrf);
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "x-csrf-token": token ?? csrf,
+                    "x-csrf-token": token || csrf,
                 },
-
                 body: JSON.stringify(data),
             });
-
-            let datos = await response.json();
-
-            return datos;
+            return await response.json();
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
-    async function submit(e) {
+    const submit = async (e) => {
         e.preventDefault();
-
-        const csrf = document
-            .getElementById("meta_token")
-            .getAttribute("content");
-        setToken(csrf);
-        setData({ ...data, _token: token });
-
+        setToken(() =>
+            document.getElementById("meta_token").getAttribute("content")
+        );
         setRespuesta(null);
-
-        let response = await searchUsers(data, token);
-
+        const response = await searchUsers(data, token);
         setRespuesta(response);
-
-        const Toast = Swal.mixin({
+        Swal.fire({
+            icon: "success",
+            title: "Búsqueda concluida",
             toast: true,
             position: "top-end",
             showConfirmButton: false,
@@ -104,18 +87,12 @@ export const BuscarUsuarios = ({
                 toast.onmouseleave = Swal.resumeTimer;
             },
         });
-        Toast.fire({
-            icon: "success",
-            title: "Busqueda concluida",
-        });
-    }
+    };
 
     return (
         <div
             id="buscarUsuario"
-            className={`${
-                isSmallScreen ? "h-full" : ""
-            } shadow-[0px_0px_15px_rgba(255,255,255,.5)] flex flex-col items-center justify-between  rounded-xl m-auto ${
+            className={`shadow-[0px_0px_15px_rgba(255,255,255,.5)] flex flex-col items-center justify-between rounded-xl m-auto ${
                 respuesta ? "overflow-y-auto" : ""
             }`}
         >
@@ -124,25 +101,16 @@ export const BuscarUsuarios = ({
             </header>
 
             <form
-                method="post"
                 onSubmit={submit}
                 className="h-full w-full flex flex-col justify-between font-sans"
             >
                 <main className="flex flex-col grow bg-gradient-to-br from-slate-800  to-gray-800 shadow-[inset_2px_0px_5px_rgba(255,255,255,.5),inset_-2px_0px_5px_rgba(0,0,0,.5)] pb-5">
                     <div className="flex flex-row items-center justify-between px-4 gap-4 mt-4">
-                        <input
-                            type="hidden"
-                            name="_token"
-                            value={document
-                                .getElementById("meta_token")
-                                .getAttribute("content")}
-                        />
-
                         <div className="w-full">
                             <InputLabel
                                 htmlFor="usuario_bus"
                                 value="Usuario"
-                                className={clasesLabel}
+                                className={classesLabel}
                             />
                             <TextInput
                                 name="usuario_bus"
@@ -165,7 +133,7 @@ export const BuscarUsuarios = ({
                             <InputLabel
                                 htmlFor="indicativo_bus"
                                 value="Indicativo"
-                                className={clasesLabel}
+                                className={classesLabel}
                             />
                             <TextInput
                                 name="indicativo_bus"
@@ -180,7 +148,7 @@ export const BuscarUsuarios = ({
                                 placeholder="indicativo"
                             />
                             <InputError
-                                message={errors.usuario}
+                                message={errors.indicativo}
                                 className="mt-2"
                             />
                         </div>
@@ -190,7 +158,7 @@ export const BuscarUsuarios = ({
                             <InputLabel
                                 htmlFor="localidad"
                                 value="Localidad"
-                                className={clasesLabel}
+                                className={classesLabel}
                             />
                             <TextInput
                                 id="localidad"
@@ -204,7 +172,6 @@ export const BuscarUsuarios = ({
                                 autoComplete="off"
                                 placeholder="Localidad"
                             />
-
                             <InputError
                                 message={errors.localidad}
                                 className="mt-2"
@@ -214,7 +181,7 @@ export const BuscarUsuarios = ({
                             <InputLabel
                                 htmlFor="provincia"
                                 value="Provincia"
-                                className={clasesLabel}
+                                className={classesLabel}
                             />
                             <TextInput
                                 id="provincia"
@@ -228,9 +195,8 @@ export const BuscarUsuarios = ({
                                 autoComplete="off"
                                 placeholder="Provincia"
                             />
-
                             <InputError
-                                message={errors.localidad}
+                                message={errors.provincia}
                                 className="mt-2"
                             />
                         </div>
