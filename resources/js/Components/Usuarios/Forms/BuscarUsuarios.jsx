@@ -87,13 +87,6 @@ export const BuscarUsuarios = ({
         setToken(csrf);
         setData({ ...data, _token: token });
 
-        console.log("DATA : ", data);
-        console.log("TOKEN : ", token);
-        console.log(
-            "META : ",
-            document.getElementById("meta_token").getAttribute("content")
-        );
-
         setRespuesta(null);
 
         let response = await searchUsers(data, token);
