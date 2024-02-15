@@ -17,7 +17,7 @@
     <meta property=”og:description” content=”App web para tener almacenados tus contactos de radio y poder compartirlas
         con más radioaficionados.” />
     <meta property=”og:url” content=”https://www.radioescucha.es” />
-    <meta property=”og:image” content=”/images/logo.webp” />
+    <meta property=”og:image” content=”https://www.radioescucha.es/img/logo.webp” />
     <meta property="og:site_name" content="Gestión de Frecuencias v2.0" />
 
     <!-- Scripts -->
