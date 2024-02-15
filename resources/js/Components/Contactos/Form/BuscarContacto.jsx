@@ -7,7 +7,6 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
 import Swal from "sweetalert2";
-// import withReactContent from "sweetalert2-react-content";
 
 export const BuscarContacto = ({
     selects,
@@ -159,7 +158,11 @@ export const BuscarContacto = ({
                         )}
                     </div>
 
-                    <div className="flex flex-row items-center justify-between px-4 gap-4 mt-4">
+                    <div
+                        className={` ${
+                            isSmallScreen ? "flex-col" : "flex-row"
+                        } flex  items-center justify-between px-4 gap-4 mt-4`}
+                    >
                         <div className="w-full flex flex-col items-center">
                             <InputLabel
                                 htmlFor="fecha_ini"
@@ -204,7 +207,11 @@ export const BuscarContacto = ({
                         </div>
                     </div>
 
-                    <div className="flex flex-row items-center justify-between px-4 gap-4 mt-4">
+                    <div
+                        className={` ${
+                            isSmallScreen ? "flex-col" : "flex-row"
+                        } flex  items-center justify-between px-4 gap-4 mt-4`}
+                    >
                         <div className="w-full flex flex-col items-center">
                             <InputLabel
                                 htmlFor="tipo_id"
@@ -240,7 +247,11 @@ export const BuscarContacto = ({
                             />
                         </div>
                     </div>
-                    <div className="flex flex-row items-center justify-between px-4 gap-4 mt-4">
+                    <div
+                        className={` ${
+                            isSmallScreen ? "flex-col" : "flex-row"
+                        } flex  items-center justify-between px-4 gap-4 mt-4`}
+                    >
                         <div className="w-full">
                             <InputLabel
                                 htmlFor="nombre"
@@ -288,7 +299,11 @@ export const BuscarContacto = ({
                             />
                         </div>
                     </div>
-                    <div className="flex flex-row items-center justify-between px-4 gap-4 mt-4">
+                    <div
+                        className={` ${
+                            isSmallScreen ? "flex-col" : "flex-row"
+                        } flex  items-center justify-between px-4 gap-4 mt-4`}
+                    >
                         <div className="w-full flex flex-col items-center">
                             <InputLabel
                                 htmlFor="localidad"
