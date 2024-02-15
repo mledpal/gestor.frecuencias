@@ -13,7 +13,7 @@ export default {
     safelist: [
         {
             pattern:
-                /-(red|green|blue|yellow|pink|orange|gray|emerald|sky|indigo)-(500|600|700|800|900)/,
+                /-(red|green|blue|yellow|pink|rose|violet|purple|fuchsia|orange|gray|emerald|sky|indigo)-(500|600|700|800|900)/,
         },
     ],
 
