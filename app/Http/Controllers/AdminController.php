@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TipoContacto;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -30,6 +31,19 @@ class AdminController extends Controller
             }
         } else {
             // Usuario no autenticado, redireccionar al login
+            return redirect('/login');
+        }
+    }
+
+    /**
+     * Muestra una lista de los tipos de contacto que hay en BBDD
+     */
+    public function tipos_contacto()
+    {
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $tipos_contacto = TipoContacto::orderBy('nombre', 'asc')->get();
+            return response()->json($tipos_contacto);
+        } else {
             return redirect('/login');
         }
     }

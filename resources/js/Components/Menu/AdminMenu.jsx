@@ -12,9 +12,15 @@ export const AdminMenu = ({ setVista, setVisible }) => {
                 Usuarios
             </li>
 
-            <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm ">
-                <i className="fa-solid fa-shield text-orange-300"></i>
-                Administración
+            <li
+                className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm "
+                onClick={() => {
+                    setVisible(null);
+                    setVista("admin_tipo_contacto");
+                }}
+            >
+                <i className="fa-solid fa-flag text-orange-300"></i>
+                Tipos de Contacto
             </li>
         </>
     );

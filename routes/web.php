@@ -7,6 +7,7 @@ use App\Http\Controllers\FrecuenciaController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TiposContactoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ use Inertia\Inertia;
 
 Route::controller(AdminController::class)->group(function () {
     Route::get('admin/usuarios', 'usuarios')->name('admin_usuarios');
+    Route::get('admin/tipos_contacto', 'tipos_contacto')->name('admin_tipos_contacto');
 });
 
 Route::controller(UserController::class)->group(function () {
@@ -40,6 +42,13 @@ Route::controller(MensajeController::class)->group(function () {
     Route::get('mensajes/{destinoId}/recuperar', 'recuperarConversacion')->name('recuperar_conversacion');
     Route::delete('mensajes/{id}/delete', 'borrarConversacion')->name('borrar_conversacion');
 });
+
+Route::controller(TiposContactoController::class)->group(function () {
+    Route::post('tipo_contacto/nuevo', 'crear')->name('nuevo_tipo_contacto');
+    Route::post('tipo_contacto/{id}/editar', 'editar')->name('editar_tipo_contacto');
+    Route::post('tipo_contacto/{id}/eliminar', 'eliminar')->name('eliminar_tipo_contacto');
+});
+
 
 
 Route::controller(MainController::class)->group(function () {

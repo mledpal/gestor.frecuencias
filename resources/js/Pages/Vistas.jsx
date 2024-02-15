@@ -11,6 +11,7 @@ import { Mensajes } from "@/Components/Mensajes/Mensajes";
 import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
 import { Conversacion } from "@/Components/Conversacion/Conversacion";
 import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
+import { TiposContacto } from "./Admin/Users/TiposContacto";
 
 export const Vistas = ({
     vista,
@@ -52,11 +53,6 @@ export const Vistas = ({
                     userDB={userDB}
                     setVista={setVista}
                 />
-            )}
-
-            {/* Vistas de administración de usuarios */}
-            {vista === "admin_users" && (
-                <Users isSmallScreen={isSmallScreen} userDB={userDB} />
             )}
 
             {vista === "crear_contacto" && (
@@ -102,6 +98,18 @@ export const Vistas = ({
                 <Conversacion
                     userID={id}
                     userDB={userDB}
+                    setVista={setVista}
+                    isSmallScreen={isSmallScreen}
+                />
+            )}
+
+            {/* Vistas de Administración */}
+            {vista === "admin_users" && (
+                <Users isSmallScreen={isSmallScreen} userDB={userDB} />
+            )}
+
+            {vista === "admin_tipo_contacto" && (
+                <TiposContacto
                     setVista={setVista}
                     isSmallScreen={isSmallScreen}
                 />

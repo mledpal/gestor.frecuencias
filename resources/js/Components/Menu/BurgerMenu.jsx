@@ -11,9 +11,7 @@ export const BurgerMenu = ({ isAdmin, setVista, isSmallScreen }) => {
     return (
         <div className="relative select-none">
             <i
-                className={`${
-                    isSmallScreen ? "scale-75" : ""
-                } fa-solid ${faIcon} fa-2xl cursor-pointer duration-150 ease-linear peer`}
+                className={`fa-solid ${faIcon} fa-2xl cursor-pointer duration-150 ease-linear peer`}
                 onMouseEnter={() => setVisible(true)}
                 onMouseLeave={() => setVisible(false)}
                 onClick={() => setVisible(!visible)}
