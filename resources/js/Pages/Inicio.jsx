@@ -35,10 +35,10 @@ export default function Inicio({ userDB, title, roles, selects, busqueda }) {
             className="h-screen max-h-screen w-screen flex flex-col justify-between box-border overflow-hidden font-sans"
         >
             <Head title={title} />
-            <header className="relative flex flex-row items-center justify-around py-2 w-full h-[10%] bg-colorbg max-[1280px]:h-[10%]">
+            <header className="px-3 relative flex flex-row items-center justify-between py-2 w-full h-[10%] bg-colorbg max-[1280px]:h-[10%]">
                 <img
                     src="/img/logo.webp"
-                    className="ml-5 w-[100px] h-[100px] cursor-pointer max-[1280px]:w-[50px] max-[1280px]:h-[50px]"
+                    className="w-[100px] h-[100px] cursor-pointer max-[1280px]:w-[50px] max-[1280px]:h-[50px]"
                 />
                 <UserImage userDB={userDB} link="/profile" />
                 <BurgerMenu

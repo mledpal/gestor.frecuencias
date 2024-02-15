@@ -13,7 +13,7 @@ export const BurgerMenu = ({ isAdmin, setVista, isSmallScreen }) => {
             <i
                 className={`${
                     isSmallScreen ? "scale-75" : ""
-                } fa-solid ${faIcon} fa-2xl mr-5 cursor-pointer duration-150 ease-linear peer`}
+                } fa-solid ${faIcon} fa-2xl cursor-pointer duration-150 ease-linear peer`}
                 onMouseEnter={() => setVisible(true)}
                 onMouseLeave={() => setVisible(false)}
                 onClick={() => setVisible(!visible)}
@@ -21,7 +21,7 @@ export const BurgerMenu = ({ isAdmin, setVista, isSmallScreen }) => {
 
             {visible && (
                 <ul
-                    className="mt-1 right-10 absolute w-[200px] rounded-lg p-5 z-50 text-sm bg-blue-800 flex-col drop-shadow-lg hidden hover:flex peer-hover:flex "
+                    className="mt-1 right-0 absolute w-[200px] rounded-lg p-5 z-50 text-sm bg-blue-800 flex-col drop-shadow-lg hidden hover:flex peer-hover:flex "
                     onMouseEnter={() => setVisible(true)}
                     onMouseLeave={() => setVisible(false)}
                 >
