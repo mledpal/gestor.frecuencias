@@ -42,6 +42,7 @@ export const useAdminUsuarios = () => {
         setData({ id: id });
         post(route("usuario_swap_admin", { id: id }), {
             onSuccess: () => {
+                getUsers();
                 Swal.fire({
                     icon: "success",
                     title: "Cambio realizado",
