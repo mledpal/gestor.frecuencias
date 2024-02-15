@@ -1,8 +1,8 @@
 import { useAdminUsuarios } from "@/hooks/useAdminUsuarios";
 import { User } from "./User";
+import { RotatingLines } from "react-loader-spinner";
 
 export const Users = ({ isSmallScreen, userDB }) => {
-    
     const { usuarios, deleteUser, swapAdmin } = useAdminUsuarios();
 
     return (
@@ -32,7 +32,19 @@ export const Users = ({ isSmallScreen, userDB }) => {
                                 );
                         })
                     ) : (
-                        <h3>Cargando</h3>
+                        <div className="h-full w-full grid place-items-center p-1">
+                            <RotatingLines
+                                visible={true}
+                                height="96"
+                                width="96"
+                                color="grey"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                ariaLabel="rotating-lines-loading"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                            />
+                        </div>
                     )}
                 </div>
             </main>
