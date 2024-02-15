@@ -26,7 +26,7 @@ export const BotonesFormulario = ({
                     </span>
                 </Button>
             ) : (
-                <div></div>
+                ""
             )}
 
             {actionReset ? (
@@ -42,7 +42,7 @@ export const BotonesFormulario = ({
                     </span>
                 </Button>
             ) : (
-                <div></div>
+                ""
             )}
 
             {actionExit ? (
@@ -58,7 +58,7 @@ export const BotonesFormulario = ({
                     </span>
                 </Button>
             ) : (
-                <div></div>
+                ""
             )}
         </>
     );
