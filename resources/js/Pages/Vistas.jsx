@@ -11,8 +11,8 @@ import { Mensajes } from "@/Components/Mensajes/Mensajes";
 import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
 import { Conversacion } from "@/Components/Conversacion/Conversacion";
 import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
-import { TiposContacto } from "./Admin/Users/TiposContacto";
-import { TiposCodificacion } from "./Admin/Users/TiposCodificacion";
+import { TiposContacto } from "./Admin/TiposContacto/TiposContacto";
+import { TiposCodificacion } from "./Admin/TipoCodificacion/TiposCodificacion";
 
 export const Vistas = ({
     vista,

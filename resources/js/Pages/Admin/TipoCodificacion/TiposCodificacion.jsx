@@ -4,8 +4,8 @@ import TextInput from "@/Components/TextInput";
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 
 import InputError from "@/Components/InputError";
-import { useAdminTiposCodificacion } from "@/hooks/useAdminTiposCodificacion";
 import { TipoCodificacion } from "./TipoCodificacion";
+import { useAdminTiposCodificacion } from "@/hooks/useAdminTiposCodificacion";
 
 export const TiposCodificacion = ({ isSmallScreen }) => {
     const { editTipo, delTipo, submit, tipos, setData, data, errors, reset } =
