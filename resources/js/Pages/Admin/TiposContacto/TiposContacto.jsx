@@ -67,36 +67,34 @@ export const TiposContacto = ({ isSmallScreen }) => {
                 </div>
             </form>
 
-            <main className="overflow-y-auto">
-                {tipos ? (
-                    tipos.map((t) => {
-                        if (t.id)
-                            return (
-                                <div key={t.id}>
-                                    <TipoContacto
-                                        t={t}
-                                        delTipo={delTipo}
-                                        editTipo={editTipo}
-                                    />
-                                </div>
-                            );
-                    })
-                ) : (
-                    <div className="h-full w-full grid place-items-center p-1">
-                        <RotatingLines
-                            visible={true}
-                            height="96"
-                            width="96"
-                            color="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            ariaLabel="rotating-lines-loading"
-                            wrapperStyle={{}}
-                            wrapperClass=""
-                        />
-                    </div>
-                )}
-            </main>
+            {tipos ? (
+                tipos.map((t) => {
+                    if (t.id)
+                        return (
+                            <div key={t.id}>
+                                <TipoContacto
+                                    t={t}
+                                    delTipo={delTipo}
+                                    editTipo={editTipo}
+                                />
+                            </div>
+                        );
+                })
+            ) : (
+                <div className="h-full w-full grid place-items-center p-1">
+                    <RotatingLines
+                        visible={true}
+                        height="96"
+                        width="96"
+                        color="grey"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                </div>
+            )}
         </div>
     );
 };

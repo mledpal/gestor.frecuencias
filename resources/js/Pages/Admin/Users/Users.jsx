@@ -13,7 +13,7 @@ export const Users = ({ isSmallScreen, userDB }) => {
                 <h2>Administración de usuarios</h2>
             </header>
             <main className="w-full flex bg-gradient-to-br from-indigo-950 to-indigo-800 items-center justify-center">
-                <div className="w-full min-h-full overflow-y-auto">
+                <div className="w-full min-h-screen overflow-y-auto">
                     {usuarios ? (
                         usuarios.map((user) => {
                             if (user.id !== userDB.id && !user.isRoot)
