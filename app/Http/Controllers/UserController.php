@@ -107,7 +107,7 @@ class UserController extends Controller
      */
     public function eliminar($id)
     {
-        if (Auth::check()) {
+        if (Auth::check() && $id != 1) {
             $usuario = User::findorFail($id);
 
             if ($usuario) {
@@ -117,6 +117,27 @@ class UserController extends Controller
                     return null;
                 }
             }
+        }
+    }
+
+    /**
+     * Función que añade o quita el status de admin de un usuario
+     */
+    public function swapAdmin($id)
+    {
+        if (Auth::check()) {
+            $usuario = User::with('roles')->findOrFail($id);
+            $adminUser = Auth::user();
+
+            if ($adminUser->isAdmin) {
+                if ($usuario->isAdmin) {
+                    $usuario->roles()->sync([4]);
+                } else {
+                    $usuario->roles()->sync([2, 4]);
+                }
+            }
+        } else {
+            return redirect('/login');
         }
     }
 }

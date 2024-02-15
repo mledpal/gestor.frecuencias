@@ -53,7 +53,11 @@ export const Vistas = ({
                     setVista={setVista}
                 />
             )}
-            {vista === "admin_users" && <Users />}
+
+            {/* Vistas de administración de usuarios */}
+            {vista === "admin_users" && (
+                <Users isSmallScreen={isSmallScreen} userDB={userDB} />
+            )}
 
             {vista === "crear_contacto" && (
                 <NuevoContacto

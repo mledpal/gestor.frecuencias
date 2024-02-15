@@ -18,9 +18,10 @@ class AdminController extends Controller
             $usuario = Auth::user();
             if ($usuario->isAdmin) {
                 $usuarios = User::with('localizacion')->get();
-                
+
                 $usuarios = $usuarios->map(function ($usuario) {
                     $usuario->isAdmin = $usuario->isAdmin;
+                    $usuario->isRoot = $usuario->isRoot;
                     return $usuario;
                 });
                 return response()->json($usuarios);

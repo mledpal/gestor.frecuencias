@@ -155,7 +155,16 @@ class User extends Authenticatable
      */
     public function getisAdminAttribute()
     {
-        return $this->roles()->where('nombre', 'admin')->exists();
+        return $this->roles()->where('id', '2')->exists();
+    }
+
+
+    /**
+     * Función que devuelve true si el usuario es Root
+     */
+    public function getisRootAttribute()
+    {
+        return $this->roles()->where('id', '1')->exists();
     }
 
 
