@@ -13,10 +13,15 @@ export const TiposContacto = ({ isSmallScreen }) => {
 
     return (
         <div>
+            <header
+                className={`h-[75px] sticky top-0 z-20 w-full flex  items-center justify-center bg-gradient-to-br from-indigo-900 to-indigo-700`}
+            >
+                <h2>Administración de Tipos de Contacto</h2>
+            </header>
             <div>
                 <form
                     className={`${
-                        isSmallScreen ? "flex-col h-full " : "flex-row h-[60px]"
+                        isSmallScreen ? "flex-col h-full " : "flex-row h-[80px]"
                     } w-full bg-gray-700  flex  items-center justify-between px-5`}
                 >
                     <input name="id" type="hidden" value={data.id} />
