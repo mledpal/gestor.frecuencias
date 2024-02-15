@@ -7,6 +7,7 @@ use App\Http\Controllers\FrecuenciaController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TiposCodificacionController;
 use App\Http\Controllers\TiposContactoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -27,6 +28,7 @@ use Inertia\Inertia;
 Route::controller(AdminController::class)->group(function () {
     Route::get('admin/usuarios', 'usuarios')->name('admin_usuarios');
     Route::get('admin/tipos_contacto', 'tipos_contacto')->name('admin_tipos_contacto');
+    Route::get('admin/tipos_codificacion', 'tipos_codificacion')->name('admin_tipos_codificacion');
 });
 
 Route::controller(UserController::class)->group(function () {
@@ -47,6 +49,12 @@ Route::controller(TiposContactoController::class)->group(function () {
     Route::post('tipo_contacto/nuevo', 'crear')->name('nuevo_tipo_contacto');
     Route::post('tipo_contacto/{id}/editar', 'editar')->name('editar_tipo_contacto');
     Route::post('tipo_contacto/{id}/eliminar', 'eliminar')->name('eliminar_tipo_contacto');
+});
+
+Route::controller(TiposCodificacionController::class)->group(function () {
+    Route::post('tipo_codificacion/nuevo', 'crear')->name('nuevo_tipo_codificacion');
+    Route::post('tipo_codificacion/{id}/editar', 'editar')->name('editar_tipo_codificacion');
+    Route::post('tipo_codificacion/{id}/eliminar', 'eliminar')->name('eliminar_tipo_codificacion');
 });
 
 

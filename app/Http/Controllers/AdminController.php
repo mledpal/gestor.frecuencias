@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TipoCodificacion;
 use App\Models\TipoContacto;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,19 @@ class AdminController extends Controller
         if (Auth::check() && Auth::user()->isAdmin) {
             $tipos_contacto = TipoContacto::orderBy('nombre', 'asc')->get();
             return response()->json($tipos_contacto);
+        } else {
+            return redirect('/login');
+        }
+    }
+
+    /**
+     * Muestra una lista de los tipos de codificacion que hay en BBDD
+     */
+    public function tipos_codificacion()
+    {
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $tipos_codificacion = TipoCodificacion::orderBy('nombre', 'asc')->get();
+            return response()->json($tipos_codificacion);
         } else {
             return redirect('/login');
         }

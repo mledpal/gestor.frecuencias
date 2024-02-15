@@ -12,6 +12,7 @@ import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
 import { Conversacion } from "@/Components/Conversacion/Conversacion";
 import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
 import { TiposContacto } from "./Admin/Users/TiposContacto";
+import { TiposCodificacion } from "./Admin/Users/TiposCodificacion";
 
 export const Vistas = ({
     vista,
@@ -110,6 +111,13 @@ export const Vistas = ({
 
             {vista === "admin_tipo_contacto" && (
                 <TiposContacto
+                    setVista={setVista}
+                    isSmallScreen={isSmallScreen}
+                />
+            )}
+
+            {vista === "admin_tipo_codificacion" && (
+                <TiposCodificacion
                     setVista={setVista}
                     isSmallScreen={isSmallScreen}
                 />

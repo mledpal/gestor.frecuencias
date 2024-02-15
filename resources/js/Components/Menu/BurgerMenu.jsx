@@ -19,7 +19,7 @@ export const BurgerMenu = ({ isAdmin, setVista, isSmallScreen }) => {
 
             {visible && (
                 <ul
-                    className="mt-1 right-0 absolute w-[200px] rounded-lg p-5 z-50 text-sm bg-blue-800 flex-col drop-shadow-lg hidden hover:flex peer-hover:flex "
+                    className="mt-1 right-0 absolute w-[250px] rounded-lg p-5 z-50 text-sm bg-blue-800 flex-col drop-shadow-lg hidden hover:flex peer-hover:flex "
                     onMouseEnter={() => setVisible(true)}
                     onMouseLeave={() => setVisible(false)}
                 >
