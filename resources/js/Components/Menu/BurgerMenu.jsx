@@ -3,7 +3,7 @@ import { CommonMenu, UserMenu } from ".";
 import { AdminMenu } from "./AdminMenu";
 import { MenuAyuda } from "./MenuAyuda";
 
-export const BurgerMenu = ({ isAdmin, setVista }) => {
+export const BurgerMenu = ({ isAdmin, setVista, isSmallScreen }) => {
     const [visible, setVisible] = useState(null);
 
     const faIcon = visible ? "fa-bars style='color: #000000;'" : "fa-bars";
@@ -11,7 +11,9 @@ export const BurgerMenu = ({ isAdmin, setVista }) => {
     return (
         <div className="relative select-none">
             <i
-                className={`fa-solid ${faIcon} fa-2xl mr-10 cursor-pointer duration-150 ease-linear peer`}
+                className={`${
+                    isSmallScreen ? "scale-75" : ""
+                } fa-solid ${faIcon} fa-2xl mr-5 cursor-pointer duration-150 ease-linear peer`}
                 onMouseEnter={() => setVisible(true)}
                 onMouseLeave={() => setVisible(false)}
                 onClick={() => setVisible(!visible)}
@@ -19,7 +21,7 @@ export const BurgerMenu = ({ isAdmin, setVista }) => {
 
             {visible && (
                 <ul
-                    className="mt-1 right-10 absolute w-[200px] rounded-lg p-5 z-50 text-sm bg-blue-800 flex-col drop-shadow-lg hidden hover:flex peer-hover:flex"
+                    className="mt-1 right-10 absolute w-[200px] rounded-lg p-5 z-50 text-sm bg-blue-800 flex-col drop-shadow-lg hidden hover:flex peer-hover:flex "
                     onMouseEnter={() => setVisible(true)}
                     onMouseLeave={() => setVisible(false)}
                 >

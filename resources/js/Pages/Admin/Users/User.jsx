@@ -51,7 +51,7 @@ export const User = ({ user, isSmallScreen, deleteUser, swapAdmin }) => {
             <span className="w-2/12 h-16 flex flex-col items-center justify-between">
                 {!user.isAdmin ? (
                     <div
-                        className="flex flex-row gap-1 hover:scale-150 duration-200 cursor-pointer rounded-full bg-black p-2 text-green-500"
+                        className="flex flex-row gap-1 hover:scale-150 duration-200 cursor-pointer rounded-full p-2 text-green-500"
                         onClick={() => swapAdmin(user.id)}
                     >
                         <i className="fa-solid fa-shield"></i>
