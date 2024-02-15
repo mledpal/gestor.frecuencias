@@ -6,11 +6,17 @@ use App\Http\Requests\ValidarLocalizacion;
 use App\Http\Requests\ValidarUsuario;
 use App\Models\Localizacion;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
 {
+
+    /**
+     * Función que sirve para cambiar la localización de un usuario
+     * Agrega una nueva si no existe o le asigna una ya existente
+     */
     public function updateLocalizacion(ValidarLocalizacion $request)
     {
         if (Auth::check()) {
@@ -45,7 +51,9 @@ class UserController extends Controller
         }
     }
 
-
+    /**
+     * Función para buscar usuarios
+     */
     public function busqueda(ValidarUsuario $request)
     {
         if (Auth::check()) {
@@ -80,6 +88,10 @@ class UserController extends Controller
         }
     }
 
+
+    /**
+     * Función para recoger la información básica de un usuario por su id
+     */
     public function getInfo($id)
     {
         if (Auth::check()) {
@@ -87,6 +99,24 @@ class UserController extends Controller
             return $usuario;
         } else {
             return route('login');
+        }
+    }
+
+    /**
+     * Función para eliminar un usuario por su id
+     */
+    public function eliminar($id)
+    {
+        if (Auth::check()) {
+            $usuario = User::findorFail($id);
+
+            if ($usuario) {
+                try {
+                    $usuario->delete();
+                } catch (Exception $e) {
+                    return null;
+                }
+            }
         }
     }
 }
