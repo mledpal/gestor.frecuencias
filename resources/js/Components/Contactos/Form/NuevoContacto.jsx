@@ -111,10 +111,10 @@ export const NuevoContacto = ({
     // Variables para setear los estilos de algunas zonas
 
     const claseContacto = `${
-        isSmallScreen ? "w-screen" : "w-1/2 max-[1280px]:w-5/6"
-    } flex flex-col items-center justify-between  rounded-xl m-auto bg-indigo-900  shadow-[0_0_15px_rgba(255,255,255,.6)] `;
+        isSmallScreen ? "w-full" : "w-1/2 max-[1280px]:w-5/6"
+    } flex flex-col items-center justify-between rounded-xl m-auto bg-indigo-900  shadow-[0_0_15px_rgba(255,255,255,.6)] `;
     const classZona = `${
-        isSmallScreen ? "w-screen" : "w-4/5 max-[1280px]:w-5/6"
+        isSmallScreen ? "w-full" : "w-4/5 max-[1280px]:w-5/6"
     }  flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
@@ -142,13 +142,13 @@ export const NuevoContacto = ({
             <div
                 className={` ${
                     isSmallScreen
-                        ? "w-screen  gap-0"
+                        ? "w-full gap-0"
                         : "w-full max-[1280px]:w-5/6 flex-row gap-10"
                 } flex flex-col items-center sticky top-0  bg-slate-900 z-10 mt-0 p-4 `}
             >
                 <div
                     className={` ${
-                        isSmallScreen ? "w-screen p-4" : "w-2/5 "
+                        isSmallScreen ? "w-full p-4" : "w-2/5 "
                     } flex flex-col items-center justify-center`}
                 >
                     <h2 className="font-bold text-xl">Nuevo Contacto</h2>
@@ -157,8 +157,8 @@ export const NuevoContacto = ({
                 <div
                     name="guardar_datos"
                     className={` ${
-                        isSmallScreen ? "w-screen p-2  " : "w-3/5 gap-8 "
-                    } flex flex-row items-center justify-between`}
+                        isSmallScreen ? "w-full p-2" : "w-3/5 "
+                    } flex flex-row items-center justify-around`}
                 >
                     <BotonesFormulario
                         actionSubmit={isSmallScreen ? crearMovil : crear}
