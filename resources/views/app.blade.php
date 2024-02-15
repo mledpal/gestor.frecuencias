@@ -14,11 +14,23 @@
 
     {{-- OpenGraph --}}
     <meta property="og:title" content="Gestión de Frecuencias 2.0" />
-    <meta property="og:description" content="App web para tener almacenados tus contactos de radio y poder compartirlas
-        con más radioaficionados."" />
+    <meta property="og:description"
+        content="App web para tener almacenados tus contactos de radio y poder compartirlas
+        con más radioaficionados." />
+    <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.radioescucha.es" />
     <meta property="og:image" content="https://www.radioescucha.es/img/logo.webp" />
     <meta property="og:site_name" content="Gestión de Frecuencias v2.0" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="radioescucha.es">
+    <meta property="twitter:url" content="https://www.radioescucha.es/">
+    <meta name="twitter:title" content="Gestor de Frecuencias">
+    <meta name="twitter:description"
+        content="App web para tener almacenados tus contactos de radio y poder compartirlas
+        con más radioaficionados.">
+    <meta name="twitter:image" content="https://www.radioescucha.es/img/logo.webp">
 
     <!-- Scripts -->
     @routes
