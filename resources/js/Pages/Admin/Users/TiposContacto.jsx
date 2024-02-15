@@ -1,104 +1,15 @@
-import { useEffect, useState } from "react";
 import { TipoContacto } from "./TipoContacto";
 import { RotatingLines } from "react-loader-spinner";
 import TextInput from "@/Components/TextInput";
-import { useForm } from "@inertiajs/react";
+
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
-import Swal from "sweetalert2";
+
 import InputError from "@/Components/InputError";
+import { useAdminTiposContacto } from "@/hooks/useAdminTiposContacto";
 
 export const TiposContacto = ({ isSmallScreen }) => {
-    const [tipos, setTipos] = useState();
-
-    const { data, setData, reset, post, errors } = useForm({
-        id: "",
-        nombre: "",
-        color: "",
-    });
-
-    const getTipos = () => {
-        fetch(route("admin_tipos_contacto"))
-            .then((res) => res.json())
-            .then((res) => setTipos(res))
-            .catch((err) => console.error(err));
-    };
-
-    useEffect(() => {
-        setTipos(getTipos());
-    }, []);
-
-    const mensajeOK = (mensaje) => {
-        Swal.fire({
-            icon: "success",
-            title: mensaje,
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            },
-        });
-    };
-
-    const mensajeError = (error) => {
-        Swal.fire({
-            icon: "error",
-            title: "Hubo un error",
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            },
-        });
-    };
-
-    const submit = () => {
-        if (data.id) {
-            post(route("editar_tipo_contacto", { id: data.id }), {
-                onSuccess: () => {
-                    getTipos();
-                    mensajeOK("Tipo editado correctamente");
-                },
-                onError: (error) => {
-                    mensajeError(error);
-                },
-            });
-        } else {
-            post(route("nuevo_tipo_contacto"), {
-                onSuccess: () => {
-                    getTipos();
-                    mensajeOK("Tipo agregado correctamente");
-                },
-                onError: (error) => {
-                    mensajeError(error);
-                },
-            });
-        }
-    };
-
-    const delTipo = (id) => {
-        post(route("eliminar_tipo_contacto", { id: id }), {
-            onSuccess: () => {
-                getTipos();
-                mensajeOK("Tipo eliminado correctamente");
-            },
-            onError: (error) => {
-                mensajeError(error);
-            },
-        });
-        console.log("Eliminar ID : ", id);
-    };
-
-    const editTipo = (t) => {
-        setData({ id: t.id, nombre: t.nombre, color: t.color });
-    };
+    const { editTipo, delTipo, submit, tipos, setData, data, errors, reset } =
+        useAdminTiposContacto();
 
     return (
         <div>
