@@ -19,7 +19,7 @@
         con más radioaficionados." />
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.radioescucha.es" />
-    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image" content="{{ URL::asset('/img/logo.png') }}" />
     <meta property="og:site_name" content="Gestión de Frecuencias v2.0" />
 
     <!-- Twitter Meta Tags -->
@@ -30,7 +30,7 @@
     <meta name="twitter:description"
         content="App web para tener almacenados tus contactos de radio y poder compartirlas
         con más radioaficionados.">
-    <meta name="twitter:image" content="/img/logo.png">
+    <meta name="twitter:image" content="{{ URL::asset('/img/logo.png') }}">
 
     <!-- Scripts -->
     @routes
