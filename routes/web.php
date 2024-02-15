@@ -30,6 +30,7 @@ Route::controller(AdminController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::post('user/busqueda', 'busqueda')->name('usuario_busqueda');
     Route::get('user/{id}/getInfo', 'getInfo')->name('usuario_informacion');
+    Route::post('user/{id}/delete', 'eliminar')->name('usuario_eliminar');
 });
 
 Route::controller(MensajeController::class)->group(function () {
