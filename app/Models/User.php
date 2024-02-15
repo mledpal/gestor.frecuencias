@@ -37,7 +37,9 @@ class User extends Authenticatable
         'password',
         'photo',
         'qsl',
-        'localizacion_id'
+        'localizacion_id',
+        'ip',
+        'ultima_conexion'
     ];
 
     /**

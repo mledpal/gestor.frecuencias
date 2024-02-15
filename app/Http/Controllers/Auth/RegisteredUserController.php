@@ -10,6 +10,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -42,11 +43,13 @@ class RegisteredUserController extends Controller
             'indicativo' => $request->indicativo ?? $indicativo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'ultima_conexion' => DB::raw('CURRENT_TIMESTAMP'),
+            'ip' => $request->ip(),
         ]);
 
         // Asigno el rol de usuario por defecto
         // y se guarda en la tabla pivote
-        $user_rol = Rol::where('nombre','user')->first()->id;
+        $user_rol = Rol::where('nombre', 'user')->first()->id;
         $user->roles()->sync($user_rol);
 
         event(new Registered($user));

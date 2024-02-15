@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,8 +31,16 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+
         $request->authenticate();
         $request->session()->regenerate();
+
+        $usuario = Auth::user();
+
+        $usuario->ultima_conexion = DB::raw('CURRENT_TIMESTAMP');
+        $usuario->ip = $request->ip();
+        $usuario->save();
+
         return redirect('/');
     }
 
