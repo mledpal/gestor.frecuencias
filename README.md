@@ -29,11 +29,15 @@
   para poder solucionar un problema grave al buscar/editar/crear nuevos contactos con frecuencias y localizaciones
   coincidentes.
 - Sistema de mensajería en tiempo real usando PUSHER
-
+- Administración de Usuarios
+- Administración de Tipos de Contacto
+- Administración de Tipos de Codificación
+  
 ### Estado actual
 
 - Mejorando el código, separando la lógica del JSX
 
 ### Próximos pasos
 
-- Crear vistas y controladores para visualizar los contactos en una lista
+- Añadir funcionalidad de QSL en los usuarios
+- Añadir campo "indicativo" en "Contacto"
