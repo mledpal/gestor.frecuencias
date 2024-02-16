@@ -179,7 +179,7 @@ export const EditarContacto = ({
                                 classText={` ${
                                     isSmallScreen ? "text-[.7rem]" : ""
                                 }`}
-                                classBtn={"scale-75"}
+                                classBtn={"scale-80"}
                             />
                         )}
                         <BotonesFormulario
@@ -189,7 +189,7 @@ export const EditarContacto = ({
                             classText={` ${
                                 isSmallScreen ? "text-[.7rem]" : ""
                             }`}
-                            classBtn={"scale-75"}
+                            classBtn={"scale-80"}
                         />
                         {datos.user_id !== userDB.id && (
                             <BotonesFormulario
@@ -198,7 +198,7 @@ export const EditarContacto = ({
                                 classText={` ${
                                     isSmallScreen ? "text-[.7rem]" : ""
                                 }`}
-                                classBtn={"scale-75"}
+                                classBtn={"scale-80"}
                             />
                         )}
                     </div>
