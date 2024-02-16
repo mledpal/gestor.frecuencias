@@ -134,6 +134,10 @@ export const handleContacts = ({
             onSuccess: () => {
                 updateContact();
                 handleOpen();
+                mensaje("Contacto creado correctamente", tipo.ok);
+            },
+            onError: () => {
+                mensaje("Hubo un error", tipo.error);
             },
         });
     }
