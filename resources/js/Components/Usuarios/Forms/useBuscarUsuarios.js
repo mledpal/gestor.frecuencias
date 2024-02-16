@@ -8,16 +8,14 @@ export const useBuscarUsuarios = ({
     setUserID,
 }) => {
     const [respuesta, setRespuesta] = useState(null);
-    const [token, setToken] = useState(() =>
-        document.getElementById("meta_token").getAttribute("content")
-    );
+
     const classesLabel = "text-center mb-2 text-black select-none";
     const { data, setData, post, processing, errors, reset } = useForm({
         usuario: "",
         indicativo: "",
         localidad: "",
         provincia: "",
-        _token: token,
+        _token: document.getElementById("meta_token").getAttribute("content"),
     });
 
     useEffect(() => {
@@ -28,10 +26,6 @@ export const useBuscarUsuarios = ({
         setRespuesta(null);
     }, []);
 
-    useEffect(() => {
-        setData((prevData) => ({ ...prevData, _token: token }));
-    }, [token]);
-
     const handleUserClicked = (e, id) => {
         e.preventDefault();
         handleOpenBuscador(null);
@@ -39,17 +33,17 @@ export const useBuscarUsuarios = ({
         handleOpenSendMessage("xxl");
     };
 
-    const searchUsers = async (data, token) => {
+    const searchUsers = async (data) => {
         try {
             const csrf = document
                 .getElementById("meta_token")
                 .getAttribute("content");
-            const url = "user/busqueda?_token=" + (token || csrf);
+            const url = "user/busqueda?_token=" + csrf;
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "x-csrf-token": token || csrf,
+                    "x-csrf-token": csrf,
                 },
                 body: JSON.stringify(data),
             });
@@ -61,11 +55,9 @@ export const useBuscarUsuarios = ({
 
     const submit = async (e) => {
         e.preventDefault();
-        setToken(() =>
-            document.getElementById("meta_token").getAttribute("content")
-        );
+
         setRespuesta(null);
-        const response = await searchUsers(data, token);
+        const response = await searchUsers(data);
         setRespuesta(response);
         Swal.fire({
             icon: "success",
