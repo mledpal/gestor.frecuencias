@@ -16,7 +16,7 @@ export const UserImage = ({ userDB, link }) => {
     return (
         <a href={link}>
             <div
-                className={`bg-gradient-to-b from-${color}-600 to-${color}-900 shadow-[-2px_2px_3px_rgba(0,0,0,.7),inset_-2px_2px_5px_rgba(255,255,255,.5)]  mr-[20px] h-[60px] w-[200px] p-3 flex flex-row items-center justify-around rounded-[50px] hover:scale-105 hover:shadow-[0_0_5px_rgba(0,0,0,.1)] ease-in-out duration-300 max-[1280px]:scale-75 max-[1280px]:hover:scale-90`}
+                className={`bg-gradient-to-b from-${color}-600 to-${color}-900 shadow-[-2px_2px_3px_rgba(0,0,0,.7),inset_-2px_2px_5px_rgba(255,255,255,.5)]  mr-[20px] h-[60px] w-[250px] p-3 flex flex-row items-center justify-around rounded-[50px] hover:scale-105 hover:shadow-[0_0_5px_rgba(0,0,0,.1)] ease-in-out duration-300 max-[1280px]:scale-75 max-[1280px]:hover:scale-90`}
             >
                 {isPhoto ? (
                     <img
@@ -32,7 +32,7 @@ export const UserImage = ({ userDB, link }) => {
                     </span>
                 )}
                 <div className="flex flex-col text-colortxt200">
-                    <span className="text-center font-bold text-lg">
+                    <span className="text-center font-bold text-xs">
                         {userDB.username}
                     </span>
                     <span className="text-center text-xs ">
