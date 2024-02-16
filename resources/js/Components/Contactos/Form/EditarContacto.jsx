@@ -14,6 +14,7 @@ import { handleContacts } from "../Helpers/handleContacts";
 
 import { GpsMap } from "@/Components/GPSMap/GpsMap";
 import { useForm } from "@inertiajs/react";
+import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 
 export const EditarContacto = ({
     setDatos,
@@ -155,74 +156,88 @@ export const EditarContacto = ({
                 <input type="hidden" id="id" value={data.id} />
                 <div
                     className={`${
-                        isSmallScreen ? "w-full" : "w-4/5"
-                    } sticky top-0 h-[75px]  bg-gradient-to-b from-${
+                        isSmallScreen
+                            ? "w-full gap-2 flex-col"
+                            : "w-4/5 gap-10  flex-row"
+                    } sticky top-0 h-[125px]  bg-gradient-to-b from-${
                         datos.tipo.color
-                    } to-slate-900 to-75%  z-10 flex items-center justify-center mt-0 p-5 gap-10`}
+                    } to-slate-900 to-75%  z-10 flex items-center justify-center mt-0 p-5 relative`}
                 >
                     <div
                         name="guardar_datos"
-                        className="w-1/5 flex items-center gap-8 scale-100 "
+                        className={` ${
+                            isSmallScreen ? "scale-75" : "absolute top-2 left-2"
+                        }  flex items-center gap-1 scale-100 `}
                     >
-                        {datos.user_id === userDB.id ? (
-                            <>
-                                <i
-                                    className={`fa-solid fa-floppy-disk text-white ${clasesBotonesFormulario}`}
-                                    onClick={submit}
-                                ></i>
-                                <i
-                                    className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                                    onClick={() => {
-                                        handleDelete(datos.id);
-                                    }}
-                                ></i>
-                            </>
-                        ) : (
-                            ""
+                        {datos.user_id === userDB.id && (
+                            <BotonesFormulario
+                                actionSubmit={submit}
+                                textSubmit={"Guardar"}
+                                actionReset={() => handleDelete(datos.id)}
+                                textReset={"Eliminar"}
+                                colorReset={"bg-red-700"}
+                                classText={` ${
+                                    isSmallScreen ? "text-[.7rem]" : ""
+                                }`}
+                                classBtn={"scale-75"}
+                            />
                         )}
-
-                        <i
-                            className={`fa-solid fa-person-walking-arrow-right text-white ${clasesBotonesFormulario}`}
-                            onClick={() => setDatos(null)}
-                        ></i>
+                        <BotonesFormulario
+                            actionExit={() => setDatos(null)}
+                            textExit={"Salir"}
+                            colorExit={"bg-green-700"}
+                            classText={` ${
+                                isSmallScreen ? "text-[.7rem]" : ""
+                            }`}
+                            classBtn={"scale-75"}
+                        />
+                        {datos.user_id !== userDB.id && (
+                            <BotonesFormulario
+                                actionSubmit={handleAddContact}
+                                textSubmit={"Agregar"}
+                                classText={` ${
+                                    isSmallScreen ? "text-[.7rem]" : ""
+                                }`}
+                                classBtn={"scale-75"}
+                            />
+                        )}
                     </div>
-                    <div className="w-3/5 flex flex-col items-center justify-center text-center">
-                        <h2 className="font-bold max-w-screen-desktop:text-xl text-xs">
+
+                    <div
+                        className={`${
+                            isSmallScreen ? "order-first" : ""
+                        } w-full flex flex-row gap-2 items-center justify-center text-center`}
+                    >
+                        <h2 className="font-bold max-w-screen-desktop:text-xl text-sm">
                             {datos.nombre}
                         </h2>
-                        <span className="text-sm">
+                        <span className="text-xs text-gray-300">
                             {datos.frecuencia.frecuencia} Mhz
                         </span>
-                        <span className="italic text-sm">
+                        <span className="italic text-xs text-gray-300">
                             {datos.tipo.nombre}
                         </span>
                     </div>
 
                     <div
                         name="otrosIconos"
-                        className="w-1/5 p-2 h-[75px] flex flex-col items-end justify-between"
+                        className="absolute top-2 right-2 p-2 h-[75px] flex flex-col items-end justify-between"
                     >
-                        {datos.localizacion?.gps ? (
+                        {datos.localizacion?.gps && (
                             <i
                                 className="fa-solid fa-location-dot cursor-pointer hover:scale-150 duration-150 select-none"
                                 onClick={handleOpen}
                             ></i>
-                        ) : (
-                            ""
-                        )}
-                        {datos.user_id !== userDB.id ? (
-                            <i
-                                className="fa-solid fa-magnifying-glass-plus cursor-pointer hover:scale-150 duration-150 select-none"
-                                onClick={handleAddContact}
-                            ></i>
-                        ) : (
-                            ""
                         )}
                     </div>
                 </div>
 
                 {datos.user_id !== userDB.id ? (
-                    <div className="w-4/5 bg-black flex flex-row items-center justify-center p-4 gap-5">
+                    <div
+                        className={`${
+                            isSmallScreen ? "w-full" : "w-4/5"
+                        } bg-black flex flex-row items-center justify-center p-4 gap-5`}
+                    >
                         <img
                             className="w-[30px] h-[30px] rounded-full"
                             src={datos.usuario.photo}
