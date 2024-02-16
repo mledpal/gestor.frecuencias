@@ -51,21 +51,21 @@ export const NoContactos = ({
                     </div>
                     <div className={cssButtons}>
                         <i
-                            className={`fa-solid fa-address-book ${cssIcons}`}
+                            className={`fa-solid fa-address-book text-gray-700 ${cssIcons}`}
                         ></i>
-                        <span>Lista de Amigos</span>
+                        <span className="text-gray-700">Lista de Amigos</span>
                     </div>
                     <div className={cssButtons}>
                         <i
-                            className={`fa-solid fa-file-import  ${cssIcons}`}
+                            className={`fa-solid fa-file-import text-gray-700 ${cssIcons}`}
                         ></i>
-                        <span>Importar Contactos</span>
+                        <span className="text-gray-700">Importar Contactos</span>
                     </div>
                     <div className={cssButtons}>
                         <i
-                            className={`fa-solid fa-file-export ${cssIcons}`}
+                            className={`fa-solid fa-file-export  text-gray-700 ${cssIcons}`}
                         ></i>
-                        <span>Exportar Contactos</span>
+                        <span className="text-gray-700">Exportar Contactos</span>
                     </div>
                 </main>
             </div>
