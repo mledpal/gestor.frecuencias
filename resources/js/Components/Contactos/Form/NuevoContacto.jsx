@@ -35,70 +35,14 @@ export const NuevoContacto = ({
         }, 100);
     }, []);
 
-    let horaActual = new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-
-    let fechaActual = new Date().toISOString().split("T")[0];
-
-    const { data, setData, post, errors, reset } = useForm({
-        frecuencia: "",
-        nombre: "",
-        observaciones: "",
-        comprobado: 0,
-        privado: 0,
-        hora: horaActual,
-        fecha: fechaActual,
-        tipo_id: 1,
-        banda_id: 1,
-        modo_id: -1,
-        calidad: 0,
-        offset: "",
-        direccion: "=",
-        tipo_codificacion_id: -1,
-        dcs_id: -1,
-        ctcss_id: -1,
-        localidad: "",
-        provincia: "",
-        pais: "",
-        gps: "",
-        favorito: 0,
-    });
-
-    useEffect(() => {
-        setData({
-            frecuencia: "",
-            nombre: "",
-            observaciones: "",
-            comprobado: 0,
-            privado: 0,
-            hora: horaActual,
-            fecha: fechaActual,
-            tipo_id: 1,
-            banda_id: 1,
-            modo_id: -1,
-            calidad: 0,
-            offset: "",
-            direccion: "=",
-            tipo_codificacion_id: -1,
-            dcs_id: -1,
-            ctcss_id: -1,
-            localidad: "",
-            provincia: "",
-            pais: "",
-            gps: "",
-            favorito: 0,
+    const { data, setData, errors, reset, post, crear, crearMovil } =
+        handleContacts({
+            isSmallScreen,
+            datos,
+            updateContact,
+            handleOpen,
+            setVista,
         });
-    }, []);
-
-    const { crear, crearMovil } = handleContacts({
-        updateContact,
-        handleOpen,
-        post,
-        isSmallScreen,
-        setVista,
-    });
 
     const {
         handleCheck,

@@ -82,6 +82,12 @@ class ContactoController extends Controller
                 $requestAll['codificacion_id'] = $request->codificacion_id;
             }
 
+            if ($request->localizacion_id == -1) {
+                $requestAll['localizacion_id'] = null;
+            }
+
+
+
             // Busca si ya existe ese contacto creado (Por frecuencia, localización y usuario actual)
             $frecuencia_bus = $request->frecuencia;
             $localidad_bus = $request->localidad;
@@ -124,6 +130,7 @@ class ContactoController extends Controller
                 }
             }
 
+            if ($localizacion_id === -1) $localizacion_id = null;
 
 
             $frecuencia_bus = Frecuencia::where('frecuencia', $request->frecuencia)->first();

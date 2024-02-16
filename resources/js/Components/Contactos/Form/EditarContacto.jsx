@@ -115,7 +115,7 @@ export const EditarContacto = ({
 
                     <div
                         name="guardar_datos"
-                        className={` max-[1500px]:w-full w-1/2 flex items-center justify-around scale-100 `}
+                        className={` max-[1500px]:w-full w-1/2 flex items-center justify-around `}
                     >
                         {datos.user_id === userDB.id && (
                             <BotonesFormulario
@@ -127,7 +127,6 @@ export const EditarContacto = ({
                                 classText={` ${
                                     isSmallScreen ? "text-[.7rem]" : ""
                                 }`}
-                                classBtn={"scale-80"}
                             />
                         )}
                         <BotonesFormulario
@@ -137,7 +136,6 @@ export const EditarContacto = ({
                             classText={` ${
                                 isSmallScreen ? "text-[.7rem]" : ""
                             }`}
-                            classBtn={"scale-80"}
                         />
                         {datos.user_id !== userDB.id && (
                             <BotonesFormulario
@@ -146,7 +144,6 @@ export const EditarContacto = ({
                                 classText={` ${
                                     isSmallScreen ? "text-[.7rem]" : ""
                                 }`}
-                                classBtn={"scale-80"}
                             />
                         )}
                     </div>

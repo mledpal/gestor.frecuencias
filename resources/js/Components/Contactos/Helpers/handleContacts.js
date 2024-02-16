@@ -18,59 +18,59 @@ export const handleContacts = ({
     const [coordenadas, setCoordenadas] = useState([]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        id: datos.id,
-        frecuencia: datos.frecuencia.frecuencia,
-        nombre: datos.nombre,
-        observaciones: datos?.observaciones,
-        comprobado: datos.comprobado,
-        privado: datos.privado,
-        frecuencia_id: datos.frecuencia_id,
-        hora: datos?.hora,
-        fecha: datos?.fecha,
-        tipo_id: datos.tipo.id,
-        banda_id: datos.banda_id,
-        modo_id: datos.modo_id,
-        calidad: datos.calidad,
-        offset: datos.repetidor?.offset,
-        direccion: datos.repetidor?.direccion,
+        id: datos.id ?? null,
+        frecuencia: datos.frecuencia.frecuencia ?? "",
+        nombre: datos.nombre ?? "",
+        observaciones: datos?.observaciones ?? "",
+        comprobado: datos.comprobado ?? 0,
+        privado: datos.privado ?? 0,
+        frecuencia_id: datos.frecuencia_id ?? null,
+        hora: datos?.hora ?? horaActual,
+        fecha: datos?.fecha ?? fechaActual,
+        tipo_id: datos?.tipo?.id ?? 1,
+        banda_id: datos?.banda_id ?? 1,
+        modo_id: datos.modo_id ?? -1,
+        calidad: datos.calidad ?? 0,
+        offset: datos.repetidor?.offset ?? "",
+        direccion: datos.repetidor?.direccion ?? "=",
         codificacion_id: datos?.codificacion_id ?? -1,
         dcs_id: datos?.dcs_id ?? -1,
         ctcss_id: datos?.ctcss_id ?? -1,
-        localizacion_id: datos.localizacion_id,
-        localidad: datos.localizacion?.localidad,
-        provincia: datos.localizacion?.provincia,
-        pais: datos.localizacion?.pais,
-        gps: datos.localizacion?.gps,
-        favorito: datos.favorito,
+        localizacion_id: datos.localizacion_id ?? null,
+        localidad: datos.localizacion?.localidad ?? "",
+        provincia: datos.localizacion?.provincia ?? "",
+        pais: datos.localizacion?.pais ?? "",
+        gps: datos.localizacion?.gps ?? "",
+        favorito: datos.favorito ?? 0,
     });
 
     useEffect(() => {
         datos &&
             setData({
-                id: datos.id,
-                frecuencia: datos.frecuencia.frecuencia,
-                nombre: datos.nombre,
-                observaciones: datos?.observaciones,
-                comprobado: datos.comprobado,
-                privado: datos.privado,
-                frecuencia_id: datos.frecuencia_id,
-                hora: datos?.hora,
-                fecha: datos?.fecha,
-                tipo_id: datos.tipo.id,
-                banda_id: datos.banda_id,
-                modo_id: datos.modo_id,
-                calidad: datos.calidad,
-                offset: datos.repetidor?.offset,
-                direccion: datos.repetidor?.direccion,
+                id: datos.id ?? null,
+                frecuencia: datos.frecuencia.frecuencia ?? "",
+                nombre: datos.nombre ?? "",
+                observaciones: datos?.observaciones ?? "",
+                comprobado: datos.comprobado ?? 0,
+                privado: datos.privado ?? 0,
+                frecuencia_id: datos.frecuencia_id ?? null,
+                hora: datos?.hora ?? horaActual,
+                fecha: datos?.fecha ?? fechaActual,
+                tipo_id: datos?.tipo?.id ?? 1,
+                banda_id: datos.banda_id ?? 1,
+                modo_id: datos.modo_id ?? -1,
+                calidad: datos.calidad ?? 0,
+                offset: datos.repetidor?.offset ?? "",
+                direccion: datos.repetidor?.direccion ?? "=",
                 codificacion_id: datos?.codificacion_id ?? -1,
                 dcs_id: datos?.dcs_id ?? -1,
                 ctcss_id: datos?.ctcss_id ?? -1,
-                localizacion_id: datos.localizacion_id,
-                localidad: datos.localizacion?.localidad,
-                provincia: datos.localizacion?.provincia,
-                pais: datos.localizacion?.pais,
-                gps: datos.localizacion?.gps,
-                favorito: datos.favorito,
+                localizacion_id: datos.localizacion_id ?? null,
+                localidad: datos.localizacion?.localidad ?? "",
+                provincia: datos.localizacion?.provincia ?? "",
+                pais: datos.localizacion?.pais ?? "",
+                gps: datos.localizacion?.gps ?? "",
+                favorito: datos.favorito ?? 0,
             });
 
         if (datos.localizacion?.gps) {
@@ -78,6 +78,13 @@ export const handleContacts = ({
             setCoordenadas(coords);
         }
     }, [datos]);
+
+    let horaActual = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
+    let fechaActual = new Date().toISOString().split("T")[0];
 
     /**
      * Tipos de aviso para el mensaje flotante

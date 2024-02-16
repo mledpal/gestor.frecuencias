@@ -1,4 +1,5 @@
 import { Button } from "@material-tailwind/react";
+import { useMediaQuery } from "@react-hook/media-query";
 
 export const BotonesFormulario = ({
     actionSubmit,
@@ -13,7 +14,11 @@ export const BotonesFormulario = ({
     classBtn,
     classText,
 }) => {
-    const classButtons = ` w-[100px] h-[40px] py-3 px-0 text-white duration-200 ease-in-out hover:bg-yellow-400 hover:text-black hover:drop-shadow-[0px_0px_10px_rgba(255,255,255,.5)] ${classBtn}`;
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+
+    const classButtons = ` ${
+        isSmallScreen ? "scale-75" : "scale-100"
+    } w-[100px] h-[40px] py-3 px-0 text-white duration-200 ease-in-out hover:bg-yellow-400 hover:text-black hover:drop-shadow-[0px_0px_10px_rgba(255,255,255,.5)] ${classBtn}`;
 
     return (
         <>
