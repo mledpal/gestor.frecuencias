@@ -43,7 +43,7 @@ export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
                 id="map"
                 className="bg-slate-800 w-full h-full rounded-xl border-[5px] border-slate-700"
             ></div>
-            <div className="absolute bottom-2  z-10">
+            <div className="absolute bottom-2 left-2 z-10">
                 <BotonesFormulario actionExit={() => handleOpen()} />
             </div>
         </div>
