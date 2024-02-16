@@ -14,6 +14,12 @@ export const handleContacts = ({
     isSmallScreen,
 }) => {
     // Métodos / Hooks
+    let horaActual = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
+    let fechaActual = new Date().toISOString().split("T")[0];
 
     const [coordenadas, setCoordenadas] = useState([]);
 
@@ -78,13 +84,6 @@ export const handleContacts = ({
             setCoordenadas(coords);
         }
     }, [datos]);
-
-    let horaActual = new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-
-    let fechaActual = new Date().toISOString().split("T")[0];
 
     /**
      * Tipos de aviso para el mensaje flotante
