@@ -98,11 +98,27 @@ export const useFilters = (busqueda) => {
 
     const handlerCheckUncheck = () => {
         setFiltros((prevFiltros) => {
-            const nuevoFiltros = { ...prevFiltros };
-            listaFiltros.forEach((f) => {
-                nuevoFiltros[f.key] = !filtros[f.key];
-            });
-            return nuevoFiltros;
+            // Verificar si todos los filtros están en el mismo estado
+            const allSameState = Object.values(prevFiltros).every(
+                (state) => state === Object.values(prevFiltros)[0]
+            );
+
+            // Si todos están en el mismo estado, cambiar al estado contrario
+            if (allSameState) {
+                const newFiltros = {};
+                for (const key in prevFiltros) {
+                    newFiltros[key] = !prevFiltros[key];
+                }
+                return newFiltros;
+            } else {
+                // Si no, cambiar todos los filtros al estado del primer filtro
+                const newState = !Object.values(prevFiltros)[0];
+                const newFiltros = {};
+                for (const key in prevFiltros) {
+                    newFiltros[key] = newState;
+                }
+                return newFiltros;
+            }
         });
     };
 
