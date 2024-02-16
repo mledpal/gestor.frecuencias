@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { useMediaQuery } from "@react-hook/media-query";
 
@@ -13,7 +13,7 @@ import { handlerForm } from "../Helpers/handlerForm";
 import { handleContacts } from "../Helpers/handleContacts";
 
 import { GpsMap } from "@/Components/GPSMap/GpsMap";
-import { useForm } from "@inertiajs/react";
+
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 
 export const EditarContacto = ({
@@ -42,76 +42,21 @@ export const EditarContacto = ({
         setOpen(!open); // Cambia el valor de open a su opuesto
     };
 
-    const [coordenadas, setCoordenadas] = useState([]);
-
-    const { data, setData, post, processing, errors, reset } = useForm({
-        id: datos.id,
-        frecuencia: datos.frecuencia.frecuencia,
-        nombre: datos.nombre,
-        observaciones: datos?.observaciones,
-        comprobado: datos.comprobado,
-        privado: datos.privado,
-        frecuencia_id: datos.frecuencia_id,
-        hora: datos?.hora,
-        fecha: datos?.fecha,
-        tipo_id: datos.tipo.id,
-        banda_id: datos.banda_id,
-        modo_id: datos.modo_id,
-        calidad: datos.calidad,
-        offset: datos.repetidor?.offset,
-        direccion: datos.repetidor?.direccion,
-        codificacion_id: datos?.codificacion_id ?? -1,
-        dcs_id: datos?.dcs_id ?? -1,
-        ctcss_id: datos?.ctcss_id ?? -1,
-        localizacion_id: datos.localizacion_id,
-        localidad: datos.localizacion?.localidad,
-        provincia: datos.localizacion?.provincia,
-        pais: datos.localizacion?.pais,
-        gps: datos.localizacion?.gps,
-        favorito: datos.favorito,
-    });
-
-    useEffect(() => {
-        datos &&
-            setData({
-                id: datos.id,
-                frecuencia: datos.frecuencia.frecuencia,
-                nombre: datos.nombre,
-                observaciones: datos?.observaciones,
-                comprobado: datos.comprobado,
-                privado: datos.privado,
-                frecuencia_id: datos.frecuencia_id,
-                hora: datos?.hora,
-                fecha: datos?.fecha,
-                tipo_id: datos.tipo.id,
-                banda_id: datos.banda_id,
-                modo_id: datos.modo_id,
-                calidad: datos.calidad,
-                offset: datos.repetidor?.offset,
-                direccion: datos.repetidor?.direccion,
-                codificacion_id: datos?.codificacion_id ?? -1,
-                dcs_id: datos?.dcs_id ?? -1,
-                ctcss_id: datos?.ctcss_id ?? -1,
-                localizacion_id: datos.localizacion_id,
-                localidad: datos.localizacion?.localidad,
-                provincia: datos.localizacion?.provincia,
-                pais: datos.localizacion?.pais,
-                gps: datos.localizacion?.gps,
-                favorito: datos.favorito,
-            });
-
-        if (datos.localizacion?.gps) {
-            let coords = datos.localizacion.gps.split(",");
-            setCoordenadas(coords);
-        }
-    }, [datos]);
-
-    const { submit, handleDelete, handleAddContact } = handleContacts({
+    const {
+        submit,
+        handleDelete,
+        handleAddContact,
+        data,
+        setData,
+        coordenadas,
+        errors,
+    } = handleContacts({
+        isSmallScreen,
+        datos,
+        setDatos,
         contactos,
         updateContact,
         borrarContacto,
-        datos,
-        post,
     });
 
     const {
@@ -136,14 +81,11 @@ export const EditarContacto = ({
     const clasesFieldSet =
         "p-4 w-full flex flex-col items-center justify-start mb-2 max-[1280px]:text-[.8rem]";
     const clasesDivContainer =
-        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center max-[1500px]:flex-col max-[1280px]:gap-2 ";
+        "flex flex-row w-4/5 place-content-center gap-2 m-2 items-center max-[1500px]:flex-col ";
     const clasesLabel =
         "text-center mb-1 text-white select-none max-[1280px]:text-[.8rem] ";
     const clasesAgregar =
         "rounded-full transition shadow-[inset_0_0_5px_rgba(0,0,0,.5)] hover:bg-lime-500 hover:shadow-[0_0_5px_rgba(255,255,255,.5)] ease-in transition:ease-out duration-100 m-2 fa-solid fa-plus cursor-pointer select-none p-3";
-
-    const clasesBotonesFormulario =
-        "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
 
     return (
         <>
@@ -310,11 +252,12 @@ export const EditarContacto = ({
                                     value="Tipo"
                                     className={clasesLabel}
                                 />
+
                                 <select
                                     id="tipo_id"
                                     name="tipo_id"
                                     value={data.tipo_id}
-                                    className="block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
+                                    className="mt-1 block w-full rounded-lg bg-[#121827] text-white text-center items-center justify-center cursor-pointer"
                                     onChange={(e) =>
                                         setData("tipo_id", e.target.value)
                                     }

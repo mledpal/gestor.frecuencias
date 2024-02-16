@@ -1,21 +1,114 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import { useEffect } from "react";
-import { useMediaQuery } from "@react-hook/media-query";
+import { useEffect, useState } from "react";
+import { useForm } from "@inertiajs/react";
 
 export const handleContacts = ({
     borrarContacto,
     handleOpen,
     updateContact,
     datos,
-    post,
+    setDatos,
     setVista,
+    isSmallScreen,
 }) => {
     // Métodos / Hooks
 
-    const MySwal = withReactContent(Swal);
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const [coordenadas, setCoordenadas] = useState([]);
+
+    const { data, setData, post, processing, errors, reset } = useForm({
+        id: datos.id,
+        frecuencia: datos.frecuencia.frecuencia,
+        nombre: datos.nombre,
+        observaciones: datos?.observaciones,
+        comprobado: datos.comprobado,
+        privado: datos.privado,
+        frecuencia_id: datos.frecuencia_id,
+        hora: datos?.hora,
+        fecha: datos?.fecha,
+        tipo_id: datos.tipo.id,
+        banda_id: datos.banda_id,
+        modo_id: datos.modo_id,
+        calidad: datos.calidad,
+        offset: datos.repetidor?.offset,
+        direccion: datos.repetidor?.direccion,
+        codificacion_id: datos?.codificacion_id ?? -1,
+        dcs_id: datos?.dcs_id ?? -1,
+        ctcss_id: datos?.ctcss_id ?? -1,
+        localizacion_id: datos.localizacion_id,
+        localidad: datos.localizacion?.localidad,
+        provincia: datos.localizacion?.provincia,
+        pais: datos.localizacion?.pais,
+        gps: datos.localizacion?.gps,
+        favorito: datos.favorito,
+    });
+
+    useEffect(() => {
+        datos &&
+            setData({
+                id: datos.id,
+                frecuencia: datos.frecuencia.frecuencia,
+                nombre: datos.nombre,
+                observaciones: datos?.observaciones,
+                comprobado: datos.comprobado,
+                privado: datos.privado,
+                frecuencia_id: datos.frecuencia_id,
+                hora: datos?.hora,
+                fecha: datos?.fecha,
+                tipo_id: datos.tipo.id,
+                banda_id: datos.banda_id,
+                modo_id: datos.modo_id,
+                calidad: datos.calidad,
+                offset: datos.repetidor?.offset,
+                direccion: datos.repetidor?.direccion,
+                codificacion_id: datos?.codificacion_id ?? -1,
+                dcs_id: datos?.dcs_id ?? -1,
+                ctcss_id: datos?.ctcss_id ?? -1,
+                localizacion_id: datos.localizacion_id,
+                localidad: datos.localizacion?.localidad,
+                provincia: datos.localizacion?.provincia,
+                pais: datos.localizacion?.pais,
+                gps: datos.localizacion?.gps,
+                favorito: datos.favorito,
+            });
+
+        if (datos.localizacion?.gps) {
+            let coords = datos.localizacion.gps.split(",");
+            setCoordenadas(coords);
+        }
+    }, [datos]);
+
+    /**
+     * Tipos de aviso para el mensaje flotante
+     */
+    const tipo = {
+        error: "error",
+        ok: "success",
+        aviso: "warning",
+        info: "info",
+    };
+
+    /**
+     * Función que crea un mensaje de aviso flotante
+     * @param {} mensaje
+     * @param {*} tipo
+     */
+    const mensaje = (mensaje, tipo) => {
+        Swal.fire({
+            icon: tipo,
+            title: mensaje,
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            },
+        });
+    };
 
     useEffect(() => {
         try {
@@ -25,9 +118,12 @@ export const handleContacts = ({
         }
     }, [datos]);
 
+    /**
+     * Función para crear un nuevo contacto de forma asíncrona
+     * @param {} e
+     */
     async function crear(e) {
         e.preventDefault();
-
         post(route("contacto_crear"), {
             onSuccess: () => {
                 updateContact();
@@ -36,90 +132,45 @@ export const handleContacts = ({
         });
     }
 
+    /**
+     * Función para crear un contacto en la vista móvil
+     */
     const crearMovil = () => {
         post(route("contacto_crear"), {
             onSuccess: () => {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    },
-                });
-                Toast.fire({
-                    icon: "success",
-                    title: "Contacto creado correctamente",
-                });
+                mensaje("Contacto creado correctamente", tipo.ok);
                 setVista(isSmallScreen ? "movil" : "main");
             },
             onError: (error) => {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    },
-                });
-                Toast.fire({
-                    icon: "error",
-                    title: "Hubo un error",
-                });
+                mensaje("Hubo un error", tipo.error);
                 setVista(isSmallScreen ? "movil" : "main");
             },
         });
     };
 
+    /**
+     * Función para actualizar un contacto
+     * @param {} e
+     */
     function submit(e) {
         e.preventDefault();
 
         try {
             const idReg = parseInt(id.getAttribute("value"));
-            const url = `ajax/contacto/${idReg}`;
 
             post(route("contacto_actualizar", { id: idReg }), {
                 onSuccess: () => {
-                    updateContact();
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        },
-                    });
-                    Toast.fire({
-                        icon: "success",
-                        title: "Contacto actualizado correctamente",
-                    });
+                    updateContact(data);
+                    mensaje("Contacto actualizado correctamente", tipo.ok);
                 },
                 onError: (errors) => {
-                    Swal.fire({
-                        title: "No actualizado",
-                        text: "Hubo un error",
-                        icon: "warning",
-                    });
+                    mensaje("No actualizado", tipo.aviso);
                 },
             });
 
             // let response = getContactInfo(idReg);
         } catch (error) {
-            Swal.fire({
-                title: "No actualizado",
-                text: "Hubo un error",
-                icon: "warning",
-            });
+            mensaje("Hubo un error", tipo.error);
             console.error(error);
         }
     }
@@ -140,24 +191,10 @@ export const handleContacts = ({
                 if (result.isConfirmed) {
                     post(route("contacto_crear"), {
                         onSuccess: () => {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: "top-end",
-                                showConfirmButton: false,
-                                timer: 1000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.onmouseenter = Swal.stopTimer;
-                                    toast.onmouseleave = Swal.resumeTimer;
-                                },
-                            });
-                            Toast.fire({
-                                icon: "success",
-                                title: "Contacto creado",
-                            });
+                            mensaje("Contacto creado correctamente", tipo.ok);
                         },
                         onError: () => {
-                            Swal.fire("Hubo un error", "", "warning");
+                            mensaje("Hubo un error", tipo.aviso);
                         },
                     });
                 } else if (result.isDenied) {
@@ -205,21 +242,7 @@ export const handleContacts = ({
                     eliminar(id);
                     borrarContacto(id);
 
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        },
-                    });
-                    Toast.fire({
-                        icon: "success",
-                        title: "Contacto borrado",
-                    });
+                    mensaje("Contacto borrado", tipo.ok);
                 } else if (result.isDenied) {
                     Swal.fire("Cancelado", "", "info");
                 }
@@ -255,5 +278,9 @@ export const handleContacts = ({
         submit,
         handleDelete,
         handleAddContact,
+        data,
+        setData,
+        coordenadas,
+        errors,
     };
 };

@@ -112,8 +112,16 @@ export const useFilters = (busqueda) => {
         );
     };
 
-    const updateContact = () => {
-        setContactos(null);
+    const updateContact = (datosContacto) => {
+        getContactos();
+
+        // const index = contactos.findIndex((obj) => obj.id === datosContacto.id);
+        // if (index !== -1) {
+        //     // Si se encuentra el objeto, actualiza sus propiedades con los nuevos datos
+        //     contactos[index] = { ...contactos[index], ...datosContacto };
+        // } else {
+        //     setContactos(...contactos, datosContacto);
+        // }
     };
 
     return {
