@@ -3,9 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-	"deploy": "git pull && vite build"
-    },
+        "build": "vite build"
+	"actualizar": "git pull && vite build"    },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
         "@inertiajs/react": "^1.0.0",
