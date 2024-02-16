@@ -2,14 +2,18 @@ import { Button } from "@material-tailwind/react";
 
 export const BotonesFormulario = ({
     actionSubmit,
-    actionReset,
-    actionExit,
     textSubmit,
+    colorSubmit,
+    actionReset,
     textReset,
+    colorReset,
+    actionExit,
     textExit,
+    colorExit,
+    classBtn,
+    classText,
 }) => {
-    const classButtons =
-        "w-[80px] h-[40px] py-3 px-0 text-white duration-200 ease-in-out hover:bg-yellow-400 hover:text-black hover:drop-shadow-[0px_0px_10px_rgba(255,255,255,.5)]";
+    const classButtons = ` w-[80px] h-[40px] py-3 px-0 text-white duration-200 ease-in-out hover:bg-yellow-400 hover:text-black hover:drop-shadow-[0px_0px_10px_rgba(255,255,255,.5)] ${classBtn}`;
 
     return (
         <>
@@ -18,9 +22,11 @@ export const BotonesFormulario = ({
                     variant="gradient"
                     color="blue"
                     onClick={actionSubmit}
-                    className={`${classButtons} bg-blue-700`}
+                    className={`${classButtons} ${
+                        colorSubmit ?? "bg-blue-700"
+                    }`}
                 >
-                    <span>
+                    <span className={`${classText ?? ""}`}>
                         {textSubmit ? textSubmit : "Enviar"}
                         <i className="ml-2 fa-solid fa-paper-plane"></i>
                     </span>
@@ -34,9 +40,11 @@ export const BotonesFormulario = ({
                     variant="text"
                     color="light-green"
                     onClick={actionReset}
-                    className={`${classButtons} bg-green-700`}
+                    className={`${classButtons} ${
+                        colorReset ?? "bg-green-700"
+                    }`}
                 >
-                    <span>
+                    <span className={`${classText ?? ""}`}>
                         {textReset ? textReset : "Reset"}
                         <i className="ml-2 fa-solid fa-trash" />
                     </span>
@@ -50,9 +58,9 @@ export const BotonesFormulario = ({
                     variant="text"
                     color="red"
                     onClick={actionExit}
-                    className={`${classButtons} bg-red-700`}
+                    className={`${classButtons} ${colorExit ?? "bg-red-700"}`}
                 >
-                    <span>
+                    <span className={`${classText ?? ""}`}>
                         {textExit ? textExit : "Cerrar"}
                         <i className="ml-2 fa-solid fa-door-open"></i>
                     </span>
