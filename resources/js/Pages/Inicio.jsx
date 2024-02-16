@@ -36,10 +36,14 @@ export default function Inicio({ userDB, title, roles, selects, busqueda }) {
         >
             <Head title={title} />
             <header className="px-3 relative flex flex-row items-center justify-between py-2 w-full h-[10%] bg-colorbg max-[1280px]:h-[10%]">
-                <img
-                    src="/img/logo.webp"
-                    className="w-[100px] h-[100px] cursor-pointer max-[1280px]:w-[50px] max-[1280px]:h-[50px]"
-                />
+                {!isSmallScreen ? (
+                    <img
+                        src="/img/logo.webp"
+                        className="w-[100px] h-[100px] cursor-pointer max-[1280px]:w-[50px] max-[1280px]:h-[50px]"
+                    />
+                ) : (
+                    ""
+                )}
                 <UserImage userDB={userDB} link="/profile" />
                 <BurgerMenu
                     isAdmin={isAdmin}
