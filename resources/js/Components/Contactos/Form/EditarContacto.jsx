@@ -887,7 +887,11 @@ export const EditarContacto = ({
                 handler={handleOpen}
                 className="w-screen min-h-screen bg-transparent shadow-transparent m-auto  overflow-y-auto"
             >
-                <GpsMap coordenadas={coordenadas} nombre={datos.nombre} />
+                <GpsMap
+                    coordenadas={coordenadas}
+                    nombre={datos.nombre}
+                    handleOpen={handleOpen}
+                />
             </Dialog>
         </>
     );

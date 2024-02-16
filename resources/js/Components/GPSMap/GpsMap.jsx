@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
+import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 
-export const GpsMap = ({ coordenadas, nombre }) => {
+export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
     const loader = new Loader({
         apiKey: "AIzaSyCNa2l2LonBW2U8F19VzBY_98LOWYXrn9U",
         version: "weekly",
@@ -37,11 +38,14 @@ export const GpsMap = ({ coordenadas, nombre }) => {
     }, []);
 
     return (
-        <div className="container bg-slate-700 m-auto">
+        <div className="relative container bg-slate-700 m-auto h-screen">
             <div
                 id="map"
-                className="bg-slate-800 w-full h-screen rounded-xl border-[5px] border-slate-700"
+                className="bg-slate-800 w-full h-full rounded-xl border-[5px] border-slate-700"
             ></div>
+            <div className="absolute bottom-2  z-10">
+                <BotonesFormulario actionExit={() => handleOpen()} />
+            </div>
         </div>
     );
 };
