@@ -136,7 +136,7 @@ export const EditarContacto = ({
     const clasesFieldSet =
         "p-4 w-full flex flex-col items-center justify-start mb-2 max-[1280px]:text-[.8rem]";
     const clasesDivContainer =
-        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center max-[1280px]:flex-col max-[1280px]:gap-2 ";
+        "flex flex-row w-4/5 place-content-center gap-10 m-2 items-center max-[1500px]:flex-col max-[1280px]:gap-2 ";
     const clasesLabel =
         "text-center mb-1 text-white select-none max-[1280px]:text-[.8rem] ";
     const clasesAgregar =
@@ -155,19 +155,25 @@ export const EditarContacto = ({
             >
                 <input type="hidden" id="id" value={data.id} />
                 <div
-                    className={`${
-                        isSmallScreen
-                            ? "w-full gap-2 flex-col"
-                            : "w-4/5 gap-10  flex-row"
-                    } sticky top-0 h-[125px]  bg-gradient-to-b from-${
-                        datos.tipo.color
-                    } to-slate-900 to-75%  z-10 flex items-center justify-center mt-0 p-5 relative`}
+                    className={`w-full gap-2 flex-col sticky top-0 h-[125px]  bg-gradient-to-b from-${datos.tipo.color} to-slate-900 to-75%  z-10 flex items-center justify-center mt-0 p-5 relative`}
                 >
                     <div
+                        className={` w-full flex flex-row gap-2 items-center justify-center text-center`}
+                    >
+                        <h2 className="font-bold max-w-screen-desktop:text-xl text-lg">
+                            {datos.nombre}
+                        </h2>
+                        <span className="text-xs text-gray-300">
+                            {datos.frecuencia.frecuencia} Mhz
+                        </span>
+                        <span className="italic text-xs text-gray-300">
+                            {datos.tipo.nombre}
+                        </span>
+                    </div>
+
+                    <div
                         name="guardar_datos"
-                        className={` ${
-                            isSmallScreen ? "scale-75" : "absolute top-2 left-2"
-                        }  flex items-center gap-1 scale-100 `}
+                        className={` max-[1500px]:w-full w-1/2 flex items-center justify-around scale-100 `}
                     >
                         {datos.user_id === userDB.id && (
                             <BotonesFormulario
@@ -201,22 +207,6 @@ export const EditarContacto = ({
                                 classBtn={"scale-80"}
                             />
                         )}
-                    </div>
-
-                    <div
-                        className={`${
-                            isSmallScreen ? "order-first" : ""
-                        } w-full flex flex-row gap-2 items-center justify-center text-center`}
-                    >
-                        <h2 className="font-bold max-w-screen-desktop:text-xl text-sm">
-                            {datos.nombre}
-                        </h2>
-                        <span className="text-xs text-gray-300">
-                            {datos.frecuencia.frecuencia} Mhz
-                        </span>
-                        <span className="italic text-xs text-gray-300">
-                            {datos.tipo.nombre}
-                        </span>
                     </div>
 
                     <div
