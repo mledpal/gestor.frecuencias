@@ -1,99 +1,22 @@
-import { useForm } from "@inertiajs/react";
-import { useEffect, useState } from "react";
 import InputError from "../InputError";
 import TextInput from "../TextInput";
-
-import { getComentarios } from "./Helpers/getComentarios";
 import { Comentario } from "./Comentario";
-
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-
-// import Echo from "laravel-echo";
-import Pusher from "pusher-js";
+import { useComentarios } from "./Helpers/useComentarios";
 
 export const Comentarios = ({ datos, isAdmin }) => {
-    const MySwal = withReactContent(Swal);
-    const [comentarios, setComentarios] = useState([]);
-
-    useEffect(() => {
-        Pusher.logToConsole = false;
-        const pusher = new Pusher("5285b606cdf2c249808a", {
-            cluster: "eu",
-        });
-        const channel = pusher.subscribe(
-            `canal-${datos.frecuencia_id}-${datos.localizacion_id}-comentarios`
-        );
-        channel.bind("NuevoComentario", function (data) {
-            updateComentarios();
-        });
-        return () => {
-            channel.unbind();
-            pusher.unsubscribe("canal-comentarios");
-        };
-    }, [comentarios]);
-
-    const { data, setData, post, processing, errors, reset } = useForm({
-        localizacion_id: datos?.localizacion_id,
-        frecuencia_id: datos?.frecuencia_id,
-        comentario: "",
-    });
-
-    useEffect(() => {
-        setData({
-            localizacion_id: datos?.localizacion_id,
-            frecuencia_id: datos?.frecuencia_id,
-            comentario: "",
-        });
-    }, [datos]);
-
     const clasesBotonesFormulario =
         "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
-
-    const updateComentarios = () => {
-        const fetchData = async () => {
-            try {
-                // Realizar la solicitud para obtener los comentarios
-                const respuesta = await getComentarios({
-                    frecuencia: datos.frecuencia_id,
-                    localizacion: datos.localizacion_id,
-                });
-
-                // Verificar si se recibieron datos
-                if (respuesta) {
-                    setComentarios(respuesta);
-                } else {
-                    console.log("No se recibieron comentarios.");
-                }
-            } catch (error) {
-                console.error("Error al obtener comentarios:", error);
-            }
-        };
-
-        fetchData();
-    };
-
-    useEffect(() => {
-        updateComentarios();
-    }, [datos]);
-
-    const submit = (e) => {
-        e.preventDefault();
-
-        post(route("comentario_crear"), {
-            onSuccess: () => {
-                reset("comentario");
-                updateComentarios();
-            },
-            onError: (errors) => {
-                Swal.fire({
-                    title: "No actualizado",
-                    text: "Hubo un error",
-                    icon: "error",
-                });
-            },
-        });
-    };
+    const {
+        submit,
+        updateComentarios,
+        comentarios,
+        setData,
+        data,
+        errors,
+        reset,
+    } = useComentarios({
+        datos,
+    });
 
     return (
         <div className="flex flex-col items-center justify-between gap-2 w-full h-full">
