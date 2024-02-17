@@ -2,7 +2,7 @@ import { AppContext } from "@/Components/AppProvider";
 import { useContext, useEffect, useState } from "react";
 
 export const useFilters = () => {
-    const { busqueda } = useContext(AppContext);
+    const { busqueda, setBusqueda } = useContext(AppContext);
 
     const [contactos, setContactos] = useState(null);
     const [contactosFiltrados, setFiltrados] = useState([]);
@@ -64,7 +64,7 @@ export const useFilters = () => {
     }, [contactos, filtros]);
 
     const busquedaReset = () => {
-        getContactos();
+        setBusqueda(null);
     };
 
     const handleFilterVisible = () => {
