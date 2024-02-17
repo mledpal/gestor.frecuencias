@@ -14,6 +14,9 @@ export const Comentarios = ({ datos, isAdmin }) => {
         data,
         errors,
         reset,
+        editar,
+        setEditar,
+        deleteComentario,
     } = useComentarios({
         datos,
     });
@@ -46,14 +49,24 @@ export const Comentarios = ({ datos, isAdmin }) => {
                         name="botones_comentarios"
                         className="w-1/5 flex flex-row items-center justify-around"
                     >
-                        <i
-                            onClick={submit}
-                            className={`fa-solid fa-paper-plane text-white ${clasesBotonesFormulario} `}
-                        ></i>
+                        {editar ? (
+                            <i
+                                onClick={submit}
+                                className={`fa-solid fa-pen-to-square text-green-500 ${clasesBotonesFormulario} `}
+                            ></i>
+                        ) : (
+                            <i
+                                onClick={submit}
+                                className={`fa-solid fa-paper-plane text-white ${clasesBotonesFormulario} `}
+                            ></i>
+                        )}
 
                         <i
                             className={`fa-solid fa-trash text-red-500 ${clasesBotonesFormulario}`}
-                            onClick={() => reset("comentario")}
+                            onClick={() => {
+                                reset();
+                                setEditar(null);
+                            }}
                         ></i>
                         {/* <i
                         className={`fa-solid fa-person-walking-arrow-right text-white `}
@@ -96,7 +109,9 @@ export const Comentarios = ({ datos, isAdmin }) => {
                                   <Comentario
                                       c={c}
                                       isAdmin={isAdmin}
-                                      updateComentarios={updateComentarios}
+                                      setData={setData}
+                                      setEditar={setEditar}
+                                      deleteComentario={deleteComentario}
                                   />
                               </div>
                           );

@@ -18,6 +18,7 @@ class ComentarioController extends Controller
     {
 
         if (Auth::check()) {
+
             $user = Auth::user();
 
             $nuevoComentario['user_id'] = $user->id;
@@ -37,6 +38,24 @@ class ComentarioController extends Controller
         } else {
             return redirect('/login');
         }
+    }
+
+    /**
+     * Función para editar un comentario (Sólo Admins o propietarios)
+     */
+    public function editar(ValidarComentario $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if ($user->isAdmin || $user->id === $request->user_id) {
+                $comentario = Comentario::findOrFail($request->id);
+                $comentario->update([
+                    'comentario' => $request->comentario,
+                ]);
+            }
+        }
+        return back();
     }
 
     /**

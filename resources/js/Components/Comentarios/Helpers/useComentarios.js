@@ -1,3 +1,5 @@
+import { router } from "@inertiajs/react";
+
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useForm } from "@inertiajs/react";
@@ -11,10 +13,13 @@ export const useComentarios = ({ datos }) => {
     const [comentarios, setComentarios] = useState([]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
+        id: null,
         localizacion_id: datos?.localizacion_id,
         frecuencia_id: datos?.frecuencia_id,
         comentario: "",
     });
+
+    const [editar, setEditar] = useState(null);
 
     /**
      * Tipos de aviso para el mensaje flotante
@@ -104,16 +109,87 @@ export const useComentarios = ({ datos }) => {
      */
     const submit = (e) => {
         e.preventDefault();
+        let ruta = null;
+        if (editar) {
+            ruta = route("comentario_editar", { id: data.id });
+        } else {
+            ruta = route("comentario_crear");
+        }
 
-        post(route("comentario_crear"), {
+        post(ruta, {
             onSuccess: () => {
-                reset("comentario");
+                reset();
                 updateComentarios();
+                editar && mensaje("Comentario editado", tipo.ok);
             },
             onError: (errors) => {
                 mensaje("No se envió el comentario", tipo.error);
             },
         });
+
+        if (editar) setEditar(null);
+    };
+
+    /**
+     * Elimina un comentario
+     * @param {} id
+     */
+    const deleteComentario = (id) => {
+        const MySwal = withReactContent(Swal);
+        
+        withReactContent(Swal)
+            .fire({
+                title: "¿Desea agregar el contacto?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Si",
+                denyButtonText: `No`,
+                icon: "question",
+            })
+            .then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    router.delete(route("comentario_eliminar", { id: id }), {
+                        onSuccess: () => {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                },
+                            });
+                            Toast.fire({
+                                icon: "success",
+                                title: "Comentario borrado",
+                            });
+                            updateComentarios();
+                        },
+                        onError: (error) => {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                },
+                            });
+                            Toast.fire({
+                                icon: "warning",
+                                title: "No se pudo borrar",
+                            });
+                        },
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire("Cancelado", "", "info");
+                }
+            });
     };
 
     /**
@@ -145,6 +221,7 @@ export const useComentarios = ({ datos }) => {
     }, [datos]);
 
     useEffect(() => {
+        setEditar(false);
         updateComentarios();
     }, [datos]);
 
@@ -152,9 +229,12 @@ export const useComentarios = ({ datos }) => {
         submit,
         updateComentarios,
         getComentarios,
+        deleteComentario,
         comentarios,
         setData,
         data,
+        editar,
+        setEditar,
         errors,
         reset,
     };

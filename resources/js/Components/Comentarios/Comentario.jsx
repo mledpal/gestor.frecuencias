@@ -1,7 +1,11 @@
-import { handleComentarios } from "./Helpers/handleComentarios";
-
-export const Comentario = ({ c, isAdmin, updateComentarios }) => {
-    const { deleteComentario } = handleComentarios(updateComentarios);
+export const Comentario = ({
+    c,
+    isAdmin,
+    setData,
+    setEditar,
+    deleteComentario,
+}) => {
+    // const { deleteComentario } = handleComentarios({ updateComentarios });
 
     let fecha = new Date(c.created_at).toLocaleString("es-ES", {
         timeZone: "Europe/Madrid", // Zona horaria de España
@@ -28,7 +32,18 @@ export const Comentario = ({ c, isAdmin, updateComentarios }) => {
             </div>
             {isAdmin ? (
                 <div className="flex flex-col min-h-[75px] items-center justify-between p-1">
-                    <i className="fa-solid fa-pen hover:scale-150 duration-150 cursor-pointer"></i>
+                    <i
+                        className="fa-solid fa-pen hover:scale-150 duration-150 cursor-pointer"
+                        onClick={() => {
+                            setEditar(true);
+                            setData({
+                                id: c.id,
+                                localizacion_id: c.localizacion_id,
+                                frecuencia_id: c.frecuencia_id,
+                                comentario: c.comentario,
+                            });
+                        }}
+                    ></i>
                     <i
                         className="fa-solid fa-trash text-red-500 hover:scale-150 duration-150 cursor-pointer"
                         onClick={() => deleteComentario(c.id)}

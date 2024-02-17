@@ -78,6 +78,7 @@ Route::controller(ContactoController::class)->group(function () {
 
 Route::controller(ComentarioController::class)->group(function () {
     Route::post('comentario/crear', 'crear')->name('comentario_crear');
+    Route::post('comentario/{id}/editar', 'editar')->name('comentario_editar');
     Route::get('/comentario/{frecuencia}/{localizacion}', 'getComentarios')->name('comentario_fetch');
     Route::delete('/comentario/{id}/eliminar', 'eliminar')->name('comentario_eliminar');
 });
