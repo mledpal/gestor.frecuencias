@@ -64,9 +64,9 @@ class MainController extends Controller
                 'canLogin' => Route::has('login'),
                 'canRegister' => Route::has('register'),
                 'userDB' => $user,
-                'username' => $user->username,
+                // 'username' => $user->username,
                 'title' => 'Inicio',
-                'roles' => $roles,
+                // 'roles' => $roles,
                 'contactos' => $contactos,
                 'selects' => $campos_select,
             ]);
