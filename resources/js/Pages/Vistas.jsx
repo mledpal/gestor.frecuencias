@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Users } from "./Admin/Users/Users";
 import { MainPage } from "./Vistas/MainPage";
 import { MovilPage } from "./Vistas/MovilPage";
@@ -6,23 +6,25 @@ import { NuevoContacto } from "@/Components/Contactos/Form/NuevoContacto";
 import { useContactoCreate } from "@/hooks/useContactoCreate";
 import { useFilters } from "@/hooks/useFilters";
 import { BuscarContacto } from "@/Components/Contactos/Form/BuscarContacto";
-import { useMediaQuery } from "@react-hook/media-query";
 import { Mensajes } from "@/Components/Mensajes/Mensajes";
 import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
 import { Conversacion } from "@/Components/Conversacion/Conversacion";
 import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
 import { TiposContacto } from "./Admin/TiposContacto/TiposContacto";
 import { TiposCodificacion } from "./Admin/TipoCodificacion/TiposCodificacion";
+import { AppContext } from "@/Components/AppProvider";
 
-export const Vistas = ({
-    vista,
-    setVista,
-    selects,
-    isAdmin,
-    busqueda,
-    userDB,
-}) => {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+export const Vistas = () => {
+    const {
+        vista,
+        setVista,
+        selects,
+        isAdmin,
+        busqueda,
+        userDB,
+        isSmallScreen,
+    } = useContext(AppContext);
+
     const { datosNuevos } = useContactoCreate();
     const { updateContact } = useFilters(busqueda);
     const [id, setID] = useState(null);

@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CommonMenu, UserMenu } from ".";
 import { AdminMenu } from "./AdminMenu";
 import { MenuAyuda } from "./MenuAyuda";
+import { AppContext } from "../AppProvider";
 
-export const BurgerMenu = ({ isAdmin, setVista, isSmallScreen }) => {
+export const BurgerMenu = () => {
+    const { isAdmin, setVista } = useContext(AppContext);
+
     const [visible, setVisible] = useState(null);
 
     const faIcon = visible ? "fa-bars style='color: #000000;'" : "fa-bars";
