@@ -21,7 +21,7 @@ export const AppMain = ({ userDB, title, selects, busqueda }) => {
         setSelects(selects);
         setUserDB(userDB);
         setTitle(title);
-    }, []);
+    }, [busqueda]);
 
     useEffect(() => {
         if (isSmallScreen) setVista("movil");

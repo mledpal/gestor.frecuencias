@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { AppContext } from "@/Components/AppProvider";
+import { useContext, useEffect, useState } from "react";
 
-export const useFilters = (busqueda) => {
+export const useFilters = () => {
+    const { busqueda } = useContext(AppContext);
+
     const [contactos, setContactos] = useState(null);
     const [contactosFiltrados, setFiltrados] = useState([]);
     const [isLoading, setLoading] = useState(false);
