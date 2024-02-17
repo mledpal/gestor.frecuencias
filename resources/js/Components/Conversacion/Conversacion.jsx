@@ -7,8 +7,7 @@ import { Mensaje } from "../Mensajes/Mensaje";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 import { RotatingLines } from "react-loader-spinner";
 import { useConversacion } from "@/hooks/useConversacion";
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../AppProvider/AppContext";
+import { useEffect } from "react";
 
 export const Conversacion = ({
     handleOpenSendMessage,
@@ -28,9 +27,6 @@ export const Conversacion = ({
         csrf,
         setCSRF,
     } = useConversacion(userID, userDB);
-
-    const algo = useContext(AppContext);
-    console.log(algo);
 
     useEffect(() => {
         setCSRF(csrf);
