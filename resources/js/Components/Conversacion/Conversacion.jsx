@@ -131,7 +131,7 @@ export const Conversacion = ({
                                     actionExit={() => {
                                         handleOpenSendMessage
                                             ? handleOpenSendMessage()
-                                            : setVista("movil");
+                                            : setVista("mensajes");
                                     }}
                                 />
                             ) : (
