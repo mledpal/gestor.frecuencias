@@ -77,8 +77,6 @@ export const Mensajes = ({
         }
     };
 
-    console.log(mensajes);
-
     return (
         <>
             <div className="flex flex-col items-center justify-between  w-full h-full">
@@ -111,7 +109,7 @@ export const Mensajes = ({
 
                 <main
                     name="lista_mensajes"
-                    className="w-full h-full p-0 overflow-y-auto select-none"
+                    className="w-full h-full mt-4 p-0 overflow-y-auto select-none"
                 >
                     {mensajes
                         ? mensajes.map((c, index) => {
