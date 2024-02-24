@@ -59,7 +59,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
             <div className="flex flex-row h-full w-full items-center justify-start">
                 <div
                     id="contactos"
-                    className="h-full py-2 bg-slate-900 w-2/12 flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden max-[1200px]:px-2 max-[1200px]:py-1 max-[1200px]:w-[240px] grow-0 "
+                    className="h-full py-2 bg-slate-900 w-2/12 flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden grow-0 "
                 >
                     <div
                         name="botones_contactos"

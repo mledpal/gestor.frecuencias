@@ -27,12 +27,12 @@ export const Contacto = ({ datos, setDatos }) => {
             >
                 <div className={claseContacto}>
                     <div name="datos" className="w-full text-center">
-                        <p className="text-lg font-bold">
+                        <p className="text-lg font-bold max-[1280px]:text-sm">
                             {datos.frecuencia.frecuencia}
                         </p>
-                        <p className="font-thin text-xs">{datos.nombre}</p>
+                        <p className="font-thin text-xs max-[1280px]:text-[.7rem]">{datos.nombre}</p>
 
-                        <p className="font-thin text-xs">
+                        <p className="font-thin text-xs max-[1280px]:text-[.5rem]">
                             {datos.localizacion
                                 ? datos.localizacion.localidad
                                 : ""}
