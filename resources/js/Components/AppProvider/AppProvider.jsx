@@ -5,6 +5,7 @@ import { useMediaQuery } from "@react-hook/media-query";
 export const AppProvider = ({ children }) => {
     const isSmallScreen = useMediaQuery("(max-width: 900px)");
     const [modoOscuro, setModoOscuro] = useState(false);
+    const [contactos, setContactos] = useState(null);
     const [busqueda, setBusqueda] = useState(null);
     const [selects, setSelects] = useState(null);
     const [isAdmin, setIsAdmin] = useState(null);
@@ -25,6 +26,8 @@ export const AppProvider = ({ children }) => {
                 modoOscuro,
                 setModoOscuro,
                 isSmallScreen,
+                contactos,
+                setContactos,
                 busqueda,
                 setBusqueda,
                 selects,
