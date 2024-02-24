@@ -11,7 +11,7 @@ export const User = ({ user, isSmallScreen, deleteUser, swapAdmin }) => {
                 }`}
                 src={user.photo}
             ></img>
-            <div className={`w-5/12 flex flex-col items-center justify-normal`}>
+            <div className={`w-5/12 mt-[45px] flex flex-col items-center justify-normal`}>
                 <span className="text-center font-bold text-xl ">
                     {user.username}
                 </span>
