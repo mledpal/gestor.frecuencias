@@ -30,9 +30,9 @@ export const Contacto = ({ datos, setDatos }) => {
                         <p className="text-lg font-bold max-[1280px]:text-sm">
                             {datos.frecuencia.frecuencia}
                         </p>
-                        <p className="font-thin text-xs max-[1280px]:text-[.7rem]">{datos.nombre}</p>
+                        <p className={`font-thin text-xs ${!isSmallScreen ? "max-[1280px]:text-[.7rem]" : "" }`}>{datos.nombre}</p>
 
-                        <p className="font-thin text-xs max-[1280px]:text-[.5rem]">
+                        <p className={`font-thin text-xs ${!isSmallScreen ? "max-[1280px]:text-[.5rem]" : "" }`}>
                             {datos.localizacion
                                 ? datos.localizacion.localidad
                                 : ""}
