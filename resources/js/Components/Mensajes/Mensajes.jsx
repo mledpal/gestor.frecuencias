@@ -5,6 +5,7 @@ import { borrarConversacion } from "./helpers/borrarConversacion";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { ContactoWhatsapp } from "../Contactos/ContactoWhatsapp";
 
 export const Mensajes = ({
     handleOpenUserSearcher,
@@ -79,7 +80,7 @@ export const Mensajes = ({
 
     return (
         <>
-            <div className="flex flex-col items-center justify-between gap-2 w-full h-full">
+            <div className="flex flex-col items-center justify-between  w-full h-full">
                 <header
                     name="mensajes"
                     className="w-full flex flex-row items-center justify-between p-6 h-[75px] bg-slate-900"
@@ -113,31 +114,11 @@ export const Mensajes = ({
                 >
                     {mensajes
                         ? mensajes.map((c, index) => {
-                              return (
-                                  <div
-                                      key={index}
-                                      className="p-2 my-2 w-full mx-auto flex odd:bg-slate-800 even:bg-slate-700 shadow-[-2px_2px_5px_rgba(0,0,0,.5)] items-center justify-around rounded-lg"
-                                  >
-                                      <div
-                                          onClick={(e) =>
-                                              handleUserClicked(e, c.id)
-                                          }
-                                          className=" text-xs justify-center font-light"
-                                          link="#"
-                                      >
-                                          <UserImage userDB={c} link="" />
-                                      </div>
-                                      <span
-                                          onClick={(e) => {
-                                              handleDeleteConversation(e, c.id);
-                                          }}
-                                      >
-                                          <i className="fa-solid fa-trash-can text-red-500 cursor-pointer hover:scale-125 hover:shadow-[0_0_5px_rgba(0,0,0,.1)] ease-in-out duration-150 hover:drop-shadow-[0_0_5px_rgba(255,255,255,.4)]"></i>
-                                      </span>
-                                  </div>
+                            return (
+                                    <ContactoWhatsapp key={index} c={c} handleDeleteConversation={handleDeleteConversation}/>
                               );
                           })
-                        : "No hay comentarios"}
+                        : "No hay mensajes"}
                 </main>
             </div>
         </>
