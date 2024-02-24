@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { UserImage } from "../Images/UserImage";
 import { getConversaciones } from "@/Helpers/getConversaciones";
 import { borrarConversacion } from "./helpers/borrarConversacion";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { ContactoWhatsapp } from "../Contactos/ContactoWhatsapp";
+import { DatosUsuario } from "../Usuarios/Forms/DatosUsuario";
 
 export const Mensajes = ({
     handleOpenUserSearcher,
@@ -78,6 +77,8 @@ export const Mensajes = ({
         }
     };
 
+    console.log(mensajes);
+
     return (
         <>
             <div className="flex flex-col items-center justify-between  w-full h-full">
@@ -114,8 +115,15 @@ export const Mensajes = ({
                 >
                     {mensajes
                         ? mensajes.map((c, index) => {
-                            return (
-                                    <ContactoWhatsapp key={index} c={c} handleDeleteConversation={handleDeleteConversation}/>
+                              return (
+                                  <DatosUsuario
+                                      key={index}
+                                      c={c}
+                                      handleUserClicked={handleUserClicked}
+                                      handleDeleteConversation={
+                                          handleDeleteConversation
+                                      }
+                                  />
                               );
                           })
                         : "No hay mensajes"}

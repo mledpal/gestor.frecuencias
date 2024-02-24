@@ -1,4 +1,4 @@
-export const ContactoWhatsapp = ({c, handleDeleteConversation}) => {
+export const DatosUsuario = ({c, handleDeleteConversation, handleUserClicked}) => {
     return (<div
         className="p-2 w-full h-[100px] mx-auto flex flex-row justify-between odd:bg-slate-800 even:bg-slate-700 shadow-[-2px_2px_5px_rgba(0,0,0,.5)] items-center px-5 rounded-lg"
     >
