@@ -101,7 +101,7 @@ export const Mensajes = ({
                         className={`fa-solid fa-person-walking-arrow-right text-white `}
                     ></i> */}
                     </div>
-                    <h2 className="w-3/5 text-center font-bold max-w-screen-desktop:text-xl text-lg">
+                    <h2 className="w-full text-center font-bold max-w-screen-desktop:text-xl text-lg">
                         Conversaciones
                     </h2>
                     <div className="w-1/5"></div>
@@ -109,20 +109,20 @@ export const Mensajes = ({
 
                 <main
                     name="lista_mensajes"
-                    className="w-full h-full p-4 overflow-y-auto select-none"
+                    className="w-full h-full p-0 overflow-y-auto select-none"
                 >
                     {mensajes
                         ? mensajes.map((c, index) => {
                               return (
                                   <div
                                       key={index}
-                                      className="p-4 my-2 w-full mx-auto flex odd:bg-slate-800 even:bg-slate-700 shadow-[-2px_2px_5px_rgba(0,0,0,.5)] items-center justify-between rounded-lg"
+                                      className="p-2 my-2 w-full mx-auto flex odd:bg-slate-800 even:bg-slate-700 shadow-[-2px_2px_5px_rgba(0,0,0,.5)] items-center justify-around rounded-lg"
                                   >
                                       <div
                                           onClick={(e) =>
                                               handleUserClicked(e, c.id)
                                           }
-                                          className=" text-xs justify-center  font-light"
+                                          className=" text-xs justify-center font-light"
                                           link="#"
                                       >
                                           <UserImage userDB={c} link="" />

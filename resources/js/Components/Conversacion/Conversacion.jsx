@@ -140,12 +140,12 @@ export const Conversacion = ({
                         </div>
                     </div>
 
-                    <article className="w-full text-center h-full p-4 flex flex-col items-center justify-start gap-2 ">
+                    <article className="w-full text-center h-full p-4 flex flex-col items-center justify-start gap-2">
                         {conversacion
                             ? conversacion.map((msg, index) => {
                                   return (
                                       <span
-                                          className="w-full  odd:bg-slate-800 even:bg-slate-700 "
+                                          className="w-full  odd:bg-slate-800 even:bg-slate-700"
                                           key={index}
                                       >
                                           <Mensaje datos={msg} />

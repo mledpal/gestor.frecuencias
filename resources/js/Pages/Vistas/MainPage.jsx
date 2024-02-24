@@ -59,11 +59,11 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
             <div className="flex flex-row h-full w-full items-center justify-start">
                 <div
                     id="contactos"
-                    className="h-full px-8 py-2 bg-slate-900 w-[300px] flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden max-[1200px]:px-2 max-[1200px]:py-1 max-[1200px]:w-[240px] grow-0 "
+                    className="h-full py-2 bg-slate-900 w-2/12 flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden max-[1200px]:px-2 max-[1200px]:py-1 max-[1200px]:w-[240px] grow-0 "
                 >
                     <div
                         name="botones_contactos"
-                        className="sticky top-0 mt-0 mb-8 p-1 h-[80px] w-full flex flex-row justify-around items-center select-none bg-transparent z-10 backdrop-blur-lg"
+                        className="sticky top-0 mt-0 mb-10 p-1 h-[80px] w-full flex flex-row justify-around items-center select-none bg-transparent z-10 backdrop-blur-lg"
                     >
                         <i
                             onClick={() => handleOpen("lg")}
@@ -127,7 +127,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
 
                 <div
                     id="detalle"
-                    className="mx-4 h-full overflow-y-auto w-[50%]"
+                    className="mx-4 h-full overflow-y-auto w-6/12"
                 >
                     {datos ? (
                         <EditarContacto
@@ -149,7 +149,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 </div>
                 <div
                     id="mensajes"
-                    className="h-full grow w-auto flex flex-col items-center justify-start mx-2"
+                    className="h-full grow w-4/12 flex flex-col items-center justify-start mx-2"
                 >
                     {datos ? (
                         <Comentarios datos={datos} isAdmin={isAdmin} />
