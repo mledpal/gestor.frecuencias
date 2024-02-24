@@ -2,9 +2,9 @@ import { AppContext } from "@/Components/AppProvider";
 import { useContext, useEffect, useState } from "react";
 
 export const useFilters = () => {
-    const { busqueda, setBusqueda } = useContext(AppContext);
+    const { contactos, setContactos, busqueda, setBusqueda } = useContext(AppContext);
 
-    const [contactos, setContactos] = useState(null);
+    // const [contactos, setContactos] = useState(null);
     const [contactosFiltrados, setFiltrados] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -58,7 +58,9 @@ export const useFilters = () => {
     }, [busqueda]);
 
     useEffect(() => {
-        if (contactos) {
+        if (busqueda) {
+            setFiltrados(filtrarContactos(busqueda));
+        } else if (contactos) {
             setFiltrados(filtrarContactos(contactos));
         }
     }, [contactos, filtros]);
