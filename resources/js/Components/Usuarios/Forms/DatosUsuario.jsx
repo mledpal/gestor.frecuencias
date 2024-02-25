@@ -47,7 +47,8 @@ export const DatosUsuario = ({
                         {c.indicativo}
                     </p>
                     <span className="text-[.8rem] text-gray-400">
-                        {c.last_message}
+                        {c.last_message.substr(0, 50)}{" "}
+                        {c.last_message.length > 50 ? "..." : ""}
                     </span>
                 </div>
                 {/* <UserImage userDB={c} link="" /> */}
