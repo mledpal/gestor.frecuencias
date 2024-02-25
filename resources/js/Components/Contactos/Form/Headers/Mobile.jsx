@@ -1,19 +1,18 @@
 export const Mobile = ({ setVista }) => {
+    const clases = `h-full w-1/2 p-2 text-sm bg-gradient-to-br from-indigo-900 to-indigo-700 flex flex-col items-center justify-around shadow-[inset_2px_2px_10px_rgba(0,0,0,.5)] rounded-xl`;
     return (
-        <header className="w-full h-1/6 bg-indigo-500 flex flex-row gap-0 select-none">
-            <div
-                className="h-full w-1/2 flex flex-col items-center justify-around shadow-[inset_0px_0px_10px_rgba(0,0,0,.5)]"
-                onClick={() => setVista("crear_contacto")}
-            >
+        <header className="w-full h-[100px] bg-indigo-600 p-2 flex flex-row gap-1 select-none">
+            <div className={clases} onClick={() => setVista("crear_contacto")}>
                 <i className="fa-solid fa-plus scale-150"></i>
                 <span>Crear contacto</span>
             </div>
-            <div
-                className="h-full w-1/2 flex flex-col items-center justify-around shadow-[inset_0px_0px_10px_rgba(0,0,0,.5)]"
-                onClick={() => setVista("buscar_contacto")}
-            >
+            <div className={clases} onClick={() => setVista("buscar_contacto")}>
                 <i className="fa-solid fa-magnifying-glass scale-150"></i>
                 <span>Buscar contacto</span>
+            </div>
+            <div className={clases} onClick={() => setVista("filtros")}>
+                <i className="fa-solid fa-filter scale-150"></i>
+                <span>Editar Filtros</span>
             </div>
         </header>
     );

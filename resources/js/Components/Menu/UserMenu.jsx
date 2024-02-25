@@ -47,7 +47,7 @@ export const UserMenu = ({ setVista, setVisible }) => {
                             setVisible(null);
                         }}
                     >
-                        <i className="fa-solid fa-magnifying-glass"></i>
+                        <i className="fa-solid fa-filter"></i>
                         Filtros
                     </li>
                     <hr className="my-2" />
