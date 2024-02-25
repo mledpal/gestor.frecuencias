@@ -45,7 +45,7 @@ export const useFilters = () => {
     }, []);
 
     // useEffect(() => {
-    //     localStorage.setItem("filtros", JSON.stringify(filtros));
+    //     console.log(filtros);
     // }, [filtros]);
 
     const handleCheck = (e, filtroKey) => {
@@ -67,8 +67,6 @@ export const useFilters = () => {
                 [filtroKey]: isChecked,
             })
         );
-        console.log(filtros)
-        console.log(localStorage.getItem("filtros"));
     };
 
     async function getContactos() {
@@ -136,22 +134,20 @@ export const useFilters = () => {
                 (state) => state === Object.values(prevFiltros)[0]
             );
 
-            // Si todos están en el mismo estado, cambiar al estado contrario
-            if (allSameState) {
-                const newFiltros = {};
-                for (const key in prevFiltros) {
-                    newFiltros[key] = !prevFiltros[key];
-                }
-                return newFiltros;
-            } else {
-                // Si no, cambiar todos los filtros al estado del primer filtro
-                const newState = !Object.values(prevFiltros)[0];
-                const newFiltros = {};
-                for (const key in prevFiltros) {
-                    newFiltros[key] = newState;
-                }
-                return newFiltros;
+            // Determinar el nuevo estado opuesto
+            const newFilterState = !Object.values(prevFiltros)[0];
+
+            // Actualizar los filtros
+            const updatedFilters = {};
+            for (const key in prevFiltros) {
+                updatedFilters[key] = newFilterState;
             }
+
+            // Actualizar el estado local
+            localStorage.setItem("filtros", JSON.stringify(updatedFilters));
+
+            // Devolver los filtros actualizados
+            return updatedFilters;
         });
     };
 
