@@ -80,8 +80,9 @@ export const EditarContacto = ({
         "w-full bg-blue-950 max-w-screen-desktop:text-xl text-sm max-[1280px]:text-sm font-bold p-2 select-none cursor-pointer flex flex-row items-center justify-center gap-10 p-5 rounded-t-xl ";
     const clasesFieldSet =
         "p-4 w-full flex flex-col items-center justify-start mb-2 max-[1280px]:text-[.8rem]";
-    const clasesDivContainer =
-        "flex flex-row w-4/5 place-content-center gap-2 m-2 items-center max-[1500px]:flex-col ";
+    const clasesDivContainer = `flex w-4/5 place-content-center gap-2 m-2 items-center ${
+        isSmallScreen ? "flex-col" : "flex-row"
+    } `;
     const clasesLabel =
         "text-center mb-1 text-white select-none max-[1280px]:text-[.8rem] ";
     const clasesAgregar =
