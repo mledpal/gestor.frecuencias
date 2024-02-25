@@ -11,8 +11,6 @@ export const useMensajes = ({
     setUserID,
 }) => {
     const [mensajes, setMensajes] = useState([]);
-    const clasesBotonesFormulario =
-        "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
 
     async function getData() {
         let texto = await getConversaciones();
@@ -75,7 +73,6 @@ export const useMensajes = ({
     return {
         handleUserClicked,
         handleDeleteConversation,
-        clasesBotonesFormulario,
         mensajes,
     };
 };

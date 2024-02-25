@@ -8,16 +8,15 @@ export const Mensajes = ({
     setVista,
     isSmallScreen,
 }) => {
-    const {
-        mensajes,
-        handleUserClicked,
-        handleDeleteConversation,
-        clasesBotonesFormulario,
-    } = useMensajes({
-        handleOpenSendMessage,
-        isSmallScreen,
-        setUserID,
-    });
+    const { mensajes, handleUserClicked, handleDeleteConversation } =
+        useMensajes({
+            handleOpenSendMessage,
+            isSmallScreen,
+            setUserID,
+        });
+
+    const clasesBotonesFormulario =
+        "cursor-pointer hover:scale-150 duration-150 hover:ease-in ease-linear select-none";
 
     return (
         <>

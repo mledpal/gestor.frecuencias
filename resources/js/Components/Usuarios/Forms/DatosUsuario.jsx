@@ -12,7 +12,7 @@ export const DatosUsuario = ({
     const estilosAdmin =
         "border-2 border-yellow-500 shadow-[0px_0px_10px_rgb(255,255,0)]";
 
-    const isAdmin = c.roles.some((rol) => rol.id === 1);
+    const isAdmin = c.roles.some((rol) => rol.id === 2);
 
     const styleUserImg = isAdmin
         ? estilosBase + " " + estilosAdmin
