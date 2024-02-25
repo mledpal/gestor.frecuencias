@@ -263,7 +263,6 @@ export const BuscarContacto = ({
                                 name="nombre"
                                 value={data.nombre}
                                 className="mt-1 block w-full text-center"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("nombre", e.target.value)
                                 }
@@ -286,7 +285,6 @@ export const BuscarContacto = ({
                                 name="frecuencia"
                                 value={data.frecuencia}
                                 className="mt-1 block w-full text-center"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("frecuencia", e.target.value)
                                 }
@@ -315,7 +313,6 @@ export const BuscarContacto = ({
                                 name="localidad"
                                 value={data.localidad}
                                 className="mt-1 block w-full text-center"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("localidad", e.target.value)
                                 }
@@ -339,7 +336,6 @@ export const BuscarContacto = ({
                                 name="provincia"
                                 value={data.provincia}
                                 className="mt-1 block w-full text-center"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("provincia", e.target.value)
                                 }

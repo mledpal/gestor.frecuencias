@@ -268,7 +268,6 @@ export const NuevoContacto = ({
                                 name="nombre"
                                 value={data.nombre}
                                 className="mt-1 block w-full"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("nombre", e.target.value)
                                 }
@@ -326,7 +325,6 @@ export const NuevoContacto = ({
                                 name="frecuencia"
                                 value={data.frecuencia}
                                 className="mt-1 block w-full"
-                                isFocused={true}
                                 onChange={(e) =>
                                     setData("frecuencia", e.target.value)
                                 }
