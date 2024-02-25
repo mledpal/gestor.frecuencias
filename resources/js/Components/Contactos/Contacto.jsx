@@ -12,7 +12,7 @@ export const Contacto = ({ datos, setDatos }) => {
     const clasesMovil = `w-screen h-[80px]  flex flex-row items-center justify-around cursor-pointer  select-none ease-in-out hover:bg-gradient-to-bl duration-100 ease-in-out hover:bg-gray-900 hover:from-gray-600 hover:scale-95 hover:shadow-[inset_-2px_2px_10px_rgba(255,255,255,.5),inset_2px_-2px_5px_rgba(0,0,0,.8)]
     bg-gradient-to-b from-${datos.tipo.color} to-gray-800`;
 
-    const clasesPC = `w-full h-[80px]  flex flex-row items-center justify-around cursor-pointer shadow-[inset_-2px_2px_10px_rgba(255,255,255,.7),inset_2px_-2px_5px_rgba(0,0,0,.9)] select-none ease-in-out hover:bg-gradient-to-bl duration-100 ease-in-out hover:text-black hover:bg-emerald-200 hover:from-green-600 hover:scale-95 hover:shadow-[inset_-2px_2px_10px_rgba(255,255,255,.5),inset_2px_-2px_5px_rgba(0,0,0,.8)]
+    const clasesPC = `w-full h-[80px]  flex flex-row items-center justify-around cursor-pointer shadow-[inset_-2px_2px_10px_rgba(255,255,255,.7),inset_2px_-2px_5px_rgba(0,0,0,.9)] select-none ease-in-out hover:bg-gradient-to-bl ease-in-out hover:text-black hover:bg-emerald-200 hover:from-green-600 duration-150 hover:scale-95 hover:shadow-[inset_-2px_2px_10px_rgba(255,255,255,.5),inset_2px_-2px_5px_rgba(0,0,0,.8)]
     bg-gradient-to-b from-${datos.tipo.color} to-gray-800`;
 
     const claseContacto = isSmallScreen ? clasesMovil : clasesPC;
@@ -30,9 +30,23 @@ export const Contacto = ({ datos, setDatos }) => {
                         <p className="text-lg font-bold max-[1280px]:text-sm">
                             {datos.frecuencia.frecuencia}
                         </p>
-                        <p className={`font-thin text-xs ${!isSmallScreen ? "max-[1280px]:text-[.7rem]" : "" }`}>{datos.nombre}</p>
+                        <p
+                            className={`font-thin text-xs ${
+                                !isSmallScreen
+                                    ? "max-[1280px]:text-[.7rem]"
+                                    : ""
+                            }`}
+                        >
+                            {datos.nombre}
+                        </p>
 
-                        <p className={`font-thin text-xs ${!isSmallScreen ? "max-[1280px]:text-[.5rem]" : "" }`}>
+                        <p
+                            className={`font-thin text-xs ${
+                                !isSmallScreen
+                                    ? "max-[1280px]:text-[.5rem]"
+                                    : ""
+                            }`}
+                        >
                             {datos.localizacion
                                 ? datos.localizacion.localidad
                                 : ""}

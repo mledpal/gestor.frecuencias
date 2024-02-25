@@ -127,7 +127,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
 
                 <div
                     id="detalle"
-                    className="mx-4 h-full overflow-y-auto w-6/12"
+                    className="mx-4 h-full overflow-y-auto w-7/12"
                 >
                     {datos ? (
                         <EditarContacto
@@ -149,7 +149,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                 </div>
                 <div
                     id="mensajes"
-                    className="h-full grow w-4/12 flex flex-col items-center justify-start mx-2"
+                    className="h-full grow w-3/12 flex flex-col items-center justify-start mx-2"
                 >
                     {datos ? (
                         <Comentarios datos={datos} isAdmin={isAdmin} />
