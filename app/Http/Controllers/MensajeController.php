@@ -73,31 +73,51 @@ class MensajeController extends Controller
         }
     }
 
+    /**
+     * Función que devuelve las conversaciones del usuario autenticado
+     * Añadiendo los datos del último mensaje
+     */
     public function getConversaciones()
     {
         if (Auth::check()) {
-
             $userId = Auth::id();
 
+            // Obtener conversaciones del usuario
             $conversaciones = Mensaje::select('remitente_id', 'destinatario_id')
                 ->where('remitente_id', $userId)
                 ->orWhere('destinatario_id', $userId)
                 ->groupBy('remitente_id', 'destinatario_id')
                 ->get();
 
+            // Obtener IDs de otros usuarios en las conversaciones
             $otherUserIds = $conversaciones->flatMap(function ($conversacion) use ($userId) {
                 return [$conversacion->remitente_id, $conversacion->destinatario_id];
             })->reject(function ($otherUserId) use ($userId) {
                 return $otherUserId == $userId;
             })->unique();
 
-            $otherUsers = User::with('roles')->whereIn('id', $otherUserIds)->get(['id', 'photo', 'username', 'indicativo']);
+            // Obtener detalles de los otros usuarios con el último mensaje
+            $otherUsers = User::with('roles')->whereIn('id', $otherUserIds)->get(['id', 'photo', 'username', 'indicativo'])->map(function ($user) use ($userId) {
+                $lastMessage = Mensaje::where('remitente_id', $user->id)
+                    ->where('destinatario_id', $userId)
+                    ->orWhere('remitente_id', $userId)
+                    ->where('destinatario_id', $user->id)
+                    ->latest()
+                    ->first();
+
+                $user->last_message = $lastMessage ? $lastMessage->mensaje : null;
+                $user->last_message_timestamp = $lastMessage ? $lastMessage->created_at->format('H:i:s') : null;
+                // $user->last_message_timestamp = $lastMessage ? $lastMessage->created_at->format('Y-m-d H:i:s') : null;
+
+                return $user;
+            });
 
             return json_encode($otherUsers);
         } else {
             return route('/login');
         }
     }
+
 
     public function borrarConversacion($id)
     {
