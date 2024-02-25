@@ -97,6 +97,7 @@ class MensajeController extends Controller
             })->unique();
 
             // Obtener detalles de los otros usuarios con el último mensaje
+            // Obtener detalles de los otros usuarios con el último mensaje
             $otherUsers = User::with('roles')->whereIn('id', $otherUserIds)->get(['id', 'photo', 'username', 'indicativo'])->map(function ($user) use ($userId) {
                 $lastMessage = Mensaje::where('remitente_id', $user->id)
                     ->where('destinatario_id', $userId)
@@ -105,12 +106,30 @@ class MensajeController extends Controller
                     ->latest()
                     ->first();
 
-                $user->last_message = $lastMessage ? $lastMessage->mensaje : null;
-                $user->last_message_timestamp = $lastMessage ? $lastMessage->created_at->format('H:i:s') : null;
-                // $user->last_message_timestamp = $lastMessage ? $lastMessage->created_at->format('Y-m-d H:i:s') : null;
+                if ($lastMessage) {
+                    $created_at = $lastMessage->created_at;
+                    $now = now();
+
+                    if ($created_at->isToday()) {
+                        $lastMessageTime = $created_at->format('H:i:s');
+                    } elseif ($created_at->isYesterday()) {
+                        $lastMessageTime = 'Ayer';
+                    } else {
+                        $lastMessageTime = $created_at->format('d/m/y');
+                    }
+
+                    $user->last_message = $lastMessage->mensaje;
+                    $user->last_message_time = $lastMessageTime;
+                } else {
+                    $user->last_message = null;
+                    $user->last_message_time = null;
+                }
 
                 return $user;
             });
+
+return json_encode($otherUsers);
+
 
             return json_encode($otherUsers);
         } else {
