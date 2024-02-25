@@ -59,11 +59,11 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
             <div className="flex flex-row h-full w-full items-center justify-start">
                 <div
                     id="contactos"
-                    className="h-full py-2 bg-slate-900 w-2/12 flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden grow-0 "
+                    className="h-full py-2 bg-slate-900 w-2/12 flex flex-col items-center justify-center overflow-y-scroll overflow-x-hidden grow-0 "
                 >
                     <div
                         name="botones_contactos"
-                        className="sticky top-0 mt-0 mb-10 p-1 h-[80px] w-full flex flex-row justify-around items-center select-none bg-transparent z-10 backdrop-blur-lg"
+                        className="sticky top-0 mt-0 mb-10 p-1 h-2/12 w-full flex flex-row justify-around items-center select-none bg-transparent z-10 backdrop-blur-lg"
                     >
                         <i
                             onClick={() => handleOpen("lg")}
