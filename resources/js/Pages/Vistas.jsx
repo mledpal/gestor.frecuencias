@@ -13,6 +13,7 @@ import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
 import { TiposContacto } from "./Admin/TiposContacto/TiposContacto";
 import { TiposCodificacion } from "./Admin/TipoCodificacion/TiposCodificacion";
 import { AppContext } from "@/Components/AppProvider";
+import { FiltrosContacto } from "@/Components/Contactos/Form/FiltrosContacto";
 
 export const Vistas = () => {
     const {
@@ -64,6 +65,15 @@ export const Vistas = () => {
                     selects={selects}
                     setVista={setVista}
                     updateContact={updateContact}
+                />
+            )}
+
+            {vista === "filtros" && (
+                <FiltrosContacto
+                    busqueda={busqueda}
+                    selects={selects}
+                    setVista={setVista}
+                    isSmallScreen={isSmallScreen}
                 />
             )}
 

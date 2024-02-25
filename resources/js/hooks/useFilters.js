@@ -2,7 +2,8 @@ import { AppContext } from "@/Components/AppProvider";
 import { useContext, useEffect, useState } from "react";
 
 export const useFilters = () => {
-    const { contactos, setContactos, busqueda, setBusqueda } = useContext(AppContext);
+    const { contactos, setContactos, busqueda, setBusqueda } =
+        useContext(AppContext);
 
     // const [contactos, setContactos] = useState(null);
     const [contactosFiltrados, setFiltrados] = useState([]);
@@ -35,6 +36,40 @@ export const useFilters = () => {
         { label: "Particulares", key: "particular" },
         { label: "Servicios", key: "servicio" },
     ];
+
+    useEffect(() => {
+        const storedFiltros = localStorage.getItem("filtros");
+        if (storedFiltros) {
+            setFiltros(JSON.parse(storedFiltros));
+        }
+    }, []);
+
+    // useEffect(() => {
+    //     localStorage.setItem("filtros", JSON.stringify(filtros));
+    // }, [filtros]);
+
+    const handleCheck = (e, filtroKey) => {
+        const isChecked = e.target.checked;
+
+        // Actualizar el estado de los filtros
+        setFiltros((prevFiltros) => ({
+            ...prevFiltros,
+            [filtroKey]: isChecked,
+        }));
+
+        // Guardar los filtros en el LocalStorage
+        // Utilizamos el estado actualizado (prevFiltros)
+        // en lugar de la variable filtros.
+        localStorage.setItem(
+            "filtros",
+            JSON.stringify({
+                ...filtros,
+                [filtroKey]: isChecked,
+            })
+        );
+        console.log(filtros)
+        console.log(localStorage.getItem("filtros"));
+    };
 
     async function getContactos() {
         setLoading(true);
@@ -71,13 +106,6 @@ export const useFilters = () => {
 
     const handleFilterVisible = () => {
         setVisible((prevVisible) => !prevVisible);
-    };
-
-    const handleCheck = (filtro) => {
-        setFiltros((prevFiltros) => ({
-            ...prevFiltros,
-            [filtro]: !prevFiltros[filtro],
-        }));
     };
 
     const filtrarContactos = (contactos) => {

@@ -40,6 +40,16 @@ export const UserMenu = ({ setVista, setVisible }) => {
                         <i className="fa-solid fa-magnifying-glass"></i>
                         Buscar Contacto
                     </li>
+                    <li
+                        className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-md "
+                        onClick={() => {
+                            setVista("filtros");
+                            setVisible(null);
+                        }}
+                    >
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                        Filtros
+                    </li>
                     <hr className="my-2" />
                     <li
                         className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm "
