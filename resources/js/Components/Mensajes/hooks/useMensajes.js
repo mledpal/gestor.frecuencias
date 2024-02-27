@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { borrarConversacion } from "../helpers/borrarConversacion";
 import { getConversaciones } from "@/Helpers/getConversaciones";
+import { AppContext } from "@/Components/AppProvider";
 
 export const useMensajes = ({
     handleOpenSendMessage,
-    isSmallScreen,
     setUserID,
+    setID,
 }) => {
+    const {
+        setVista,
+        isSmallScreen,
+    } = useContext(AppContext);
+
     const [mensajes, setMensajes] = useState([]);
 
     async function getData() {

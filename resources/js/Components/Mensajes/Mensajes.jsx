@@ -6,13 +6,13 @@ export const Mensajes = ({
     handleOpenSendMessage,
     setUserID,
     setVista,
-    isSmallScreen,
+    setID,
 }) => {
     const { mensajes, handleUserClicked, handleDeleteConversation } =
         useMensajes({
             handleOpenSendMessage,
-            isSmallScreen,
             setUserID,
+            setID,
         });
 
     const clasesBotonesFormulario =
@@ -55,14 +55,19 @@ export const Mensajes = ({
                     {mensajes
                         ? mensajes.map((c, index) => {
                               return (
-                                  <DatosUsuario
+                                  <div
                                       key={index}
-                                      c={c}
-                                      handleUserClicked={handleUserClicked}
-                                      handleDeleteConversation={
-                                          handleDeleteConversation
+                                      onClick={(e) =>
+                                          handleUserClicked(e, c.id)
                                       }
-                                  />
+                                  >
+                                      <DatosUsuario
+                                          c={c}
+                                          handleDeleteConversation={
+                                              handleDeleteConversation
+                                          }
+                                      />
+                                  </div>
                               );
                           })
                         : "No hay mensajes"}
