@@ -4,15 +4,15 @@ export const Mobile = ({ setVista }) => {
         <header className="w-full h-[100px] bg-indigo-600 p-2 flex flex-row gap-1 select-none">
             <div className={clases} onClick={() => setVista("crear_contacto")}>
                 <i className="fa-solid fa-plus scale-150"></i>
-                <span className="text-sm">Crear contacto</span>
+                <span className="text-center text-xs">Crear contacto</span>
             </div>
             <div className={clases} onClick={() => setVista("buscar_contacto")}>
                 <i className="fa-solid fa-magnifying-glass scale-150"></i>
-                <span className="text-sm">Buscar contacto</span>
+                <span className="text-center text-xs">Buscar contacto</span>
             </div>
             <div className={clases} onClick={() => setVista("filtros")}>
                 <i className="fa-solid fa-filter scale-150"></i>
-                <span className="text-sm">Editar Filtros</span>
+                <span className="text-center text-xs">Editar Filtros</span>
             </div>
         </header>
     );
