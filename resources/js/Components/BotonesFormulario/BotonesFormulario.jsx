@@ -2,13 +2,20 @@ import { Button } from "@material-tailwind/react";
 import { useMediaQuery } from "@react-hook/media-query";
 
 export const BotonesFormulario = ({
+    actionApply,
+    colorApply,
+    textApply,
+    iconApply,
     actionSubmit,
     textSubmit,
     colorSubmit,
+    iconSubmit,
     actionReset,
     textReset,
     colorReset,
+    iconReset,
     actionExit,
+    iconExit,
     textExit,
     colorExit,
     classBtn,
@@ -33,7 +40,11 @@ export const BotonesFormulario = ({
                 >
                     <span className={`${classText ?? ""}`}>
                         {textSubmit ? textSubmit : "Enviar"}
-                        <i className="ml-2 fa-solid fa-paper-plane"></i>
+                        <i
+                            className={`ml-2 fa-solid ${
+                                iconSubmit ? iconSubmit : "fa-paper-plane"
+                            }`}
+                        ></i>
                     </span>
                 </Button>
             ) : (
@@ -51,7 +62,11 @@ export const BotonesFormulario = ({
                 >
                     <span className={`${classText ?? ""}`}>
                         {textReset ? textReset : "Reset"}
-                        <i className="ml-2 fa-solid fa-trash" />
+                        <i
+                            className={`ml-2 fa-solid ${
+                                iconReset ? iconReset : "fa-trash"
+                            }`}
+                        />
                     </span>
                 </Button>
             ) : (
@@ -67,7 +82,33 @@ export const BotonesFormulario = ({
                 >
                     <span className={`${classText ?? ""}`}>
                         {textExit ? textExit : "Cerrar"}
-                        <i className="ml-2 fa-solid fa-door-open"></i>
+                        <i
+                            className={`ml-2 fa-solid ${
+                                iconExit ? iconExit : "fa-door-open"
+                            }`}
+                        ></i>
+                    </span>
+                </Button>
+            ) : (
+                ""
+            )}
+
+            {actionApply ? (
+                <Button
+                    variant="text"
+                    color="blue"
+                    onClick={actionApply}
+                    className={`${classButtons} ${
+                        colorApply ?? "bg-indigo-600"
+                    }`}
+                >
+                    <span className={`${classText ?? ""}`}>
+                        {textApply ? textApply : "Aplicar"}
+                        <i
+                            className={`ml-2 fa-solid ${
+                                iconApply ? iconApply : "fa-check"
+                            }`}
+                        ></i>
                     </span>
                 </Button>
             ) : (
