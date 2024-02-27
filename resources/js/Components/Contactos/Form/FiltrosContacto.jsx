@@ -2,7 +2,7 @@ import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormula
 import { Switch } from "@/Components/Switch";
 import { useFilters } from "@/hooks/useFilters";
 
-export const FiltrosContacto = ({ busqueda, selects, setVista }) => {
+export const FiltrosContacto = ({ busqueda, setVista }) => {
     const { filtros, listaFiltros, handleCheck, handlerCheckUncheck } =
         useFilters(busqueda);
 
@@ -14,7 +14,9 @@ export const FiltrosContacto = ({ busqueda, selects, setVista }) => {
                 <BotonesFormulario
                     actionSubmit={handlerCheckUncheck}
                     textSubmit={"Reset"}
-                    actionExit={() => {
+                    colorSubmit={"bg-green-600"}
+                    iconSubmit="fa-rotate"
+                    actionApply={() => {
                         setVista("movil");
                     }}
                 />
