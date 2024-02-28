@@ -26,35 +26,40 @@ export const Contacto = ({ datos, setDatos }) => {
                 }}
             >
                 <div className={claseContacto}>
-                    <div name="datos" className="w-full text-center">
-                        <p className="text-lg font-bold max-[1280px]:text-sm">
+                    <div
+                        name="datos"
+                        className="w-8/12 text-center flex flex-row items-center justify-between h-full"
+                    >
+                        <p className="w-3/5 text-lg font-thin max-[1280px]:text-lg">
                             {datos.frecuencia.frecuencia}
                         </p>
-                        <p
-                            className={`font-thin text-xs ${
-                                !isSmallScreen
-                                    ? "max-[1280px]:text-[.7rem]"
-                                    : ""
-                            }`}
-                        >
-                            {datos.nombre}
-                        </p>
+                        <div className="w-2/5 flex flex-col">
+                            <p
+                                className={`font-thin ${
+                                    !isSmallScreen
+                                        ? "max-[1280px]:text-[.7rem]"
+                                        : "text-sm"
+                                }`}
+                            >
+                                {datos.nombre}
+                            </p>
 
-                        <p
-                            className={`font-thin text-xs ${
-                                !isSmallScreen
-                                    ? "max-[1280px]:text-[.5rem]"
-                                    : ""
-                            }`}
-                        >
-                            {datos.localizacion
-                                ? datos.localizacion.localidad
-                                : ""}
-                        </p>
+                            <p
+                                className={`font-thin text-gray-300 ${
+                                    !isSmallScreen
+                                        ? "max-[1280px]:text-[.5rem]"
+                                        : "text-xs"
+                                }`}
+                            >
+                                {datos.localizacion
+                                    ? datos.localizacion.localidad
+                                    : ""}
+                            </p>
+                        </div>
                     </div>
                     <div
                         name="iconos"
-                        className="w-[40%] h-full flex flex-col items-center justify-between py-2"
+                        className="w-2/12 h-full flex flex-col items-center justify-between py-2"
                     >
                         <Repetidor repetidor={datos.repetidor_id} />
 
@@ -67,7 +72,7 @@ export const Contacto = ({ datos, setDatos }) => {
                     </div>
                     <div
                         name="tecnico"
-                        className="w-[100px] h-full p-2 flex flex-col justify-between items-center"
+                        className="w-2/12 h-full p-2 flex flex-col justify-between items-center"
                     >
                         <FrecuenciaComprobada comprobada={datos.comprobado} />
                         <Favorito favorito={datos.favorito} />
