@@ -1,7 +1,10 @@
 import { useMediaQuery } from "@react-hook/media-query";
+import { AppContext } from "../AppProvider";
+import { useContext } from "react";
 
 export const UserMenu = ({ setVista, setVisible }) => {
     const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const { busqueda, setBusqueda } = useContext(AppContext);
 
     return (
         <>
@@ -40,6 +43,17 @@ export const UserMenu = ({ setVista, setVisible }) => {
                         <i className="fa-solid fa-magnifying-glass"></i>
                         Buscar Contacto
                     </li>
+                    {busqueda ? (
+                        <li
+                            className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-md "
+                            onClick={() => setBusqueda(null)}
+                        >
+                            <i className="fa-solid fa-broom cursor-pointer hover:scale-150 duration-150 select-none"></i>
+                            Borrar Búsqueda
+                        </li>
+                    ) : (
+                        ""
+                    )}
                     <li
                         className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-md "
                         onClick={() => {
