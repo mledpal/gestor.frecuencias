@@ -1,4 +1,5 @@
 import { AppContext } from "@/Components/AppProvider";
+import { getContactos } from "@/Helpers/getContactos";
 import { useContext, useEffect, useState } from "react";
 
 export const useFilters = () => {
@@ -69,32 +70,24 @@ export const useFilters = () => {
         );
     };
 
-    async function getContactos() {
-        setLoading(true);
-        try {
-            const response = await fetch("ajax/contacto/get");
-            const data = await response.json();
-            setContactos(data);
-        } catch (error) {
-            console.error("Error al obtener contactos:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
-
     useEffect(() => {
-        if (!busqueda) {
-            getContactos();
-        } else {
-            setContactos(busqueda);
-        }
+        const obtenerContactos = async () => {
+            let datos = null;
+            if (!busqueda) {
+                datos = await getContactos();
+                setContactos(datos);
+            } else {
+                setContactos(busqueda);
+            }
+        };
+        obtenerContactos();
     }, [busqueda]);
 
     useEffect(() => {
         if (busqueda) {
-            setFiltrados(filtrarContactos(busqueda));
+            contactos && setFiltrados(filtrarContactos(busqueda));
         } else if (contactos) {
-            setFiltrados(filtrarContactos(contactos));
+            contactos && setFiltrados(filtrarContactos(contactos));
         }
     }, [contactos, filtros]);
 
