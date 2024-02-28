@@ -2,6 +2,8 @@ import { AppContext } from "@/Components/AppProvider";
 import { getContactos } from "@/Helpers/getContactos";
 import { useContext, useEffect, useState } from "react";
 
+const contactosCargados = await getContactos();
+
 export const useFilters = () => {
     const { contactos, setContactos, busqueda, setBusqueda } =
         useContext(AppContext);
@@ -45,10 +47,6 @@ export const useFilters = () => {
         }
     }, []);
 
-    // useEffect(() => {
-    //     console.log(filtros);
-    // }, [filtros]);
-
     const handleCheck = (e, filtroKey) => {
         const isChecked = e.target.checked;
 
@@ -71,16 +69,13 @@ export const useFilters = () => {
     };
 
     useEffect(() => {
-        const obtenerContactos = async () => {
-            let datos = null;
-            if (!busqueda) {
-                datos = await getContactos();
-                setContactos(datos);
-            } else {
-                setContactos(busqueda);
-            }
-        };
-        obtenerContactos();
+        setContactos(contactosCargados);
+    }, []);
+
+    useEffect(() => {
+        if (busqueda) {
+            setContactos(busqueda);
+        }
     }, [busqueda]);
 
     useEffect(() => {
