@@ -22,6 +22,11 @@ export default defineConfig({
         //     certDir: "/Users/.../.devServer/cert",
         // }),
     ],
+    esbuild: {
+        supported: {
+            "top-level-await": true, //browsers can handle top-level-await features
+        },
+    },
     // server: {
     //     // 005 enabling the HTTPS
     //     https: false,
