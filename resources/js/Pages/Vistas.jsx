@@ -121,6 +121,15 @@ export const Vistas = () => {
                 <Users isSmallScreen={isSmallScreen} userDB={userDB} />
             )}
 
+            {vista === "admin_user_info" && (
+                <TiposCodificacion
+                    setUserID={setUserID}
+                    setID={setID}
+                    setVista={setVista}
+                    isSmallScreen={isSmallScreen}
+                />
+            )}
+
             {vista === "admin_tipo_contacto" && (
                 <TiposContacto
                     setVista={setVista}

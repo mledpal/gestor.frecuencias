@@ -1,11 +1,7 @@
 import { AppContext } from "@/Components/AppProvider";
 import { useContext } from "react";
 
-export const DatosUsuario = ({
-    c,
-    handleDeleteConversation,
-    handleUserClicked,
-}) => {
+export const DatosUsuario = ({ c, handleDeleteConversation }) => {
     const { isSmallScreen } = useContext(AppContext);
 
     const estilosBase = "w-[50px] h-[50px] rounded-full";
@@ -29,7 +25,6 @@ export const DatosUsuario = ({
             } cursor-pointer hover:scale-95 duration-200`}
         >
             <div
-                onClick={(e) => handleUserClicked(e, c.id)}
                 className=" text-xs font-light flex flex-row items-center justify-between w-10/12"
                 link="#"
             >

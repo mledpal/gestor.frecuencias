@@ -155,7 +155,7 @@ export const EditarContacto = ({
                     >
                         {datos.localizacion?.gps && (
                             <i
-                                className="fa-solid fa-location-dot cursor-pointer hover:scale-150 duration-150 select-none"
+                                className="fa-solid fa-location-dot scale-150 cursor-pointer hover:scale-[175%] black duration-150 select-none"
                                 onClick={handleOpen}
                             ></i>
                         )}
