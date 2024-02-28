@@ -30,19 +30,11 @@ export const Contacto = ({ datos, setDatos }) => {
                         name="datos"
                         className="w-8/12 text-center flex flex-row items-center justify-between h-full"
                     >
-                        <p className="w-3/5 text-lg font-thin max-[1280px]:text-lg">
+                        <p className="w-3/5 text-lg font-thin max-[1280px]:text-xs">
                             {datos.frecuencia.frecuencia}
                         </p>
-                        <div className="w-2/5 flex flex-col">
-                            <p
-                                className={`font-thin ${
-                                    !isSmallScreen
-                                        ? "max-[1280px]:text-[.7rem]"
-                                        : "text-sm"
-                                }`}
-                            >
-                                {datos.nombre}
-                            </p>
+                        <div className="w-2/5 flex flex-col text-xs">
+                            <p className={`font-thin $`}>{datos.nombre}</p>
 
                             <p
                                 className={`font-thin text-gray-300 ${
