@@ -64,7 +64,7 @@ export const Contacto = ({ datos, setDatos }) => {
                     </div>
                     <div
                         name="tecnico"
-                        className="w-2/12 h-full p-2 flex flex-col justify-between items-center"
+                        className="w-2/12 h-full mr-1 flex flex-col justify-around items-center"
                     >
                         <FrecuenciaComprobada comprobada={datos.comprobado} />
                         <Favorito favorito={datos.favorito} />
