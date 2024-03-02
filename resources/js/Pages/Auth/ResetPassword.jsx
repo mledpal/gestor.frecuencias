@@ -29,8 +29,7 @@ export default function ResetPassword({ token, email }) {
     return (
         <GuestLayout>
             <Head title="Reiniciar Contraseña" />
-            (isSmallScreen ? (<Walkie form="reset" />) : (<Radio form="reset" />
-            ))
+            {isSmallScreen ? <Walkie form="reset" /> : <Radio form="reset" />}
         </GuestLayout>
     );
 }
