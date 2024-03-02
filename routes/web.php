@@ -29,35 +29,33 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('admin/usuarios', 'usuarios')->name('admin_usuarios');
     Route::get('admin/tipos_contacto', 'tipos_contacto')->name('admin_tipos_contacto');
     Route::get('admin/tipos_codificacion', 'tipos_codificacion')->name('admin_tipos_codificacion');
-});
+})->middleware('auth');
 
 Route::controller(UserController::class)->group(function () {
     Route::post('user/busqueda', 'busqueda')->name('usuario_busqueda');
     Route::get('user/{id}/getInfo', 'getInfo')->name('usuario_informacion');
     Route::post('user/{id}/delete', 'eliminar')->name('usuario_eliminar');
     Route::post('/user/{id}/swapAdmin', 'swapAdmin')->name('usuario_swap_admin');
-});
+})->middleware('auth');
 
 Route::controller(MensajeController::class)->group(function () {
     Route::post('mensajes/enviar', 'enviarMensaje')->name('enviar_mensaje');
     Route::get('mensajes/recuperar', 'getConversaciones')->name('todas_conversaciones');
     Route::get('mensajes/{destinoId}/recuperar', 'recuperarConversacion')->name('recuperar_conversacion');
     Route::delete('mensajes/{id}/delete', 'borrarConversacion')->name('borrar_conversacion');
-});
+})->middleware('auth');
 
 Route::controller(TiposContactoController::class)->group(function () {
     Route::post('tipo_contacto/nuevo', 'crear')->name('nuevo_tipo_contacto');
     Route::post('tipo_contacto/{id}/editar', 'editar')->name('editar_tipo_contacto');
     Route::post('tipo_contacto/{id}/eliminar', 'eliminar')->name('eliminar_tipo_contacto');
-});
+})->middleware('auth');
 
 Route::controller(TiposCodificacionController::class)->group(function () {
     Route::post('tipo_codificacion/nuevo', 'crear')->name('nuevo_tipo_codificacion');
     Route::post('tipo_codificacion/{id}/editar', 'editar')->name('editar_tipo_codificacion');
     Route::post('tipo_codificacion/{id}/eliminar', 'eliminar')->name('eliminar_tipo_codificacion');
-});
-
-
+})->middleware('auth');
 
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'index')->name('index');
@@ -65,7 +63,7 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/radio', 'radio')->name('index.radio');
     Route::get('/exportar', 'exportar')->name('exportar');
     Route::get('/importar', 'importar')->name('importar');
-});
+})->middleware('auth');
 
 Route::controller(ContactoController::class)->group(function () {
     Route::post('contacto/crear', 'crear')->name('contacto_crear');
@@ -74,14 +72,14 @@ Route::controller(ContactoController::class)->group(function () {
     Route::get('ajax/contacto/{id}', 'getContactInfo')->name('contacto_info');
     Route::post('ajax/contacto/{id}', 'actualizar')->name('contacto_actualizar');
     Route::post('/', 'busqueda')->name('contacto_busqueda');
-});
+})->middleware('auth');
 
 Route::controller(ComentarioController::class)->group(function () {
     Route::post('comentario/crear', 'crear')->name('comentario_crear');
     Route::post('comentario/{id}/editar', 'editar')->name('comentario_editar');
     Route::get('/comentario/{frecuencia}/{localizacion}', 'getComentarios')->name('comentario_fetch');
     Route::delete('/comentario/{id}/eliminar', 'eliminar')->name('comentario_eliminar');
-});
+})->middleware('auth');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
