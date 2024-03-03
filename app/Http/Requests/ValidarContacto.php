@@ -22,7 +22,7 @@ class ValidarContacto extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|unique:App\Models\Contacto,nombre|string',
+            'nombre' => 'required|string',
             'frecuencia' => 'required|string',
             'observaciones' => 'nullable|string|max:65535',
             'comprobado' => 'nullable|integer',
