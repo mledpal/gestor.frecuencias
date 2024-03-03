@@ -69,6 +69,8 @@ export const EditarContacto = ({
 
     // Variables para setear los estilos de algunas zonas
 
+    console.log(datos);
+
     const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen bg-sky-900`;
 
     const classZona = `${

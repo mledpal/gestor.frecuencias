@@ -1,23 +1,24 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "@inertiajs/react";
+import { AppContext } from "@/Components/AppProvider";
 
 export const handleContacts = ({
     borrarContacto,
     handleOpen,
     updateContact,
     datos,
-    setDatos,
-    setVista,
-    isSmallScreen,
 }) => {
     // Métodos / Hooks
     let horaActual = new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
     });
+
+    const { setVista, contactos, setContactos, isSmallScreen } =
+        useContext(AppContext);
 
     let fechaActual = new Date().toISOString().split("T")[0];
 
@@ -172,6 +173,20 @@ export const handleContacts = ({
                 onSuccess: () => {
                     updateContact(data);
                     mensaje("Contacto actualizado correctamente", tipo.ok);
+
+                    contactosActualizados = [...contactos];
+                    // Actualiza el contenido del contacto modificado en el hook "contactos"
+                    const index = contactos.findIndex(
+                        (contacto) => contacto.id === idReg
+                    );
+
+                    contactosActualizados[index] = {
+                        ...contactosActualizados[index],
+                        // Aquí puedes actualizar los campos del contacto que desees
+                        campo1: nuevoValor1,
+                        campo2: nuevoValor2,
+                        // Y así sucesivamente
+                    };
                 },
                 onError: (errors) => {
                     mensaje("No actualizado", tipo.aviso);
