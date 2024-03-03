@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
 
         // Asigno el rol de usuario por defecto
         // y se guarda en la tabla pivote
-        $user_rol = Rol::where('nombre', 'user')->first()->id;
+        $user_rol = Rol::where('nombre', 'user')->first();
         $user->roles()->sync($user_rol);
 
         event(new Registered($user));
