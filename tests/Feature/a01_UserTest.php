@@ -6,20 +6,20 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+class a01_UserTest extends TestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();
 
         // seed the database
+        echo "\nCreando la base de datos\n";
         Artisan::call('migrate');
 
         try {
+            echo "\nEjecutando los seeders\n";
             $this->artisan('db:seed');
         } catch (\Exception $e) {
             // do nothing
@@ -27,7 +27,7 @@ class UserTest extends TestCase
 
     }
 
-    public function test_register() {
+    public function test_User() {
 
         echo "\nTESTS Registro Usuario\n";
         // Comprobamos si carga el formulario de registro
@@ -129,5 +129,24 @@ class UserTest extends TestCase
             'ultima_conexion' => now()->toDateTimeString(),
         ]);
         $registroIncorrecto->assertStatus(302)->assertSessionHasErrors(['password']);
+
+        try{
+            // Creamos un usuario con permiso de admin para futuras pruebas
+            $usuarioAdmin = User::create([
+                'username' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => 'password',
+                'password_confirmation' => 'password',
+                'nombre' => 'Admin',
+                'apellidos' => 'Admin',
+                'ip' => $this->app->request->ip(),
+                'ultima_conexion' => now()->toDateTimeString(),
+        ]);
+        $usuarioAdmin->roles()->sync([1,2]);
+        } catch (\Exception $e) {
+            echo "\nError al crear el usuario Admin\n";
+        }
+
+
     }
 }
