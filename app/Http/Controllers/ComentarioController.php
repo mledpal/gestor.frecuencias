@@ -83,7 +83,7 @@ class ComentarioController extends Controller
      */
     public function eliminar($id)
     {
-        if (Auth::check()) {
+        if (Auth::check() && Auth::user()->isAdmin) {
 
             $comentario = Comentario::findOrFail($id);
             try {
