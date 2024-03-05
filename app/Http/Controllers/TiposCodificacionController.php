@@ -18,7 +18,7 @@ class TiposCodificacionController extends Controller
                 return null;
             }
         } else {
-            return redirect('/');
+            return redirect('/', 302);
         }
     }
 
@@ -44,16 +44,15 @@ class TiposCodificacionController extends Controller
      */
     public function eliminar($id)
     {
-        if (Auth::check() && $id != 1) {
-            $tipo = TipoCodificacion::findorFail($id);
+        if (Auth::check() && Auth::user()->isAdmin) {
 
-            if ($tipo) {
-                try {
-                    $tipo->delete();
-                } catch (Exception $e) {
-                    return null;
-                }
+            if (TipoCodificacion::destroy($id)) {
+                return redirect('/', 302);
+            } else {
+                return redirect('/', 404);
             }
+        } else {
+            return redirect('/', 302);
         }
     }
 }

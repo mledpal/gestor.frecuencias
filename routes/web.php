@@ -54,7 +54,7 @@ Route::controller(TiposContactoController::class)->group(function () {
 Route::controller(TiposCodificacionController::class)->group(function () {
     Route::post('tipo_codificacion/nuevo', 'crear')->name('nuevo_tipo_codificacion');
     Route::post('tipo_codificacion/{id}/editar', 'editar')->name('editar_tipo_codificacion');
-    Route::post('tipo_codificacion/{id}/eliminar', 'eliminar')->name('eliminar_tipo_codificacion');
+    Route::delete('tipo_codificacion/{id}/eliminar', 'eliminar')->name('eliminar_tipo_codificacion');
 })->middleware('auth');
 
 Route::controller(MainController::class)->group(function () {
