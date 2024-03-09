@@ -64,8 +64,8 @@ input[type="password"]::-ms-reveal {
 /* Estilos para modo claro */
 @media (prefers-color-scheme: light) {
     body {
-        background-color: #ffffff;
-        color: #000000;
+        background-color: #5a8bf4;
+        color: white;
     }
 }
 
