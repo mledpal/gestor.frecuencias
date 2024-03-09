@@ -2,6 +2,7 @@ export const NoContactos = ({
     handleOpenBuscador,
     handleOpen,
     handleOpenUserSearcher,
+    verSeleccion,
 }) => {
     const cssButtons =
         "w-4/5 h-2/3 border-2 border-transparent bg-gradient-to-br from-gray-800 to-gray-900 shadow-[inset_2px_-2px_5px_black,inset_-2px_2px_5px_rgba(255,255,255,.7)] rounded-xl hover:scale-110 hover:shadow-[0_0_5px_rgba(0,0,0,.5),inset_0_0_5px_rgba(255,255,255,.5)] hover:border-2 hover:border-gray-400 duration-150 ease-linear cursor-pointer select-none flex flex-col items-center justify-center peer ";
@@ -21,7 +22,7 @@ export const NoContactos = ({
                     </h2>
                 </header>
 
-                <main className="h-full w-full grid grid-cols-2 place-items-center gap-0">
+                <main className="h-full w-full grid grid-cols-3 place-items-center gap-0">
                     <div
                         className={cssButtons}
                         onClick={() => handleOpen("lg")}
@@ -49,7 +50,7 @@ export const NoContactos = ({
                         <i className={`fa-solid fa-users ${cssIcons}`}></i>
                         <span>Buscar Usuario</span>
                     </div>
-                    <div className={cssButtons}>
+                    {/* <div className={cssButtons}>
                         <i
                             className={`fa-solid fa-address-book text-gray-700 ${cssIcons}`}
                         ></i>
@@ -59,13 +60,38 @@ export const NoContactos = ({
                         <i
                             className={`fa-solid fa-file-import text-gray-700 ${cssIcons}`}
                         ></i>
-                        <span className="text-gray-700">Importar Contactos</span>
+                        <span className="text-gray-700">
+                            Importar Contactos
+                        </span>
                     </div>
                     <div className={cssButtons}>
                         <i
                             className={`fa-solid fa-file-export  text-gray-700 ${cssIcons}`}
                         ></i>
-                        <span className="text-gray-700">Exportar Contactos</span>
+                        <span className="text-gray-700">
+                            Exportar Contactos
+                        </span>
+                    </div> */}
+                    <div
+                        className={cssButtons}
+                        onClick={() => verSeleccion("favorito")}
+                    >
+                        <i className={`fa-solid fa-heart ${cssIcons}`}></i>
+                        <span>Ver Favoritos</span>
+                    </div>
+                    <div
+                        className={cssButtons}
+                        onClick={() => verSeleccion("privado")}
+                    >
+                        <i className={`fa-solid fa-lock ${cssIcons}`}></i>
+                        <span>Ver Privados</span>
+                    </div>
+                    <div
+                        className={cssButtons}
+                        onClick={() => verSeleccion("todos")}
+                    >
+                        <i className={`fa-solid fa-asterisk ${cssIcons}`}></i>
+                        <span>Ver Todos</span>
                     </div>
                 </main>
             </div>

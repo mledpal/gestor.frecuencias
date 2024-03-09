@@ -158,6 +158,22 @@ export const useFilters = () => {
         // }
     };
 
+    const verSeleccion = (seleccion) => {
+        setFiltros((prevFiltros) => {
+            const nuevosFiltros = {}; // Objeto para almacenar los nuevos filtros
+
+            // Iterar sobre cada filtro en prevFiltros
+            for (const filtro in prevFiltros) {
+                if (filtro === seleccion || seleccion === "todos") {
+                    nuevosFiltros[filtro] = true; // Establecer favorito en true
+                } else {
+                    nuevosFiltros[filtro] = false; // Establecer todos los demás en false
+                }
+            }
+
+            return nuevosFiltros; // Devolver el objeto con los nuevos filtros
+        });
+    };
     return {
         isLoading,
         visible,
@@ -170,5 +186,6 @@ export const useFilters = () => {
         eraseContact,
         updateContact,
         busquedaReset,
+        verSeleccion,
     };
 };

@@ -33,6 +33,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
         updateContact,
         busquedaReset,
         isLoading,
+        verSeleccion,
     } = useFilters(busqueda);
 
     const { datosNuevos, handleOpen, open } = useContactoCreate();
@@ -144,6 +145,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                             handleOpen={handleOpen}
                             handleOpenBuscador={handleOpenBuscador}
                             handleOpenUserSearcher={handleOpenUserSearcher}
+                            verSeleccion={verSeleccion}
                         />
                     )}
                 </div>
