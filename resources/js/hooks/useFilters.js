@@ -88,6 +88,7 @@ export const useFilters = () => {
 
     const busquedaReset = () => {
         setBusqueda(null);
+        setContactos(contactosCargados);
     };
 
     const handleFilterVisible = () => {
