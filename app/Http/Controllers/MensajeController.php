@@ -128,7 +128,7 @@ class MensajeController extends Controller
                 return $user;
             });
 
-return json_encode($otherUsers);
+            return json_encode($otherUsers);
 
 
             return json_encode($otherUsers);
