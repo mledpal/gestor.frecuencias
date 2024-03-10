@@ -4,6 +4,6 @@ export async function getContactos() {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Error al obtener contactos:", error);
+        throw new Error("No se pudo obtener los contactos");
     }
 }
