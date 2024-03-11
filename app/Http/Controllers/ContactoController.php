@@ -144,7 +144,7 @@ class ContactoController extends Controller
             // Repetidor
             $repetidor_id = null;
             if (isset($request->offset) && isset($request->direccion)) {
-                $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion);
+                $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion)->first();
 
                 if ($repetidor_bus) {
                     $repetidor_id = $repetidor_bus->id;
