@@ -1,4 +1,4 @@
-import { getContactos } from "../Helpers/getContactos";
+import { getContactos } from "../../Helpers/getContactos";
 
 describe("getContactos", () => {
     // Mockear fetch
@@ -6,8 +6,8 @@ describe("getContactos", () => {
         Promise.resolve({
             json: () =>
                 Promise.resolve([
-                    { id: 1, nombre: "40 Principales", frecuencia: '94.9' },
-                    { id: 2, nombre: "Repetidor URE 1", frecuencia: "145.500", },
+                    { id: 1, nombre: "40 Principales", frecuencia: "94.9" },
+                    { id: 2, nombre: "Repetidor URE 1", frecuencia: "145.500" },
                     // Aquí puedes añadir más datos simulados según tu necesidad
                 ]),
         })
@@ -30,5 +30,4 @@ describe("getContactos", () => {
             "No se pudo obtener los contactos"
         );
     });
-
 });

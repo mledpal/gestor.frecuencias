@@ -1,7 +1,6 @@
-import { getConversaciones } from "../Helpers/getConversaciones";
+import { getConversaciones } from "../../Helpers/getConversaciones";
 
 describe("getConversaciones", () => {
-
     let mensajeError = { "mensaje-error": "No hay mensajes" };
 
     // Mockear fetch
