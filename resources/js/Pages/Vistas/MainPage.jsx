@@ -17,6 +17,7 @@ import { useBuscarUsuario } from "@/hooks/useBuscarUsuario";
 import { Conversacion } from "@/Components/Conversacion/Conversacion";
 import { BuscarUsuarios } from "@/Components/Usuarios/Forms/BuscarUsuarios";
 import { RotatingLines } from "react-loader-spinner";
+import { Ayuda } from "@/Components/Ayuda/Ayuda";
 
 export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
     const [datos, setDatos] = useState(null);
@@ -40,6 +41,9 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
 
     const [size, setSize] = useState(null);
     const handleOpenBuscador = (value) => setSize(value);
+
+    const [sizeAyuda, setSizeAyuda] = useState(null);
+    const handleOpenHelp = (value) => setSizeAyuda(value);
 
     const borrarContacto = (id) => {
         setDatos(null);
@@ -84,6 +88,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                         ) : (
                             ""
                         )}
+
                         <span>
                             <i
                                 className={`fa-solid fa-filter cursor-pointer transition-transform ease-in-out hover:scale-150 $hover:text-red-500 ${
@@ -102,6 +107,10 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                                 ""
                             )}
                         </span>
+                        <i
+                            className="fa-solid fa-circle-question cursor-pointer hover:scale-150 transition-transform ease-in-out"
+                            onClick={() => handleOpenHelp("xxl")}
+                        ></i>
                     </div>
 
                     {isLoading ? (
@@ -240,6 +249,25 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
                     handleOpenSendMessage={handleOpenSendMessage}
                     userID={userID}
                     userDB={userDB}
+                />
+            </Dialog>
+            <Dialog
+                open={
+                    sizeAyuda === "xs" ||
+                    sizeAyuda === "sm" ||
+                    sizeAyuda === "md" ||
+                    sizeAyuda === "lg" ||
+                    sizeAyuda === "xl" ||
+                    sizeAyuda === "xxl"
+                }
+                onClose={() => handleOpenHelp(null)}
+                size={sizeAyuda || "md"}
+                handler={handleOpenHelp}
+                className="w-screen min-h-screen backdrop-blur-sm bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
+            >
+                <Ayuda
+                    ayuda="iconos-lista-contactos"
+                    handleOpenHelp={handleOpenHelp}
                 />
             </Dialog>
         </>

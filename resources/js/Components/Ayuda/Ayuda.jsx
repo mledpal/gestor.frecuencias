@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 import { AppContext } from "../AppProvider";
+import { IconosListaContactos } from "./IconosListaContactos";
 
-export const Ayuda = ({ handleOpenHelp }) => {
+export const Ayuda = ({ handleOpenHelp, ayuda }) => {
     const { isSmallScreen } = useContext(AppContext);
 
     const clasesMovil = "w-screen h-screen ";
@@ -18,21 +19,22 @@ export const Ayuda = ({ handleOpenHelp }) => {
             onClick={() => handleOpenHelp(null)}
         >
             <header className="h-15 w-full flex items-center justify-center bg-gradient-to-tl from-blue-900 bg-slate-800 rounded-tr-xl rounded-tl-xl p-5 font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)]">
-                Manual de usuario
+                Ayuda
             </header>
-            <main className="p-4 w-full h-full flex flex-row items-center justify-center">
-                <article>
-                    <a
-                        href="/storage/documents/manual.pdf"
-                        download="manual.pdf"
-                        target="_blank"
-                        className="text-blue-400 font-bold text-2xl"
-                    >
-                        Descargar
-                    </a>
-                </article>
+
+            <main className="p-4 w-full h-full flex flex-row items-start justify-center">
+                {ayuda === "iconos-lista-contactos" && <IconosListaContactos />}
             </main>
+
             <footer className="w-full p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
+                <a
+                    href="/storage/documents/manual.pdf"
+                    download="manual.pdf"
+                    target="_blank"
+                    className="text-gray-200 p-2 rounded-md font-bold bg-blue-800 text-lg hover:bg-blue-200 hover:text-blue-900 hover:shadow-2xl transition-all duration-300 ease-in-out shadow-2"
+                >
+                    Descargue el manual de la aplicación
+                </a>
                 <BotonesFormulario actionExit={() => handleOpenHelp(null)} />
             </footer>
         </div>
