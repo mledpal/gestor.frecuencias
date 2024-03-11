@@ -174,7 +174,7 @@ export const handleContacts = ({
                     updateContact(data);
                     mensaje("Contacto actualizado correctamente", tipo.ok);
 
-                    contactosActualizados = [...contactos];
+                    let contactosActualizados = [...contactos];
                     // Actualiza el contenido del contacto modificado en el hook "contactos"
                     const index = contactos.findIndex(
                         (contacto) => contacto.id === idReg

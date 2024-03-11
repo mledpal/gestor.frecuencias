@@ -144,18 +144,12 @@ export const useFilters = () => {
         setContactos((prevContactos) =>
             prevContactos.filter((contacto) => contacto.id !== id)
         );
+        updateContact();
     };
 
-    const updateContact = (datosContacto) => {
-        getContactos();
-
-        // const index = contactos.findIndex((obj) => obj.id === datosContacto.id);
-        // if (index !== -1) {
-        //     // Si se encuentra el objeto, actualiza sus propiedades con los nuevos datos
-        //     contactos[index] = { ...contactos[index], ...datosContacto };
-        // } else {
-        //     setContactos(...contactos, datosContacto);
-        // }
+    const updateContact = async() => {
+        const nuevosContactos = await getContactos();
+        nuevosContactos && setContactos(nuevosContactos);
     };
 
     const verSeleccion = (seleccion) => {
