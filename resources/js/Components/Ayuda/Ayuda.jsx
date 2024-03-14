@@ -33,6 +33,7 @@ export const Ayuda = ({ handleOpenHelp, ayuda }) => {
                     target="_blank"
                     className="text-gray-200 p-2 rounded-md font-bold bg-blue-800 text-lg hover:bg-blue-200 hover:text-blue-900 hover:shadow-2xl transition-all duration-300 ease-in-out shadow-2"
                 >
+                    <i class="fa-solid fa-book p-2"></i>
                     Descargue el manual de la aplicación
                 </a>
                 <BotonesFormulario actionExit={() => handleOpenHelp(null)} />
