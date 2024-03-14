@@ -6,14 +6,14 @@ export const Users = ({ isSmallScreen, userDB }) => {
     const { usuarios, deleteUser, swapAdmin } = useAdminUsuarios();
 
     return (
-        <div className="flex flex-col w-screen items-center justify-stretch">
+        <div className="flex flex-col w-screen h-full items-center justify-stretch overflow-y-scroll">
             <header
-                className={`h-[75px] sticky top-0 z-20 w-full flex  items-center justify-center bg-gradient-to-br from-indigo-900 to-indigo-700`}
+                className={`h-[75px] p-6 sticky top-0 z-20 w-full flex items-center justify-center bg-gradient-to-br from-indigo-900 to-indigo-700`}
             >
                 <h2>Administración de usuarios</h2>
             </header>
             <main className="w-full flex bg-gradient-to-br from-indigo-950 to-indigo-800 items-center justify-center">
-                <div className="w-full min-h-screen overflow-y-auto">
+                <div className="w-3/4 min-h-screen">
                     {usuarios ? (
                         usuarios.map((user) => {
                             if (user.id !== userDB.id && !user.isRoot)
