@@ -147,7 +147,7 @@ export const useFilters = () => {
         updateContact();
     };
 
-    const updateContact = async() => {
+    const updateContact = async () => {
         const nuevosContactos = await getContactos();
         nuevosContactos && setContactos(nuevosContactos);
     };
@@ -160,6 +160,7 @@ export const useFilters = () => {
             for (const filtro in prevFiltros) {
                 if (filtro === seleccion || seleccion === "todos") {
                     nuevosFiltros[filtro] = true; // Establecer favorito en true
+                    updateContact();
                 } else {
                     nuevosFiltros[filtro] = false; // Establecer todos los demás en false
                 }
