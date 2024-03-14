@@ -4,10 +4,12 @@ import { Repetidor } from "./Icons/Repetidor";
 import { Gps } from "./Icons/Gps";
 import { Privado } from "./Icons/Privado";
 import { Favorito } from "./Icons/Favorito";
-import { useMediaQuery } from "@react-hook/media-query";
+
+import { AppContext } from "../AppProvider";
+import { useContext } from "react";
 
 export const Contacto = ({ datos, setDatos }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const { isSmallScreen } = useContext(AppContext);
 
     const clasesMovil = `w-screen h-[80px]  flex flex-row items-center justify-around cursor-pointer  select-none ease-in-out hover:bg-gradient-to-bl duration-100 ease-in-out hover:bg-gray-900 hover:from-gray-600 hover:scale-95 hover:shadow-[inset_-2px_2px_10px_rgba(255,255,255,.5),inset_2px_-2px_5px_rgba(0,0,0,.8)]
     bg-gradient-to-b from-${datos.tipo.color} to-gray-800`;

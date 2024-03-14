@@ -1,9 +1,10 @@
-import { useMediaQuery } from "@react-hook/media-query";
 import { Contacto } from "./Contacto";
 import { Mobile } from "./Form/Headers/Mobile";
+import { AppContext } from "../AppProvider";
+import { useContext } from "react";
 
 export const ListaContactos = ({ contactos, setDatos, setVista }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const { isSmallScreen } = useContext(AppContext);
     return (
         <>
             <div className="h-full w-full flex flex-col items-center">

@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import InputLabel from "../InputLabel";
 import TextInput from "../TextInput";
 import Checkbox from "../Checkbox";
 import PrimaryButton from "../PrimaryButton";
 import { Link, useForm } from "@inertiajs/react";
 import InputError from "../InputError";
-import { useMediaQuery } from "@react-hook/media-query";
+
+import { AppContext } from "../AppProvider";
 
 export const FormLogin = ({ canResetPassword }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const { isSmallScreen } = useContext(AppContext);
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",

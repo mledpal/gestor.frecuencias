@@ -1,10 +1,9 @@
-import { useMediaQuery } from "@react-hook/media-query";
 import { AppContext } from "../AppProvider";
 import { useContext } from "react";
 
 export const UserMenu = ({ setVista, setVisible }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
-    const { busqueda, setBusqueda } = useContext(AppContext);
+
+    const { busqueda, setBusqueda, isSmallScreen } = useContext(AppContext);
 
     return (
         <>

@@ -1,5 +1,7 @@
 import { Button } from "@material-tailwind/react";
-import { useMediaQuery } from "@react-hook/media-query";
+import { AppContext } from "../AppProvider";
+import { useContext } from "react";
+
 
 export const BotonesFormulario = ({
     actionApply,
@@ -21,7 +23,7 @@ export const BotonesFormulario = ({
     classBtn,
     classText,
 }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const { isSmallScreen } = useContext(AppContext);
 
     const classButtons = ` ${
         isSmallScreen ? "scale-75" : "scale-100"

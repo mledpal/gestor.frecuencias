@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "@react-hook/media-query";
 
 export const AppProvider = ({ children }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const isSmallScreen = useMediaQuery("(max-width: 1000px)");
     const [modoOscuro, setModoOscuro] = useState(false);
     const [contactos, setContactos] = useState(null);
     const [busqueda, setBusqueda] = useState(null);

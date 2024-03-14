@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { useMediaQuery } from "@react-hook/media-query";
@@ -15,6 +15,7 @@ import { handleContacts } from "../Helpers/handleContacts";
 import { GpsMap } from "@/Components/GPSMap/GpsMap";
 
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
+import { AppContext } from "@/Components/AppProvider";
 
 export const EditarContacto = ({
     setDatos,
@@ -35,7 +36,7 @@ export const EditarContacto = ({
         direcciones,
     } = selects;
 
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const { isSmallScreen } = useContext(AppContext);
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => {

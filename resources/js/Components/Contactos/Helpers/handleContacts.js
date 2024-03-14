@@ -17,7 +17,7 @@ export const handleContacts = ({
         minute: "2-digit",
     });
 
-    const { setVista, contactos, setContactos, isSmallScreen } =
+    const { setVista, contactos, setContactos, isSmallScreen, setBusqueda } =
         useContext(AppContext);
 
     let fechaActual = new Date().toISOString().split("T")[0];

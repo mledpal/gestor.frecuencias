@@ -4,11 +4,12 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 
 import { handlerForm } from "../Helpers/handlerForm";
-import { useForm } from "@inertiajs/react";
+
 import { handleContacts } from "../Helpers/handleContacts";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
-import { useMediaQuery } from "@react-hook/media-query";
+
+import { AppContext } from "@/Components/AppProvider";
 
 export const NuevoContacto = ({
     datos,
@@ -27,7 +28,7 @@ export const NuevoContacto = ({
         direcciones,
     } = selects;
 
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const { isSmallScreen } = useContext(AppContext);
 
     useEffect(() => {
         setTimeout(() => {

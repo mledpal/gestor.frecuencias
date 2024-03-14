@@ -1,10 +1,12 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Radio } from "@/Components/Radio/Radio";
-import { useMediaQuery } from "@react-hook/media-query";
+
 import { Walkie } from "@/Components/Walkie/Walkie";
+import { useContext } from "react";
+import { AppContext } from "@/Components/AppProvider";
 
 export default function ({ status, canResetPassword }) {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const { isSmallScreen } = useContext(AppContext);
     return (
         <GuestLayout>
             {isSmallScreen ? (
