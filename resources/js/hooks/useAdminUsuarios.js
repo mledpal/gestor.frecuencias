@@ -74,14 +74,13 @@ export const useAdminUsuarios = () => {
                 icon: "question",
             })
             .then((result) => {
-                /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     setData({ id: id });
                     post(route("usuario_eliminar", { id: id }), {
                         onSuccess: () => {
                             Swal.fire({
                                 icon: "success",
-                                title: "Contacto borrado",
+                                title: "Usuario borrado",
                                 toast: true,
                                 position: "top-end",
                                 showConfirmButton: false,

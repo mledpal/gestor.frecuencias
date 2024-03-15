@@ -3,15 +3,21 @@ export const User = ({ user, isSmallScreen, deleteUser, swapAdmin }) => {
         <div className="relative flex flex-row items-center justify-start gap-5 p-4 h-full select-none">
             <img
                 className={`${
-                    isSmallScreen ? "w-[40px] h-[40px]" : "w-[70px] h-[70px]"
-                } absolute top-1 left-1 rounded-full ${
+                    isSmallScreen
+                        ? "w-[50px] h-[50px] top-4"
+                        : "w-[70px] h-[70px] top-1 left-1"
+                } absolute  rounded-full ${
                     user.isAdmin
                         ? "shadow-[0_0_15px_rgba(255,255,0,.8)] border-2 border-yellow-500 "
                         : ""
                 }`}
                 src={user.photo}
             ></img>
-            <div className={`w-5/12 mt-[45px] flex flex-col items-center justify-normal`}>
+            <div
+                className={`${
+                    isSmallScreen ? "w-full" : "w-5/12"
+                } mt-[45px] flex flex-col items-center justify-normal`}
+            >
                 <span className="text-center font-bold text-xl ">
                     {user.username}
                 </span>
@@ -40,14 +46,18 @@ export const User = ({ user, isSmallScreen, deleteUser, swapAdmin }) => {
                 </span>
             )}
 
-            <span
-                className={`${
-                    isSmallScreen ? "w-3/12" : "w-2/12"
-                } flex flex-col items-center justify-around font-thin text-xs text-gray-400`}
-            >
-                <span>{user.ip}</span>
-                <span>{user.ultima_conexion}</span>
-            </span>
+            {isSmallScreen ? (
+                ""
+            ) : (
+                <span
+                    className={`${
+                        isSmallScreen ? "w-3/12" : "w-2/12"
+                    } flex flex-col items-center justify-around font-thin text-xs text-gray-400`}
+                >
+                    <span>{user.ip}</span>
+                    <span>{user.ultima_conexion}</span>
+                </span>
+            )}
             <span className="w-2/12 h-16 flex flex-col items-center justify-between">
                 {!user.isAdmin ? (
                     <div
