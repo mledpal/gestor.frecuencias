@@ -1,13 +1,15 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, useForm } from "@inertiajs/react";
 import { Radio } from "@/Components/Radio/Radio";
 
 import { Walkie } from "@/Components/Walkie/Walkie";
-import { AppContext } from "@/Components/AppProvider";
+
+import { useMediaQuery } from "@react-hook/media-query";
 
 export default function ResetPassword({ token, email }) {
-    const { isSmallScreen } = useContext(AppContext);
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+
     const { data, setData, post, processing, errors, reset } = useForm({
         token: token,
         email: email,

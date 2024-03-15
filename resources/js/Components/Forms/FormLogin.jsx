@@ -6,10 +6,11 @@ import PrimaryButton from "../PrimaryButton";
 import { Link, useForm } from "@inertiajs/react";
 import InputError from "../InputError";
 
-import { AppContext } from "../AppProvider";
+import { useMediaQuery } from "@react-hook/media-query";
 
 export const FormLogin = ({ canResetPassword }) => {
-    const { isSmallScreen } = useContext(AppContext);
+    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
