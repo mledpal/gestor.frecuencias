@@ -93,15 +93,23 @@ export const useAdminTiposCodificacion = () => {
             .then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    post(route("eliminar_tipo_codificacion", { id: id }), {
-                        onSuccess: () => {
+                    fetch(route("eliminar_tipo_codificacion", { id: id }), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN":
+                                document.head.querySelector("#meta_token")
+                                    .content,
+                        },
+                    })
+                        .then((res) => res.json())
+                        .then((res) => {
                             getTipos();
                             mensajeOK("Tipo eliminado correctamente");
-                        },
-                        onError: (error) => {
-                            mensajeError(error);
-                        },
-                    });
+                        })
+                        .catch((err) => {
+                            mensajeError(err);
+                        });
                 } else if (result.isDenied) {
                     Swal.fire("Cancelado", "", "info");
                 }
