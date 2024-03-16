@@ -23,7 +23,7 @@ class ValidarTipoContacto extends FormRequest
     {
         return [
             'nombre' => 'required|string',
-            'color' => ['required', 'string', 'regex:/(red|green|blue|yellow|pink|rose|violet|purple|fuchsia|orange|gray|emerald|sky|indigo)-(500|600|700|800|900)/']
+            'color' => ['required', 'string', 'regex:/(red|green|blue|yellow|pink|rose|violet|purple|fuchsia|orange|gray|emerald|sky|indigo)-(100|200|300|400|500|600|700|800|900)/']
         ];
     }
 
