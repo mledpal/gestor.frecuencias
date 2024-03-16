@@ -94,7 +94,7 @@ export const useAdminTiposCodificacion = () => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     fetch(route("eliminar_tipo_codificacion", { id: id }), {
-                        method: "POST",
+                        method: "DELETE",
                         headers: {
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN":
