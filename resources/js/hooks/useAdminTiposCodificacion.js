@@ -93,7 +93,7 @@ export const useAdminTiposCodificacion = () => {
             .then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    fetch(route("eliminar_tipo_codificacion", { id: id }), {
+                    fetch(`tipo_codificacion/${id}/eliminar`, {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json",
