@@ -47,9 +47,9 @@ class TiposCodificacionController extends Controller
         if (Auth::check() && Auth::user()->isAdmin) {
 
             if (TipoCodificacion::destroy($id)) {
-                return redirect('/', 302);
+                return response()->json(['mensaje' => 'Tipo de codificación eliminado correctamente'], 200);
             } else {
-                return redirect('/', 404);
+                return response()->json(['mensaje' => 'Tipo de codificación no fue eliminado '], 404);
             }
         } else {
             return redirect('/', 302);
