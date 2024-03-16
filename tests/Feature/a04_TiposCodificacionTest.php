@@ -42,12 +42,12 @@ class a04_TiposCodificacionTest extends TestCase
         $codificacion = TipoCodificacion::where('nombre', 'Test')->first();
 
         // Eliminamos el tipo de codificación con usuario no autorizado
-        $response = $this->actingAs($usuario)->delete(route('eliminar_tipo_codificacion', [
+        $response = $this->actingAs($usuario)->post(route('eliminar_tipo_codificacion', [
             'id' => $codificacion->id,
         ]))->assertStatus(302)->assertRedirect('/');
 
         // Eliminamos el tipo de codificación con usuario autorizado
-        $response = $this->actingAs($admin)->delete(route('eliminar_tipo_codificacion', [
+        $response = $this->actingAs($admin)->post(route('eliminar_tipo_codificacion', [
             'id' => $codificacion->id,
         ]))->assertStatus(302)->assertRedirect('/');
 

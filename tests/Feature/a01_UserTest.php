@@ -14,7 +14,6 @@ class a01_UserTest extends TestCase
     {
         parent::setUp();
 
-        // seed the database
         echo "\nCreando la base de datos\n";
         Artisan::call('migrate');
 
@@ -22,7 +21,7 @@ class a01_UserTest extends TestCase
             echo "\nEjecutando los seeders\n";
             $this->artisan('db:seed');
         } catch (\Exception $e) {
-            // do nothing
+            echo "\nNo se han usado los seeders";
         }
 
     }
