@@ -59,12 +59,7 @@ export const TiposContacto = ({ isSmallScreen }) => {
                         required
                     />
                     <InputError message={errors.color} className="mt-2" />
-                    <BotonesFormulario
-                        textSubmit="Color"
-                        iconSubmit="fa-palette"
-                        actionSubmit={() => handleOpenSetColor("xxl")}
-                        colorSubmit="bg-green-600"
-                    />
+
                     <div
                         className={` flex flex-row ${
                             isSmallScreen
@@ -72,6 +67,12 @@ export const TiposContacto = ({ isSmallScreen }) => {
                                 : "gap-1 "
                         } p-2 `}
                     >
+                        <BotonesFormulario
+                            textSubmit="Color"
+                            iconSubmit="fa-palette"
+                            actionSubmit={() => handleOpenSetColor("xxl")}
+                            colorSubmit="bg-green-600"
+                        />
                         <BotonesFormulario
                             textSubmit={`${data.id ? "Editar" : "Nuevo"}`}
                             actionSubmit={submit}
