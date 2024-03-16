@@ -42,9 +42,9 @@ export const GPSSearch = ({
                 marker.setPosition(e.latLng);
                 setData(
                     "gps",
-                    e.latLng.toJSON().lat.toFixed(5) +
+                    e.latLng.toJSON().lat.toFixed(6) +
                         "," +
-                        e.latLng.toJSON().lng.toFixed(5)
+                        e.latLng.toJSON().lng.toFixed(6)
                 );
             });
 
