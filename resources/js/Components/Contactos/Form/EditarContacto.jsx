@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
-import { useMediaQuery } from "@react-hook/media-query";
 
 import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
@@ -41,11 +40,12 @@ export const EditarContacto = ({
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
-        setOpen(!open); // Cambia el valor de open a su opuesto
+        setOpen(!open);
     };
 
+    // Modal para la ventana de GPS
     const [sizeGPSModal, setSizeGPSModal] = useState(null);
-    const handleOpenGPSSearcher = (value) => setSizeGPSModal(value); // Cambia el valor de open a su opuesto
+    const handleOpenGPSSearcher = (value) => setSizeGPSModal(value);
 
     const {
         submit,
