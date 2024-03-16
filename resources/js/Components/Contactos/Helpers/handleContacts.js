@@ -182,10 +182,6 @@ export const handleContacts = ({
 
                     contactosActualizados[index] = {
                         ...contactosActualizados[index],
-                        // Aquí puedes actualizar los campos del contacto que desees
-                        campo1: nuevoValor1,
-                        campo2: nuevoValor2,
-                        // Y así sucesivamente
                     };
                 },
                 onError: (errors) => {

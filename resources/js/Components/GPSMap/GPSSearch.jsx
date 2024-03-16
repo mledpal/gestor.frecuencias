@@ -2,7 +2,12 @@ import React, { useEffect } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 
-export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
+export const GPSSearch = ({
+    coordenadas,
+    nombre,
+    setSizeGPSModal,
+    setData,
+}) => {
     const loader = new Loader({
         apiKey: "AIzaSyCNa2l2LonBW2U8F19VzBY_98LOWYXrn9U",
         version: "weekly",
@@ -12,19 +17,19 @@ export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
         let map;
 
         const position = {
-            lat: parseFloat(coordenadas[0]),
-            lng: parseFloat(coordenadas[1]),
+            lat: parseFloat(coordenadas[0]) ?? 30,
+            lng: parseFloat(coordenadas[1]) ?? -30,
         };
 
         loader.load().then(async () => {
             const { Map } = await google.maps.importLibrary("maps");
-            const { AdvancedMarkerView } = await google.maps.importLibrary(
-                "marker"
-            );
+            const { AdvancedMarkerElement, PinElement } =
+                await google.maps.importLibrary("marker");
 
-            map = new Map(document.getElementById("map"), {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
                 center: position,
-                zoom: 10,
+                mapId: "Localizacion_MAP",
             });
 
             var marker = new google.maps.Marker({
@@ -33,9 +38,14 @@ export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
                 title: nombre ?? "Contacto",
             });
 
-            marker.addListener("click", () => {
-                map.setZoom(18);
-                map.setCenter(marker.getPosition());
+            map.addListener("click", (e) => {
+                marker.setPosition(e.latLng);
+                setData(
+                    "gps",
+                    e.latLng.toJSON().lat.toFixed(5) +
+                        "," +
+                        e.latLng.toJSON().lng.toFixed(5)
+                );
             });
 
         });
@@ -48,7 +58,7 @@ export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
                 className="bg-slate-800 w-full h-full rounded-xl border-[5px] border-slate-700"
             ></div>
             <div className="absolute bottom-2 left-2 z-10">
-                <BotonesFormulario actionExit={() => handleOpen()} />
+                <BotonesFormulario actionExit={() => setSizeGPSModal()} />
             </div>
         </div>
     );

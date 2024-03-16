@@ -16,6 +16,7 @@ import { GpsMap } from "@/Components/GPSMap/GpsMap";
 
 import { BotonesFormulario } from "@/Components/BotonesFormulario/BotonesFormulario";
 import { AppContext } from "@/Components/AppProvider";
+import { GPSSearch } from "@/Components/GPSMap/GPSSearch";
 
 export const EditarContacto = ({
     setDatos,
@@ -43,12 +44,16 @@ export const EditarContacto = ({
         setOpen(!open); // Cambia el valor de open a su opuesto
     };
 
+    const [sizeGPSModal, setSizeGPSModal] = useState(null);
+    const handleOpenGPSSearcher = (value) => setSizeGPSModal(value); // Cambia el valor de open a su opuesto
+
     const {
         submit,
         handleDelete,
         handleAddContact,
         data,
         setData,
+        setCoordenadas,
         coordenadas,
         errors,
     } = handleContacts({
@@ -604,18 +609,31 @@ export const EditarContacto = ({
                                             value="GPS"
                                             className={clasesLabel}
                                         />
-                                        <TextInput
-                                            id="gps"
-                                            name="gps"
-                                            value={data.gps ?? ""}
-                                            className="mt-1 block w-full text-center"
-                                            onChange={(e) =>
-                                                setData("gps", e.target.value)
-                                            }
-                                            placeholder="gps"
-                                            required
-                                        />
+                                        <div className="flex flex-row w-full justify-between items-center">
+                                            <TextInput
+                                                id="gps"
+                                                name="gps"
+                                                value={data.gps ?? ""}
+                                                className="mt-1 block w-4/5 text-center"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "gps",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                placeholder="gps"
+                                                required
+                                            />
 
+                                            <BotonesFormulario
+                                                actionSubmit={() =>
+                                                    handleOpenGPSSearcher("xxl")
+                                                }
+                                                textSubmit={"Buscar"}
+                                                colorSubmit={"bg-green-600"}
+                                                iconSubmit="fa-location-dot"
+                                            />
+                                        </div>
                                         <InputError
                                             message={errors.gps}
                                             className="mt-2"
@@ -893,6 +911,28 @@ export const EditarContacto = ({
                     coordenadas={coordenadas}
                     nombre={datos.nombre}
                     handleOpen={handleOpen}
+                />
+            </Dialog>
+            <Dialog
+                open={
+                    sizeGPSModal === "xs" ||
+                    sizeGPSModal === "sm" ||
+                    sizeGPSModal === "md" ||
+                    sizeGPSModal === "lg" ||
+                    sizeGPSModal === "xl" ||
+                    sizeGPSModal === "xxl"
+                }
+                size={sizeGPSModal || "md"}
+                handler={handleOpenGPSSearcher}
+                onClose={() => setSizeGPSModal(null)}
+                className="w-screen min-h-screen backdrop-blur-sm bg-transparent shadow-transparent flex flex-col m-auto  overflow-y-auto"
+            >
+                <GPSSearch
+                    setSizeGPSModal={setSizeGPSModal}
+                    coordenadas={coordenadas}
+                    nombre={datos.nombre}
+                    data={data}
+                    setData={setData}
                 />
             </Dialog>
         </>
