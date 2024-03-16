@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('mensaje');
             $table->timestamps();
 
-            $table->foreign('remitente_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
-            $table->foreign('destinatario_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('remitente_id', 'fk_mensaje_remitente')->references('id')->on('users')->onDelete('cascade')->onUpdate('restrict');
+            $table->foreign('destinatario_id', 'fk_mensaje_destinatario')->references('id')->on('users')->onDelete('cascade')->onUpdate('restrict');
         });
     }
     /**

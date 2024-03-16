@@ -34,7 +34,7 @@ Route::controller(AdminController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::post('user/busqueda', 'busqueda')->name('usuario_busqueda');
     Route::get('user/{id}/getInfo', 'getInfo')->name('usuario_informacion');
-    Route::post('user/{id}/delete', 'eliminar')->name('usuario_eliminar');
+    Route::delete('user/{id}/delete', 'eliminar')->name('usuario_eliminar');
     Route::post('/user/{id}/swapAdmin', 'swapAdmin')->name('usuario_swap_admin');
 })->middleware('auth');
 
@@ -54,7 +54,7 @@ Route::controller(TiposContactoController::class)->group(function () {
 Route::controller(TiposCodificacionController::class)->group(function () {
     Route::post('tipo_codificacion/nuevo', 'crear')->name('nuevo_tipo_codificacion');
     Route::post('tipo_codificacion/{id}/editar', 'editar')->name('editar_tipo_codificacion');
-    Route::post('tipo_codificacion/{id}/eliminar', 'eliminar')->name('eliminar_tipo_codificacion');
+    Route::delete('tipo_codificacion/{id}/eliminar', 'eliminar')->name('eliminar_tipo_codificacion');
 })->middleware('auth');
 
 Route::controller(MainController::class)->group(function () {

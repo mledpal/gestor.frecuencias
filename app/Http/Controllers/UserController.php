@@ -8,7 +8,7 @@ use App\Models\Localizacion;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Request;
 
 class UserController extends Controller
 {
@@ -111,10 +111,11 @@ class UserController extends Controller
             $usuario = User::findorFail($id);
 
             if ($usuario) {
+                return response()->json($usuario->delete());
                 try {
                     $usuario->delete();
                 } catch (Exception $e) {
-                    return null;
+                    // return $e->getMessage();
                 }
             }
         }

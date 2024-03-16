@@ -22,7 +22,23 @@ export const useAdminUsuarios = () => {
         id: null,
     });
 
-    const msgError = () => {
+    const mensajeOK = (mensaje) => {
+        Swal.fire({
+            icon: "success",
+            title: mensaje,
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            },
+        });
+    };
+
+    const mensajeError = (error) => {
         Swal.fire({
             icon: "error",
             title: "Hubo un error",
@@ -76,27 +92,36 @@ export const useAdminUsuarios = () => {
             .then((result) => {
                 if (result.isConfirmed) {
                     setData({ id: id });
-                    post(route("usuario_eliminar", { id: id }), {
-                        onSuccess: () => {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Usuario borrado",
-                                toast: true,
-                                position: "top-end",
-                                showConfirmButton: false,
-                                timer: 1000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.onmouseenter = Swal.stopTimer;
-                                    toast.onmouseleave = Swal.resumeTimer;
-                                },
-                            });
+                    fetch(`user/${id}/delete`, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Accept: "application/json",
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN":
+                                document.head.querySelector("#meta_token")
+                                    .content,
+                        },
+                        method: "DELETE",
+                    })
+                        .then((res) => res.json())
+                        .then((res) => {
+                            mensajeOK("Usuario eliminado correctamente");
                             getUsers();
-                        },
-                        onError: () => {
-                            msgError();
-                        },
-                    });
+                        })
+                        .catch((err) => {
+                            mensajeError("Hubo un error");
+                        });
+
+                    // delete(route("usuario_eliminar", { id: id }),
+                    // {
+                    //     onSuccess: () => {
+                    //         mensajeOK("Usuario eliminado correctamente");
+                    //         getUsers();
+                    //     },
+                    //     onError: () => {
+                    //         mensajeError("Hubo un error");
+                    //     },
+                    // });
                 } else if (result.isDenied) {
                     Swal.fire("Cancelado", "", "info");
                 }
