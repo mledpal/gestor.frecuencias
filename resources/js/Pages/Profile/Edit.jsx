@@ -6,10 +6,11 @@ import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationFor
 import UpdateLocalizacionForm from "./Partials/UpdateLocalizacionForm";
 import { Head } from "@inertiajs/react";
 
-export default function Edit({ auth, mustVerifyEmail, status }) {
+export default function Edit({ auth, mustVerifyEmail, status, user }) {
+    
     return (
         <AuthenticatedLayout
-            user={auth.user}
+            user={user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     Perfil de Usuario
