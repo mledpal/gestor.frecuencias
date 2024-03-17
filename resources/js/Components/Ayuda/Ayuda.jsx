@@ -22,7 +22,22 @@ export const Ayuda = ({ handleOpenHelp, ayuda }) => {
                 Ayuda
             </header>
 
-            <main className="p-4 w-full h-full flex flex-row items-start justify-center">
+            <main
+                className={`p-4 w-full h-full flex flex-row justify-center ${
+                    ayuda === undefined ? "items-center" : "items-start "
+                }`}
+            >
+                {ayuda === undefined && (
+                    <a
+                        href="/storage/documents/manual.pdf"
+                        download="manual.pdf"
+                        target="_blank"
+                        className="text-gray-200 p-2 rounded-md font-bold bg-blue-800 text-lg hover:bg-blue-200 hover:text-blue-900 hover:shadow-2xl transition-all duration-300 ease-in-out shadow-2"
+                    >
+                        <i className="fa-solid fa-book p-2"></i>
+                        Descargue el manual de la aplicación
+                    </a>
+                )}
                 {ayuda === "iconos-lista-contactos" && <IconosListaContactos />}
             </main>
 
