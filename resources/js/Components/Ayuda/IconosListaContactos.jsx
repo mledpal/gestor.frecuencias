@@ -1,3 +1,8 @@
+/**
+ *  Componente que muestra ayuda acerca de los iconos que se utilizan en la lista de contactos
+ * @returns {JSX.Element}
+ */
+
 export const IconosListaContactos = () => {
     return (
         <div className="w-full items-center justify-normal">

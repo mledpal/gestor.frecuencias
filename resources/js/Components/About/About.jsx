@@ -1,3 +1,7 @@
+/**
+ * Componente que muestra información sobre el autor y el proyecto.
+ */
+
 import { useContext } from "react";
 import { AppContext } from "../AppProvider";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";

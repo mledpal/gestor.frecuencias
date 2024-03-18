@@ -1,3 +1,8 @@
+/**
+ * Componente que muestra la ayuda de la aplicación
+ */
+
+
 import { useContext } from "react";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 import { AppContext } from "../AppProvider";

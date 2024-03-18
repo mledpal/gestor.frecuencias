@@ -23,6 +23,12 @@ export const useMensajes = ({
         setMensajes(texto);
     }
 
+
+    /**
+     * Borra una conversación
+     * @param {*} e
+     * @param {*} id
+     */
     async function handleDeleteConversation(e, id) {
         e.preventDefault();
 
@@ -61,10 +67,18 @@ export const useMensajes = ({
             });
     }
 
+    /**
+     * Obtiene los mensajes
+     */
     useEffect(() => {
         getData();
     }, []);
 
+    /**
+     * Función que maneja el evento de hacer click en un usuario
+     * @param {*} e
+     * @param {*} id
+     */
     const handleUserClicked = (e, id) => {
         e.preventDefault();
         if (isSmallScreen) {

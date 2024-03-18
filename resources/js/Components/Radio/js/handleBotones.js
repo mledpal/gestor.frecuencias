@@ -9,6 +9,10 @@ const click_out = new Audio("assets/sound/click_out.mp3");
 click_in.loop = false;
 click_out.loop = false;
 
+/**
+ * Añade sonidos y efectos visuales a los botones
+ */
+
 for (let btn of botones) {
     btn.addEventListener("mousedown", () => {
         btn.classList.add("clicked");

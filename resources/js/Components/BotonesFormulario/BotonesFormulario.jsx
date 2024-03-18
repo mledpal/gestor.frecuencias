@@ -1,3 +1,8 @@
+/**
+ * Componente que renderiza botones para formularios
+ */
+
+
 import { Button } from "@material-tailwind/react";
 import { AppContext } from "../AppProvider";
 import { useContext } from "react";
