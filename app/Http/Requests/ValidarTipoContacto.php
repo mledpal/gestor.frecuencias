@@ -33,7 +33,7 @@ class ValidarTipoContacto extends FormRequest
         return [
             'required' => 'El dato es requerido',
             'string' => 'El valor debe ser una cadena de texto',
-            'regex' => 'Debe ser un color de clase TailwindCSS válido'
+            'regex' => 'Debe ser un color válido'
         ];
     }
 }
