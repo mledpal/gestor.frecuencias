@@ -5,7 +5,7 @@ import { Link } from "@inertiajs/react";
 export default function Guest({ children }) {
     return (
         <>
-            <Minipaypal />
+            {/* <Minipaypal /> */}
             <div className="max-h-screen max-w-screen flex flex-col sm:justify-center items-center sm:pt-0 bg-colorbg">
                 <div>
                     <Link href="/" className="max-[1280px]:hidden block">
