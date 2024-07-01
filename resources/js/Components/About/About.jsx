@@ -46,7 +46,7 @@ export const About = ({ handleOpenAbout }) => {
                             isSmallScreen ? "text-lg" : "text-xl"
                         } font-bold`}
                     >
-                        Miguel Ledesma Palacios
+                        @migueldj80
                     </p>
                     <p
                         className={` ${
