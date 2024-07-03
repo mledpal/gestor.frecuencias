@@ -1,6 +1,6 @@
 export const SendEmail = () => {
     const handleEmailClick = () => {
-        const email = "info@radioescucha.es";
+        const email = "web@radioescucha.es";
         const subject = "Ayuda desde www.radioescucha.es";
         const body = "";
 
