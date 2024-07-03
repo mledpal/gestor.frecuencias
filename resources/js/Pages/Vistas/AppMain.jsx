@@ -57,9 +57,9 @@ export const AppMain = ({ userDB, title, selects, busqueda }) => {
             </main>
 
             {!isSmallScreen && (
-                <footer className="flex flex-row w-full h-[4%] justify-between items-center p-10 bg-transparent max-[1280px]:hidden">
-                    <h3>Miguel Ledesma Palacios</h3>
-                    <h4>Proyecto DAW-D</h4>
+                <footer className="sticky bottom-0 left-0 flex flex-row w-full h-[4%] justify-between items-center p-10 bg-transparent max-[1280px]:hidden">
+                    {/* <h3>Miguel Ledesma Palacios</h3>
+                    <h4>Proyecto DAW-D</h4> */}
                 </footer>
             )}
         </div>

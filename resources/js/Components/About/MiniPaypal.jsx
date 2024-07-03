@@ -1,22 +1,23 @@
 export const Minipaypal = () => {
     return (
-        <div className="absolute w-1/3 top-0 right-0 flex flex-row p-3">
-            <div className="w-1/3 flex flex-row items-center justify-center">
+        <div className="h-full flex flex-row items-center justify-start">
+            <div className="h-full flex flex-col items-center justify-center border-2">
                 <img
                     src="/img/qrcode.png"
-                    className={`w-[100px] h-[100px] rounded-xl`}
+                    className={`h-[40%] aspect-square rounded-xl my-auto`}
                 />
             </div>
-            <article className="w-2/3 flex flex-col items-start justify-start font-sans text-left">
-                <p className={` text-lg `}>
+            <article className="h-full flex flex-col items-start justify-start font-sans text-left border-2">
+                <p className="text-lg leading-3">
                     El uso de esta aplicación es totalmente libre
                     <span
                         className={`text-sm text-center p-2 font-thin text-gray-200`}
                     >
                         pero cualquier{" "}
+                        <a href="https://paypal.me/migueldj80?country.x=ES&locale.x=es_ES">
                         <strong className="font-bold color-white">
                             donación
-                        </strong>{" "}
+                        </strong>{" "}</a>
                         será bienvenida para poder mantener los costes del
                         hosting.
                     </span>

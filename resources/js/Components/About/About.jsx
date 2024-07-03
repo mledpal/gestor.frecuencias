@@ -53,16 +53,9 @@ export const About = ({ handleOpenAbout }) => {
                             isSmallScreen ? "text-sm" : "text-lg"
                         } text-center p-2 font-thin text-gray-400`}
                     >
-                        Gestión de frecuencias de radioaficionados
+                        Gestión de frecuencias de radioaficionados v.1.0
                     </p>
-                    <p
-                        className={` ${
-                            isSmallScreen ? "text-xs" : "text-sm"
-                        } text-center p-2 font-thin text-white`}
-                    >
-                        Proyecto para DAW-D
-                    </p>
-                    <p className="">I.E.S. Trassierra (Córdoba)</p>
+
                 </article>
             </main>
 
