@@ -2,12 +2,12 @@
  * Componente que muestra la ayuda de la aplicación
  */
 
-
 import { useContext } from "react";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 import { AppContext } from "../AppProvider";
 import { IconosListaContactos } from "./IconosListaContactos";
 import { SendEmail } from "./SendEmail";
+import { Paypal } from "../About/Paypal";
 
 export const Ayuda = ({ handleOpenHelp, ayuda }) => {
     const { isSmallScreen } = useContext(AppContext);
@@ -47,10 +47,11 @@ export const Ayuda = ({ handleOpenHelp, ayuda }) => {
                 {ayuda === "iconos-lista-contactos" && <IconosListaContactos />}
 
                 <SendEmail />
+
+                {!isSmallScreen && <Paypal />}
             </main>
 
             <footer className="w-full p-5 flex items-center justify-around h-15 bg-gradient-to-br from-blue-900 bg-slate-800 rounded-br-xl rounded-bl-xl font-bold text-xl shadow-[inset_2px_0_5px_rgba(255,255,255,.5),inset_-2px_0_5px_rgba(0,0,0,.5)] ">
-
                 <BotonesFormulario actionExit={() => handleOpenHelp(null)} />
             </footer>
         </div>
