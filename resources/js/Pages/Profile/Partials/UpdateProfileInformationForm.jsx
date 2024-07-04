@@ -50,7 +50,7 @@ export default function UpdateProfileInformation({
 
                     <TextInput
                         id="name"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                         value={data.nombre}
                         onChange={(e) => setData("name", e.target.value)}
                         required
@@ -66,7 +66,7 @@ export default function UpdateProfileInformation({
 
                     <TextInput
                         id="apellidos"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full  text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                         value={data.apellidos}
                         onChange={(e) => setData("name", e.target.value)}
                         required
@@ -83,7 +83,7 @@ export default function UpdateProfileInformation({
                     <TextInput
                         id="email"
                         type="email"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full  text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                         value={data.email}
                         onChange={(e) => setData("email", e.target.value)}
                         required
@@ -99,7 +99,7 @@ export default function UpdateProfileInformation({
                     <TextInput
                         id="indicativo"
                         type="text"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full  text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                         value={data.indicativo}
                         onChange={(e) => setData("indicativo", e.target.value)}
                         autoComplete="indicativo"
@@ -110,7 +110,7 @@ export default function UpdateProfileInformation({
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
-                        <p className="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                        <p className="text-sm mt-2 text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black">
                             Tu correo no está verificado.
                             <Link
                                 href={route("verification.send")}

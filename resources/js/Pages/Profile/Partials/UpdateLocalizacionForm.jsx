@@ -73,7 +73,7 @@ export default function UpdateLocalizacionForm({ className = "" }) {
                         value={data.localidad}
                         onChange={(e) => setData("localidad", e.target.value)}
                         type="text"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                     />
 
                     <InputError message={errors.localidad} className="mt-2" />
@@ -88,7 +88,7 @@ export default function UpdateLocalizacionForm({ className = "" }) {
                         value={data.provincia}
                         onChange={(e) => setData("provincia", e.target.value)}
                         type="text"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                     />
 
                     <InputError message={errors.provincia} className="mt-2" />
@@ -103,7 +103,7 @@ export default function UpdateLocalizacionForm({ className = "" }) {
                         value={data.pais}
                         onChange={(e) => setData("pais", e.target.value)}
                         type="text"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                     />
 
                     <InputError message={errors.pais} className="mt-2" />
@@ -118,7 +118,7 @@ export default function UpdateLocalizacionForm({ className = "" }) {
                         value={data.gps}
                         onChange={(e) => setData("gps", e.target.value)}
                         type="text"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                     />
 
                     <InputError message={errors.gps} className="mt-2" />

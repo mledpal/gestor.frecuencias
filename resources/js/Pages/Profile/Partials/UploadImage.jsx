@@ -83,7 +83,7 @@ export default function UploadImage({ className = "" }) {
                         id="photo"
                         name="photo"
                         type="file"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full text-gray-800 bg-slate-100 dark:text-gray-300 dark:bg-black"
                         filename={user.photo ? user.photo : ""}
                         onChange={(e) => handleSendFile(e)}
                         autoComplete="photo"

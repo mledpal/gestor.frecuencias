@@ -1,5 +1,3 @@
-import { Minipaypal } from "@/Components/About/MiniPaypal";
-import { Paypal } from "@/Components/About/Paypal";
 import { Link } from "@inertiajs/react";
 
 export default function Guest({ children }) {
