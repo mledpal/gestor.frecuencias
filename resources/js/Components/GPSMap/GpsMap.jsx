@@ -4,7 +4,7 @@ import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 
 export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
     const loader = new Loader({
-        apiKey: "AIzaSyCNa2l2LonBW2U8F19VzBY_98LOWYXrn9U",
+        apiKey: "TU_API_KEY",
         version: "weekly",
     });
 
