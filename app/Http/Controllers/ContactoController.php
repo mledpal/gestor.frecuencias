@@ -2,31 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\ConstruyeSelectsDeContacto;
 use App\Http\Requests\ValidarContacto;
-use App\Models\Banda;
 use App\Models\Contacto;
-use App\Models\Ctcss;
-use App\Models\Dcs;
 use App\Models\Frecuencia;
 use App\Models\Localizacion;
-use App\Models\ModoTransmision;
 use App\Models\Repetidor;
-use App\Models\TipoCodificacion;
-use App\Models\TipoContacto;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
 class ContactoController extends Controller
 {
+    use ConstruyeSelectsDeContacto;
+
     /**
      * Función que , mediante AJAX, recoge los contactos solicitados
      */
-
     public function getContacts()
     {
         if (Auth::check()) {
@@ -40,10 +34,10 @@ class ContactoController extends Controller
             return redirect('/login');
         }
     }
+
     /**
      * Funcion que sirve para crear un nuevo contacto
      */
-
     public function crear(ValidarContacto $request)
     {
         if (Auth::check()) {
@@ -52,41 +46,11 @@ class ContactoController extends Controller
 
             // dd($request);
 
-            $requestAll = $request->all();
-
-            if ($request->ctcss_id == -1) {
-                $requestAll['ctcss_id'] = null;
-            } else {
-                $requestAll['ctcss_id'] = $request->ctcss_id;
-            }
-            if ($request->dcs_id == -1) {
-                $requestAll['dcs_id'] = null;
-            } else {
-                $requestAll['dcs_id'] = $request->dcs_id;
-            }
-            if ($request->banda_id == -1) {
-                $requestAll['banda_id'] = null;
-            } else {
-                $requestAll['banda_id'] = $request->banda_id;
-            }
-
-            if ($request->modo_id == -1) {
-                $requestAll['modo_id'] = null;
-            } else {
-                $requestAll['modo_id'] = $request->modo_id;
-            }
-
-            if ($request->codificacion_id == -1) {
-                $requestAll['codificacion_id'] = null;
-            } else {
-                $requestAll['codificacion_id'] = $request->codificacion_id;
-            }
+            $requestAll = $this->normalizarSelects($request->all());
 
             if ($request->localizacion_id == -1) {
                 $requestAll['localizacion_id'] = null;
             }
-
-
 
             // Busca si ya existe ese contacto creado (Por frecuencia, localización y usuario actual)
             $frecuencia_bus = $request->frecuencia;
@@ -105,8 +69,6 @@ class ContactoController extends Controller
                 ]);
             }
 
-
-
             // Localización
 
             $localizacion_id = $request->localizacion_id;
@@ -123,18 +85,19 @@ class ContactoController extends Controller
                         'localidad' => $request->localidad,
                         'provincia' => $request->provincia,
                         'pais' => $request->pais,
-                        'gps' => $request->gps
+                        'gps' => $request->gps,
                     ]);
 
                     $localizacion_id = $localizacion->id;
                 }
             }
 
-            if ($localizacion_id === -1) $localizacion_id = null;
-
+            if ($localizacion_id === -1) {
+                $localizacion_id = null;
+            }
 
             $frecuencia_bus = Frecuencia::where('frecuencia', $request->frecuencia)->first();
-            if (!$frecuencia_bus) {
+            if (! $frecuencia_bus) {
                 $frecuencia = Frecuencia::create(['frecuencia' => $request->frecuencia]);
                 $frecuencia_id = $frecuencia->id;
             } else {
@@ -154,9 +117,8 @@ class ContactoController extends Controller
                 }
             }
 
-
             // Crea el nuevo contacto
-            $contacto = array();
+            $contacto = [];
             $contacto['nombre'] = $request->nombre;
             $contacto['comprobado'] = $request->comprobado ?? false;
             $contacto['privado'] = $request->privado ?? false;
@@ -176,7 +138,6 @@ class ContactoController extends Controller
             $contacto['calidad'] = $request->calidad;
             $contacto['favorito'] = $request->favorito ?? false;
 
-
             $newContact = Contacto::create($contacto);
 
             if ($newContact) {
@@ -191,10 +152,10 @@ class ContactoController extends Controller
         }
     }
 
-
     /**
      * Función que sirve para actualizar los datos de un contacto
-     * @param $request ValidarContacto // Datos recibidos del formulario
+     *
+     * @param  $request  ValidarContacto // Datos recibidos del formulario
      */
     public function actualizar(ValidarContacto $request)
     {
@@ -202,42 +163,11 @@ class ContactoController extends Controller
 
             $user = Auth::user();
 
+            $requestAll = $this->normalizarSelects($request->all());
 
-            $requestAll = $request->all();
+            $contacto = Contacto::with('frecuencia', 'codificacion', 'localizacion')->findOrFail($request->id);
 
-            // dd($requestAll);
-
-            if ($request->modo_id == -1) {
-                $requestAll['modo_id'] = null;
-            } else {
-                $requestAll['modo_id'] = $request->modo_id;
-            }
-
-            if ($request->ctcss_id == -1) {
-                $requestAll['ctcss_id'] = null;
-            } else {
-                $requestAll['ctcss_id'] = $request->ctcss_id;
-            }
-
-            if ($request->dcs_id == -1) {
-                $requestAll['dcs_id'] = null;
-            } else {
-                $requestAll['dcs_id'] = $request->dcs_id;
-            }
-
-            if ($request->banda_id == -1) {
-                $requestAll['banda_id'] = null;
-            } else {
-                $requestAll['banda_id'] = $request->banda_id;
-            }
-
-            if ($request->codificacion_id == -1) {
-                $requestAll['codificacion_id'] = null;
-            } else {
-                $requestAll['codificacion_id'] = $request->codificacion_id;
-            }
-
-            $contacto = Contacto::with('frecuencia', 'codificacion', 'localizacion')->findorFail($request->id);
+            $this->authorize('update', $contacto);
 
             $contacto->update([
                 'nombre' => $request->nombre,
@@ -257,10 +187,9 @@ class ContactoController extends Controller
                 'favorito' => $request->favorito ?? false,
             ]);
 
-
             // REPETIDOR
 
-            if (!isset($request->offset)) { // Si los valores de offset son nulos, se pone a null el id del repetidor
+            if (! isset($request->offset)) { // Si los valores de offset son nulos, se pone a null el id del repetidor
                 $contacto->update(['repetidor_id' => null]);
             } else {
                 $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion)->first();
@@ -274,13 +203,11 @@ class ContactoController extends Controller
                 }
             } // FIN REPETIDOR
 
-
             // LOCALIZACION
 
             $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->where('gps', $request->gps)->first();
 
-
-            if (isset($request->localizacion_id) && !empty($localizacion_bus)) {
+            if (isset($request->localizacion_id) && ! empty($localizacion_bus)) {
 
                 if ($localizacion_bus->id == $request->localizacion_id) { // Es la misma localización
 
@@ -312,43 +239,53 @@ class ContactoController extends Controller
                 }
             } // FIN  LOCALIZACION
 
-
             return redirect('/')->with('mensaje', 'Contacto actualizado con éxito');
         } else {
             return redirect('/login');
         }
     }
 
-
     public function getContactInfo($id)
     {
-        if (Auth::check()) {
+        $contacto = Contacto::findOrFail($id);
 
-            $contacto = Contacto::findorFail($id);
+        $this->authorize('view', $contacto);
 
-            if ($contacto) {
-                return $contacto;
-            } else {
-                return redirect('/login');
-            }
-        }
+        return $contacto;
     }
-
 
     /**
      * Función que sirve para eliminar un contacto
-     * @param $id -> Id del contacto
+     *
+     * @param  $id  -> Id del contacto
      */
     public function eliminar($id)
     {
-        if (Auth::check()) {
-            $contacto = Contacto::findorFail($id);
+        $contacto = Contacto::findOrFail($id);
 
-            if ($contacto) {
-                $contacto->delete();
-                // return redirect('/')->with('mensaje', 'Contacto eliminado con éxito');
+        $this->authorize('delete', $contacto);
+
+        $contacto->delete();
+
+        return back();
+    }
+
+    /**
+     * Normaliza los selects que usan el sentinel -1 ("Desconocido") a null
+     * antes de persistirlos en la base de datos.
+     *
+     * @param  array<string, mixed>  $datos
+     * @return array<string, mixed>
+     */
+    private function normalizarSelects(array $datos): array
+    {
+        foreach (['ctcss_id', 'dcs_id', 'banda_id', 'modo_id', 'codificacion_id'] as $campo) {
+            if (! array_key_exists($campo, $datos) || $datos[$campo] == -1) {
+                $datos[$campo] = null;
             }
         }
+
+        return $datos;
     }
 
     /**
@@ -376,12 +313,12 @@ class ContactoController extends Controller
             }
 
             if (isset($request->nombre)) {
-                $busqueda->where('nombre', 'like', '%' . $request->nombre . '%');
+                $busqueda->where('nombre', 'like', '%'.$request->nombre.'%');
             }
 
             if (isset($request->frecuencia)) {
                 $busqueda->whereHas('frecuencia', function ($query) use ($request) {
-                    $query->where('frecuencia', 'like', '%' . $request->frecuencia . '%');
+                    $query->where('frecuencia', 'like', '%'.$request->frecuencia.'%');
                 });
             }
 
@@ -395,52 +332,21 @@ class ContactoController extends Controller
 
             if (isset($request->localidad)) {
                 $busqueda->whereHas('localizacion', function ($query) use ($request) {
-                    $query->where('localidad', 'like', '%' . $request->localidad . '%');
+                    $query->where('localidad', 'like', '%'.$request->localidad.'%');
                 });
             }
 
             if (isset($request->provincia)) {
                 $busqueda->whereHas('localizacion', function ($query) use ($request) {
-                    $query->where('provincia', 'like', '%' . $request->provincia . '%');
+                    $query->where('provincia', 'like', '%'.$request->provincia.'%');
                 });
             }
 
-
-
-            $tipos_contacto = TipoContacto::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
-
-            $bandas = Banda::orderBy('id', 'ASC')->get()->pluck('banda', 'id')->toArray();
-            $bandas[-1] = "Desconocido";
-
-            $modos = ModoTransmision::orderBy('id', 'ASC')->get()->pluck('nombre', 'id')->toArray();
-            $modos[-1] = "Desconocido";
-
-            $tiposCodificacion = TipoCodificacion::orderBy('nombre', 'ASC')->get()->pluck('nombre', 'id')->toArray();
-            $tiposCodificacion[-1] = "Desconocido";
-
-            $dcsCodes = Dcs::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
-            $dcsCodes[-1] = "Desconocido";
-
-            $ctcssCodes = Ctcss::orderBy('codigo', 'ASC')->get()->pluck('codigo', 'id')->toArray();
-            $ctcssCodes[-1] = 'Desconocido';
-
-            $direcciones = ['=' => '=', '+' => '+', '-' => '-'];
             $roles = $user->roles;
 
             $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
 
-
-
-
-            $campos_select = [
-                'tipos_contacto' => $tipos_contacto,
-                'modos' => $modos,
-                'codificaciones' => $tiposCodificacion,
-                'dcs' => $dcsCodes,
-                'ctcss' => $ctcssCodes,
-                'direcciones' => $direcciones,
-                'bandas' => $bandas,
-            ];
+            $campos_select = $this->selectsDeContacto();
 
             return Inertia::render('Inicio', [
                 'canLogin' => Route::has('login'),

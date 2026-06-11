@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
+import { googleMapsLoader } from "../../Helpers/googleMapsLoader";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 
 export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
-    const loader = new Loader({
-        apiKey: "TU_API_KEY",
-        version: "weekly",
-    });
-
     useEffect(() => {
         let map;
 
@@ -16,7 +11,7 @@ export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
             lng: parseFloat(coordenadas[1]),
         };
 
-        loader.load().then(async () => {
+        googleMapsLoader.load().then(async () => {
             const { Map } = await google.maps.importLibrary("maps");
             const { AdvancedMarkerView } = await google.maps.importLibrary(
                 "marker"
@@ -39,7 +34,7 @@ export const GpsMap = ({ coordenadas, nombre, handleOpen }) => {
             });
 
         });
-    }, []);
+    }, [coordenadas, nombre]);
 
     return (
         <div className="relative container bg-slate-700 m-auto h-screen">

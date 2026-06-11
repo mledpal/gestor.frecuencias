@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 
 export const handlerForm = ({ datos, setData }) => {
+    const [visibilidad, setVisibilidad] = useState({
+        repVisib: false,
+        codVisib: false,
+        locVisib: false,
+    });
+
     useEffect(() => {
         setVisibilidad((prevVisibilidad) => ({
             ...prevVisibilidad,
@@ -9,12 +15,6 @@ export const handlerForm = ({ datos, setData }) => {
             locVisib: datos.localizacion_id ? true : false,
         }));
     }, [datos]);
-
-    const [visibilidad, setVisibilidad] = useState({
-        repVisib: false,
-        codVisib: false,
-        locVisib: false,
-    });
 
     const handleToggleVisibilidad = (seccion) => {
         setVisibilidad((prevVisibilidad) => ({

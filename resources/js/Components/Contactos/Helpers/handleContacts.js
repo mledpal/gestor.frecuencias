@@ -167,7 +167,7 @@ export const handleContacts = ({
         e.preventDefault();
 
         try {
-            const idReg = parseInt(id.getAttribute("value"));
+            const idReg = parseInt(data.id);
 
             post(route("contacto_actualizar", { id: idReg }), {
                 onSuccess: () => {

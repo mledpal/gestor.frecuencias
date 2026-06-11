@@ -1,10 +1,13 @@
 export async function getContactInfo(id) {
     try {
         const url = `ajax/contacto/${id}`;
-        console.log("URL : ", url);
-        const response = await fetch(fetch(url), {
+        const response = await fetch(url, {
             method: "GET",
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
         const data = await response.json();
 

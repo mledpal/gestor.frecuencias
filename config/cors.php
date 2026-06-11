@@ -19,7 +19,13 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    // Restringido a los orígenes de la propia aplicación. Configurable vía
+    // APP_URL y FRONTEND_URL en el .env. Si no hay ninguno, no se permite
+    // ningún origen cruzado (la app Inertia es de mismo origen).
+    'allowed_origins' => array_values(array_filter([
+        env('APP_URL'),
+        env('FRONTEND_URL'),
+    ])),
 
     'allowed_origins_patterns' => [],
 

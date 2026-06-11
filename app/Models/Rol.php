@@ -16,6 +16,6 @@ class Rol extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'users_roles', 'id_rol', 'id_user');
+        return $this->belongsToMany(User::class, 'users_roles', 'rol_id', 'user_id');
     }
 }

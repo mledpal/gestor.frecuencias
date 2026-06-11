@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
+import { googleMapsLoader } from "../../Helpers/googleMapsLoader";
 import { BotonesFormulario } from "../BotonesFormulario/BotonesFormulario";
 
 export const GPSSearch = ({
@@ -12,11 +12,6 @@ export const GPSSearch = ({
         coordenadas = [];
     }
     const [nuevasCoordenadas, setNuevasCoordenadas] = useState(coordenadas);
-
-    const loader = new Loader({
-        apiKey: "AIzaSyCNa2l2LonBW2U8F19VzBY_98LOWYXrn9U",
-        version: "weekly",
-    });
 
     useEffect(() => {
         let map;
@@ -35,7 +30,7 @@ export const GPSSearch = ({
             };
         }
 
-        loader.load().then(async () => {
+        googleMapsLoader.load().then(async () => {
             const { Map } = await google.maps.importLibrary("maps");
             const { AdvancedMarkerElement, PinElement } =
                 await google.maps.importLibrary("marker");

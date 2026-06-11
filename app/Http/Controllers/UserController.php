@@ -6,13 +6,10 @@ use App\Http\Requests\ValidarLocalizacion;
 use App\Http\Requests\ValidarUsuario;
 use App\Models\Localizacion;
 use App\Models\User;
-use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 
 class UserController extends Controller
 {
-
     /**
      * Función que sirve para cambiar la localización de un usuario
      * Agrega una nueva si no existe o le asigna una ya existente
@@ -61,23 +58,23 @@ class UserController extends Controller
             $usuarios = User::with('roles')->select('id', 'username', 'photo', 'indicativo')->whereNot('id', Auth::id())->orderBy('username', 'asc');
 
             if (isset($request->usuario)) {
-                $usuarios->where('username', 'like', '%' . $request->usuario . '%');
+                $usuarios->where('username', 'like', '%'.$request->usuario.'%');
             }
 
             if (isset($request->localidad)) {
                 $usuarios->whereHas('localizacion', function ($query) use ($request) {
-                    $query->where('localidad', 'like', '%' . $request->localidad . '%');
+                    $query->where('localidad', 'like', '%'.$request->localidad.'%');
                 });
             }
 
             if (isset($request->provincia)) {
                 $usuarios->whereHas('localizacion', function ($query) use ($request) {
-                    $query->where('provincia', 'like', '%' . $request->provincia . '%');
+                    $query->where('provincia', 'like', '%'.$request->provincia.'%');
                 });
             }
 
             if (isset($request->indicativo)) {
-                $usuarios->where('indicativo', 'like', '%' . $request->indicativo . '%');
+                $usuarios->where('indicativo', 'like', '%'.$request->indicativo.'%');
             }
 
             $respuesta = json_encode($usuarios->get()->toArray());
@@ -88,7 +85,6 @@ class UserController extends Controller
         }
     }
 
-
     /**
      * Función para recoger la información básica de un usuario por su id
      */
@@ -96,6 +92,7 @@ class UserController extends Controller
     {
         if (Auth::check()) {
             $usuario = User::select('id', 'username', 'photo')->findOrFail($id);
+
             return $usuario;
         } else {
             return route('login');
@@ -107,18 +104,14 @@ class UserController extends Controller
      */
     public function eliminar($id)
     {
-        if (Auth::check() && $id != 1) {
-            $usuario = User::findorFail($id);
+        abort_unless(Auth::user()?->isAdmin, 403);
 
-            if ($usuario) {
-                return response()->json($usuario->delete());
-                try {
-                    $usuario->delete();
-                } catch (Exception $e) {
-                    // return $e->getMessage();
-                }
-            }
-        }
+        // El usuario con id 1 es el usuario root y no se puede eliminar.
+        abort_if($id == 1, 422, 'No se puede eliminar el usuario root.');
+
+        User::findOrFail($id)->delete();
+
+        return response()->json(['mensaje' => 'Usuario eliminado correctamente']);
     }
 
     /**

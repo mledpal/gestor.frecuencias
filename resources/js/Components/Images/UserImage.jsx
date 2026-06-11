@@ -3,7 +3,9 @@ export const UserImage = ({ userDB, link }) => {
     const estilosAdmin =
         "border-2 border-yellow-500 shadow-[0px_0px_10px_rgb(255,255,0)]";
 
-    const isAdmin = userDB.roles.some((rol) => rol.id === 1);
+    // El borde dorado marca a los administradores (rol id 2), igual que en
+    // el resto de la app (DatosUsuario, AppProvider).
+    const isAdmin = (userDB?.roles ?? []).some((rol) => rol.id === 2);
 
     const styleUserImg = isAdmin
         ? estilosBase + " " + estilosAdmin

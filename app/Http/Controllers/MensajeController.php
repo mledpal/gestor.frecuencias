@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NuevoMensaje;
 use App\Http\Requests\ValidarMensaje;
 use App\Models\Mensaje;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-use Ably\AblyRest;
-use App\Events\NuevoMensaje;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class MensajeController extends Controller
 {
@@ -32,7 +29,6 @@ class MensajeController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-
             return json_encode($conversacion);
         } else {
             return route('/login');
@@ -49,23 +45,11 @@ class MensajeController extends Controller
 
             $nuevoMensaje = Mensaje::create($requestAll);
 
-
             try {
                 broadcast(new NuevoMensaje($nuevoMensaje));
             } catch (Exception $e) {
-                echo null;
+                report($e);
             }
-
-            // $apiKey = '-n3DVQ.QW58iA:NlZmlh8WGzadRH-9wz3yTlUFOl_955uZga9OOMEPTGE';
-            // $ably = new AblyRest($apiKey);
-            // $channelName = 'chatroom';
-            // $channel = $ably->channels->get($channelName);
-            // $messageData = array(
-            //     'mensaje' => 'Este es un mensaje de prueba desde PHP',
-            //     'usuario' => 'usuario_prueba'
-            // );
-
-            // $channel->publish('mensaje', $messageData);
 
             return back();
         } else {
@@ -90,25 +74,27 @@ class MensajeController extends Controller
                 ->get();
 
             // Obtener IDs de otros usuarios en las conversaciones
-            $otherUserIds = $conversaciones->flatMap(function ($conversacion) use ($userId) {
+            $otherUserIds = $conversaciones->flatMap(function ($conversacion) {
                 return [$conversacion->remitente_id, $conversacion->destinatario_id];
             })->reject(function ($otherUserId) use ($userId) {
                 return $otherUserId == $userId;
             })->unique();
 
+            // Una sola consulta con todos los mensajes del usuario (evita N+1).
+            $mensajes = Mensaje::where('remitente_id', $userId)
+                ->orWhere('destinatario_id', $userId)
+                ->orderBy('created_at', 'desc')
+                ->get(['remitente_id', 'destinatario_id', 'mensaje', 'created_at']);
+
             // Obtener detalles de los otros usuarios con el último mensaje
-            // Obtener detalles de los otros usuarios con el último mensaje
-            $otherUsers = User::with('roles')->whereIn('id', $otherUserIds)->get(['id', 'photo', 'username', 'indicativo'])->map(function ($user) use ($userId) {
-                $lastMessage = Mensaje::where('remitente_id', $user->id)
-                    ->where('destinatario_id', $userId)
-                    ->orWhere('remitente_id', $userId)
-                    ->where('destinatario_id', $user->id)
-                    ->latest()
-                    ->first();
+            $otherUsers = User::with('roles')->whereIn('id', $otherUserIds)->get(['id', 'photo', 'username', 'indicativo'])->map(function ($user) use ($mensajes, $userId) {
+                $lastMessage = $mensajes->first(function ($mensaje) use ($user, $userId) {
+                    return ($mensaje->remitente_id == $user->id && $mensaje->destinatario_id == $userId)
+                        || ($mensaje->remitente_id == $userId && $mensaje->destinatario_id == $user->id);
+                });
 
                 if ($lastMessage) {
                     $created_at = $lastMessage->created_at;
-                    $now = now();
 
                     if ($created_at->isToday()) {
                         $lastMessageTime = $created_at->format('H:i:s');
@@ -129,14 +115,10 @@ class MensajeController extends Controller
             });
 
             return json_encode($otherUsers);
-
-
-            return json_encode($otherUsers);
         } else {
             return route('/login');
         }
     }
-
 
     public function borrarConversacion($id)
     {

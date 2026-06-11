@@ -4,40 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidarTipoContacto;
 use App\Models\TipoContacto;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class TiposContactoController extends Controller
 {
     public function crear(ValidarTipoContacto $request)
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
-            try {
-                TipoContacto::create(['nombre' => $request->nombre, 'color' => $request->color]);
-            } catch (Exception $e) {
-                return null;
-            }
-        } else {
-            return redirect('/');
-        }
+        abort_unless(Auth::user()?->isAdmin, 403);
+
+        TipoContacto::create(['nombre' => $request->nombre, 'color' => $request->color]);
+
+        return back();
     }
 
     public function editar(ValidarTipoContacto $request)
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
-            $tipoContacto = TipoContacto::findOrFail($request->id);
+        abort_unless(Auth::user()?->isAdmin, 403);
 
-            try {
-                $tipoContacto->update([
-                    'nombre' => $request->nombre,
-                    'color' => $request->color,
-                ]);
-            } catch (Exception $e) {
-                return null;
-            }
-        } else {
-            return redirect('/');
-        }
+        $tipoContacto = TipoContacto::findOrFail($request->id);
+
+        $tipoContacto->update([
+            'nombre' => $request->nombre,
+            'color' => $request->color,
+        ]);
+
+        return back();
     }
 
     /**
@@ -45,16 +36,13 @@ class TiposContactoController extends Controller
      */
     public function eliminar($id)
     {
-        if (Auth::check() && $id != 1) {
-            $tipoContacto = TipoContacto::findorFail($id);
+        abort_unless(Auth::user()?->isAdmin, 403);
 
-            if ($tipoContacto) {
-                try {
-                    $tipoContacto->delete();
-                } catch (Exception $e) {
-                    return null;
-                }
-            }
-        }
+        // El tipo de contacto con id 1 es el tipo por defecto y no se puede borrar.
+        abort_if($id == 1, 422, 'No se puede eliminar el tipo de contacto por defecto.');
+
+        TipoContacto::findOrFail($id)->delete();
+
+        return back();
     }
 }

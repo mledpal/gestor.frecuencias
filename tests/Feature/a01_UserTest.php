@@ -3,30 +3,21 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Seeders\TablaRoles;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class a01_UserTest extends TestCase
 {
-    public function setUp(): void
+    use RefreshDatabase;
+
+    // El registro asigna el rol 'user', por lo que necesitamos los roles sembrados.
+    protected bool $seed = true;
+
+    protected string $seeder = TablaRoles::class;
+
+    public function test_user()
     {
-        parent::setUp();
-
-        echo "\nCreando la base de datos\n";
-        Artisan::call('migrate');
-
-        try {
-            echo "\nEjecutando los seeders\n";
-            $this->artisan('db:seed');
-        } catch (\Exception $e) {
-            echo "\nNo se han usado los seeders";
-        }
-
-    }
-
-    public function test_User() {
 
         echo "\nTESTS Registro Usuario\n";
         // Comprobamos si carga el formulario de registro
@@ -35,7 +26,6 @@ class a01_UserTest extends TestCase
         $carga->assertSee('Register');
         $carga->assertSee('email');
         $carga->assertSee('password');
-
 
         // Registro Incorrecto
         $registroFallido = $this->post('/register', [
@@ -47,7 +37,7 @@ class a01_UserTest extends TestCase
 
         // Borramos el usuario si existe
         $usuarioTest = User::where('email', 'email@gmail.com')->first();
-        if($usuarioTest != null) {
+        if ($usuarioTest != null) {
             $usuarioTest->delete();
         }
 
@@ -69,7 +59,6 @@ class a01_UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'email@gmail.com']);
 
-
         // Comprobamos si el usuario tiene el rol de usuario
         $usuarioTest = User::where('email', 'email@gmail.com')->first();
         $this->assertDatabaseHas('users_roles', [
@@ -82,11 +71,9 @@ class a01_UserTest extends TestCase
         // Comprobamos si el usuario se ha redirigido a la página principal
         $registroCorrecto->assertRedirect('/');
 
-
         // Comprobamos si se cierra la sesion
         $this->post('/logout');
         $this->assertGuest();
-
 
         // Registro con username repetido
         $registroRepetido = $this->post('/register', [
@@ -101,7 +88,6 @@ class a01_UserTest extends TestCase
         ]);
         $registroRepetido->assertStatus(302)->assertSessionHasErrors(['username']);
 
-
         // Registro con email repetido
         $registroRepetido2 = $this->post('/register', [
             'username' => 'Test2',
@@ -115,7 +101,6 @@ class a01_UserTest extends TestCase
         ]);
         $registroRepetido2->assertStatus(302)->assertSessionHasErrors(['email']);
 
-
         // Intento de registro con las contraseñas NO coincidentes
         $registroIncorrecto = $this->post('/register', [
             'username' => 'Test2',
@@ -128,24 +113,5 @@ class a01_UserTest extends TestCase
             'ultima_conexion' => now()->toDateTimeString(),
         ]);
         $registroIncorrecto->assertStatus(302)->assertSessionHasErrors(['password']);
-
-        try{
-            // Creamos un usuario con permiso de admin para futuras pruebas
-            $usuarioAdmin = User::create([
-                'username' => 'Admin',
-                'email' => 'admin@gmail.com',
-                'password' => 'password',
-                'password_confirmation' => 'password',
-                'nombre' => 'Admin',
-                'apellidos' => 'Admin',
-                'ip' => $this->app->request->ip(),
-                'ultima_conexion' => now()->toDateTimeString(),
-        ]);
-        $usuarioAdmin->roles()->sync([1,2]);
-        } catch (\Exception $e) {
-            echo "\nError al crear el usuario Admin\n";
-        }
-
-
     }
 }

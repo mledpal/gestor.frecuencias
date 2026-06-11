@@ -3,9 +3,6 @@ import laravel from "laravel-vite-plugin";
 import react from "@vitejs/plugin-react";
 import basicSsl from "@vitejs/plugin-basic-ssl";
 
-const host = "127.0.0.1";
-const port = "8000";
-
 export default defineConfig({
     plugins: [
         laravel({
@@ -27,18 +24,19 @@ export default defineConfig({
             "top-level-await": true, //browsers can handle top-level-await features
         },
     },
-    // server: {
-    //     // 005 enabling the HTTPS
-    //     https: false,
-    //     // 006 setting the proxy with Laravel as target (origin)
-    //     proxy: {
-    //         "^(?!(/@vite|/resources|/node_modules))": {
-    //             target: `http://${host}:${port}`,
-    //         },
-    //     },
-    //     host,
-    //     port: 5173,
-    //     // 007 be sure that you have the Hot Module Replacement
-    //     hmr: { host },
-    // },
+    server: {
+        // Fijamos el host para que Vite no escuche en [::1] (IPv6) y los
+        // assets de HMR se sirvan desde una URL estable.
+        host: "127.0.0.1",
+        port: 5173,
+        strictPort: true,
+        // La app se sirve desde el dominio de Laragon (frecuencias.test), un
+        // origen distinto al del dev server, así que hay que permitir CORS.
+        cors: {
+            origin: /https?:\/\/(.+\.)?frecuencias\.test(:\d+)?$/,
+        },
+        hmr: {
+            host: "127.0.0.1",
+        },
+    },
 });

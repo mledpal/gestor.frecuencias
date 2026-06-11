@@ -137,7 +137,7 @@ class User extends Authenticatable
      */
     public function getGPSAttribute()
     {
-        return $this->localizacion->gps;
+        return $this->localizacion?->gps;
     }
 
     /**
@@ -155,7 +155,8 @@ class User extends Authenticatable
      */
     public function getisAdminAttribute()
     {
-        return $this->roles()->where('id', '2')->exists();
+        // Usa la relación ya cargada cuando esté disponible para evitar N+1.
+        return $this->roles->contains('id', 2);
     }
 
 
@@ -164,7 +165,7 @@ class User extends Authenticatable
      */
     public function getisRootAttribute()
     {
-        return $this->roles()->where('id', '1')->exists();
+        return $this->roles->contains('id', 1);
     }
 
 

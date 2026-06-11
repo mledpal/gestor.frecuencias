@@ -33,7 +33,9 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                // Cargamos la relación roles porque el frontend (UserImage,
+                // comprobaciones de admin) la espera siempre presente.
+                'user' => $request->user()?->load('roles'),
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

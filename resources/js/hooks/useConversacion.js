@@ -2,10 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 import Swal from "sweetalert2";
-import Pusher from "pusher-js";
-
-// import withReactContent from "sweetalert2-react-content";
-// import Echo from "laravel-echo";
+import { crearPusher } from "../Helpers/realtime";
 
 export const useConversacion = (userID, userDB) => {
     const clasesLabel = "text-center mb-2 text-black select-none";
@@ -67,14 +64,11 @@ export const useConversacion = (userID, userDB) => {
     }, []);
 
     useEffect(() => {
-        Pusher.logToConsole = false;
-        var pusher = new Pusher("5285b606cdf2c249808a", {
-            cluster: "eu",
-        });
+        const pusher = crearPusher();
 
         const ids = [data.destinatario_id, userDB.id].sort((a, b) => a - b);
-
-        const ch2 = pusher.subscribe(`canal-${ids[0]}-${ids[1]}-mensajes`);
+        const nombreCanal = `canal-${ids[0]}-${ids[1]}-mensajes`;
+        const ch2 = pusher.subscribe(nombreCanal);
 
         ch2.bind("NuevoMensaje", function (data) {
             if (data.mensaje.remitente_id != userDB.id) {
@@ -83,7 +77,7 @@ export const useConversacion = (userID, userDB) => {
                     remitente_id: data.mensaje.remitente_id,
                     remitente: {
                         id: data.mensaje.destinatario_id,
-                        username: userData.username,
+                        username: userData?.username,
                         photo: userData?.photo ?? "",
                         indicativo: userData?.indicativo ?? "",
                     },
@@ -99,24 +93,23 @@ export const useConversacion = (userID, userDB) => {
                     updated_at: new Date().toISOString(),
                 };
 
-                let nuevaConversacion = [nuevoMensaje, ...conversacion];
-
-                setConversacion(nuevaConversacion);
+                // setState funcional para usar siempre la conversación actual.
+                setConversacion((prev) => [nuevoMensaje, ...prev]);
             }
         });
 
         return () => {
             ch2.unbind();
-            pusher.unsubscribe("canal-mensajes");
+            pusher.unsubscribe(nombreCanal);
         };
-    }, [conversacion]);
+    }, [data.destinatario_id, userDB.id, userData]);
 
     useEffect(() => {
         setData({
             destinatario_id: userID,
             _token: csrf,
         });
-    }, [conversacion]);
+    }, [userID, csrf]);
 
     async function submit(e) {
         e.preventDefault();
@@ -143,12 +136,6 @@ export const useConversacion = (userID, userDB) => {
             },
             updated_at: new Date().toISOString(),
         };
-
-        // const realtime = new Ably.Realtime(
-        //     "-n3DVQ.-Y01TA:OH0ZfLPH76pQ6rZGYmYgrGcKUC045Sel1JkGajojTUo"
-        // );
-        // const channel = realtime.channels.get("chatroom");
-        // channel.publish("chatroom", data.mensaje);
 
         reset("mensaje");
 

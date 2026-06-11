@@ -6,7 +6,6 @@ use App\Events\NuevoComentario;
 use App\Http\Requests\ValidarComentario;
 use App\Models\Comentario;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ComentarioController extends Controller
@@ -31,7 +30,7 @@ class ComentarioController extends Controller
             try {
                 broadcast(new NuevoComentario($comentario));
             } catch (Exception $e) {
-                echo null;
+                report($e);
             }
 
             return back();
@@ -45,23 +44,20 @@ class ComentarioController extends Controller
      */
     public function editar(ValidarComentario $request)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
+        $comentario = Comentario::findOrFail($request->id);
 
-            if ($user->isAdmin || $user->id === $request->user_id) {
-                $comentario = Comentario::findOrFail($request->id);
-                $comentario->update([
-                    'comentario' => $request->comentario,
-                ]);
-            }
-        }
+        $this->authorize('update', $comentario);
+
+        $comentario->update([
+            'comentario' => $request->comentario,
+        ]);
+
         return back();
     }
 
     /**
      * Función que devuelve los mensajes solicitadoss
      */
-
     public function getComentarios($frecuencia, $localizacion)
     {
         if (Auth::check()) {
@@ -79,25 +75,21 @@ class ComentarioController extends Controller
 
     /**
      * Función que elimina un comentario dada su id
-     * @param $id
      */
     public function eliminar($id)
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
+        $comentario = Comentario::findOrFail($id);
 
-            $comentario = Comentario::findOrFail($id);
-            try {
-                broadcast(new NuevoComentario($comentario));
-            } catch (Exception $e) {
-                echo null;
-            }
+        $this->authorize('delete', $comentario);
 
-            if (Comentario::destroy($id)) {
-                return back();
-                // return json_encode(['mensaje' => 'Comentario eliminado']);
-            }
-        } else {
-            return redirect('/login');
+        try {
+            broadcast(new NuevoComentario($comentario));
+        } catch (Exception $e) {
+            report($e);
         }
+
+        $comentario->delete();
+
+        return back();
     }
 }

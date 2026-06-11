@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ValidarMensaje extends FormRequest
@@ -17,13 +18,13 @@ class ValidarMensaje extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'destinatario_id' => 'required|integer',
-            'mensaje' => 'required|string',
+            'destinatario_id' => 'required|integer|exists:users,id',
+            'mensaje' => 'required|string|max:2000',
         ];
     }
 
@@ -32,6 +33,8 @@ class ValidarMensaje extends FormRequest
         return [
             'required' => 'El mensaje es requerido',
             'string' => 'Mensaje inválido',
+            'destinatario_id.exists' => 'El destinatario no existe',
+            'mensaje.max' => 'El mensaje es demasiado largo (máximo 2000 caracteres)',
         ];
     }
 }

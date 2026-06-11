@@ -5,8 +5,7 @@ import withReactContent from "sweetalert2-react-content";
 import { useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-// import Echo from "laravel-echo";
-import Pusher from "pusher-js";
+import { crearPusher } from "../../../Helpers/realtime";
 
 export const useComentarios = ({ datos }) => {
     const MySwal = withReactContent(Swal);
@@ -196,21 +195,17 @@ export const useComentarios = ({ datos }) => {
      * Sistema para mensajería en tiempo real
      */
     useEffect(() => {
-        Pusher.logToConsole = false;
-        const pusher = new Pusher("5285b606cdf2c249808a", {
-            cluster: "eu",
-        });
-        const channel = pusher.subscribe(
-            `canal-${datos.frecuencia_id}-${datos.localizacion_id}-comentarios`
-        );
+        const pusher = crearPusher();
+        const nombreCanal = `canal-${datos.frecuencia_id}-${datos.localizacion_id}-comentarios`;
+        const channel = pusher.subscribe(nombreCanal);
         channel.bind("NuevoComentario", function (data) {
             updateComentarios();
         });
         return () => {
             channel.unbind();
-            pusher.unsubscribe("canal-comentarios");
+            pusher.unsubscribe(nombreCanal);
         };
-    }, [comentarios]);
+    }, [datos.frecuencia_id, datos.localizacion_id]);
 
     useEffect(() => {
         setData({

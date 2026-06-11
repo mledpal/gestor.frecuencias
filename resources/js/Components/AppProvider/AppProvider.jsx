@@ -15,7 +15,9 @@ export const AppProvider = ({ children }) => {
 
     useEffect(() => {
         userDB &&
-            setIsAdmin(userDB.roles.some((rol) => rol.nombre === "admin"));
+            setIsAdmin(
+                (userDB.roles ?? []).some((rol) => rol.nombre === "admin")
+            );
     }, [userDB]);
 
     return (

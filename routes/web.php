@@ -3,7 +3,6 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ContactoController;
-use App\Http\Controllers\FrecuenciaController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ProfileController;
@@ -70,8 +69,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/logout', 'logout')->name('index.logout');
         Route::get('/radio', 'radio')->name('index.radio');
-        Route::get('/exportar', 'exportar')->name('exportar');
-        Route::get('/importar', 'importar')->name('importar');
     });
 
     Route::controller(ContactoController::class)->group(function () {
@@ -91,12 +88,8 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

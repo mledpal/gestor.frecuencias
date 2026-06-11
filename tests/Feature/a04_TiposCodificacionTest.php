@@ -3,21 +3,16 @@
 namespace Tests\Feature;
 
 use App\Models\TipoCodificacion;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class a04_TiposCodificacionTest extends TestCase
+class a04_TiposCodificacionTest extends FixtureTestCase
 {
     /**
      * Test para Tipos de Codificación
      */
     public function test_codificacion(): void
     {
-
-        $usuario = User::where('email', 'email@gmail.com')->first();
-        $admin = User::where('username', 'Admin')->first();
+        $usuario = $this->usuario;
+        $admin = $this->admin;
 
         // Creamos un tipo de codificación vacio y debe fallar
         $response = $this->actingAs($usuario)->post('/tipo_codificacion/nuevo', [
@@ -42,14 +37,14 @@ class a04_TiposCodificacionTest extends TestCase
         $codificacion = TipoCodificacion::where('nombre', 'Test')->first();
 
         // Eliminamos el tipo de codificación con usuario no autorizado
-        $response = $this->actingAs($usuario)->post(route('eliminar_tipo_codificacion', [
+        $response = $this->actingAs($usuario)->delete(route('eliminar_tipo_codificacion', [
             'id' => $codificacion->id,
         ]))->assertStatus(302)->assertRedirect('/');
 
         // Eliminamos el tipo de codificación con usuario autorizado
-        $response = $this->actingAs($admin)->post(route('eliminar_tipo_codificacion', [
+        $response = $this->actingAs($admin)->delete(route('eliminar_tipo_codificacion', [
             'id' => $codificacion->id,
-        ]))->assertStatus(302)->assertRedirect('/');
+        ]))->assertStatus(200);
 
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules;
-use App\Models\Rol;
-use App\Models\User;
 
 class ValidateRegister extends FormRequest
 {
@@ -20,15 +20,15 @@ class ValidateRegister extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'username' => 'required|string|max:20|unique:' . User::class,
+            'username' => 'required|string|max:20|unique:'.User::class,
             'nombre' => 'required|string|max:50',
             'apellidos' => 'required|string|max:150',
-            'email' => 'required|string|email|max:255|unique:' . User::class,
+            'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
     }
@@ -36,10 +36,8 @@ class ValidateRegister extends FormRequest
     public function messages()
     {
         return [
-            'unique' => [
-                'username' => 'El nombre de usuario ya está siendo usado',
-                'email' => 'El correo ya está siendo usado',
-            ],
+            'username.unique' => 'El nombre de usuario ya está siendo usado',
+            'email.unique' => 'El correo ya está siendo usado',
             'required' => 'El dato es requerido',
             'email' => 'Debe introducir un correo válido',
             'string' => 'El valor debe ser una cadena de texto',
