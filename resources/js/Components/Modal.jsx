@@ -14,6 +14,9 @@ export default function Modal({ children, show = false, maxWidth = '2xl', closea
         lg: "sm:max-w-lg",
         xl: "sm:max-w-xl",
         "2xl": "sm:max-w-2xl",
+        "4xl": "sm:max-w-4xl",
+        "6xl": "sm:max-w-6xl",
+        full: "max-w-full",
     }[maxWidth];
 
     return (
@@ -21,7 +24,7 @@ export default function Modal({ children, show = false, maxWidth = '2xl', closea
             <Dialog
                 as="div"
                 id="modal"
-                className="fixed inset-0 flex overflow-y-auto px-4 py-6 sm:px-0 items-center z-50 transform transition-all"
+                className="fixed inset-0 flex overflow-y-auto px-4 py-6 sm:px-0 items-center justify-center z-50 transform transition-all"
                 onClose={close}
             >
                 <Transition.Child

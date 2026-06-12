@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contacto;
 use App\Models\TipoCodificacion;
 use App\Models\TipoContacto;
 use App\Models\User;
@@ -16,7 +17,13 @@ class AdminController extends Controller
     {
         abort_unless(Auth::user()?->isAdmin, 403);
 
-        $usuarios = User::with('localizacion', 'roles')->get();
+        $usuarios = User::with('localizacion', 'roles')
+            ->withCount(['contactos as frecuencias_localizadas_count' => function ($query) {
+                $query->whereHas('localizacion', function ($localizacion) {
+                    $localizacion->whereNotNull('gps')->where('gps', '!=', '');
+                });
+            }])
+            ->get();
 
         $usuarios = $usuarios->map(function ($usuario) {
             $usuario->isAdmin = $usuario->isAdmin;
@@ -26,6 +33,24 @@ class AdminController extends Controller
         });
 
         return response()->json($usuarios);
+    }
+
+    /**
+     * Devuelve las frecuencias (contactos) de un usuario que tienen ubicación GPS,
+     * para mostrarlas en un mapa.
+     */
+    public function frecuenciasUsuario($id)
+    {
+        abort_unless(Auth::user()?->isAdmin, 403);
+
+        $contactos = Contacto::with('frecuencia', 'localizacion')
+            ->where('user_id', $id)
+            ->whereHas('localizacion', function ($query) {
+                $query->whereNotNull('gps')->where('gps', '!=', '');
+            })
+            ->get();
+
+        return response()->json($contactos);
     }
 
     /**

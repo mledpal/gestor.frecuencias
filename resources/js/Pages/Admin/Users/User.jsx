@@ -1,86 +1,82 @@
-export const User = ({ user, isSmallScreen, deleteUser, swapAdmin }) => {
+export const User = ({ user, isSmallScreen, deleteUser, swapAdmin, onShowMap }) => {
     return (
-        <div className="relative flex flex-row items-center justify-start gap-5 p-4 h-full select-none">
+        <div
+            className={`relative flex flex-col items-center justify-between gap-3 p-4 pt-12 h-full select-none rounded-xl bg-gray-700/40 shadow-lg ${
+                user.isAdmin
+                    ? "border-2 border-yellow-500 shadow-[0_0_15px_rgba(255,255,0,.5)]"
+                    : "border border-gray-600/60"
+            }`}
+        >
             <img
-                className={`${
-                    isSmallScreen
-                        ? "w-[50px] h-[50px] top-4"
-                        : "w-[70px] h-[70px] top-1 left-1"
-                } absolute  rounded-full ${
+                className={`absolute -top-6 w-[70px] h-[70px] rounded-full object-cover ${
                     user.isAdmin
-                        ? "shadow-[0_0_15px_rgba(255,255,0,.8)] border-2 border-yellow-500 "
-                        : ""
+                        ? "shadow-[0_0_15px_rgba(255,255,0,.8)] border-2 border-yellow-500"
+                        : "border-2 border-gray-500"
                 }`}
                 src={user.photo}
             ></img>
-            <div
-                className={`${
-                    isSmallScreen ? "w-full" : "w-5/12"
-                } mt-[45px] flex flex-col items-center justify-normal`}
-            >
-                <span className="text-center font-bold text-xl ">
+
+            <div className="flex flex-col items-center justify-normal w-full">
+                <span className="text-center font-bold text-xl">
                     {user.username}
                 </span>
-                <div
-                    className={`flex-col w-full flex items-center justify-around`}
+                <span
+                    className={`${
+                        isSmallScreen ? "text-xs" : "text-base"
+                    } text-center text-gray-400`}
                 >
-                    <span
-                        className={`${
-                            isSmallScreen ? "text-xs" : "text-lg"
-                        } text-center text-gray-400`}
-                    >
-                        {user.nombre} {user.apellidos}
-                    </span>
-                    <span className="text-center text-xs text-gray-400">
-                        {user.email}
-                    </span>
-                </div>
+                    {user.nombre} {user.apellidos}
+                </span>
+                <span className="text-center text-xs text-gray-400 break-all">
+                    {user.email}
+                </span>
             </div>
-            {isSmallScreen ? (
-                ""
-            ) : (
-                <span className="w-2/12 flex flex-col items-center justify-around font-thin text-xs text-gray-400">
+
+            <div className="w-full flex flex-col gap-2 text-center font-thin text-xs text-gray-400">
+                <div className="flex flex-col items-center justify-around">
                     <span>{user.localizacion?.localidad}</span>
                     <span>{user.localizacion?.provincia}</span>
                     <span>{user.localizacion?.gps}</span>
-                </span>
-            )}
-
-            {isSmallScreen ? (
-                ""
-            ) : (
-                <span
-                    className={`${
-                        isSmallScreen ? "w-3/12" : "w-2/12"
-                    } flex flex-col items-center justify-around font-thin text-xs text-gray-400`}
-                >
+                </div>
+                <div className="flex flex-col items-center justify-around">
                     <span>{user.ip}</span>
                     <span>{user.ultima_conexion}</span>
-                </span>
-            )}
-            <span className="w-2/12 h-16 flex flex-col items-center justify-between">
+                </div>
+            </div>
+
+            <div className="w-full flex flex-row items-center justify-center gap-6 pt-2">
                 {!user.isAdmin ? (
                     <div
                         className="flex flex-row gap-1 hover:scale-150 duration-200 cursor-pointer rounded-full p-2 text-green-500"
                         onClick={() => swapAdmin(user.id)}
+                        title="Promover a administrador"
                     >
                         <i className="fa-solid fa-shield"></i>
-                        <i className="fa-solid fa-arrow-up "></i>
+                        <i className="fa-solid fa-arrow-up"></i>
                     </div>
                 ) : (
                     <div
                         className="flex flex-row gap-1 hover:scale-150 duration-200 cursor-pointer rounded-full bg-black p-2 text-red-500"
                         onClick={() => swapAdmin(user.id)}
+                        title="Quitar administrador"
                     >
                         <i className="fa-solid fa-shield-halved"></i>
-                        <i className="fa-solid fa-arrow-down "></i>
+                        <i className="fa-solid fa-arrow-down"></i>
                     </div>
                 )}
+                {user.frecuencias_localizadas_count > 0 && (
+                    <i
+                        className="fa-solid fa-map-location-dot text-blue-400 hover:scale-150 duration-200 cursor-pointer"
+                        onClick={() => onShowMap(user)}
+                        title="Ver frecuencias en el mapa"
+                    ></i>
+                )}
                 <i
-                    className="fa-solid fa-trash-can text-red-500 hover:scale-150 duration-200 cursor-pointer "
+                    className="fa-solid fa-trash-can text-red-500 hover:scale-150 duration-200 cursor-pointer"
                     onClick={() => deleteUser(user.id)}
+                    title="Eliminar usuario"
                 ></i>
-            </span>
+            </div>
         </div>
     );
 };

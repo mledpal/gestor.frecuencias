@@ -128,9 +128,15 @@ export const useAdminUsuarios = () => {
             });
     };
 
+    const getFrecuenciasUsuario = (id) =>
+        fetch(route("admin_usuario_frecuencias", { id })).then((res) =>
+            res.json()
+        );
+
     return {
         deleteUser,
         swapAdmin,
         usuarios,
+        getFrecuenciasUsuario,
     };
 };

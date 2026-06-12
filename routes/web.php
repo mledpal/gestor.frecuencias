@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(AdminController::class)->group(function () {
         Route::get('admin/usuarios', 'usuarios')->name('admin_usuarios');
+        Route::get('admin/usuarios/{id}/frecuencias', 'frecuenciasUsuario')->name('admin_usuario_frecuencias');
         Route::get('admin/tipos_contacto', 'tipos_contacto')->name('admin_tipos_contacto');
         Route::get('admin/tipos_codificacion', 'tipos_codificacion')->name('admin_tipos_codificacion');
     });
