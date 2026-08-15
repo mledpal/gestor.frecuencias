@@ -30,10 +30,11 @@ export default defineConfig({
         host: "127.0.0.1",
         port: 5173,
         strictPort: true,
-        // La app se sirve desde el dominio de Laragon (frecuencias.test), un
-        // origen distinto al del dev server, así que hay que permitir CORS.
+        // La app se sirve desde el dominio de Laragon (frecuencias.test) o,
+        // en local, desde `php artisan serve` (127.0.0.1/localhost); ambos
+        // son un origen distinto al del dev server, así que hay que permitir CORS.
         cors: {
-            origin: /https?:\/\/(.+\.)?frecuencias\.test(:\d+)?$/,
+            origin: /https?:\/\/((.+\.)?frecuencias\.test|127\.0\.0\.1|localhost)(:\d+)?$/,
         },
         hmr: {
             host: "127.0.0.1",

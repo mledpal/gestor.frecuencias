@@ -6,10 +6,10 @@ import PrimaryButton from "../PrimaryButton";
 import { Link, useForm } from "@inertiajs/react";
 import InputError from "../InputError";
 
-import { useMediaQuery } from "@react-hook/media-query";
+import { usePantallaPequena } from "@/hooks/usePantallaPequena";
 
 export const FormLogin = ({ canResetPassword }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 900px)");
+    const isSmallScreen = usePantallaPequena();
 
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
@@ -72,7 +72,7 @@ export const FormLogin = ({ canResetPassword }) => {
                         checked={data.remember}
                         onChange={(e) => setData("remember", e.target.checked)}
                     />
-                    <span className="ml-2 text-sm text-gray-500 dark:text-gray-700">
+                    <span className="ml-2 text-sm text-rotulo">
                         Recordar contraseña
                     </span>
                 </label>
@@ -81,14 +81,14 @@ export const FormLogin = ({ canResetPassword }) => {
             <div className="flex items-center justify-between mt-4 p-2 gap-5">
                 <Link
                     href={route("password.request")}
-                    className="underline text-sm text-gray-500 dark:text-gray-700 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                    className="underline text-sm text-rotulo hover:text-lcd rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                 >
                     ¿Olvidaste el password?
                 </Link>
 
                 <Link
                     href={route("register")}
-                    className="underline text-sm text-gray-500 dark:text-gray-700 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                    className="underline text-sm text-rotulo hover:text-lcd rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                 >
                     Crear cuenta
                 </Link>

@@ -10,9 +10,14 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
+     * La app se sirve detrás del edge de Vercel: sin confiar en él,
+     * $request->ip() devuelve la IP del edge para todas las peticiones, lo
+     * que agrupa a todos los usuarios bajo la misma clave de rate limiting
+     * (login, registro, recuperación de contraseña) y corrompe users.ip.
+     *
      * @var array<int, string>|string|null
      */
-    protected $proxies;
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.

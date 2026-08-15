@@ -45,30 +45,38 @@ export const IconosListaContactos = () => {
             <article className="w-3/4 m-auto">
                 <header className="text-center bg-gray-900 rounded-tr-lg rounded-tl-lg">
                     <h2 className="font-bold text-xl p-2">
-                        Iconos en los contactos
+                        Glifos en los contactos
                     </h2>
                 </header>
                 <main>
                     <ol className="text-gray-200 bg-gray-700 p-4 rounded-bl-lg rounded-br-lg">
                         <li className="flex flex-row items-center justify-start gap-4 w-full m-auto mb-2">
-                            <i className="h-[10px] w-[10px] rounded-full border-[1px] border-yellow-500 bg-yellow-500 shadow-[yellow] drop-shadow-circle"></i>
-                            <p>Contacto Comprobado</p>
+                            <span className="glifo" data-encendido="true">
+                                OK
+                            </span>
+                            <p>Contacto comprobado</p>
                         </li>
 
                         <li className="flex flex-row items-center justify-start gap-4 w-full m-auto mb-2">
-                            <i className="h-[10px] w-[10px] rounded-full border-[1px] border-yellow-500"></i>
-                            <p>Contacto No Comprobado</p>
+                            <span className="glifo" data-encendido="false">
+                                OK
+                            </span>
+                            <p>Contacto no comprobado</p>
                         </li>
 
                         <li className="flex flex-row items-center justify-start gap-4 w-full m-auto mb-2">
-                            <i className="fa-solid fa-tower-cell scale-150"></i>
+                            <span className="glifo" data-encendido="true">
+                                DUP
+                            </span>
                             <p>
                                 Indica que el contacto tiene configurado un
                                 repetidor
                             </p>
                         </li>
                         <li className="flex flex-row items-center justify-start gap-4 w-full m-auto mb-2">
-                            <i className="fa-solid fa-location-dot scale-150"></i>
+                            <span className="glifo" data-encendido="true">
+                                GPS
+                            </span>
                             <p>
                                 Coordenadas GPS configuradas. Se puede abrir un
                                 mapa
@@ -76,19 +84,23 @@ export const IconosListaContactos = () => {
                         </li>
 
                         <li className="flex flex-row items-center justify-start gap-4 w-full m-auto mb-2">
-                            <i className="fa-solid fa-lock scale-150"></i>
+                            <span className="glifo" data-encendido="true">
+                                PRI
+                            </span>
                             <p>Contacto privado. No se comparte</p>
                         </li>
 
                         <li className="flex flex-row items-center justify-start gap-4 w-full m-auto mb-2">
-                            <i className="text-red-500 fa-solid fa-heart"></i>
+                            <span className="glifo" data-encendido="true">
+                                FAV
+                            </span>
                             <p>Contacto favorito</p>
                         </li>
 
                         <li className="flex flex-row items-center justify-start gap-4 w-full m-auto mb-2">
-                            <div className="w-[40px] h-[25px] flex bg-black text-white rounded-tr-[5px] rounded-bl-[5px] font-bold text-[10px] items-center justify-center text-center border-[1px] border-white">
+                            <span className="glifo" data-encendido="true">
                                 WFM
-                            </div>
+                            </span>
                             <p>Modo de transmisión</p>
                         </li>
                     </ol>

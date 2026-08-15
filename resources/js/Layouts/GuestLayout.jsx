@@ -4,8 +4,14 @@ export default function Guest({ children }) {
     return (
         <>
             {/* <Minipaypal /> */}
-            <div className="max-h-screen max-w-screen flex flex-col sm:justify-center items-center sm:pt-0 bg-colorbg">
-                <div>
+            {/* Centrado que antes hacía div#app en Radio.css (global, contaminaba
+                cualquier página con id="app"); ahora vive en el layout que
+                realmente lo necesita. bg-login: imagen declarada en
+                tailwind.config.js desde el principio, nunca usada. */}
+            <div className="relative w-screen min-h-screen grid place-content-center text-center bg-chasis bg-login bg-cover bg-center">
+                <div className="absolute inset-0 bg-black/70" aria-hidden="true" />
+
+                <div className="relative">
                     <Link href="/" className="max-[1280px]:hidden block">
                         {/* <img
                         src="/img/logo.webp"
@@ -15,7 +21,7 @@ export default function Guest({ children }) {
                     </Link>
                 </div>
 
-                {children}
+                <div className="relative">{children}</div>
             </div>
         </>
     );

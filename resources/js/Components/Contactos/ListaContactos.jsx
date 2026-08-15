@@ -1,16 +1,25 @@
 import { Contacto } from "./Contacto";
 import { Mobile } from "./Form/Headers/Mobile";
 import { AppContext } from "../AppProvider";
-import { useContext } from "react";
+import { memo, useContext } from "react";
 
-export const ListaContactos = ({ contactos, setDatos, setVista }) => {
-    const { isSmallScreen } = useContext(AppContext);
+export const ListaContactos = memo(function ListaContactos({
+    contactos,
+    setDatos,
+    setVista,
+}) {
+    const { isSmallScreen, contactoActivo } = useContext(AppContext);
     return (
         <>
             <div className="h-full w-full flex flex-col items-center">
                 { contactos && contactos.length > 0 ? (
                     contactos.map((c) => (
-                        <Contacto key={c.id} datos={c} setDatos={setDatos} />
+                        <Contacto
+                            key={c.id}
+                            datos={c}
+                            setDatos={setDatos}
+                            activo={contactoActivo?.id === c.id}
+                        />
                     ))
                 ) : (
                     <div className="h-full w-full flex flex-col">
@@ -23,4 +32,4 @@ export const ListaContactos = ({ contactos, setDatos, setVista }) => {
             </div>
         </>
     );
-};
+});

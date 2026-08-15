@@ -3,11 +3,13 @@ import { router } from "@inertiajs/react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useForm } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
-import { crearPusher } from "../../../Helpers/realtime";
+import { suscribirPrivado } from "../../../Helpers/realtime";
+import { AppContext } from "../../AppProvider";
 
 export const useComentarios = ({ datos }) => {
+    const { pulsarLed } = useContext(AppContext);
     const MySwal = withReactContent(Swal);
     const [comentarios, setComentarios] = useState([]);
 
@@ -119,6 +121,7 @@ export const useComentarios = ({ datos }) => {
             onSuccess: () => {
                 reset();
                 updateComentarios();
+                pulsarLed("tx");
                 editar && mensaje("Comentario editado", tipo.ok);
             },
             onError: (errors) => {
@@ -194,18 +197,38 @@ export const useComentarios = ({ datos }) => {
     /**
      * Sistema para mensajería en tiempo real
      */
+    const timeoutRefetch = useRef(null);
+
+    const manejarNuevoComentario = useCallback(() => {
+        pulsarLed("msg");
+        // Debounce: con varios usuarios viendo la misma frecuencia, cada
+        // comentario dispararía un refetch completo por usuario conectado.
+        clearTimeout(timeoutRefetch.current);
+        timeoutRefetch.current = setTimeout(updateComentarios, 400);
+    }, [datos.frecuencia_id, datos.localizacion_id, pulsarLed]);
+
     useEffect(() => {
-        const pusher = crearPusher();
         const nombreCanal = `canal-${datos.frecuencia_id}-${datos.localizacion_id}-comentarios`;
-        const channel = pusher.subscribe(nombreCanal);
-        channel.bind("NuevoComentario", function (data) {
-            updateComentarios();
-        });
+
+        const bajaNuevo = suscribirPrivado(
+            nombreCanal,
+            "NuevoComentario",
+            manejarNuevoComentario
+        );
+        // Evento propio para los borrados (ver ComentarioController::eliminar):
+        // antes se reutilizaba NuevoComentario y se emitía antes del delete.
+        const bajaEliminado = suscribirPrivado(
+            nombreCanal,
+            "ComentarioEliminado",
+            manejarNuevoComentario
+        );
+
         return () => {
-            channel.unbind();
-            pusher.unsubscribe(nombreCanal);
+            clearTimeout(timeoutRefetch.current);
+            bajaNuevo();
+            bajaEliminado();
         };
-    }, [datos.frecuencia_id, datos.localizacion_id]);
+    }, [datos.frecuencia_id, datos.localizacion_id, manejarNuevoComentario]);
 
     useEffect(() => {
         setData({

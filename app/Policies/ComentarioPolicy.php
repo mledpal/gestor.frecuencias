@@ -16,10 +16,10 @@ class ComentarioPolicy
     }
 
     /**
-     * Sólo un administrador puede eliminar comentarios.
+     * El propietario o un administrador puede eliminar el comentario.
      */
     public function delete(User $user, Comentario $comentario): bool
     {
-        return $user->isAdmin;
+        return $comentario->user_id === $user->id || $user->isAdmin;
     }
 }

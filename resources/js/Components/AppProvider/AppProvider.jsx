@@ -1,9 +1,10 @@
 import { AppContext } from "./AppContext";
-import { useEffect, useState } from "react";
-import { useMediaQuery } from "@react-hook/media-query";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { usePantallaPequena } from "@/hooks/usePantallaPequena";
+import { getContactos } from "@/Helpers/getContactos";
 
 export const AppProvider = ({ children }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 1000px)");
+    const isSmallScreen = usePantallaPequena();
     const [modoOscuro, setModoOscuro] = useState(false);
     const [contactos, setContactos] = useState(null);
     const [busqueda, setBusqueda] = useState(null);
@@ -12,6 +13,25 @@ export const AppProvider = ({ children }) => {
     const [userDB, setUserDB] = useState(null);
     const [vista, setVista] = useState("main");
     const [title, setTitle] = useState(null);
+    const [contactoActivo, setContactoActivo] = useState(null);
+
+    // LEDs de la cabecera (TX al enviar, MSG al recibir): estado transitorio
+    // que se apaga solo tras un pulso breve.
+    const [ledsActivos, setLedsActivos] = useState({ tx: false, msg: false });
+    const timeoutsLed = useRef({});
+
+    const pulsarLed = useCallback((led, duracionMs = 400) => {
+        setLedsActivos((prev) => ({ ...prev, [led]: true }));
+        clearTimeout(timeoutsLed.current[led]);
+        timeoutsLed.current[led] = setTimeout(() => {
+            setLedsActivos((prev) => ({ ...prev, [led]: false }));
+        }, duracionMs);
+    }, []);
+
+    useEffect(
+        () => () => Object.values(timeoutsLed.current).forEach(clearTimeout),
+        []
+    );
 
     useEffect(() => {
         userDB &&
@@ -19,6 +39,19 @@ export const AppProvider = ({ children }) => {
                 (userDB.roles ?? []).some((rol) => rol.nombre === "admin")
             );
     }, [userDB]);
+
+    // Carga única de los contactos del usuario: useFilters() se instancia a
+    // la vez en varios componentes (Vistas.jsx y la página activa), y cada
+    // instancia disparaba su propia petición en el montaje.
+    useEffect(() => {
+        let activo = true;
+        getContactos().then((datos) => {
+            if (activo && datos) setContactos(datos);
+        });
+        return () => {
+            activo = false;
+        };
+    }, []);
 
     return (
         <AppContext.Provider
@@ -40,6 +73,10 @@ export const AppProvider = ({ children }) => {
                 setTitle,
                 isAdmin,
                 setIsAdmin,
+                contactoActivo,
+                setContactoActivo,
+                ledsActivos,
+                pulsarLed,
             }}
         >
             {children}

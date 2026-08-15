@@ -77,9 +77,7 @@ class UserController extends Controller
                 $usuarios->where('indicativo', 'like', '%'.$request->indicativo.'%');
             }
 
-            $respuesta = json_encode($usuarios->get()->toArray());
-
-            return $respuesta;
+            return response()->json($usuarios->get()->toArray());
         } else {
             return route('login');
         }
@@ -119,19 +117,20 @@ class UserController extends Controller
      */
     public function swapAdmin($id)
     {
-        if (Auth::check()) {
-            $usuario = User::with('roles')->findOrFail($id);
-            $adminUser = Auth::user();
+        abort_unless(Auth::user()?->isAdmin, 403);
 
-            if ($adminUser->isAdmin) {
-                if ($usuario->isAdmin) {
-                    $usuario->roles()->sync([4]);
-                } else {
-                    $usuario->roles()->sync([2, 4]);
-                }
-            }
-        } else {
-            return redirect('/login');
-        }
+        // El usuario con id 1 es el usuario root y no se le puede quitar el rol.
+        abort_if((int) $id === 1, 422, 'No se puede modificar el usuario root.');
+
+        $usuario = User::with('roles')->findOrFail($id);
+
+        $roles = $usuario->roles->pluck('id')->all();
+        $roles = $usuario->isAdmin
+            ? array_diff($roles, [2])
+            : array_merge($roles, [2]);
+
+        $usuario->roles()->sync(array_values(array_unique($roles)));
+
+        return response()->json(['mensaje' => 'Rol actualizado correctamente']);
     }
 }

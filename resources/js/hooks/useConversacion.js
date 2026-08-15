@@ -1,14 +1,17 @@
 import { useForm } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 import Swal from "sweetalert2";
-import { crearPusher } from "../Helpers/realtime";
+import { suscribirPrivado } from "../Helpers/realtime";
+import { AppContext } from "@/Components/AppProvider";
 
 export const useConversacion = (userID, userDB) => {
+    const { pulsarLed } = useContext(AppContext);
     const clasesLabel = "text-center mb-2 text-black select-none";
     const [csrf, setCSRF] = useState(null);
     const [userData, setUserData] = useState(null);
     const [conversacion, setConversacion] = useState([]);
+    const userDataRef = useRef(userData);
 
     const { data, setData, post, errors, reset } = useForm({
         mensaje: "",
@@ -46,7 +49,10 @@ export const useConversacion = (userID, userDB) => {
     async function getData(userID) {
         const datos = await getUserInfo(userID);
         const texto = await getConversacion(userID);
-        datos && setUserData(datos);
+        if (datos) {
+            setUserData(datos);
+            userDataRef.current = datos;
+        }
         texto && setConversacion(texto);
         document.getElementById("conversacion").scrollTo(0, 0);
     }
@@ -63,46 +69,50 @@ export const useConversacion = (userID, userDB) => {
         }, 200);
     }, []);
 
-    useEffect(() => {
-        const pusher = crearPusher();
+    const manejarNuevoMensaje = useCallback(
+        (payload) => {
+            if (payload.mensaje.remitente_id == userDB.id) return;
 
+            const datosInterlocutor = userDataRef.current;
+
+            const nuevoMensaje = {
+                created_at: new Date().toISOString(),
+                remitente_id: payload.mensaje.remitente_id,
+                remitente: {
+                    id: payload.mensaje.destinatario_id,
+                    username: datosInterlocutor?.username,
+                    photo: datosInterlocutor?.photo ?? "",
+                    indicativo: datosInterlocutor?.indicativo ?? "",
+                },
+                id: payload.mensaje.id,
+                destinatario_id: payload.mensaje.destinatario_id,
+                mensaje: payload.mensaje.mensaje,
+                destinatario: {
+                    id: userDB.id,
+                    username: userDB.username,
+                    photo: userDB.photo ?? "",
+                    indicativo: userDB?.indicativo ?? "",
+                },
+                updated_at: new Date().toISOString(),
+            };
+
+            // setState funcional para usar siempre la conversación actual.
+            setConversacion((prev) => [nuevoMensaje, ...prev]);
+            pulsarLed("msg");
+        },
+        [userDB.id, userDB.username, userDB.photo, userDB.indicativo, pulsarLed]
+    );
+
+    useEffect(() => {
         const ids = [data.destinatario_id, userDB.id].sort((a, b) => a - b);
         const nombreCanal = `canal-${ids[0]}-${ids[1]}-mensajes`;
-        const ch2 = pusher.subscribe(nombreCanal);
 
-        ch2.bind("NuevoMensaje", function (data) {
-            if (data.mensaje.remitente_id != userDB.id) {
-                const nuevoMensaje = {
-                    created_at: new Date().toISOString(),
-                    remitente_id: data.mensaje.remitente_id,
-                    remitente: {
-                        id: data.mensaje.destinatario_id,
-                        username: userData?.username,
-                        photo: userData?.photo ?? "",
-                        indicativo: userData?.indicativo ?? "",
-                    },
-                    id: data.mensaje.id,
-                    destinatario_id: data.mensaje.destinatario_id,
-                    mensaje: data.mensaje.mensaje,
-                    destinatario: {
-                        id: userDB.id,
-                        username: userDB.username,
-                        photo: userDB.photo ?? "",
-                        indicativo: userDB?.indicativo ?? "",
-                    },
-                    updated_at: new Date().toISOString(),
-                };
-
-                // setState funcional para usar siempre la conversación actual.
-                setConversacion((prev) => [nuevoMensaje, ...prev]);
-            }
-        });
-
-        return () => {
-            ch2.unbind();
-            pusher.unsubscribe(nombreCanal);
-        };
-    }, [data.destinatario_id, userDB.id, userData]);
+        return suscribirPrivado(
+            nombreCanal,
+            "NuevoMensaje",
+            manejarNuevoMensaje
+        );
+    }, [data.destinatario_id, userDB.id, manejarNuevoMensaje]);
 
     useEffect(() => {
         setData({
@@ -141,6 +151,7 @@ export const useConversacion = (userID, userDB) => {
 
         let nuevaConversacion = [nuevoMensaje, ...conversacion];
         setConversacion(nuevaConversacion);
+        pulsarLed("tx");
 
         post(route("enviar_mensaje"), {
             onError: (errors) => {

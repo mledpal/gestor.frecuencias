@@ -3,9 +3,11 @@ import { CommonMenu, UserMenu } from ".";
 import { AdminMenu } from "./AdminMenu";
 import { MenuAyuda } from "./MenuAyuda";
 import { AppContext } from "../AppProvider";
+import { useTeclaFisica } from "@/hooks/useTeclaFisica";
 
 export const BurgerMenu = () => {
     const { isAdmin, setVista } = useContext(AppContext);
+    const tecla = useTeclaFisica();
 
     const [visible, setVisible] = useState(false);
     const contenedorRef = useRef(null);
@@ -31,12 +33,16 @@ export const BurgerMenu = () => {
 
     return (
         <div className="relative select-none" ref={contenedorRef}>
-            <i
-                className={`fa-solid fa-bars fa-2xl cursor-pointer duration-150 ease-linear ${
-                    visible ? "text-black" : ""
+            <button
+                type="button"
+                className={`tecla w-10 h-10 rounded-md flex items-center justify-center text-rotulo duration-150 ease-linear ${
+                    visible ? "text-lcd" : ""
                 }`}
                 onClick={() => setVisible((prev) => !prev)}
-            ></i>
+                {...tecla}
+            >
+                <i className="fa-solid fa-bars"></i>
+            </button>
 
             {visible && (
                 <ul className="mt-1 right-0 absolute w-[250px] rounded-lg p-5 z-50 text-sm bg-blue-800 flex flex-col drop-shadow-lg">

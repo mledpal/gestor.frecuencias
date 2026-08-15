@@ -144,4 +144,44 @@ class AutorizacionTest extends TestCase
 
         $this->assertDatabaseMissing('tipo_contacto', ['id' => $tipo->id]);
     }
+
+    public function test_usuario_no_admin_no_puede_cambiar_el_rol_de_otro(): void
+    {
+        $user = $this->crearUsuario();
+        $victima = $this->crearUsuario();
+
+        $this->actingAs($user)
+            ->post(route('usuario_swap_admin', ['id' => $victima->id]))
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('users_roles', ['user_id' => $victima->id, 'rol_id' => 4]);
+    }
+
+    public function test_no_se_puede_modificar_el_rol_del_usuario_con_id_1(): void
+    {
+        // El guard comprueba el id directamente antes de tocar la base de
+        // datos: no hace falta que exista un usuario con id 1 para probarlo.
+        $admin = $this->crearUsuario([2, 4]);
+
+        $this->actingAs($admin)
+            ->post(route('usuario_swap_admin', ['id' => 1]))
+            ->assertStatus(422);
+    }
+
+    public function test_admin_puede_ascender_y_degradar_a_otro_usuario(): void
+    {
+        $admin = $this->crearUsuario([2, 4]);
+        $usuario = $this->crearUsuario();
+
+        $this->actingAs($admin)
+            ->post(route('usuario_swap_admin', ['id' => $usuario->id]))
+            ->assertOk();
+        $this->assertDatabaseHas('users_roles', ['user_id' => $usuario->id, 'rol_id' => 2]);
+
+        $this->actingAs($admin)
+            ->post(route('usuario_swap_admin', ['id' => $usuario->id]))
+            ->assertOk();
+        $this->assertDatabaseMissing('users_roles', ['user_id' => $usuario->id, 'rol_id' => 2]);
+        $this->assertDatabaseHas('users_roles', ['user_id' => $usuario->id, 'rol_id' => 4]);
+    }
 }

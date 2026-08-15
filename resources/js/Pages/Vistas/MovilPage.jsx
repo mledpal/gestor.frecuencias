@@ -1,11 +1,13 @@
+import { AppContext } from "@/Components/AppProvider";
 import { EditarContacto } from "@/Components/Contactos/Form/EditarContacto";
 import { ListaContactos } from "@/Components/Contactos/ListaContactos";
 import { useFilters } from "@/hooks/useFilters";
-import { useState } from "react";
+import { useContext } from "react";
 import { RotatingLines } from "react-loader-spinner";
 
 export const MovilPage = ({ selects, isAdmin, busqueda, userDB, setVista }) => {
-    const [datos, setDatos] = useState(null);
+    const { contactoActivo: datos, setContactoActivo: setDatos } =
+        useContext(AppContext);
 
     const { contactosFiltrados, eraseContact, updateContact, isLoading } =
         useFilters(busqueda);

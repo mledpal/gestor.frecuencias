@@ -1,4 +1,5 @@
 import { Dialog } from "@material-tailwind/react";
+import { Link } from "@inertiajs/react";
 import { useState } from "react";
 import { About } from "../About/About";
 import { Ayuda } from "../Ayuda/Ayuda";
@@ -30,12 +31,17 @@ export const MenuAyuda = () => {
 
             <hr className="my-2" />
 
-            <a href={route("index.logout")}>
+            <Link
+                href={route("logout")}
+                method="post"
+                as="button"
+                className="w-full"
+            >
                 <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm ">
                     <i className="fa-solid fa-right-from-bracket"></i>
                     Desconectar
                 </li>
-            </a>
+            </Link>
 
             <Dialog
                 open={

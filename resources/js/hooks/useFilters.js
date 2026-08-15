@@ -1,13 +1,11 @@
 import { AppContext } from "@/Components/AppProvider";
 import { getContactos } from "@/Helpers/getContactos";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 export const useFilters = () => {
     const { contactos, setContactos, busqueda, setBusqueda } =
         useContext(AppContext);
 
-    // const [contactos, setContactos] = useState(null);
-    const [contactosFiltrados, setFiltrados] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
     const [filtros, setFiltros] = useState({
@@ -67,37 +65,10 @@ export const useFilters = () => {
     };
 
     useEffect(() => {
-        let activo = true;
-        getContactos().then((datos) => {
-            if (activo && datos) setContactos(datos);
-        });
-        return () => {
-            activo = false;
-        };
-    }, []);
-
-    useEffect(() => {
         if (busqueda) {
             setContactos(busqueda);
         }
     }, [busqueda]);
-
-    useEffect(() => {
-        if (busqueda) {
-            contactos && setFiltrados(filtrarContactos(busqueda));
-        } else if (contactos) {
-            contactos && setFiltrados(filtrarContactos(contactos));
-        }
-    }, [contactos, filtros]);
-
-    const busquedaReset = () => {
-        setBusqueda(null);
-        updateContact();
-    };
-
-    const handleFilterVisible = () => {
-        setVisible((prevVisible) => !prevVisible);
-    };
 
     const filtrarContactos = (contactos) => {
         return (
@@ -118,6 +89,25 @@ export const useFilters = () => {
                 );
             })
         );
+    };
+
+    // Derivado en vez de sincronizado a mano con useEffect+useState: evita un
+    // render extra en cada cambio de filtro y una fuente de desincronización
+    // (el efecto anterior no dependía de `busqueda`, solo de `contactos` y
+    // `filtros`, así que al cambiar la búsqueda el resultado quedaba un tick
+    // desactualizado hasta que el otro efecto sincronizaba `contactos`).
+    const contactosFiltrados = useMemo(
+        () => filtrarContactos(busqueda ?? contactos) ?? [],
+        [contactos, busqueda, filtros]
+    );
+
+    const busquedaReset = () => {
+        setBusqueda(null);
+        updateContact();
+    };
+
+    const handleFilterVisible = () => {
+        setVisible((prevVisible) => !prevVisible);
     };
 
     const handlerCheckUncheck = () => {

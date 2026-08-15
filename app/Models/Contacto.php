@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +10,8 @@ class Contacto extends Model
 {
     use HasFactory;
 
-    protected $table = "contacto";
+    protected $table = 'contacto';
+
     protected $fillable = ['nombre', 'comprobado', 'fecha', 'hora', 'localizacion_id', 'frecuencia_id', 'user_id', 'observaciones', 'tipo_id', 'privado', 'calidad', 'repetidor_id', 'banda_id', 'modo_id', 'codificacion_id', 'dcs_id', 'ctcss_id', 'favorito'];
 
     /**
@@ -70,7 +70,6 @@ class Contacto extends Model
         return $this->belongsTo(ModoTransmision::class);
     }
 
-
     /**
      * Relación de una Codificación y su tipo
      */
@@ -101,7 +100,7 @@ class Contacto extends Model
     public function getHoraAttribute()
     {
         if ($this->attributes['hora'] != null) {
-            return date('H:m', strtotime($this->attributes['hora']));
+            return date('H:i', strtotime($this->attributes['hora']));
         } else {
             return null;
         }

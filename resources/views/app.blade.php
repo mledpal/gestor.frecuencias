@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta id ="meta_token" content="{{ csrf_token() }}" />
+    <meta id="meta_token" name="csrf-token" content="{{ csrf_token() }}" />
 
     <link rel="icon" type="image/x-icon" href="/img/logo.webp">
     <title inertia>{{ config('app.name', 'Gestor de Frecuencias') }}</title>

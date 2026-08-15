@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Dialog } from "@material-tailwind/react";
 
 import { useState } from "react";
 
+import { AppContext } from "@/Components/AppProvider";
 import { CuadroFiltros } from "@/Components/Contactos/CuadroFiltros";
 import { EditarContacto } from "@/Components/Contactos/Form/EditarContacto";
 import { ListaContactos } from "@/Components/Contactos/ListaContactos";
@@ -20,7 +21,8 @@ import { RotatingLines } from "react-loader-spinner";
 import { Ayuda } from "@/Components/Ayuda/Ayuda";
 
 export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
-    const [datos, setDatos] = useState(null);
+    const { contactoActivo: datos, setContactoActivo: setDatos } =
+        useContext(AppContext);
 
     const {
         contactosFiltrados,
@@ -64,7 +66,7 @@ export const MainPage = ({ selects, isAdmin, busqueda, userDB }) => {
             <div className="flex flex-row h-full w-full items-center justify-start">
                 <div
                     id="contactos"
-                    className="h-full py-2 bg-slate-900 w-2/12 flex flex-col items-center justify-center overflow-y-scroll overflow-x-hidden grow-0 "
+                    className="h-full py-2 bg-panel border-r border-escborde w-2/12 flex flex-col items-center justify-center overflow-y-scroll overflow-x-hidden grow-0 "
                 >
                     <div
                         name="botones_contactos"

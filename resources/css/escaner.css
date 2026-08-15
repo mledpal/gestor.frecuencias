@@ -1,0 +1,123 @@
+/**
+ * Piezas reutilizables del tema "escáner" (display LCD, teclas físicas,
+ * LEDs de estado, glifos de indicador) y sus animaciones. Se apoyan en los
+ * tokens --esc-* definidos en app.css. Antes de este archivo el proyecto no
+ * tenía ningún @layer components ni @keyframes: todo el relieve vivía
+ * duplicado dentro de Radio.css/walkie.css.
+ */
+
+@layer components {
+    .lcd {
+        position: relative;
+        background: var(--esc-lcd-fondo);
+        color: var(--esc-lcd-on);
+        box-shadow: var(--esc-hundido), var(--esc-lcd-glow);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    /* Rejilla de matriz de puntos: lo que más vende un LCD real. */
+    .lcd::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 1px,
+            rgba(0, 0, 0, .35) 1px,
+            rgba(0, 0, 0, .35) 2px
+        );
+    }
+
+    .glifo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: theme("fontFamily.lcd");
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        padding: 2px 5px;
+        border: 1px solid currentColor;
+        border-radius: 2px;
+        color: var(--esc-lcd-off);
+        line-height: 1.4;
+    }
+
+    .glifo[data-encendido="true"] {
+        color: var(--esc-lcd-on);
+        text-shadow: 0 0 4px currentColor;
+    }
+
+    .led {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #222;
+        box-shadow: inset 0 0 2px #000;
+        flex-shrink: 0;
+    }
+
+    .led[data-encendido="true"] {
+        background: var(--color-led, currentColor);
+        box-shadow: 0 0 6px var(--color-led, currentColor);
+    }
+
+    .tecla {
+        box-shadow: var(--esc-tecla);
+        background: linear-gradient(180deg, var(--esc-panel), var(--esc-chasis-bajo));
+        cursor: pointer;
+    }
+
+    .tecla.clicked {
+        box-shadow: var(--esc-tecla-pulsada);
+        transform: scale(.96);
+    }
+
+    .esc-anim-parpadeo {
+        animation: esc-parpadeo 2s ease-in-out infinite;
+    }
+
+    .esc-anim-escaneo {
+        animation: esc-escaneo 6s linear infinite;
+    }
+}
+
+@keyframes esc-parpadeo {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: .15;
+    }
+}
+
+@keyframes esc-barrido {
+    from {
+        width: 0;
+    }
+    to {
+        width: var(--nivel, 100%);
+    }
+}
+
+@keyframes esc-escaneo {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(400%);
+    }
+}
+
+/* Un scanline o unos LEDs parpadeando de forma permanente son justo el tipo
+   de animación que causa problemas de accesibilidad: se desactivan por
+   completo si el usuario las tiene deshabilitadas a nivel de sistema. */
+@media (prefers-reduced-motion: reduce) {
+    .lcd::after,
+    [class*="esc-anim-"] {
+        animation: none !important;
+    }
+}

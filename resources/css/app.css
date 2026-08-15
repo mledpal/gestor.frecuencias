@@ -1,4 +1,46 @@
-@import "@fortawesome/fontawesome-free/css/all.css";
+/* Piezas reutilizables del tema escáner (LCD, teclas, LEDs, glifos) y sus
+   animaciones. @import debe ir antes que el resto de reglas. */
+@import "./escaner.css";
+
+/* Solo los subconjuntos que la app usa (fa-solid y fa-regular): all.css
+   cargaba también las webfonts de fa-brands, sin ningún icono de marca
+   en el proyecto. */
+@import "@fortawesome/fontawesome-free/css/fontawesome.css";
+@import "@fortawesome/fontawesome-free/css/solid.css";
+@import "@fortawesome/fontawesome-free/css/regular.css";
+
+/* Tipografía "display" de escáner (7 segmentos). Un único @font-face por
+   variante con ruta absoluta: antes estaba duplicado en Radio.css y
+   walkie.css con una ruta relativa de 4 niveles frágil ante cualquier
+   reorganización de carpetas. */
+@font-face {
+    font-family: "ds-digit";
+    src: url("/assets/fonts/DS-DIGI.TTF");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ds-digit";
+    src: url("/assets/fonts/DS-DIGIB.TTF");
+    font-weight: 700;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ds-digit";
+    src: url("/assets/fonts/DS-DIGIT.TTF");
+    font-weight: 200;
+    font-display: swap;
+}
+
+/* tailwind.config.js declara font-ethno pero no existía ningún @font-face:
+   los ficheros están en public/fonts/ desde el principio, sin usar. */
+@font-face {
+    font-family: "Ethnocentric";
+    src:
+        url("/fonts/ethnocentric.woff") format("woff"),
+        url("/fonts/ethnocentric.otf") format("opentype");
+    font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -22,6 +64,28 @@
     --color-accent-200: #009000;
     --color-text-200: #e0e0e0;
 
+    /* Tema escáner: chasis antracita + display ámbar. Capa de tokens nueva
+       que convive con los --color-* de arriba mientras se va aplicando al
+       resto de la interfaz (cabecera, lista de contactos, controles). */
+    --esc-chasis-alto: #14161a;
+    --esc-chasis-bajo: #0a0b0d;
+    --esc-panel: #1b1f24;
+    --esc-borde: #2a2f36;
+    --esc-rotulo: #7f8db5;
+    --esc-radio: 25px;
+
+    --esc-lcd-fondo: #1a1405;
+    --esc-lcd-on: #ffb000;
+    --esc-lcd-off: #3a2c08;
+    --esc-lcd-glow: 0 0 12px rgba(255, 176, 0, .35);
+
+    --esc-led-rx: #39ff14;
+    --esc-led-tx: #ff3131;
+    --esc-led-msg: #ffb000;
+
+    --esc-tecla: inset -2px 2px 5px rgba(238, 238, 238, .33), inset 2px -2px 6px rgba(0, 0, 0, .8);
+    --esc-tecla-pulsada: inset 2px -2px 6px rgba(238, 238, 238, .15), inset -2px 2px 8px rgba(0, 0, 0, .9);
+    --esc-hundido: inset 0 0 15px #000;
 
     margin: 0;
     padding: 0;
@@ -61,18 +125,20 @@ input[type="password"]::-ms-reveal {
     padding:5px;
 }
 
-/* Estilos para modo claro */
+/* Un escáner no tiene "modo claro": el chasis se mantiene antracita en
+   ambos esquemas. Antes ambas queries ponían el mismo azul y no hacían
+   nada; se dejan explícitas para no perder el gancho si en el futuro se
+   quiere diferenciar. */
 @media (prefers-color-scheme: light) {
     body {
-        background-color: #5a8bf4;
-        color: white;
+        background-color: var(--esc-chasis-alto);
+        color: var(--color-text);
     }
 }
 
-/* Estilos para modo oscuro */
 @media (prefers-color-scheme: dark) {
     body {
-        background-color: #5a8bf4;
-        color: white;
+        background-color: var(--esc-chasis-bajo);
+        color: var(--color-text);
     }
 }

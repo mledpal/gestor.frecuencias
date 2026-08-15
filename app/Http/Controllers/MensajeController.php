@@ -27,9 +27,10 @@ class MensajeController extends Controller
                         ->where('destinatario_id', $userId);
                 })
                 ->orderBy('created_at', 'desc')
+                ->limit(100)
                 ->get();
 
-            return json_encode($conversacion);
+            return response()->json($conversacion);
         } else {
             return route('/login');
         }
@@ -66,55 +67,50 @@ class MensajeController extends Controller
         if (Auth::check()) {
             $userId = Auth::id();
 
-            // Obtener conversaciones del usuario
-            $conversaciones = Mensaje::select('remitente_id', 'destinatario_id')
+            // Un único mensaje (el más reciente) por cada par de
+            // interlocutores, calculado en BD en vez de traer todos los
+            // mensajes del usuario a PHP y recorrerlos por cada conversación.
+            $ultimosIds = Mensaje::selectRaw('MAX(id) as id')
                 ->where('remitente_id', $userId)
                 ->orWhere('destinatario_id', $userId)
-                ->groupBy('remitente_id', 'destinatario_id')
-                ->get();
+                ->groupByRaw('LEAST(remitente_id, destinatario_id), GREATEST(remitente_id, destinatario_id)')
+                ->pluck('id');
 
-            // Obtener IDs de otros usuarios en las conversaciones
-            $otherUserIds = $conversaciones->flatMap(function ($conversacion) {
-                return [$conversacion->remitente_id, $conversacion->destinatario_id];
-            })->reject(function ($otherUserId) use ($userId) {
-                return $otherUserId == $userId;
-            })->unique();
-
-            // Una sola consulta con todos los mensajes del usuario (evita N+1).
-            $mensajes = Mensaje::where('remitente_id', $userId)
-                ->orWhere('destinatario_id', $userId)
-                ->orderBy('created_at', 'desc')
+            $ultimosMensajes = Mensaje::whereIn('id', $ultimosIds)
                 ->get(['remitente_id', 'destinatario_id', 'mensaje', 'created_at']);
 
-            // Obtener detalles de los otros usuarios con el último mensaje
-            $otherUsers = User::with('roles')->whereIn('id', $otherUserIds)->get(['id', 'photo', 'username', 'indicativo'])->map(function ($user) use ($mensajes, $userId) {
-                $lastMessage = $mensajes->first(function ($mensaje) use ($user, $userId) {
-                    return ($mensaje->remitente_id == $user->id && $mensaje->destinatario_id == $userId)
-                        || ($mensaje->remitente_id == $userId && $mensaje->destinatario_id == $user->id);
-                });
-
-                if ($lastMessage) {
-                    $created_at = $lastMessage->created_at;
-
-                    if ($created_at->isToday()) {
-                        $lastMessageTime = $created_at->format('H:i:s');
-                    } elseif ($created_at->isYesterday()) {
-                        $lastMessageTime = 'Ayer';
-                    } else {
-                        $lastMessageTime = $created_at->format('d/m/y');
-                    }
-
-                    $user->last_message = $lastMessage->mensaje;
-                    $user->last_message_time = $lastMessageTime;
-                } else {
-                    $user->last_message = null;
-                    $user->last_message_time = null;
-                }
-
-                return $user;
+            $mensajePorInterlocutor = $ultimosMensajes->keyBy(function ($mensaje) use ($userId) {
+                return $mensaje->remitente_id == $userId ? $mensaje->destinatario_id : $mensaje->remitente_id;
             });
 
-            return json_encode($otherUsers);
+            $otherUsers = User::with('roles')
+                ->whereIn('id', $mensajePorInterlocutor->keys())
+                ->get(['id', 'photo', 'username', 'indicativo'])
+                ->map(function ($user) use ($mensajePorInterlocutor) {
+                    $lastMessage = $mensajePorInterlocutor->get($user->id);
+
+                    if ($lastMessage) {
+                        $created_at = $lastMessage->created_at;
+
+                        if ($created_at->isToday()) {
+                            $lastMessageTime = $created_at->format('H:i:s');
+                        } elseif ($created_at->isYesterday()) {
+                            $lastMessageTime = 'Ayer';
+                        } else {
+                            $lastMessageTime = $created_at->format('d/m/y');
+                        }
+
+                        $user->last_message = $lastMessage->mensaje;
+                        $user->last_message_time = $lastMessageTime;
+                    } else {
+                        $user->last_message = null;
+                        $user->last_message_time = null;
+                    }
+
+                    return $user;
+                });
+
+            return response()->json($otherUsers);
         } else {
             return route('/login');
         }

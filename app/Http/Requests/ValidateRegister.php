@@ -25,7 +25,7 @@ class ValidateRegister extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|max:20|unique:'.User::class,
+            'username' => 'required|string|alpha_dash|max:20|unique:'.User::class,
             'nombre' => 'required|string|max:50',
             'apellidos' => 'required|string|max:150',
             'email' => 'required|string|email|max:255|unique:'.User::class,

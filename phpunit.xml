@@ -27,5 +27,12 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        <!-- Credenciales ficticias: /broadcasting/auth firma localmente con el
+             secret (HMAC), no llega a hacer ninguna llamada de red a Pusher. -->
+        <env name="BROADCAST_DRIVER" value="pusher"/>
+        <env name="PUSHER_APP_KEY" value="test-key"/>
+        <env name="PUSHER_APP_SECRET" value="test-secret"/>
+        <env name="PUSHER_APP_ID" value="test-app-id"/>
+        <env name="PUSHER_APP_CLUSTER" value="eu"/>
     </php>
 </phpunit>

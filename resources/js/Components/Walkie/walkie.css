@@ -1,15 +1,10 @@
-@font-face {
-    font-family: 'ds-digit';
-    src: url('../../../../public/assets/fonts/DS-DIGI.TTF');
-}
-
-  :root {
-    margin:0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'system-ui';
-    --radius: 25px;
-    --key-color: #7f8db5;
+/* La tipografía ds-digit, los tokens --esc-* y el reset de margin/padding/
+   box-sizing ya se cargan globalmente desde app.css/escaner.css; el :root
+   de aquí duplicaba ambas cosas. Solo quedan las variables propias de este
+   componente, aliadas a los tokens compartidos. */
+  #walkie {
+    --radius: var(--esc-radio);
+    --key-color: var(--esc-rotulo);
     --h-wlk: 750px;
     --h-sup: 50px;
     --h-scr: 250px;
@@ -19,7 +14,7 @@
     --color2: #222;
   }
 
-  * {
+  #walkie * {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -107,6 +102,15 @@
     border-top-right-radius: 25px;
     border-top-left-radius: 25px;
     background: red;
+    /* Parpadeo lento de "encendido" en reposo; .pwr_on (al pulsar MENU) lo
+       sustituye por un resplandor fijo más intenso. */
+    animation: esc-parpadeo 2s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #walkie .led_on {
+      animation: none;
+    }
   }
 
   #walkie .rueda {
@@ -151,11 +155,42 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
     width: 100%;
     height: var(--h-scr);
-    background: #b2d8e8;
-    /* filter:drop-shadow(0 0 5px var(--key-color));
-    box-shadow: 0px 0px 10px black inset; */
+    background: radial-gradient(circle at 50% 40%, #241a06 0%, var(--esc-lcd-fondo) 70%);
+    box-shadow: 0px 0px 10px black inset, var(--esc-lcd-glow);
+    overflow: hidden;
+  }
+
+  /* Rejilla de matriz de puntos, igual que en Radio.css. */
+  #walkie div.screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent 0px, transparent 1px,
+      rgba(0, 0, 0, .35) 1px, rgba(0, 0, 0, .35) 2px
+    );
+  }
+
+  #walkie div.screen::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent, rgba(255, 176, 0, .08), transparent);
+    pointer-events: none;
+    animation: esc-escaneo 6s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #walkie div.screen::after {
+      animation: none;
+    }
   }
 
   /* FORMULARIO */
@@ -215,7 +250,7 @@
 
 #walkie input[type="email"]::placeholder,
 #walkie input[type="password"]::placeholder {
-    color:rgba(0,0,0,.5);
+    color: var(--esc-lcd-off);
 }
 
 #walkie input[type="email"],
@@ -337,7 +372,7 @@
     background: linear-gradient(45deg, rgb(3, 3, 77),rgb(5, 5, 136));
   }
 
-  .btn_exit .tecla span {
+  #walkie .btn_exit .tecla span {
     font-size: .9em;
   }
 

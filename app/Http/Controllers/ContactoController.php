@@ -11,6 +11,7 @@ use App\Models\Repetidor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,7 +30,7 @@ class ContactoController extends Controller
 
             $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
 
-            return json_encode($contactos);
+            return response()->json($contactos);
         } else {
             return redirect('/login');
         }
@@ -169,75 +170,81 @@ class ContactoController extends Controller
 
             $this->authorize('update', $contacto);
 
-            $contacto->update([
-                'nombre' => $request->nombre,
-                'privado' => $request->privado ?? false,
-                'comprobado' => $request->comprobado ?? false,
-                'fecha' => $request->fecha,
-                'hora' => $request->hora,
-                'tipo_id' => $request->tipo_id,
-                'observaciones' => $request->observaciones,
-                'frecuencia_id' => $request->frecuencia_id,
-                'calidad' => $request->calidad ?? 0,
-                'banda_id' => $requestAll['banda_id'],
-                'modo_id' => $requestAll['modo_id'],
-                'ctcss_id' => $requestAll['ctcss_id'],
-                'dcs_id' => $requestAll['dcs_id'],
-                'codificacion_id' => $requestAll['codificacion_id'],
-                'favorito' => $request->favorito ?? false,
-            ]);
+            // Todo el update va en una única transacción: antes eran hasta 4
+            // UPDATE independientes sobre la misma fila (más la posible
+            // creación de Localizacion/Repetidor), sin garantía de que el
+            // contacto quedara en un estado consistente si algo fallaba a mitad.
+            DB::transaction(function () use ($request, $requestAll, $contacto) {
+                $contacto->update([
+                    'nombre' => $request->nombre,
+                    'privado' => $request->privado ?? false,
+                    'comprobado' => $request->comprobado ?? false,
+                    'fecha' => $request->fecha,
+                    'hora' => $request->hora,
+                    'tipo_id' => $request->tipo_id,
+                    'observaciones' => $request->observaciones,
+                    'frecuencia_id' => $request->frecuencia_id,
+                    'calidad' => $request->calidad ?? 0,
+                    'banda_id' => $requestAll['banda_id'],
+                    'modo_id' => $requestAll['modo_id'],
+                    'ctcss_id' => $requestAll['ctcss_id'],
+                    'dcs_id' => $requestAll['dcs_id'],
+                    'codificacion_id' => $requestAll['codificacion_id'],
+                    'favorito' => $request->favorito ?? false,
+                ]);
 
-            // REPETIDOR
+                // REPETIDOR
 
-            if (! isset($request->offset)) { // Si los valores de offset son nulos, se pone a null el id del repetidor
-                $contacto->update(['repetidor_id' => null]);
-            } else {
-                $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion)->first();
-                if ($repetidor_bus) {
-                    if ($repetidor_bus->id !== $contacto->repetidor_id) { // Si es el mismo, no hace nada
-                        $contacto->update(['repetidor_id' => $repetidor_bus->id]); // Si existe y está creado, lo asigna
+                if (! isset($request->offset)) { // Si los valores de offset son nulos, se pone a null el id del repetidor
+                    $contacto->update(['repetidor_id' => null]);
+                } else {
+                    $repetidor_bus = Repetidor::where('offset', $request->offset)->where('direccion', $request->direccion)->first();
+                    if ($repetidor_bus) {
+                        if ($repetidor_bus->id !== $contacto->repetidor_id) { // Si es el mismo, no hace nada
+                            $contacto->update(['repetidor_id' => $repetidor_bus->id]); // Si existe y está creado, lo asigna
+                        }
+                    } else {
+                        $nuevoRepetidor = Repetidor::create(['offset' => $request->offset, 'direccion' => $request->direccion]); // Si no existe, lo crea y lo asigna
+                        $contacto->update(['repetidor_id' => $nuevoRepetidor->id]); // Si existe y está creado, lo asigna
+                    }
+                } // FIN REPETIDOR
+
+                // LOCALIZACION
+
+                $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->where('gps', $request->gps)->first();
+
+                if (isset($request->localizacion_id) && ! empty($localizacion_bus)) {
+
+                    if ($localizacion_bus->id == $request->localizacion_id) { // Es la misma localización
+
+                        $contacto->localizacion->update([
+                            'localidad' => $request->localidad,
+                            'provincia' => $request->provincia ?? null,
+                            'pais' => $request->pais,
+                            'gps' => $request->gps,
+                        ]);
+                    } else {
+                        $contacto->update([ // Existe la localización pero no es la anterior. Actualizo localizacion_id
+                            'localizacion_id' => $localizacion_bus->id,
+                        ]);
                     }
                 } else {
-                    $nuevoRepetidor = Repetidor::create(['offset' => $request->offset, 'direccion' => $request->direccion]); // Si no existe, lo crea y lo asigna
-                    $contacto->update(['repetidor_id' => $nuevoRepetidor->id]); // Si existe y está creado, lo asigna
-                }
-            } // FIN REPETIDOR
 
-            // LOCALIZACION
+                    if (isset($request->localidad) && isset($request->pais)) {
+                        // No existe
+                        $localizacion = Localizacion::create([ // Creo la nueva localización y actualizo el localizacion_id en frecuencia
+                            'localidad' => $request->localidad,
+                            'provincia' => $request->provincia ?? null,
+                            'pais' => $request->pais ?? null,
+                            'gps' => $request->gps ?? null,
+                        ]);
 
-            $localizacion_bus = Localizacion::where('localidad', $request->localidad)->where('provincia', $request->provincia)->where('pais', $request->pais)->where('gps', $request->gps)->first();
-
-            if (isset($request->localizacion_id) && ! empty($localizacion_bus)) {
-
-                if ($localizacion_bus->id == $request->localizacion_id) { // Es la misma localización
-
-                    $contacto->localizacion->update([
-                        'localidad' => $request->localidad,
-                        'provincia' => $request->provincia ?? null,
-                        'pais' => $request->pais,
-                        'gps' => $request->gps,
-                    ]);
-                } else {
-                    $contacto->update([ // Existe la localización pero no es la anterior. Actualizo localizacion_id
-                        'localizacion_id' => $localizacion_bus->id,
-                    ]);
-                }
-            } else {
-
-                if (isset($request->localidad) && isset($request->pais)) {
-                    // No existe
-                    $localizacion = Localizacion::create([ // Creo la nueva localización y actualizo el localizacion_id en frecuencia
-                        'localidad' => $request->localidad,
-                        'provincia' => $request->provincia ?? null,
-                        'pais' => $request->pais ?? null,
-                        'gps' => $request->gps ?? null,
-                    ]);
-
-                    $contacto->update([
-                        'localizacion_id' => $localizacion->id,
-                    ]);
-                }
-            } // FIN  LOCALIZACION
+                        $contacto->update([
+                            'localizacion_id' => $localizacion->id,
+                        ]);
+                    }
+                } // FIN  LOCALIZACION
+            });
 
             return redirect('/')->with('mensaje', 'Contacto actualizado con éxito');
         } else {
@@ -344,10 +351,11 @@ class ContactoController extends Controller
 
             $roles = $user->roles;
 
-            $contactos = Contacto::with('localizacion', 'tipo', 'frecuencia', 'codificacion', 'ctcss', 'dcs', 'banda', 'modo', 'repetidor')->where('user_id', $user->id)->orderBy('nombre', 'asc')->get();
-
             $campos_select = $this->selectsDeContacto();
 
+            // La búsqueda pública (rama "propio" = false) puede devolver
+            // contactos de toda la plataforma: se limita para no serializar
+            // la tabla completa en cada búsqueda sin filtros.
             return Inertia::render('Inicio', [
                 'canLogin' => Route::has('login'),
                 'canRegister' => Route::has('register'),
@@ -355,9 +363,8 @@ class ContactoController extends Controller
                 'username' => $user->username,
                 'title' => 'Inicio | Busqueda',
                 'roles' => $roles,
-                'contactos' => $contactos,
                 'selects' => $campos_select,
-                'busqueda' => $busqueda->get(),
+                'busqueda' => $busqueda->limit(200)->get(),
 
             ]);
         } else {

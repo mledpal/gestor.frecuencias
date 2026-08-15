@@ -1,9 +1,12 @@
-@font-face {
-    font-family: 'ds-digit';
-    src: url('../../../../public/assets/fonts/DS-DIGI.TTF');
-  }
+/* La tipografía ds-digit y los tokens --esc-* ya se cargan globalmente
+   desde app.css/escaner.css; aquí solo se alían los nombres de variable que
+   usa el resto de este archivo para no reescribir las ~450 líneas de abajo. */
+#radio {
+  --radius: var(--esc-radio);
+  --key-color: var(--esc-rotulo);
+}
 
-*{
+#radio * {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -11,25 +14,16 @@
   user-select: none;
 }
 
-:root {
-
-
-  --radius: 25px;
-  --key-color: #7f8db5;
-}
-
-div#app {
-    width: 100vw;
-    min-height: 100vh;
-    display: grid;
-    place-content: center;
-    text-align: center;
-}
-
 #radio div.container {
   margin: auto;
   height: 500px;
   width: 1200px;
+  position: relative;
+  /* Escalado continuo en vez del salto brusco de scale-75 a los 1280px:
+     a partir de 1240px de ancho de ventana se ve a tamaño real, por debajo
+     se reduce proporcionalmente (Walkie toma el relevo bajo 1000px). */
+  transform: scale(min(1, calc(100vw / 1240px)));
+  transform-origin: center;
   background: linear-gradient(180deg, #0008 1%, #000D 3%, #000D 95%, #000E 99%);
   box-shadow: -3px 3px 10px #eee inset;
   filter: drop-shadow(0 0 15px var(--key-color));
@@ -40,6 +34,26 @@ div#app {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
+}
+
+/* LED de encendido: parpadeo lento en la esquina del chasis. */
+#radio div.container::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--esc-led-rx);
+  box-shadow: 0 0 6px var(--esc-led-rx);
+  animation: esc-parpadeo 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #radio div.container::before {
+    animation: none;
+  }
 }
 
 #radio div.zonas {
@@ -116,19 +130,53 @@ div#app {
 }
 
 /* ZONA PANTALLA */
-div.pantalla {
+#radio div.pantalla {
   display: grid;
   place-items: center;
 }
-div.screen {
+#radio div.screen {
   display: grid;
   place-items:center;
+  position: relative;
   width: 95%;
   height: 90%;
-  background: lightblue;
+  background: radial-gradient(circle at 50% 40%, #241a06 0%, var(--esc-lcd-fondo) 70%);
   border-radius: var(--radius);
-  box-shadow: 0px 0px 15px black inset;
+  box-shadow: 0px 0px 15px black inset, var(--esc-lcd-glow);
   filter: drop-shadow(0 0 10px black);
+  overflow: hidden;
+}
+
+/* Rejilla de matriz de puntos: el detalle que más vende un LCD real. */
+#radio div.screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px, transparent 1px,
+    rgba(0, 0, 0, .35) 1px, rgba(0, 0, 0, .35) 2px
+  );
+  border-radius: var(--radius);
+}
+
+/* Scanline: banda translúcida recorriendo la pantalla. */
+#radio div.screen::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(180deg, transparent, rgba(255, 176, 0, .08), transparent);
+  pointer-events: none;
+  animation: esc-escaneo 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #radio div.screen::after {
+    animation: none;
+  }
 }
 
 /* BOTONERA INFERIOR PANTALLA */
@@ -169,7 +217,12 @@ div.screen {
   cursor: pointer;
 }
 
-#radio span.tecla {
+/* Rótulo de texto de una tecla (no confundir con la clase global reusable
+   ".tecla" de escaner.css: si coincidiera el nombre, ese componente le
+   añadiría su propio fondo/relieve a estos spans de etiqueta, rompiendo p.
+   ej. la forma circular de .boton_ps al asomar un fondo cuadrado por las
+   esquinas). */
+#radio span.rotulo {
   color: var(--key-color);
   font-weight: 800;
   font-size: .6em;
@@ -199,7 +252,7 @@ div.screen {
 }
 
 /* TECLAS (INTERNAS) del teclado derecho */
-#radio div.teclado_derecho_keys div.tecla_funcion span.tecla {
+#radio div.teclado_derecho_keys div.tecla_funcion span.rotulo {
   font-weight: 600;
   filter: drop-shadow(0 0 5px var(--key-color));
 }
@@ -244,19 +297,19 @@ div.screen {
   filter: drop-shadow(0 0 5px var(--key-color));
 }
 
-#radio .boton_ps .tecla {
+#radio .boton_ps .rotulo {
   font-size: 1em;
   width: 100%;
   height: 100%;
 }
 
-#radio div.funciones .tecla {
+#radio div.funciones .grupo_tecla {
   display:  grid;
   place-items: center;
   width: 100%;
 }
 
-#radio div.funciones .tecla .tecla_funcion{
+#radio div.funciones .grupo_tecla .tecla_funcion{
   width: 80px;
   height: 30px;
   border-radius: 5px;
@@ -272,7 +325,7 @@ div.screen {
 }
 
 
-#radio div.btn_direccion div.tecla .tecla_funcion {
+#radio div.btn_direccion div.grupo_tecla .tecla_funcion {
   width: 45px;
   height: 30px;
 }
@@ -333,7 +386,7 @@ div.screen {
   background: linear-gradient(180deg, #0509 5%, #000C 90%, transparent 100%);
 }
 
-#radio .btn_f .tecla {
+#radio .btn_f .rotulo {
   z-index: 1;
   color: #666;
 }
@@ -365,7 +418,7 @@ div.screen {
 
 /* FORMULARIO */
 
-div.screen form {
+#radio div.screen form {
   padding: 20px;
   font-family: 'ds-digit';
   font-size: 1.5em;
@@ -376,7 +429,7 @@ div.screen form {
   border-radius: var(--radius);
 }
 
-div.screen form label {
+#radio div.screen form label {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -384,10 +437,10 @@ div.screen form label {
   justify-content: space-between;
 }
 
-div.screen input[type="text"],
-div.screen input[type="email"],
-div.screen input[type="password"] {
-    color:black;
+#radio div.screen input[type="text"],
+#radio div.screen input[type="email"],
+#radio div.screen input[type="password"] {
+    color: var(--esc-lcd-on);
     width: 100%;
     background: transparent;
     font-family: 'system-ui';
@@ -395,12 +448,12 @@ div.screen input[type="password"] {
     outline: 0;
     padding:10px;
     border-radius: 15px;
-    border: 3px solid gray;
-    box-shadow: 0 0px 5px #1115 inset;
+    border: 3px solid var(--esc-borde);
+    box-shadow: var(--esc-hundido);
 
 }
 
-div.screen form input[type="submit"] {
+#radio div.screen form input[type="submit"] {
   font-family: 'ds-digit';
   border: none;
   outline: none;
@@ -413,7 +466,7 @@ div.screen form input[type="submit"] {
   transition: box-shadow .5s, filter .5s, background-color .5s;
 }
 
-div.screen form input[type="submit"]:hover {
+#radio div.screen form input[type="submit"]:hover {
   transition: box-shadow .5s, filter .5s, background-color .5s;
   background-color: #111;
   box-shadow: 0 0 5px black inset;
@@ -421,16 +474,16 @@ div.screen form input[type="submit"]:hover {
   filter: drop-shadow(0 0 5px var(--key-color));
 }
 
-div.screen input[type="checkbox"] {
+#radio div.screen input[type="checkbox"] {
     background: transparent;
 }
 
-div.screen input[type="text"]::placeholder,
-div.screen input[type="email"]::placeholder,
-div.screen input[type="password"]::placeholder {
+#radio div.screen input[type="text"]::placeholder,
+#radio div.screen input[type="email"]::placeholder,
+#radio div.screen input[type="password"]::placeholder {
     text-align: center;
-    color: rgba(127,127,127, .5);
-    font-weight: 100;
+    color: var(--esc-lcd-off);
+    font-weight: 200;
     font-family: 'ds-digit';
     font-size: 1.2em;
 }
@@ -445,18 +498,18 @@ div.screen input[type="password"]::placeholder {
 
 
 
-/* Estilos globales para hover */
-.btn_inf:hover,
-.tecla_funcion:hover {
+/* Estilos de hover (con feedback también en useTeclaFisica vía .clicked) */
+#radio .btn_inf:hover,
+#radio .tecla_funcion:hover {
   transition: filter .5s;
   filter: drop-shadow(0 0 5px var(--key-color));
 }
-.btn_funcion:hover {
+#radio .btn_funcion:hover {
   transition: filter .5s;
   filter: drop-shadow(0 0 5px rgb(0, 255, 0));
 }
 
-.clicked {
+#radio .clicked {
   transition: .2s;
   transform: scale(.9);
 }

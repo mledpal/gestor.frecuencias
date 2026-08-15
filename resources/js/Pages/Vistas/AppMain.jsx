@@ -1,6 +1,5 @@
 import { Head } from "@inertiajs/react";
-import { UserImage } from "@/Components/Images/UserImage";
-import { BurgerMenu } from "@/Components/Menu/BurgerMenu";
+import { CabeceraLCD } from "@/Components/Radio/CabeceraLCD";
 
 import { AppContext } from "@/Components/AppProvider";
 import { useContext, useEffect } from "react";
@@ -33,25 +32,14 @@ export const AppMain = ({ userDB, title, selects, busqueda }) => {
             className="h-screen max-h-screen w-screen flex flex-col justify-between box-border overflow-hidden font-sans"
         >
             <Head title={title} />
-            <header className="px-3 relative flex flex-row items-center justify-between py-2 w-full h-[10%] bg-colorbg max-[1280px]:h-[10%]">
-                {!isSmallScreen ? (
-                    <img
-                        src="/img/logo.webp"
-                        className="w-[100px] h-[100px] cursor-pointer max-[1280px]:w-[50px] max-[1280px]:h-[50px]"
-                    />
-                ) : (
-                    ""
-                )}
-                <UserImage userDB={userDB} link="/profile" />
-                <BurgerMenu />
-            </header>
+            <CabeceraLCD userDB={userDB} />
 
             <main
                 className={` ${
                     isSmallScreen
                         ? "h-full w-full overflow-y-auto"
                         : "h-4/5 max-[1280px]:h-[90%]"
-                } flex flex-col w-full bg-gradient-to-br bg-blue-900 from-blue-950 top-[175px] `}
+                } flex flex-col w-full bg-gradient-to-b from-chasis to-chasisbajo top-[175px] `}
             >
                 <Vistas />
             </main>

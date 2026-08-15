@@ -1,4 +1,9 @@
 export const Gps = ({ gps }) => {
+    const encendido = gps?.length > 0;
 
-    if (gps.length > 0) { return <i className="fa-solid fa-location-dot"></i> } else {return <div></div>};
+    return (
+        <span className="glifo" data-encendido={encendido}>
+            GPS
+        </span>
+    );
 };

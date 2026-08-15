@@ -6,46 +6,63 @@ import { Privado } from "./Icons/Privado";
 import { Favorito } from "./Icons/Favorito";
 
 import { AppContext } from "../AppProvider";
-import { useContext } from "react";
+import { memo, useContext } from "react";
 
-export const Contacto = ({ datos, setDatos }) => {
+export const Contacto = memo(function Contacto({ datos, setDatos, activo }) {
     const { isSmallScreen } = useContext(AppContext);
 
-    const clasesMovil = `w-screen h-[80px]  flex flex-row items-center justify-around cursor-pointer  select-none ease-in-out hover:bg-gradient-to-bl duration-100 ease-in-out hover:bg-gray-900 hover:from-gray-600 hover:scale-95 hover:shadow-[inset_-2px_2px_10px_rgba(255,255,255,.5),inset_2px_-2px_5px_rgba(0,0,0,.8)]
-    bg-gradient-to-b from-${datos.tipo.color} to-gray-800`;
+    // La franja de color por tipo es la única clase dinámica que queda: el
+    // resto de la fila se unifica en los tokens de panel/LCD para que se lea
+    // como un banco de memorias, y el tipo se sigue reconociendo de un
+    // vistazo por el color del borde. El safelist de tailwind.config.js
+    // cubre este patrón (from-color-tono).
+    const claseFranja = `w-1 h-full shrink-0 bg-gradient-to-b from-${datos.tipo.color} to-transparent`;
 
-    const clasesPC = `w-full h-[80px]  flex flex-row items-center justify-around cursor-pointer shadow-[inset_-2px_2px_10px_rgba(255,255,255,.7),inset_2px_-2px_5px_rgba(0,0,0,.9)] select-none ease-in-out hover:bg-gradient-to-bl ease-in-out hover:text-black hover:bg-emerald-200 hover:from-green-600 duration-150 hover:scale-95 hover:shadow-[inset_-2px_2px_10px_rgba(255,255,255,.5),inset_2px_-2px_5px_rgba(0,0,0,.8)]
-    bg-gradient-to-b from-${datos.tipo.color} to-gray-800`;
-
-    const claseContacto = isSmallScreen ? clasesMovil : clasesPC;
+    const claseFila = `w-full h-[80px] flex flex-row items-center gap-2 cursor-pointer select-none transition-shadow duration-150 ${
+        activo
+            ? "bg-lcdbg text-lcd shadow-hundido"
+            : "bg-panel text-colortxt shadow-tecla hover:drop-shadow-[0_0_4px_var(--esc-rotulo)]"
+    }`;
 
     try {
         return (
             <div
-                className="w-full"
+                className="w-full flex flex-row"
                 onClick={() => {
                     setDatos(datos);
                 }}
             >
-                <div className={claseContacto}>
+                <span className={claseFranja} aria-hidden="true" />
+                <div className={claseFila}>
+                    <span
+                        className={`w-3 text-center shrink-0 ${
+                            activo ? "opacity-100" : "opacity-0"
+                        }`}
+                        aria-hidden="true"
+                    >
+                        ▶
+                    </span>
+
                     <div
                         name="datos"
-                        className="w-8/12 text-center flex flex-row items-center justify-between h-full"
+                        className="w-8/12 min-w-0 text-center flex flex-row items-center justify-between h-full"
                     >
                         <p
-                            className={`w-3/5  ${
+                            className={`w-3/5 font-lcd ${
                                 isSmallScreen
                                     ? "text-xl font-bold"
-                                    : "max-[1280px]:text-xs text-lg font-thin"
+                                    : "max-[1280px]:text-xs text-lg"
                             }`}
                         >
                             {datos.frecuencia.frecuencia}
                         </p>
-                        <div className="w-2/5 flex flex-col text-xs">
-                            <p className={`font-thin $`}>{datos.nombre}</p>
+                        <div className="w-2/5 min-w-0 flex flex-col text-xs">
+                            <p className="font-thin truncate">
+                                {datos.nombre}
+                            </p>
 
                             <p
-                                className={`font-thin text-gray-300 ${
+                                className={`font-thin opacity-70 truncate ${
                                     !isSmallScreen
                                         ? "max-[1280px]:text-[.5rem]"
                                         : "text-xs"
@@ -59,15 +76,10 @@ export const Contacto = ({ datos, setDatos }) => {
                     </div>
                     <div
                         name="iconos"
-                        className="w-2/12 h-full flex flex-col items-center justify-between py-2"
+                        className="w-2/12 h-full flex flex-col items-center justify-around py-2"
                     >
                         <Repetidor repetidor={datos.repetidor_id} />
-
-                        {datos.localizacion?.gps ? (
-                            <Gps gps={datos.localizacion?.gps} />
-                        ) : (
-                            ""
-                        )}
+                        <Gps gps={datos.localizacion?.gps ?? ""} />
                         <Privado privado={datos.privado} />
                     </div>
                     <div
@@ -86,4 +98,4 @@ export const Contacto = ({ datos, setDatos }) => {
     } catch (e) {
         console.error(e);
     }
-};
+});

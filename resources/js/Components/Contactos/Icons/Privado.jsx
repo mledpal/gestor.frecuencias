@@ -1,3 +1,7 @@
 export const Privado = ({ privado }) => {
-    if (privado) return <i className="fa-solid fa-lock"></i>;
+    return (
+        <span className="glifo" data-encendido={!!privado}>
+            PRI
+        </span>
+    );
 };

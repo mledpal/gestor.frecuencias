@@ -17,6 +17,14 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-// Broadcast::channel('comentario.{contactoID}.{userID}', function ($contactoID, $userID) {
-//     return 1;
-// });
+// Conversación privada entre dos usuarios: solo los dos interlocutores
+// pueden suscribirse al canal de sus mensajes.
+Broadcast::channel('canal-{idA}-{idB}-mensajes', function ($user, $idA, $idB) {
+    return in_array((int) $user->id, [(int) $idA, (int) $idB], true);
+});
+
+// Comentarios de una frecuencia/localización: visibles para cualquier
+// usuario autenticado, igual que ComentarioController::getComentarios.
+Broadcast::channel('canal-{frecuenciaId}-{localizacionId}-comentarios', function ($user) {
+    return $user !== null;
+});

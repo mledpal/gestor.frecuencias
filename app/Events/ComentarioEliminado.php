@@ -8,7 +8,13 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NuevoComentario implements ShouldBroadcast
+/**
+ * Se emite tras borrar un comentario (a diferencia de NuevoComentario, que
+ * antes se reutilizaba también para los borrados y se emitía ANTES del
+ * delete: los suscriptores refrescaban y veían el comentario todavía
+ * presente durante una ventana breve).
+ */
+class ComentarioEliminado implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,11 +25,6 @@ class NuevoComentario implements ShouldBroadcast
         $this->comentario = $comentario;
     }
 
-    /**
-     * Canal privado: cualquier usuario autenticado puede suscribirse (los
-     * comentarios ya son visibles vía ComentarioController::getComentarios),
-     * pero deja de ser accesible sin cuenta.
-     */
     public function broadcastOn()
     {
         return [new PrivateChannel('canal-'.$this->comentario['frecuencia_id'].'-'.$this->comentario['localizacion_id'].'-comentarios')];
@@ -31,6 +32,6 @@ class NuevoComentario implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'NuevoComentario';
+        return 'ComentarioEliminado';
     }
 }

@@ -1,5 +1,9 @@
 export const Repetidor = ({ repetidor }) => {
-    if (repetidor > 0) {
-        return <i className="fa-solid fa-tower-cell"></i>;
-    } else return <div></div>;
+    const encendido = repetidor > 0;
+
+    return (
+        <span className="glifo" data-encendido={encendido}>
+            DUP
+        </span>
+    );
 };

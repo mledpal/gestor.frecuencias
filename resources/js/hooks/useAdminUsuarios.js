@@ -18,7 +18,7 @@ export const useAdminUsuarios = () => {
         getUsers();
     }, []);
 
-    const { setData, post } = useForm({
+    const { setData } = useForm({
         id: null,
     });
 
@@ -55,28 +55,30 @@ export const useAdminUsuarios = () => {
     };
 
     const swapAdmin = (id) => {
-        setData({ id: id });
-        post(route("usuario_swap_admin", { id: id }), {
-            onSuccess: () => {
+        // Fetch directo (no Inertia post): el controlador devuelve JSON, no
+        // una respuesta Inertia, y una visita Inertia trataría esa respuesta
+        // como una navegación de página completa.
+        fetch(route("usuario_swap_admin", { id: id }), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRF-TOKEN":
+                    document.head.querySelector("#meta_token").content,
+            },
+        })
+            .then((res) => {
+                if (!res.ok) throw new Error("No autorizado");
+                return res.json();
+            })
+            .then(() => {
                 getUsers();
-                Swal.fire({
-                    icon: "success",
-                    title: "Cambio realizado",
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    },
-                });
-            },
-            onError: () => {
-                msgError;
-            },
-        });
+                mensajeOK("Cambio realizado");
+            })
+            .catch(() => {
+                mensajeError("Hubo un error");
+            });
     };
 
     const deleteUser = (id) => {

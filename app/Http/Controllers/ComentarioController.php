@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ComentarioEliminado;
 use App\Events\NuevoComentario;
 use App\Http\Requests\ValidarComentario;
 use App\Models\Comentario;
@@ -67,7 +68,7 @@ class ComentarioController extends Controller
 
             $comentarios = Comentario::with(['user:id,photo,username,indicativo'])->where('frecuencia_id', $frecuencia)->where('localizacion_id', $localizacion)->orderBy('created_at', 'desc')->get()->toArray();
 
-            return json_encode($comentarios);
+            return response()->json($comentarios);
         } else {
             return redirect('/login');
         }
@@ -82,13 +83,16 @@ class ComentarioController extends Controller
 
         $this->authorize('delete', $comentario);
 
+        $comentario->delete();
+
+        // Se emite DESPUÉS del delete: antes se reutilizaba el evento
+        // NuevoComentario y se emitía antes de borrar, así que los
+        // suscriptores refrescaban y veían el comentario todavía presente.
         try {
-            broadcast(new NuevoComentario($comentario));
+            broadcast(new ComentarioEliminado($comentario));
         } catch (Exception $e) {
             report($e);
         }
-
-        $comentario->delete();
 
         return back();
     }
