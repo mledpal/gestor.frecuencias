@@ -37,7 +37,7 @@ export const Users = ({ isSmallScreen, userDB }) => {
     const lista = vista === "administradores" ? administradores : normales;
 
     return (
-        <div className="flex flex-col w-screen h-full items-center justify-stretch overflow-y-scroll">
+        <div className="flex flex-col w-full max-w-full h-full items-center justify-stretch overflow-y-scroll">
             <header
                 className={`h-[75px] p-6 sticky top-0 z-20 w-full flex items-center justify-center bg-gradient-to-br from-indigo-900 to-indigo-700`}
             >

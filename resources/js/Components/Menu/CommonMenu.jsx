@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import { AppContext } from "../AppProvider";
 import { useContext } from "react";
 
@@ -22,12 +23,12 @@ export const CommonMenu = ({ setVista, setVisible }) => {
                 Buscar
             </li> */}
 
-            <a href="/profile">
+            <Link href="/profile" onClick={() => setVisible(null)}>
                 <li className="p-2 w-full flex flex-row items-center justify-between cursor-pointer rounded-xl hover:bg-colorbg300 hover:drop-shadow-sm ">
                     <i className="fa-sharp fa-solid fa-user"></i>
                     Mi cuenta
                 </li>
-            </a>
+            </Link>
         </>
     );
 };

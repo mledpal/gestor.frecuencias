@@ -5,10 +5,10 @@ export const NoContactos = ({
     verSeleccion,
 }) => {
     const cssButtons =
-        "w-4/5 h-2/3 border-2 border-transparent bg-gradient-to-br from-gray-800 to-gray-900 shadow-[inset_2px_-2px_5px_black,inset_-2px_2px_5px_rgba(255,255,255,.7)] rounded-xl hover:scale-110 hover:shadow-[0_0_5px_rgba(0,0,0,.5),inset_0_0_5px_rgba(255,255,255,.5)] hover:border-2 hover:border-gray-400 duration-150 ease-linear cursor-pointer select-none flex flex-col items-center justify-center peer ";
+        "w-full max-w-[200px] h-[110px] p-2 border-2 border-transparent bg-gradient-to-br from-gray-800 to-gray-900 shadow-[inset_2px_-2px_5px_black,inset_-2px_2px_5px_rgba(255,255,255,.7)] rounded-xl hover:scale-105 hover:shadow-[0_0_5px_rgba(0,0,0,.5),inset_0_0_5px_rgba(255,255,255,.5)] hover:border-2 hover:border-gray-400 duration-150 ease-linear cursor-pointer select-none flex flex-col items-center justify-center peer text-center text-xs desktop:text-sm ";
 
     const cssIcons =
-        "fa-xl p-2 my-4 peer:hover:drop-shadow-[0_0_10px_rgba(255,255,255,1)] duration-300 z-10 rounded-full";
+        "fa-lg desktop:fa-xl p-1 my-1 peer:hover:drop-shadow-[0_0_10px_rgba(255,255,255,1)] duration-300 z-10 rounded-full";
 
     return (
         <>
@@ -17,12 +17,12 @@ export const NoContactos = ({
                     name="mensajes"
                     className="w-full flex flex-row items-center justify-center p-6 h-[75px] bg-slate-900"
                 >
-                    <h2 className="font-bold max-w-screen-desktop:text-xl text-lg">
+                    <h2 className="font-bold text-lg desktop:text-xl">
                         Gestión de Frecuencias
                     </h2>
                 </header>
 
-                <main className="h-full w-full grid grid-cols-3 place-items-center gap-0">
+                <main className="h-full w-full grid grid-cols-2 desktop:grid-cols-3 place-items-center gap-3 p-4">
                     <div
                         className={cssButtons}
                         onClick={() => handleOpen("lg")}

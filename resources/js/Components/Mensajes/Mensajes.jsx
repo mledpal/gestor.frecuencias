@@ -42,7 +42,7 @@ export const Mensajes = ({
                         className={`fa-solid fa-person-walking-arrow-right text-white `}
                     ></i> */}
                     </div>
-                    <h2 className="w-full text-center font-bold max-w-screen-desktop:text-xl text-lg">
+                    <h2 className="w-full text-center font-bold text-lg desktop:text-xl">
                         Conversaciones
                     </h2>
                     <div className="w-1/5"></div>

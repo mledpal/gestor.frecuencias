@@ -73,7 +73,7 @@ export const Comentarios = ({ datos, isAdmin }) => {
                     ></i> */}
                     </div>
                     <div className="w-3/5 flex flex-col items-center justify-center text-center">
-                        <h2 className="font-bold max-w-screen-desktop:text-xl text-lg">
+                        <h2 className="font-bold text-lg desktop:text-xl">
                             Comentarios
                         </h2>
                     </div>

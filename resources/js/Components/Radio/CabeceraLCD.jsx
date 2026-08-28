@@ -48,9 +48,11 @@ const nivelSMeter = (frecuencia) => {
 export const CabeceraLCD = ({ userDB }) => {
     const {
         contactoActivo,
+        setContactoActivo,
         contactos,
         busqueda,
         vista,
+        setVista,
         isSmallScreen,
         ledsActivos,
     } = useContext(AppContext);
@@ -68,10 +70,18 @@ export const CabeceraLCD = ({ userDB }) => {
 
     return (
         <header className="px-3 relative flex flex-row items-center justify-between py-2 w-full h-[10%] min-h-[60px] bg-gradient-to-b from-chasis to-chasisbajo border-b-2 border-escborde">
-            <div className="flex flex-row items-center gap-3 shrink-0">
+            <div
+                className="flex flex-row items-center gap-3 shrink-0 cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => {
+                    setContactoActivo(null);
+                    setVista(isSmallScreen ? "movil" : "main");
+                }}
+                title="Ir al inicio"
+            >
                 <img
                     src="/img/logo.webp"
-                    className="w-[50px] h-[50px] cursor-pointer"
+                    alt="Logo Radioescucha"
+                    className="w-[50px] h-[50px]"
                 />
                 {!isSmallScreen && (
                     <span className="font-ethno text-rotulo text-xs tracking-wider hidden lg:inline">

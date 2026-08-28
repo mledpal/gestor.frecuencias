@@ -8,7 +8,7 @@ export default function Guest({ children }) {
                 cualquier página con id="app"); ahora vive en el layout que
                 realmente lo necesita. bg-login: imagen declarada en
                 tailwind.config.js desde el principio, nunca usada. */}
-            <div className="relative w-screen min-h-screen grid place-content-center text-center bg-chasis bg-login bg-cover bg-center">
+            <div className="relative w-full max-w-full min-h-screen grid place-content-center text-center bg-chasis bg-login bg-cover bg-center overflow-x-hidden p-2">
                 <div className="absolute inset-0 bg-black/70" aria-hidden="true" />
 
                 <div className="relative">

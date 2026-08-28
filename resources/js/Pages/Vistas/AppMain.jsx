@@ -23,13 +23,17 @@ export const AppMain = ({ userDB, title, selects, busqueda }) => {
     }, [busqueda]);
 
     useEffect(() => {
-        if (isSmallScreen) setVista("movil");
-    }, []);
+        if (isSmallScreen) {
+            setVista((prev) => (prev === "main" ? "movil" : prev));
+        } else {
+            setVista((prev) => (prev === "movil" ? "main" : prev));
+        }
+    }, [isSmallScreen]);
 
     return (
         <div
             id="root"
-            className="h-screen max-h-screen w-screen flex flex-col justify-between box-border overflow-hidden font-sans"
+            className="h-screen max-h-screen w-full max-w-full flex flex-col justify-between box-border overflow-hidden font-sans"
         >
             <Head title={title} />
             <CabeceraLCD userDB={userDB} />

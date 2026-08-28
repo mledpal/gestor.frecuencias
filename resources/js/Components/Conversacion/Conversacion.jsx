@@ -38,9 +38,9 @@ export const Conversacion = ({
             id="conversacion"
             className={` ${
                 isSmallScreen
-                    ? "w-screen"
+                    ? "w-full max-w-full"
                     : "w-2/4 shadow-[0px_0px_15px_rgba(255,255,255,.5)]"
-            }   max-h-screen h-screen overflow-y-auto flex flex-col items-center justify-between  rounded-xl m-auto`}
+            } max-h-full h-full overflow-y-auto flex flex-col items-center justify-between rounded-xl m-auto`}
         >
             <header
                 className={`${

@@ -78,15 +78,15 @@ export const EditarContacto = ({
     const claseContacto = `flex flex-col justify-start items-center w-full mx-auto min-h-screen bg-sky-900`;
 
     const classZona = `${
-        isSmallScreen ? "w-screen" : "w-4/5"
+        isSmallScreen ? "w-full px-2" : "w-4/5"
     } flex flex-col items-center m-4 rounded-2xl border-2 border-blue-950 shadow-lg`;
     const clasesDOM =
         "mt-1 block w-full rounded-lg bg-[#121827] text-gray-200 text-center";
     const clasesLegend =
-        "w-full bg-blue-950 max-w-screen-desktop:text-xl text-sm max-[1280px]:text-sm font-bold p-2 select-none cursor-pointer flex flex-row items-center justify-center gap-10 p-5 rounded-t-xl ";
+        "w-full bg-blue-950 text-sm desktop:text-xl font-bold p-2 select-none cursor-pointer flex flex-row items-center justify-center gap-10 p-5 rounded-t-xl ";
     const clasesFieldSet =
         "p-4 w-full flex flex-col items-center justify-start mb-2 max-[1280px]:text-[.8rem]";
-    const clasesDivContainer = `flex w-4/5 place-content-center gap-2 m-2 items-center ${
+    const clasesDivContainer = `flex w-full place-content-center gap-2 m-2 items-center ${
         isSmallScreen ? "flex-col" : "flex-row"
     } `;
     const clasesLabel =
@@ -109,7 +109,7 @@ export const EditarContacto = ({
                     <div
                         className={` w-full flex flex-row gap-2 items-center justify-center text-center`}
                     >
-                        <h2 className="font-bold max-w-screen-desktop:text-xl text-lg">
+                        <h2 className="font-bold text-lg desktop:text-xl">
                             {datos.nombre}
                         </h2>
                         <span className="text-xs text-gray-300">
@@ -190,7 +190,7 @@ export const EditarContacto = ({
                     <legend className={clasesLegend}>Datos</legend>
                     <fieldset name="datos" className={clasesFieldSet}>
                         <div className={clasesDivContainer}>
-                            <div className="w-full flex flex-col items-center max-w-screen-desktop:justify-center justify-end">
+                            <div className="w-full flex flex-col items-center justify-center">
                                 {" "}
                                 <InputLabel
                                     htmlFor="comprobado"
@@ -210,7 +210,7 @@ export const EditarContacto = ({
                                 />
                             </div>
 
-                            <div className="w-full flex flex-col items-center max-w-screen-desktop:justify-center justify-end">
+                            <div className="w-full flex flex-col items-center justify-center">
                                 <InputLabel
                                     htmlFor="favorito"
                                     value="Favorito"
@@ -229,7 +229,7 @@ export const EditarContacto = ({
                                 />
                             </div>
 
-                            <div className="w-full flex flex-col items-center max-w-screen-desktop:justify-center justify-end">
+                            <div className="w-full flex flex-col items-center justify-center">
                                 <InputLabel
                                     htmlFor="privado"
                                     value="Privado"
@@ -250,7 +250,7 @@ export const EditarContacto = ({
                         </div>
 
                         <div className={clasesDivContainer}>
-                            <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                            <div className="w-full flex flex-col items-center desktop:w-1/3">
                                 <InputLabel
                                     htmlFor="tipo_id"
                                     value="Tipo"
@@ -287,7 +287,7 @@ export const EditarContacto = ({
                                 />
                             </div>
 
-                            <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                            <div className="w-full flex flex-col items-center desktop:w-1/3">
                                 <InputLabel
                                     htmlFor="fecha"
                                     value="Fecha"
@@ -309,7 +309,7 @@ export const EditarContacto = ({
                                 />
                             </div>
 
-                            <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                            <div className="w-full flex flex-col items-center desktop:w-1/3">
                                 <InputLabel
                                     htmlFor="hora"
                                     value="Hora"
@@ -526,7 +526,7 @@ export const EditarContacto = ({
                                 className={clasesFieldSet}
                             >
                                 <div className={clasesDivContainer}>
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="localizacion_id"
                                             value="Localidad"
@@ -552,7 +552,7 @@ export const EditarContacto = ({
                                             className="mt-2"
                                         />
                                     </div>
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="provincia"
                                             value="Provincia"
@@ -578,7 +578,7 @@ export const EditarContacto = ({
                                             className="mt-2"
                                         />
                                     </div>
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="pais"
                                             value="Pais"
@@ -603,7 +603,7 @@ export const EditarContacto = ({
                                     </div>
                                 </div>
                                 <div className={clasesDivContainer}>
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="gps"
                                             value="GPS"
@@ -686,7 +686,7 @@ export const EditarContacto = ({
                                 className={clasesFieldSet}
                             >
                                 <div className={clasesDivContainer}>
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="direccion"
                                             value="Dirección"
@@ -719,7 +719,7 @@ export const EditarContacto = ({
                                             )}
                                         </select>
                                     </div>
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="offset"
                                             value="Offset"
@@ -771,7 +771,7 @@ export const EditarContacto = ({
                                 className={clasesFieldSet}
                             >
                                 <div className={clasesDivContainer}>
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="codificacion_id"
                                             value="Codificación"
@@ -810,7 +810,7 @@ export const EditarContacto = ({
                                         />
                                     </div>
 
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="ctcss_id"
                                             value="CTCSS"
@@ -849,7 +849,7 @@ export const EditarContacto = ({
                                         />
                                     </div>
 
-                                    <div className="w-full flex flex-col items-center max-w-screen-desktop:w-1/3">
+                                    <div className="w-full flex flex-col items-center desktop:w-1/3">
                                         <InputLabel
                                             htmlFor="dcs_id"
                                             value="DCS"

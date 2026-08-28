@@ -9,8 +9,8 @@ export const FiltrosContacto = ({ busqueda, setVista }) => {
     const classFiltro = "p-2 w-full flex flex-row items-center justify-between";
 
     return (
-        <div id="cuadroFiltros" className="w-screen select-none">
-            <div className="w-screen p-4 flex justify-around items-center bg-slate-900">
+        <div id="cuadroFiltros" className="w-full max-w-full select-none">
+            <div className="w-full max-w-full p-4 flex justify-around items-center bg-slate-900">
                 <BotonesFormulario
                     actionSubmit={handlerCheckUncheck}
                     textSubmit={"Reset"}
