@@ -1,0 +1,22 @@
+{
+    "name": "Gestor de Frecuencias",
+    "short_name": "Radioescucha",
+    "description": "App para gestionar frecuencias y contactos de radioaficionados",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#0f172a",
+    "icons": [
+        {
+            "src": "/img/logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/img/logo.webp",
+            "sizes": "192x192",
+            "type": "image/webp"
+        }
+    ]
+}

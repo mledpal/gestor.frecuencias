@@ -9,7 +9,8 @@ import { StrictMode } from "react";
 const appName = "Gestor de Frecuencias";
 
 createInertiaApp({
-    title: (title) => `${appName}`,
+    title: (title) =>
+        title ? `${title} | ${appName}` : `${appName} - Gestión de Frecuencias de Radioaficionados`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,

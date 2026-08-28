@@ -12,7 +12,13 @@ export default function Register({ status, canResetPassword }) {
 
     return (
         <GuestLayout>
-            <Head title="Registro" />
+            <Head>
+                <title>Crear Cuenta</title>
+                <meta
+                    name="description"
+                    content="Únete a la comunidad de radioaficionados de Gestor de Frecuencias. Registra tus contactos, comparte frecuencias y conecta con otros radioescuchas."
+                />
+            </Head>
 
             {isSmallScreen ? (
                 <Walkie
