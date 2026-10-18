@@ -23,6 +23,9 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        // La API móvil recibe siempre los errores (401, 403, 422...) en JSON.
+        $this->shouldRenderJsonWhen(fn ($request) => $request->is('api/*') || $request->expectsJson());
+
         $this->reportable(function (Throwable $e) {
             //
         });

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\LocalizacionService;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(LocalizacionService::class, function ($app) {
-            return new LocalizacionService();
+            return new LocalizacionService;
         });
     }
 
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // La API móvil devuelve los recursos sin envolver en "data".
+        JsonResource::withoutWrapping();
     }
 }

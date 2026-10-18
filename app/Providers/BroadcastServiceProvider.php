@@ -14,6 +14,10 @@ class BroadcastServiceProvider extends ServiceProvider
     {
         Broadcast::routes();
 
+        // Autorización de canales privados para la app móvil (token Sanctum):
+        // POST /api/broadcasting/auth
+        Broadcast::routes(['prefix' => 'api', 'middleware' => ['auth:sanctum']]);
+
         require base_path('routes/channels.php');
     }
 }

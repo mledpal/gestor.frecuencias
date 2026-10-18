@@ -62,6 +62,13 @@ npx jest resources/js/tests/Helpers/getContactos.test.js
 - **Imágenes de perfil**: disco `images` (`storage/app/images`) enlazado a `public/images` vía `php artisan storage:link`; subida mediante `User::setArchivo()`.
 - `php artisan make:service Nombre` crea `app/Services/NombreService.php` (comando propio, [MakeService.php](app/Console/Commands/MakeService.php)).
 
+### API móvil (`/api/v1`) y app Android (`.app/`)
+
+- `routes/api.php` expone una API REST JSON con tokens Sanctum (`Authorization: Bearer`) para la app Android de `.app/` (Kotlin + Compose, ver su README). Controladores en `app/Http/Controllers/Api/V1`, recursos en `app/Http/Resources` (sin envoltorio `data`), admin tras `can:admin`.
+- La lógica de contactos y mensajes está en `ContactoService` / `MensajeService`, compartida por los controladores web e API: los cambios de reglas de negocio van ahí.
+- Canales privados para la app: `POST /api/broadcasting/auth` con `auth:sanctum`.
+- Tests en `tests/Feature/Api`.
+
 ### Frontend (React 18 + Inertia + Tailwind)
 
 - Alias `@/` → `resources/js/` (definido por triplicado en `jsconfig.json`, `babel.config.cjs` y resuelto por Vite).

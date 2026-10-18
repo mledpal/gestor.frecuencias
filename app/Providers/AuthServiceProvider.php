@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
@@ -22,6 +23,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Passport::loadKeysFrom(__DIR__ . '/../secrets/oauth');
+        Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
+
+        // Acceso al panel de administración (rutas `can:admin` de la API).
+        Gate::define('admin', fn (User $user) => $user->isAdmin);
     }
 }

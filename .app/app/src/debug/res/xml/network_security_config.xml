@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Solo en debug: permite HTTP contra el servidor local (php artisan serve). -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

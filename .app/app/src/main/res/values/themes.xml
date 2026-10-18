@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- El tema real lo pinta Compose (ui/theme). Esto solo cubre la ventana y el splash. -->
+    <style name="Theme.Radioescucha" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/chasis</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Radioescucha.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/chasis</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Radioescucha</item>
+    </style>
+</resources>

@@ -19,7 +19,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => fake()->unique()->userName(),
+            // La columna admite 20 caracteres: userName() a veces los supera.
+            'username' => substr(fake()->unique()->userName(), 0, 14).fake()->unique()->numberBetween(100000, 999999),
             'nombre' => fake()->firstName(),
             'apellidos' => fake()->lastName(),
             'indicativo' => strtoupper(fake()->unique()->bothify('E??##??')),
